@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.service.ContentService;
+import com.service.GlobalService;
 import com.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class GlobalController {
     private final UserService userService;
     private final ContentService contentService;
+    private final GlobalService globalService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView main() {
         ModelAndView VIEW = new ModelAndView("test");
