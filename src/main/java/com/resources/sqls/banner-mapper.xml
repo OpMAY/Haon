@@ -3,4 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.BannerMapper">
+    <resultMap id="Banner" type="com.model.global.Banner">
+        <result column="img" property="img" typeHandler="com.middleware.JsonObjectTypeHandler"/>
+    </resultMap>
+    <select id="getBanners" resultType="Banner" resultMap="Banner">
+        select *
+        from banner
+        WHERE status = true
+        ORDER BY reg_datetime
+    </select>
 </mapper>

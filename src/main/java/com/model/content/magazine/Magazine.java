@@ -7,4 +7,5 @@ import lombok.Data;
 @Data
 public class Magazine extends ContentForm {
     private MFile thumbnail;
+    private boolean is_show;
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -20,10 +22,8 @@ public class GlobalController {
     private final GlobalService globalService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView main() {
-        ModelAndView VIEW = new ModelAndView("test");
-
-        return VIEW;
+    public ModelAndView main(HttpServletRequest request) {
+        return globalService.getMain(request);
     }
 
     @RequestMapping(value = "/{search_string}/search", method = RequestMethod.GET)

@@ -3,4 +3,51 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.ContentMapper">
+    <resultMap id="Tips" type="com.model.content.tips.Tips">
+        <result column="img" property="img" typeHandler="com.middleware.JsonObjectTypeHandler"/>
+    </resultMap>
+    <resultMap id="Manual" type="com.model.content.manual.Manual">
+        <result column="img" property="img" typeHandler="com.middleware.JsonObjectTypeHandler"/>
+    </resultMap>
+    <select id="getLiveBoards" resultType="Board">
+        select *
+        from board
+        ORDER BY reg_datetime DESC
+        LIMIT 16
+    </select>
+    <select id="getMainTips" resultType="Tips" resultMap="Tips">
+        select *
+        from tips
+        ORDER BY rand(), views DESC
+        LIMIT 8
+    </select>
+    <select id="getMainManuals" resultType="Manual" resultMap="Manual">
+        select *
+        from manual
+        ORDER BY rand(), views DESC
+        LIMIT 8
+    </select>
+    <select id="getMainMagazines" resultType="Magazine" resultMap="Magazine">
+        select *
+        from magazine
+        ORDER BY rand(), views DESC
+        LIMIT 8
+    </select>
+    <select id="getMainQuestions" resultType="QuestionSummary" resultMap="QuestionSummary">
+        select JSON_OBJECT(
+                       'no', q.no,
+                       'farm_no', q.farm_no,
+                       'title', q.title,
+                       'content', q.content,
+                       'thumbnail', q.thumbnail) as question,
+               (select content
+                from question_comment
+                         left join question_comment_like qcl on question_comment.no = qcl.comment_no
+                WHERE question_no = q.no
+                ORDER BY COUNT(qcl.user_no), RAND()
+                LIMIT 1)                         as best_comment
+        from questions as q
+        ORDER BY reg_datetime DESC
+        LIMIT 8
+    </select>
 </mapper>
