@@ -13,11 +13,8 @@ import lombok.*;
 @JsonIgnoreProperties
 @ToString(callSuper = true)
 public class User extends RootUser {
-    private int no;
-    private String email;
-    private String id;
     private String name;
     private GRANT_TYPE grant = GRANT_TYPE.USER;
-    private String access_token = "setting the password";
+    private String access_token;
     private MFile profile_img;
 }
