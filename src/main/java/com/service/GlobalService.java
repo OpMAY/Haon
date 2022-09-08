@@ -1,5 +1,6 @@
 package com.service;
 
+import com.dao.BannerDao;
 import com.dao.FarmDao;
 import com.dao.UserDao;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class GlobalService {
+    private final BannerDao bannerDao;
     private final UserDao userDao;
     private final FarmDao farmDao;
 }

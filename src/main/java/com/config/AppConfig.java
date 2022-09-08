@@ -1,6 +1,7 @@
 package com.config;
 
 import com.filter.LogFilter;
+import com.interceptor.AuthInterceptor;
 import com.interceptor.BaseInterceptor;
 import com.interceptor.LogInterceptor;
 import com.interceptor.RecoverInterceptor;
@@ -191,6 +192,8 @@ public class AppConfig implements WebApplicationInitializer, SchedulingConfigure
     private BaseInterceptor baseInterceptor;
     @Autowired
     private RecoverInterceptor recoverInterceptor;
+    @Autowired
+    private AuthInterceptor authInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(logInterceptor).order(0)
@@ -202,6 +205,10 @@ public class AppConfig implements WebApplicationInitializer, SchedulingConfigure
                 .excludePathPatterns("/resources/**")
                 .excludePathPatterns("/files/**");
         registry.addInterceptor(baseInterceptor).order(2)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/resources/**")
+                .excludePathPatterns("/files/**");
+        registry.addInterceptor(authInterceptor).order(3)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/resources/**")
                 .excludePathPatterns("/files/**");
