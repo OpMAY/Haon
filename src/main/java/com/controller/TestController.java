@@ -57,11 +57,6 @@ public class TestController {
         return VIEW;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView home() {
-        return new ModelAndView("sample");
-    }
-
     /**
      * <a href="/test/download.do?file_name=test.mp4"
      * class="btn btn-primary _card-btn">Go somewhere</a>
