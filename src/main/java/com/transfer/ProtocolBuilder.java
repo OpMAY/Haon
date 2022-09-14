@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import org.json.XML;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -210,6 +211,53 @@ public class ProtocolBuilder {
                 log.info(result);
             }
             return result;
+        } else {
+            if (logging) {
+                log.info("failed request : {}", result);
+            }
+            return null;
+        }
+    }
+
+    /**
+     * Version information
+     * 2022.02.21 1 author : @woosik
+     * Method Overview
+     * The part that imports data according to String type
+     * Case : protocolBuilder.openReader("UTF-8", false);
+     *
+     * @param logging       : log is on/off
+     * @param character_set : character set
+     */
+    public <T> T openXmlReader(String character_set, Class<T> class_type, boolean logging) throws IOException {
+
+        int responseCode = conn.getResponseCode();
+
+        BufferedReader br = null;
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            br = new BufferedReader(new InputStreamReader(conn.getInputStream(), character_set));
+        } else {
+            br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+        String line = "";
+        String result = "";
+
+        while ((line = br.readLine()) != null)
+            result += line;
+
+        if (responseCode == 200) {
+            if (logging) {
+                log.info(result);
+            }
+
+            JSONObject json = XML.toJSONObject(result);
+            String jsonStr = json.toString(4);
+
+            if (class_type == String.class) {
+                return (T) jsonStr;
+            } else {
+                return (T) new Gson().fromJson(jsonStr, class_type);
+            }
         } else {
             if (logging) {
                 log.info("failed request : {}", result);
