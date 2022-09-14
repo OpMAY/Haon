@@ -1,9 +1,9 @@
-package com.api.trace;
+package com.api.trace.response;
 
 import lombok.Data;
 
 @Data
-public class TraceResponse {
+public class TraceData {
     // Data
     private String butcheryPlaceAddr; // 도축장 주소
     private String butcheryPlaceNm; // 도축장 명
@@ -57,9 +57,4 @@ public class TraceResponse {
     private String edygOvpstDt; // 식용란 산란 일자
     private String successYn; // 선별 검사 결과
     private String entrpAddr; // 거래처 소재지
-
-    // Response Status & Message
-    private String resultCode; // 결과 코드
-    private String resultMsg; // 결과 메세지
-
 }
