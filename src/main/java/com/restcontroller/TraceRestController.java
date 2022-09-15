@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class TraceRestController {
 
-    @RequestMapping(value = "/api/trace/${type}/${value}", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/trace/{type}/{value}", method = RequestMethod.POST)
     public ResponseEntity<String> selectTrace(HttpServletRequest request, @PathVariable("type") String type, @PathVariable("value") String value) throws Exception {
         Message message = new Message();
         message.put("example", "example");

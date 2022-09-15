@@ -57,14 +57,14 @@ public class CommunityRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/${type}/content/unlike/${no}/recom", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/{type}/content/unlike/{no}/recom", method = RequestMethod.POST)
     public ResponseEntity<String> deleteContentLike(HttpServletRequest request,@PathVariable("type") String type, @PathVariable("no") int no) throws Exception {
         Message message = new Message();
         message.put("example", "example");
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/${type}/content/delete/${no}", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/{type}/content/delete/{no}", method = RequestMethod.POST)
     public ResponseEntity<String> deleteMyContent(HttpServletRequest request,@PathVariable("type") String type, @PathVariable("no") int no) throws Exception {
         Message message = new Message();
         message.put("example", "example");
