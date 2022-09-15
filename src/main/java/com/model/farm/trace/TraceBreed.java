@@ -9,4 +9,5 @@ public class TraceBreed {
     private String breed_farm_name;
     private String breed_issue_date;
     private String breed_farm_addr;
+    private String breed_farm_url;
 }

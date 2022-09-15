@@ -247,11 +247,14 @@ public class ProtocolBuilder {
 
         if (responseCode == 200) {
             if (logging) {
+                System.out.println(result);
                 log.info(result);
             }
 
             JSONObject json = XML.toJSONObject(result);
             String jsonStr = json.toString(4);
+
+            System.out.println(jsonStr);
 
             if (class_type == String.class) {
                 return (T) jsonStr;

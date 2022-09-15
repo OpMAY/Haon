@@ -10,7 +10,8 @@ public class TraceResponse {
     private TraceResponseHeader header;
     private TraceResponseBody body;
     private List<String> content;
-    private String notice;
+    private Object notice;
+
 }
 
 
