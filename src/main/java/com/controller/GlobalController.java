@@ -23,7 +23,14 @@ public class GlobalController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView main(HttpServletRequest request) {
-        return globalService.getMain(request);
+        ModelAndView VIEW = new ModelAndView("main/home");
+        return VIEW;
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public ModelAndView register(HttpServletRequest request) {
+        ModelAndView VIEW = new ModelAndView("auth/register");
+        return VIEW;
     }
 
     @RequestMapping(value = "/{search_string}/search", method = RequestMethod.GET)
