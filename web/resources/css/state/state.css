@@ -1,11 +1,201 @@
-.card-main.is-active {
-    border: var(--border-1px) var(--impact-primary);
+/*Right Sidebar*/
+#header-right-sidebar ul.list-group li.list-group-item.is-active {
+    background-color: rgba(242, 242, 242, 0.25);
 }
 
-.card-main.is-hover:hover {
-    border: var(--border-1px) var(--impact-primary);
+/*Button*/
+.btn.btn-brand:disabled,
+.btn.btn-brand.is-disabled {
+    color: var(--basic-white);
+    background-color: var(--brand-green-opacity);
 }
 
-.card-main.is-focus:focus {
-    border: var(--border-1px) var(--impact-primary);
+.btn.btn-brand-opacity:hover,
+.btn.btn-brand-opacity.is-active {
+    color: var(--basic-white);
+    background-color: var(--brand-green);
+}
+
+.btn.btn-gray-high-light:hover,
+.btn.btn-gray-high-light.is-active {
+    color: var(--basic-white);
+    background-color: var(--gray-dark-low);
+}
+
+.btn-brand-opacity.btn-hashtag:hover,
+.btn-brand-opacity.btn-hashtag.is-active {
+    color: var(--basic-white);
+    background-color: var(--brand-green);
+}
+
+.btn-brand-opacity.btn-hashtag.is-active svg *,
+.btn-brand-opacity.btn-hashtag:hover svg * {
+    fill: var(--basic-white);
+    transition: fill .15s;
+}
+
+/*Input*/
+.form-group > input::placeholder {
+    color: var(--gray-light);
+}
+
+input.input-underline:focus,
+input.input-underline.is-focus {
+    border-bottom: var(--border-1px) var(--basic-black);
+}
+
+input.input-underline.input-brand-green:focus,
+input.input-underline.input-brand-green.is-focus {
+    border-bottom: var(--border-1px) var(--brand-green);
+}
+
+input.form-control.input-no-border:focus,
+input.form-control.input-no-border.is-focus {
+    border-bottom: var(--border-1px) var(--brand-green);
+}
+
+input.form-control.input-box:focus,
+input.form-control.input-box.is-focus {
+    border: var(--border-1px) var(--brand-green);
+}
+
+.form-group.form-inner-button input.dropdown-input:disabled,
+.form-group.form-inner-button input.dropdown-input {
+    background-color: var(--basic-white);
+    cursor: pointer;
+}
+
+/*Dropdown*/
+.dropdown.input-dropdown .dropdown-menu a:active {
+    background-color: var(--basic-white);
+    color: var(--gray-dark-low);
+}
+
+.dropdown.input-dropdown .dropdown-menu a:hover {
+    background-color: var(--basic-white);
+}
+
+.dropdown.input-dropdown .dropdown-menu a:hover > div {
+    color: var(--gray-dark-low);
+}
+
+/*Card*/
+.card.community-card ._bookmark > svg,
+.card.community-card ._bookmark > svg * {
+    fill: var(--gray-light);
+}
+
+.card.community-card ._bookmark:hover > svg,
+.card.community-card ._bookmark:hover > svg * {
+    fill: var(--brand-green);
+}
+
+.card.community-card ._bookmark.is-active > svg,
+.card.community-card ._bookmark.is-active > svg * {
+    fill: var(--brand-green);
+}
+
+.card.community-card.is-empty ._body {
+    padding-bottom: calc(16px + 24px + 16px);
+}
+
+.card.community-card.is-empty ._description {
+    height: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    padding-bottom: 0;
+    max-height: 192px;
+}
+
+/*nav link states*/
+.nav-pills button.nav-link:hover {
+    background-color: var(--brand-green);
+    color: var(--basic-white);
+}
+
+.nav-pills button.nav-link.active {
+    background-color: var(--brand-green);
+    color: var(--basic-white);
+}
+
+/*accordion states*/
+.accordion .card-header ._arrow {
+    transform: rotate(-180deg);
+    transition: all 0.5s;
+}
+
+.accordion .card-header ._arrow.collapsed {
+    transform: rotate(0);
+    transition: all 0.5s;
+}
+
+/* left tab states */
+._left-tabs ._left-tab-item:hover,
+._left-tabs ._left-tab-item.is-active {
+    background-color: var(--gray-high-light-25);
+    font-weight: 500;
+}
+
+#tab-search .form-group input + svg {
+    cursor: pointer;
+}
+
+#tab-search .form-group input + svg:hover * {
+    fill: var(--brand-green);
+}
+
+/*Farm Detail*/
+.farm-detail ._out-container ._bookmark > svg,
+.farm-detail ._out-container ._bookmark > svg * {
+    fill: var(--gray-light);
+}
+
+.farm-detail ._out-container ._bookmark:hover > svg,
+.farm-detail ._out-container ._bookmark:hover > svg * {
+    fill: var(--brand-green);
+}
+
+.farm-detail ._out-container ._bookmark.is-active > svg,
+.farm-detail ._out-container ._bookmark.is-active > svg * {
+    fill: var(--brand-green);
+}
+
+.farm-detail ._more:hover,
+.farm-detail ._more:focus {
+    color: var(--brand-green);
+}
+
+.farm-detail .nav-tabs .nav-item .nav-link.active {
+    border-bottom: var(--border-2px) var(--gray-dark-low);
+    color: var(--gray-dark-low);
+}
+
+/*Community Detail*/
+.community-container ._detail ._title ._right-option > svg:hover * {
+    fill: var(--brand-green);
+}
+
+.community-container ._detail ._detail-footer ._like.is-active > span,
+.community-container ._detail ._detail-footer ._like:hover > span {
+    color: var(--brand-green);
+}
+
+.community-container ._detail ._detail-footer ._like.is-active > svg *,
+.community-container ._detail ._detail-footer ._like:hover > svg * {
+    fill: var(--brand-green);
+}
+
+.card.farm-card ._thumbnail > svg.is-active *,
+.card.farm-card ._thumbnail > svg:hover * {
+    fill: var(--brand-green);
+}
+
+/*Bottom Tab*/
+#bottom-tab ul.list-group li.list-group-item.is-active * {
+    fill: var(--brand-green);
+    color: var(--brand-green);
 }

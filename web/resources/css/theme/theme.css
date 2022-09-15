@@ -1,15 +1,22 @@
 /*변수 지정*/
 :root {
     /* Sample Theme Color */
-    --basic: #F2F2F2;
-    --basic-white: #F2F2F2;
-    --basic-black: #F2F2F2;
+    --brand-green: #A9CC52;
+    --brand-green-opacity: rgba(108, 190, 3, 0.1);
+    --brand-yellow: #FAD652;
 
-    --brand-primary: #F2F2F2;
-    --brand-secondary: #F2F2F2;
+    --basic-black: #171717;
+    --basic-white: #FFFFFF;
 
-    --impact-primary: #F2F2F2;
-    --impact-secondary: #F2F2F2;
+    --gray-high-light: #F2F2F2;
+    --gray-high-light-25: rgba(242, 242, 242, 0.25);
+    --gray-light: #CCCCCC;
+    --gray-medium: #7D7D7D;
+    --gray-dark-light: #5E5E5E;
+    --gray-dark-medium: #383838;
+    --gray-dark-low: #2C2C2C;
+
+    --gray-bg: #F9F9F9;
 
     /* Sample Shadow */
     --shadow: 10px 5px 5px red;
@@ -22,10 +29,31 @@
     /* Sample Border */
     --border-1px: 1px solid;
     --border-2px: 2px solid;
+    --border-3px: 3px solid;
+    --border-8px: 8px solid;
     /* Sample Radius */
-    --input-radius: 5px;
-    --button-radius: 5px;
-    --plugin-radius: 5px;
+    --radius-1: 1px;
+    --radius-2: 2px;
+    --radius-3: 3px;
+    --radius-4: 4px;
+    --radius-5: 5px;
+    --radius-6: 6px;
+    --radius-7: 7px;
+    --radius-8: 8px;
+    --radius-9: 9px;
+    --radius-10: 10px;
+    --radius-12: 12px;
+    --radius-14: 14px;
+    --radius-16: 16px;
+    --radius-18: 18px;
+    --radius-20: 20px;
+    --radius-24: 24px;
+    --radius-28: 28px;
+    --radius-32: 32px;
+    --radius-36: 36px;
+    --radius-40: 40px;
+    --radius-circle: 80px;
+
     /* Sample Font Variables */
     --font-10: 10px;
     --font-12: 12px;
@@ -215,22 +243,12 @@ button, input, optgroup, select, textarea {
     font-family: 'Pretendard', Spoqa Han Sans Neo, 'Spoqa Han Sans Neo', 'Roboto', Roboto, 'sans-serif', sans-serif;
 }
 
-/* Common Tag And Class */
-/* Tag Style */
-div {
-    display: block;
-    width: 100%;
-}
-
-p {
-    margin-bottom: 0;
-}
-
-b {
-    font-weight: bold;
-}
-
 /* Font Set Class */
+/* Font Set */
+.family-hans-neo {
+    font-family: Spoqa Han Sans Neo, 'Spoqa Han Sans Neo', 'Pretendard', 'Roboto', Roboto, 'sans-serif', sans-serif !important;
+}
+
 /* light Set */
 .light-h1, .light-h2, .light-h3, .light-h4, .light-h5, .light-h6, .light-p1 {
     font-weight: 300;
@@ -352,16 +370,16 @@ b {
 }
 
 /* Bold Set */
-.bold-h1, .bold-h2, .bold-h3, .bold-h4, .bold-h5, .bold-h6, .bold-p1, .bold-d1, .bold-d2 {
+.bold-h1, .bold-h2, .bold-h3, .bold-h4, .bold-h5, .bold-h6, .bold-title, .bold-subtitle, .bold-p1 {
     font-weight: 700;
 }
 
-.bold-d1 {
+.bold-title {
     line-height: var(--line-52);
     font-size: var(--font-48);
 }
 
-.bold-d2 {
+.bold-subtitle {
     line-height: var(--line-52);
     font-size: var(--font-40);
 }
@@ -403,20 +421,88 @@ b {
 
 /* Color Class */
 /* Suffix c- */
-.c-impact-primary {
-    color: var(--impact-primary);
+.c-brand-yellow {
+    color: var(--brand-yellow);
 }
 
-.c-impact-secondary {
-    color: var(--impact-secondary);
+.c-brand-green {
+    color: var(--brand-green);
+}
+
+.c-basic-black {
+    color: var(--basic-black);
+}
+
+.c-basic-white {
+    color: var(--basic-white);
+}
+
+.c-gray-high-light {
+    color: var(--gray-high-light);
+}
+
+.c-gray-light {
+    color: var(--gray-light);
+}
+
+.c-gray-medium {
+    color: var(--gray-medium);
+}
+
+.c-gray-dark-light {
+    color: var(--gray-dark-light);
+}
+
+.c-gray-dark-medium {
+    color: var(--gray-dark-medium);
+}
+
+.c-gray-dark-low {
+    color: var(--gray-dark-low);
+}
+
+.c-bg-gray {
+    background-color: #F9F9F9;
 }
 
 /* Background Color Class */
 /* Suffix bg- */
-.bg-brand-primary {
-    background-color: var(--brand-primary);
+.bg-brand-yellow {
+    background-color: var(--brand-yellow);
 }
 
-.bg-brand-secondary {
-    background-color: var(--brand-secondary);
+.bg-brand-green {
+    background-color: var(--brand-green);
+}
+
+.bg-basic-black {
+    background-color: var(--basic-black);
+}
+
+.bg-basic-white {
+    background-color: var(--basic-white);
+}
+
+.bg-gray-high-light {
+    background-color: var(--gray-high-light);
+}
+
+.bg-gray-light {
+    background-color: var(--gray-light);
+}
+
+.bg-gray-medium {
+    background-color: var(--gray-medium);
+}
+
+.bg-gray-dark-light {
+    background-color: var(--gray-dark-light);
+}
+
+.bg-gray-dark-medium {
+    background-color: var(--gray-dark-medium);
+}
+
+.bg-gray-dark-low {
+    background-color: var(--gray-dark-low);
 }

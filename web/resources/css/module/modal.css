@@ -1,76 +1,73 @@
+/** Modal */
+body.general-modal-open {
+    overflow: hidden;
+}
+
+body .general-modal {
+    padding-right: 0 !important;
+}
+
 .alert {
     position: fixed;
-    z-index: 1060;
-    bottom: 100px;
+    z-index: 11;
+    bottom: 120px;
     left: 50%;
-    padding: 16px 20px;
-    font-size: var(--font-20);
-    transform: translate(-50%, 0);
+
+    transform: var(--translate-lr-center);
+
     margin-bottom: 0;
+
     border: none;
-    text-align: center;
-    background-color: #000000 !important;
-    color: white !important;
+    border-radius: var(--radius-5);
 }
 
-.alert.alert-failed {
-    background-color: red;
-    color: white;
+.modal .modal-header {
+    padding: 24px;
+    border-bottom: none;
 }
 
-.modal-header {
-    border-bottom: 0;
-    padding: 18px 24px;
-    position: relative;
+.modal .modal-body {
+    padding: 0 24px;
 }
 
-.modal-header .modal-close {
-    cursor: pointer;
-    position: absolute;
-    top: -24px;
-    display: flex;
-    right: -24px;
-    background-color: black;
-    border: 2px solid white;
-    border-radius: 50%;
-    padding: 8px;
-    z-index: 10;
+.modal .modal-footer {
+    padding: 24px;
+    border-top: none;
 }
 
-.modal-title {
-    font-size: var(--font-24);
-    font-weight: bold;
-    line-height: var(--line-32);
+.modal .modal-footer button {
+    min-width: 124px;
 }
 
-.modal-content {
-    border: none;
+.modal-dialog-lg, .modal-xl {
+    max-width: 540px;
 }
 
-.modal-content.radius-12 {
-    border-radius: 12px;
+.modal-name-change._preview-img {
+    padding-top: 16px;
+    width: 100%;
 }
 
-.modal-body {
-    padding: 0 20px;
-    border: none;
+.modal-md-max {
+    max-width: 90%;
 }
 
-.modal-footer > * {
-    margin: 0;
+@media (min-width: 992px) {
+    .modal-md-max {
+        max-width: 900px;
+    }
+
+    .modal-lg, .modal-xl {
+        max-width: 900px;
+    }
 }
 
-.modal-footer {
-    padding: 0;
-    border-top: 0;
-}
+@media (min-width: 1200px) {
+    .modal-md-max {
+        max-width: 900px;
+    }
 
-.modal-footer button.btn.modal-footer-radius {
-    border-radius: 0 0 8px 8px !important;
-}
-
-.modal-footer button.btn.btn-lg {
-    font-size: var(--font-20);
-    font-weight: bold;
-    line-height: var(--line-28);
+    .modal-lg, .modal-xl {
+        max-width: 900px;
+    }
 }

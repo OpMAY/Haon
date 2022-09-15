@@ -1,7 +1,5 @@
 package com.controller;
 
-import com.service.ContentService;
-import com.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -12,78 +10,53 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/user")
 public class UserController {
-    private final UserService userService;
-    private final ContentService contentService;
-    @RequestMapping(value = "/auth/register", method = RequestMethod.GET)
-    public ModelAndView registerPage() {
-        ModelAndView VIEW = new ModelAndView("test");
-
+    @RequestMapping(value = "/alarm", method = RequestMethod.GET)
+    public ModelAndView userAlarmPage() {
+        ModelAndView VIEW = new ModelAndView("user/alarm");
         return VIEW;
     }
 
-    @RequestMapping(value = "/auth/register/type", method = RequestMethod.GET)
-    public ModelAndView registerTypePage() {
-        ModelAndView VIEW = new ModelAndView("test");
-
+    @RequestMapping(value = "/board/write", method = RequestMethod.GET)
+    public ModelAndView userBoardWritePage() {
+        ModelAndView VIEW = new ModelAndView("user/board-write");
         return VIEW;
     }
 
-    @RequestMapping(value = "/auth/register/intro", method = RequestMethod.GET)
-    public ModelAndView registerIntroPage() {
-        ModelAndView VIEW = new ModelAndView("test");
-
+    @RequestMapping(value = "/bookmark", method = RequestMethod.GET)
+    public ModelAndView userBookmarkPage() {
+        ModelAndView VIEW = new ModelAndView("user/bookmark");
         return VIEW;
     }
 
-    @RequestMapping(value = "/user/home", method = RequestMethod.GET)
-    public ModelAndView userHome() {
-        ModelAndView VIEW = new ModelAndView("test");
-
+    @RequestMapping(value = "/farm/manage", method = RequestMethod.GET)
+    public ModelAndView userFarmManagePage() {
+        ModelAndView VIEW = new ModelAndView("user/farm-manage");
         return VIEW;
     }
 
-    @RequestMapping(value = "/user/bookmarks", method = RequestMethod.GET)
-    public ModelAndView userBookmarks() {
-        ModelAndView VIEW = new ModelAndView("test");
-
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public ModelAndView userHomePage() {
+        ModelAndView VIEW = new ModelAndView("user/home");
         return VIEW;
     }
 
-    @RequestMapping(value = "/user/alarm", method = RequestMethod.GET)
-    public ModelAndView userAlarm() {
-        ModelAndView VIEW = new ModelAndView("test");
-
+    @RequestMapping(value = "/package/trace", method = RequestMethod.GET)
+    public ModelAndView userPackageTracePage() {
+        ModelAndView VIEW = new ModelAndView("user/package-trace");
         return VIEW;
     }
 
-    @RequestMapping(value = "/user/withdrawal", method = RequestMethod.GET)
-    public ModelAndView userWithdrawal() {
-        ModelAndView VIEW = new ModelAndView("test");
-
+    @RequestMapping(value = "/trace", method = RequestMethod.GET)
+    public ModelAndView userTracePage() {
+        ModelAndView VIEW = new ModelAndView("user/trace");
         return VIEW;
     }
 
-    @RequestMapping(value = "/user/traces", method = RequestMethod.GET)
-    public ModelAndView userTraces() {
-        ModelAndView VIEW = new ModelAndView("test");
-
+    @RequestMapping(value = "/unregister", method = RequestMethod.GET)
+    public ModelAndView userUnregisterPage() {
+        ModelAndView VIEW = new ModelAndView("user/unregister");
         return VIEW;
     }
-
-    @RequestMapping(value = "/user/farm/detail", method = RequestMethod.GET)
-    public ModelAndView userFarmDetail() {
-        // user Farm edit page
-        ModelAndView VIEW = new ModelAndView("test");
-
-        return VIEW;
-    }
-
-    @RequestMapping(value = "/user/write/content", method = RequestMethod.GET)
-    public ModelAndView userContentWritePage() {
-        ModelAndView VIEW = new ModelAndView("test");
-
-        return VIEW;
-    }
-
 }
