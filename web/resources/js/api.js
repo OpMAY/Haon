@@ -41,6 +41,7 @@ async function apiLogin(email, password) {
   }
 }
 
+/**/
 async function insertBookMark(type, no) {
   function apiInsertBookMark(type, no) {
     const myHeaders = new Headers();
@@ -451,7 +452,6 @@ async function updateFarmHouseType(type) {
     console.log(error);
   }
 }
-
 
 async function updateFarmHouseDetails(details) {
   function apiUpdateFarmHouseDetails(details){
