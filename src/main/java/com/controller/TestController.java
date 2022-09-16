@@ -37,6 +37,7 @@ public class TestController {
 
     public static void main(String[] args) {
         try {
+            System.out.println(new EncryptionService().encryptAES("8f50c4f6431f08014f13d451e0c703ac", false));
             System.out.println(new EncryptionService().encryptAES("smtp.naver.com", false));
             System.out.println(new EncryptionService().encryptAES("587", false));
         } catch (Exception e) {
@@ -86,6 +87,7 @@ public class TestController {
     public ModelAndView testRecover() {
         return new ModelAndView("error/recover");
     }
+
     @RequestMapping(value = "/test/error", method = RequestMethod.GET)
     public ModelAndView testError() {
         return new ModelAndView("error/error");

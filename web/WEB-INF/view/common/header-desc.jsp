@@ -5,7 +5,7 @@
         <li class="list-group-item regular-h5">염소</li>
         <li class="list-group-item regular-h5">소</li>
         <li class="list-group-item regular-h5">돼지</li>
-        <li class="list-group-item regular-h5">닭 & 계란</li>
+        <li class="list-group-item regular-h5">닭</li>
         <li class="list-group-item regular-h5">토끼</li>
         <li class="list-group-item regular-h5">오리</li>
     </ul>
@@ -18,7 +18,7 @@
     </ul>
     <ul class="list-group">
         <li class="list-group-item regular-h5">이력 안내</li>
-        <li class="list-group-item regular-h5">이력 조회</li>
+        <li class="list-group-item regular-h5 _trace-search">이력 조회</li>
         <li class="list-group-item regular-h5">이력 등록</li>
     </ul>
 </div>

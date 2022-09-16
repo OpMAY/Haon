@@ -103,7 +103,7 @@ public class LoginAPI {
                 return null;
             }
             /** Login Success*/
-
+            user.setAccess_token(kakaoAccess.getAccess_token());
             if (kakaoInfo.getKakao_account().getHas_email() != null && kakaoInfo.getKakao_account().getHas_email()) {
                 user.setEmail(kakaoInfo.getKakao_account().getEmail());
             }
@@ -121,14 +121,6 @@ public class LoginAPI {
                 profile_img.setName(DEFAULT_PROFILE_IMAGE_NAME);
             }
             user.setProfile_img(profile_img);
-            /** Kakao Logout*/
-            /*String id = kakaoAPI.logout(kakaoAccess.getAccess_token());
-            if (id.equals(user.getId())) {
-                log.info("logout");
-            } else {
-                log.info("logout failed");
-            }*/
-
             return user;
         }
 

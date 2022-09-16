@@ -2,9 +2,7 @@
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
-
 <jsp:include page="../common/head.jsp"/>
-
 <body>
 <jsp:include page="../common/header.jsp"/>
 
@@ -1147,7 +1145,7 @@
         });
 
         /** Modal Test */
-        viewModal({
+        /*viewModal({
             vCenter: true,
             btnCount: 0,
             wCenter: true,
@@ -1218,11 +1216,7 @@
             onHide: function (e) {
                 console.log('Modal Hide Before Callback', e.currentTarget);
             }
-        });
-
-        // $('._board-container').on('click', function () {
-        //     location.href = '/community/board/detail';
-        // })
+        });*/
     });
 </script>
 <div class="bg-brand-green c-basic-white"></div>

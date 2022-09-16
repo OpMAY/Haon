@@ -239,6 +239,40 @@ $(document).ready(function () {
             input.value = text;
         }
     });
+
+    $('._logout').click(function (event) {
+        logout().then((result) => {
+            if (result.status === 'OK') {
+                viewModal({
+                    vCenter: true,
+                    btnCount: 1,
+                    wCenter: true,
+                    title: '로그아웃',
+                    desc: '로그아웃에 성공하였습니다.',
+                    onConfirm: function () {
+                        location.reload();
+                    },
+                    onHidden: function (e) {
+                        location.reload();
+                    }
+                });
+            } else {
+                viewModal({
+                    vCenter: true,
+                    btnCount: 1,
+                    wCenter: true,
+                    title: '로그아웃',
+                    desc: '로그아웃에 실패하였습니다.',
+                    onConfirm: function () {
+                        location.reload();
+                    },
+                    onHidden: function (e) {
+                        location.reload();
+                    }
+                });
+            }
+        });
+    });
 });
 
 const getPosition = ($target) => {

@@ -1,10 +1,7 @@
 package com.config;
 
 import com.filter.LogFilter;
-import com.interceptor.AuthInterceptor;
-import com.interceptor.BaseInterceptor;
-import com.interceptor.LogInterceptor;
-import com.interceptor.RecoverInterceptor;
+import com.interceptor.*;
 import com.util.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,6 +191,9 @@ public class AppConfig implements WebApplicationInitializer, SchedulingConfigure
     private RecoverInterceptor recoverInterceptor;
     @Autowired
     private AuthInterceptor authInterceptor;
+    @Autowired
+    private KakaoInterceptor kakaoInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(logInterceptor).order(0)
@@ -208,7 +208,10 @@ public class AppConfig implements WebApplicationInitializer, SchedulingConfigure
                 .addPathPatterns("/**")
                 .excludePathPatterns("/resources/**")
                 .excludePathPatterns("/files/**");
-        registry.addInterceptor(authInterceptor).order(3)
+        registry.addInterceptor(kakaoInterceptor).order(3).addPathPatterns("/api/kakao/**")
+                .excludePathPatterns("/resources/**")
+                .excludePathPatterns("/files/**");
+        registry.addInterceptor(authInterceptor).order(4)
                 .addPathPatterns("/user/**")
                 .excludePathPatterns("/resources/**")
                 .excludePathPatterns("/files/**");
