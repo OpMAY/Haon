@@ -285,7 +285,7 @@
                     <c:forEach var="tip" items="${tips}">
                         <c:choose>
                             <c:when test="${tip.thumbnail.url eq null}">
-                                <div class="card community-card is-empty">
+                                <div class="card community-card is-empty" data-no="${tip.no}">
                                     <div class="background-image _profile"
                                          style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
                                     <div class="card-body _body">
@@ -308,7 +308,7 @@
                                 </div>
                             </c:when>
                             <c:otherwise>
-                                <div class="card community-card">
+                                <div class="card community-card" data-no="${tip.no}">
                                     <div class="background-image _thumbnail"
                                          style="background-image:url(${tip.thumbnail.url})">
                                         <div class="background-image _profile"
@@ -372,19 +372,19 @@
             </div>
             <c:if test="${manuals.size() > 0}">
                 <div class="owl-carousel card-carousel">
-                    <c:forEach var="tip" items="${manuals}">
+                    <c:forEach var="item" items="${manuals}">
                         <c:choose>
-                            <c:when test="${tip.thumbnail.url eq null}">
-                                <div class="card community-card is-empty">
+                            <c:when test="${item.thumbnail.url eq null}">
+                                <div class="card community-card is-empty" data-no="${item.no}">
                                     <div class="background-image _profile"
                                          style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
                                     <div class="card-body _body">
-                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">${tip.title}</h5>
-                                        <p class="card-text _description medium-h5 c-gray-medium">${tip.content}</p>
+                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
+                                        <p class="card-text _description medium-h5 c-gray-medium">${item.content}</p>
                                     </div>
                                     <div class="_footer">
                                     <span class="_views medium-p1 c-gray-light">
-                                    <span class="_count">${tip.views}</span> Views
+                                    <span class="_count">${item.views}</span> Views
                                     </span>
                                             <%-- TODO 좋아요 여부 --%>
                                         <span class="_bookmark">
@@ -398,19 +398,19 @@
                                 </div>
                             </c:when>
                             <c:otherwise>
-                                <div class="card community-card">
+                                <div class="card community-card" data-no="${item.no}">
                                     <div class="background-image _thumbnail"
-                                         style="background-image:url(${tip.thumbnail.url})">
+                                         style="background-image:url(${item.thumbnail.url})">
                                         <div class="background-image _profile"
                                              style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
                                     </div>
                                     <div class="card-body _body">
-                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">${tip.title}</h5>
-                                        <p class="card-text _description medium-h5 c-gray-medium">${tip.content}</p>
+                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
+                                        <p class="card-text _description medium-h5 c-gray-medium">${item.content}</p>
                                     </div>
                                     <div class="_footer">
                                     <span class="_views medium-p1 c-gray-light"><span
-                                            class="_count">${tip.views}</span> Views</span>
+                                            class="_count">${item.views}</span> Views</span>
                                             <%-- TODO 좋아요 여부 --%>
                                         <span class="_bookmark">
                                     <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
@@ -465,7 +465,7 @@
                     <c:forEach var="item" items="${magazines}">
                         <c:choose>
                             <c:when test="${item.thumbnail.url eq null}">
-                                <div class="card community-card is-empty">
+                                <div class="card community-card is-empty" data-no="${item.no}">
                                     <div class="background-image _profile"
                                          style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
                                     <div class="card-body _body">
@@ -488,7 +488,7 @@
                                 </div>
                             </c:when>
                             <c:otherwise>
-                                <div class="card community-card">
+                                <div class="card community-card" data-no="${item.no}">
                                     <div class="background-image _thumbnail"
                                          style="background-image:url(${item.thumbnail.url})">
                                         <div class="background-image _profile"
