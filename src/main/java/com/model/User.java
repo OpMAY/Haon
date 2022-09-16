@@ -15,6 +15,5 @@ import lombok.*;
 public class User extends RootUser {
     private String name;
     private GRANT_TYPE grant = GRANT_TYPE.USER;
-    private String access_token;
     private MFile profile_img;
 }

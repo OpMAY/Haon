@@ -1,9 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
-
 <jsp:include page="../common/head.jsp"/>
-
 <body>
 <jsp:include page="../common/header.jsp"/>
 
@@ -1395,7 +1393,7 @@
         });
 
         /** Modal Test */
-        viewModal({
+        /*viewModal({
             vCenter: true,
             btnCount: 0,
             wCenter: true,
@@ -1466,7 +1464,7 @@
             onHide: function (e) {
                 console.log('Modal Hide Before Callback', e.currentTarget);
             }
-        });
+        });*/
     });
 </script>
 <div class="bg-brand-green c-basic-white"></div>

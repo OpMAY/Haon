@@ -1,8 +1,20 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.util.Encryption.EncryptionService" %>
+<%@ page import="com.util.Encryption.JWTEnum" %>
+<%@ page import="java.util.HashMap" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String JWTToken = (String) request.getSession().getAttribute(JWTEnum.JWTToken.name());
+    request.setAttribute("JWTToken", JWTToken);
+    if (JWTToken != null && !JWTToken.equals("")) {
+        HashMap<String, Object> values = new EncryptionService().decryptJWT(JWTToken);
+        request.setAttribute("values", values);
+    }
+%>
 <header id="header">
     <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="#">
-            <img src="../../../resources/assets/images/icon/logo-white-theme.png"/>
+        <a class="navbar-brand" href="/">
+            <img src="/resources/assets/images/icon/logo-white-theme.png"/>
         </a>
         <button class="navbar-toggler"
                 type="button">
@@ -19,7 +31,6 @@
                 </defs>
             </svg>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarsExample04">
             <ul class="navbar-nav _navbar-left mr-auto">
                 <li class="nav-item active">
@@ -64,24 +75,31 @@
                     </svg>
                 </a>
             </li>
-            <li class="nav-item _qr-trace">
-                <a class="nav-link" href="#">로그인</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link _profile" href="#">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_282_25452)">
-                            <path d="M4 22C4 19.8783 4.84285 17.8434 6.34315 16.3431C7.84344 14.8429 9.87827 14 12 14C14.1217 14 16.1566 14.8429 17.6569 16.3431C19.1571 17.8434 20 19.8783 20 22H4ZM12 13C8.685 13 6 10.315 6 7C6 3.685 8.685 1 12 1C15.315 1 18 3.685 18 7C18 10.315 15.315 13 12 13Z"
-                                  fill="#A9CC52"/>
-                        </g>
-                        <defs>
-                            <clipPath id="clip0_282_25452">
-                                <rect width="24" height="24" fill="white"/>
-                            </clipPath>
-                        </defs>
-                    </svg>
-                </a>
-            </li>
+            <c:choose>
+                <c:when test="${JWTToken ne null}">
+                    <li class="nav-item">
+                        <a class="nav-link _profile" href="/user/home">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_282_25452)">
+                                    <path d="M4 22C4 19.8783 4.84285 17.8434 6.34315 16.3431C7.84344 14.8429 9.87827 14 12 14C14.1217 14 16.1566 14.8429 17.6569 16.3431C19.1571 17.8434 20 19.8783 20 22H4ZM12 13C8.685 13 6 10.315 6 7C6 3.685 8.685 1 12 1C15.315 1 18 3.685 18 7C18 10.315 15.315 13 12 13Z"
+                                          fill="#A9CC52"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_282_25452">
+                                        <rect width="24" height="24" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/register">로그인</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
         </ul>
     </nav>
 </header>

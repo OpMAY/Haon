@@ -124,9 +124,7 @@ $(document).ready(function () {
     /** Header RightSidebar Control */
     $('#header ._profile').click(function (event) {
         if (!isResponseSize(992)) {
-            /*TODO You need location change*/
-            alert('app.js 127번줄 location 변경해주세요.');
-            location.href = '/web/view/user/mypage-home.html';
+            location.href = '/user/home';
             event.stopPropagation();
             event.preventDefault();
             return;
@@ -240,6 +238,40 @@ $(document).ready(function () {
         } else {
             input.value = text;
         }
+    });
+
+    $('._logout').click(function (event) {
+        logout().then((result) => {
+            if (result.status === 'OK') {
+                viewModal({
+                    vCenter: true,
+                    btnCount: 1,
+                    wCenter: true,
+                    title: '로그아웃',
+                    desc: '로그아웃에 성공하였습니다.',
+                    onConfirm: function () {
+                        location.reload();
+                    },
+                    onHidden: function (e) {
+                        location.reload();
+                    }
+                });
+            } else {
+                viewModal({
+                    vCenter: true,
+                    btnCount: 1,
+                    wCenter: true,
+                    title: '로그아웃',
+                    desc: '로그아웃에 실패하였습니다.',
+                    onConfirm: function () {
+                        location.reload();
+                    },
+                    onHidden: function (e) {
+                        location.reload();
+                    }
+                });
+            }
+        });
     });
 });
 

@@ -1,7 +1,9 @@
 package com.api.sns.kakao;
 
 import com.transfer.ProtocolBuilder;
+import com.util.Encryption.EncryptionService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ public class KakaoAPI {
     private String KAKAO_CLIENT_ID;
     @Value("${KAKAO.CLIENT_SECRET}")
     private String KAKAO_CLIENT_SECRET;
+    @Autowired
+    private EncryptionService encryptionService;
 
     private final String KAKAO_OAUTH_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
     private final String KAKAO_USER_INFO_REQUEST_URL = "https://kapi.kakao.com/v2/user/me";
