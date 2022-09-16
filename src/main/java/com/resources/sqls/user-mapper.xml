@@ -3,4 +3,24 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.UserMapper">
+    <resultMap id="user" type="com.model.User">
+        <result column="agree" property="agree" javaType="com.model.Agree"
+                typeHandler="JsonObjectTypeHandler"/>
+    </resultMap>
+    <select id="isRegistered" parameterType="String" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM user
+                          WHERE email = #{email}), true, false)
+    </select>
+    <insert id="register" useGeneratedKeys="true" keyProperty="no" parameterType="User">
+        insert into user(`name`, agree, email, marketing_agree, marketing_agree_date, community_kakao_alarm,
+                         community_email_alarm, comment_kakao_alarm, comment_email_alarm, service_kakao_alarm,
+                         service_email_alarm)
+        VALUES (#{name}, #{agree, typeHandler=JsonObjectTypeHandler}, #{email},
+                #{marketing_agree}, now(),
+                #{community_kakao_alarm}, #{community_email_alarm},
+                #{comment_kakao_alarm}, #{comment_email_alarm},
+                #{service_kakao_alarm}, #{service_email_alarm})
+    </insert>
 </mapper>

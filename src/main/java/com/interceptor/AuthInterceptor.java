@@ -1,5 +1,6 @@
 package com.interceptor;
 
+import com.service.GlobalService;
 import com.util.Constant;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
@@ -21,6 +22,7 @@ import java.util.Objects;
 @Component
 public class AuthInterceptor extends HandlerInterceptorAdapter {
     private final EncryptionService encryptionService;
+    private final GlobalService globalService;
 
     @PostConstruct
     public void AuthInterceptor() {
@@ -41,6 +43,11 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         } else {
             /**Login 하지 않았을 때의 Session 필터링*/
             response.sendRedirect("/auth/register");
+            return false;
+        }
+        int user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        if (!globalService.checkFarm(user_no)) {
+            response.sendRedirect("/auth/type");
             return false;
         }
         return true;

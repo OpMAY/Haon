@@ -1,8 +1,10 @@
 package com.controller;
 
 import com.api.LoginAPI;
+import com.model.Agree;
 import com.model.User;
 import com.response.DefaultRes;
+import com.service.UserService;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ import java.util.HashMap;
 @RequestMapping("/auth")
 public class AuthController {
     private final LoginAPI loginAPI;
+    private final UserService userService;
     private final EncryptionService encryptionService;
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -50,6 +53,13 @@ public class AuthController {
         ModelAndView VIEW = new ModelAndView("auth/register");
         User user = loginAPI.apiLoginInit(request);
         log.info(user.toString());
+        if (!userService.isRegistered(user.getEmail())) {
+            //test code
+            user.setAgree(new Agree());
+            userService.register(user);
+        } else {
+
+        }
         request.getSession().setAttribute(JWTEnum.JWTToken.name(), encryptionService.encryptJWT(user));
         VIEW.addObject("status", Boolean.TRUE);
         return VIEW;

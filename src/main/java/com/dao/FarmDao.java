@@ -19,4 +19,8 @@ public class FarmDao {
     public List<Farm> getMainFarms() {
         return mapper.getMainFarms();
     }
+
+    public boolean getFarm(int user_no) {
+        return mapper.getFarm(user_no);
+    }
 }

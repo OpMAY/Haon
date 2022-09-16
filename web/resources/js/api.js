@@ -627,3 +627,50 @@ async function logout() {
         console.log(error);
     }
 }
+
+async function farmCheck() {
+    function apiFarmCheck() {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`${host}/api/farm/check`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiFarmCheck();
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function loginCheck() {
+    function apiLoginCheck() {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`${host}/api/login/check`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiLoginCheck();
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
