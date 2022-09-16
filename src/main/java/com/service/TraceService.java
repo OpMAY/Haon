@@ -27,6 +27,13 @@ public class TraceService {
      * FOWL/LOT_NO : 닭 묶음
      * DUCK/LOT_NO : 오리 묶음
      **/
+
+    public static void main(String[] args) {
+        int a = 9;
+        System.out.println(a / 4);
+        System.out.println((a / 4) * 4);
+        System.out.println(a - ((a/4) * 4));
+    }
     public void requestInfo(String code) {
         TraceResponse response = TraceApi.apiRequest(code).getResponse();
         if (response.getHeader().getResultCode().equals("00")) {

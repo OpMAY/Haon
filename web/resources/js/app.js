@@ -124,9 +124,7 @@ $(document).ready(function () {
     /** Header RightSidebar Control */
     $('#header ._profile').click(function (event) {
         if (!isResponseSize(992)) {
-            /*TODO You need location change*/
-            alert('app.js 127번줄 location 변경해주세요.');
-            location.href = '/web/view/user/mypage-home.html';
+            location.href = '/user/home';
             event.stopPropagation();
             event.preventDefault();
             return;
