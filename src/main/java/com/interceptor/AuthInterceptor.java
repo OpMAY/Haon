@@ -1,5 +1,6 @@
 package com.interceptor;
 
+import com.util.Constant;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
 import com.util.TokenGenerator;
@@ -13,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,14 +29,21 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.debug("Auth Interceptor preHandle");
-        Object token = request.getSession().getAttribute(JWTEnum.JWTToken.name());
-        if (token != null) {
-            return super.preHandle(request, response, handler);
+        if (request.getSession().getAttribute(JWTEnum.JWTToken.name()) != null) {
+            /**Login 했을 때의 Session 필터링*/
+            HashMap<String, Object> hashMap = new EncryptionService().decryptJWT(request.getSession().getAttribute(JWTEnum.JWTToken.name()).toString());
+            String version = (String) hashMap.get(JWTEnum.VERSION.name());
+            if (!Objects.equals(version, Constant.VERSION)) {
+                request.getSession().removeAttribute(JWTEnum.JWTToken.name());
+                response.sendRedirect("/auth/register");
+                return false;
+            }
         } else {
+            /**Login 하지 않았을 때의 Session 필터링*/
             response.sendRedirect("/auth/register");
             return false;
         }
+        return true;
     }
 
     @Override

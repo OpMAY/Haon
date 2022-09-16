@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
 <jsp:include page="../common/head.jsp"/>
@@ -29,8 +30,10 @@
                     Lorem <span class="c-brand-green">ipsum</span> dolor sit amet
                 </div>
                 <div class="_bottom-text bold-h4 font-weight-bold">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem explicabo, harum illo ipsam laudantium
-                    maiores necessitatibus nisi nulla qui quo ratione recusandae reiciendis soluta temporibus totam vero? Iste,
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem explicabo, harum illo ipsam
+                    laudantium
+                    maiores necessitatibus nisi nulla qui quo ratione recusandae reiciendis soluta temporibus totam
+                    vero? Iste,
                     tempore?
                 </div>
             </div>
@@ -111,7 +114,7 @@
             </div>
         </section>
         <!--실시간 자유 게시판-->
-        <section class="section">
+        <section class="section" id="board-section">
             <div class="section-title">
                 <div class="_desc medium-h5 c-gray-medium">
                     다양하고 많은 농가들과 정보를 공유하고 대화를 진행할 수 있어요!
@@ -132,171 +135,131 @@
                     </svg>
                 </div>
             </div>
-            <div class="owl-carousel free-board">
-                <div>
+            <c:if test="${live_boards.size() > 0}">
+                <div class="owl-carousel free-board">
+                    <c:set var="fullMax" scope="application">
+                        <custom:numberDivision value="${live_boards.size()}" share="true" divide="4"/>
+                    </c:set>
                     <div class="_board-list">
-                        <div class="_board-container" data-no="1" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
+                        <c:set var="endValue" scope="application">
+                            <c:choose>
+                                <c:when test="${fullMax > 0}">
+                                    3
+                                </c:when>
+                                <c:otherwise>
+                                    ${live_boards.size() % 4 - 1}
+                                </c:otherwise>
+                            </c:choose>
+                        </c:set>
+                        <c:forEach var="i" begin="0" end="${endValue}">
+                            <div class="_board-container" data-no="${live_boards[i].no}" data-type="board">
+                                <div class="_content ellipsis-one-line">
+                                    <span class="medium-h4">${live_boards[i].title}</span>
+                                </div>
+                                <div class="_info">
+                                    <c:set var="newDiff" scope="application">
+                                        <custom:localDateTimeDiffer value="${live_boards[i].reg_datetime}"/>
+                                    </c:set>
+                                    <span class="bold-h5 c-brand-green<c:if test="${newDiff eq true}"> d-none</c:if>">New!</span>
+                                    <span class="medium-h5 c-gray-light ml-8">${live_boards[i].views} Views</span>
+                                </div>
                             </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">32 Views</span>
-                            </div>
-                        </div>
-                        <div class="_board-container" data-no="1" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                            </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green d-none">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">32 Views</span>
-                            </div>
-                        </div>
-                        <div class="_board-container" data-no="1" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                            </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">32 Views</span>
-                            </div>
-                        </div>
-                        <div class="_board-container" data-no="1" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                            </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">32 Views</span>
-                            </div>
-                        </div>
+                        </c:forEach>
                     </div>
+                    <c:if test="${live_boards.size() > 4}">
+                        <div class="_board-list">
+                            <c:set var="endValue" scope="application">
+                                <c:choose>
+                                    <c:when test="${fullMax > 1}">
+                                        7
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${4 + live_boards.size() % 4 - 1}
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:set>
+                            <c:forEach var="i" begin="4" end="${endValue}">
+                                <div class="_board-container" data-no="${live_boards[i].no}" data-type="board">
+                                    <div class="_content ellipsis-one-line">
+                                        <span class="medium-h4">${live_boards[i].title}</span>
+                                    </div>
+                                    <div class="_info">
+                                        <c:set var="newDiff" scope="application">
+                                            <custom:localDateTimeDiffer value="${live_boards[i].reg_datetime}"/>
+                                        </c:set>
+                                        <span class="bold-h5 c-brand-green<c:if test="${newDiff eq true}"> d-none</c:if>">New!</span>
+                                        <span class="medium-h5 c-gray-light ml-8">${live_boards[i].views} Views</span>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </c:if>
+                    <c:if test="${live_boards.size() > 8}">
+                        <c:set var="endValue" scope="application">
+                            <c:choose>
+                                <c:when test="${fullMax > 2}">
+                                    11
+                                </c:when>
+                                <c:otherwise>
+                                    ${8 + live_boards.size() % 4 - 1}
+                                </c:otherwise>
+                            </c:choose>
+                        </c:set>
+                        <div class="_board-list">
+                            <c:forEach var="i" begin="8" end="${endValue}">
+                                <div class="_board-container" data-no="${live_boards[i].no}" data-type="board">
+                                    <div class="_content ellipsis-one-line">
+                                        <span class="medium-h4">${live_boards[i].title}</span>
+                                    </div>
+                                    <div class="_info">
+                                        <c:set var="newDiff" scope="application">
+                                            <custom:localDateTimeDiffer value="${live_boards[i].reg_datetime}"/>
+                                        </c:set>
+                                        <span class="bold-h5 c-brand-green<c:if test="${newDiff eq true}"> d-none</c:if>">New!</span>
+                                        <span class="medium-h5 c-gray-light ml-8">${live_boards[i].views} Views</span>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </c:if>
+                    <c:if test="${live_boards.size() > 12}">
+                        <c:set var="endValue" scope="application">
+                            <c:choose>
+                                <c:when test="${fullMax > 3}">
+                                    15
+                                </c:when>
+                                <c:otherwise>
+                                    ${12 + live_boards.size() % 4 - 1}
+                                </c:otherwise>
+                            </c:choose>
+                        </c:set>
+                        <div class="_board-list">
+                            <c:forEach var="i" begin="12" end="${endValue}">
+                                <div class="_board-container" data-no="${live_boards[i].no}" data-type="board">
+                                    <div class="_content ellipsis-one-line">
+                                        <span class="medium-h4">${live_boards[i].title}</span>
+                                    </div>
+                                    <div class="_info">
+                                        <c:set var="newDiff" scope="application">
+                                            <custom:localDateTimeDiffer value="${live_boards[i].reg_datetime}"/>
+                                        </c:set>
+                                        <span class="bold-h5 c-brand-green<c:if test="${newDiff eq true}"> d-none</c:if>">New!</span>
+                                        <span class="medium-h5 c-gray-light ml-8">${live_boards[i].views} Views</span>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </c:if>
                 </div>
-                <div>
-                    <div class="_board-list">
-                        <div class="_board-container" data-no="1" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                            </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">32 Views</span>
-                            </div>
-                        </div>
-                        <div class="_board-container" data-no="1" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                            </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">32 Views</span>
-                            </div>
-                        </div>
-                        <div class="_board-container" data-no="1" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                            </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">32 Views</span>
-                            </div>
-                        </div>
-                        <div class="_board-container" data-no="1" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                            </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">32 Views</span>
-                            </div>
-                        </div>
-                    </div>
+            </c:if>
+            <c:if test="${live_boards.size() <= 0}">
+                <div class="regular-h5" style="text-align: center">
+                    <span>등록된 자유 게시판이 없습니다. 지금 바로 등록해보세요.</span>
                 </div>
-                <div>
-                    <div class="_board-list">
-                        <div class="_board-container" data-no="1" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                            </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">32 Views</span>
-                            </div>
-                        </div>
-                        <div class="_board-container" data-no="1" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                            </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">32 Views</span>
-                            </div>
-                        </div>
-                        <div class="_board-container" data-no="1" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                            </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">32 Views</span>
-                            </div>
-                        </div>
-                        <div class="_board-container" data-no="1" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                            </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">32 Views</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="_board-list">
-                        <div class="_board-container" data-no="1" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                            </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">32 Views</span>
-                            </div>
-                        </div>
-                        <div class="_board-container" data-no="1" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                            </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">32 Views</span>
-                            </div>
-                        </div>
-                        <div class="_board-container" data-no="1" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                            </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">32 Views</span>
-                            </div>
-                        </div>
-                        <div class="_board-container" data-no="1" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                            </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">32 Views</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </c:if>
         </section>
         <!--검증된 팁과 노하우-->
-        <section class="section">
+        <section class="section" id="tips-section">
             <div class="section-title">
                 <div class="_desc medium-h5 c-gray-medium">
                     숙력된 농가분들이 갖고 있는 팁과 노하우를 공유했어요!
@@ -317,146 +280,73 @@
                     </svg>
                 </div>
             </div>
-            <div class="owl-carousel card-carousel">
-                <div class="card community-card">
-                    <div class="background-image _thumbnail"
-                         style="background-image:url('../resources/assets/images/sample/card-background-image.png')">
-                        <div class="background-image _profile"
-                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
-                    </div>
-                    <div class="card-body _body">
-                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                        <p class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을 공유했어요!</p>
-                    </div>
-                    <div class="_footer">
-            <span class="_views medium-p1 c-gray-light">
-              <span class="_count">32</span>Views
-            </span>
-                        <span class="_bookmark is-active">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_224_6115)">
-                  <path d="M21.179 12.7939L21.192 12.8079L12 21.9999L2.80803 12.8079L2.82103 12.7939C1.75359 11.5494 1.19587 9.94758 1.25962 8.30929C1.32337 6.67099 2.00388 5.1173 3.16478 3.95956C4.32569 2.80181 5.88123 2.12554 7.51969 2.06627C9.15815 2.00699 10.7585 2.56908 12 3.6399C13.2416 2.56908 14.8419 2.00699 16.4804 2.06627C18.1188 2.12554 19.6744 2.80181 20.8353 3.95956C21.9962 5.1173 22.6767 6.67099 22.7404 8.30929C22.8042 9.94758 22.2465 11.5494 21.179 12.7939Z"
-                        fill="#A9CC52"></path>
-                </g>
-                <defs>
-                  <clipPath id="clip0_224_6115">
-                    <rect width="24" height="24" fill="white"></rect>
-                  </clipPath>
-                </defs>
-              </svg>
-            </span>
-                    </div>
+            <c:if test="${tips.size() > 0}">
+                <div class="owl-carousel card-carousel">
+                    <c:forEach var="tip" items="${tips}">
+                        <c:choose>
+                            <c:when test="${tip.thumbnail.url eq null}">
+                                <div class="card community-card is-empty">
+                                    <div class="background-image _profile"
+                                         style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                    <div class="card-body _body">
+                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">${tip.title}</h5>
+                                        <p class="card-text _description medium-h5 c-gray-medium">${tip.content}</p>
+                                    </div>
+                                    <div class="_footer">
+                                    <span class="_views medium-p1 c-gray-light">
+                                    <span class="_count">${tip.views}</span> Views
+                                    </span>
+                                            <%-- TODO 좋아요 여부 --%>
+                                        <span class="_bookmark">
+                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_204_2957)"><path
+                                            d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/></g><defs><clipPath
+                                            id="clip0_204_2957"><rect width="24.0923" height="24"
+                                                                      transform="translate(0.0500488)"/></clipPath></defs></svg>
+                                    </span>
+                                    </div>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="card community-card">
+                                    <div class="background-image _thumbnail"
+                                         style="background-image:url(${tip.thumbnail.url})">
+                                        <div class="background-image _profile"
+                                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                    </div>
+                                    <div class="card-body _body">
+                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">${tip.title}</h5>
+                                        <p class="card-text _description medium-h5 c-gray-medium">${tip.content}</p>
+                                    </div>
+                                    <div class="_footer">
+                                    <span class="_views medium-p1 c-gray-light"><span
+                                            class="_count">${tip.views}</span> Views</span>
+                                            <%-- TODO 좋아요 여부 --%>
+                                        <span class="_bookmark">
+                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_204_2957)">
+                                                <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
+                                                </g>
+                                                <defs>
+                                                <clipPath id="clip0_204_2957">
+                                                <rect width="24.0923" height="24" transform="translate(0.0500488)"/>
+                                                </clipPath>
+                                                </defs>
+                                                </svg>
+                                </span>
+                                    </div>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
                 </div>
-                <div class="card community-card">
-                    <div class="background-image _thumbnail"
-                         style="background-image:url('../resources/assets/images/sample/card-background-image.png')">
-                        <div class="background-image _profile"
-                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
-                    </div>
-                    <div class="card-body _body">
-                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                        <p class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을 공유했어요!</p>
-                    </div>
-                    <div class="_footer">
-                  <span class="_views medium-p1 c-gray-light">
-                    <span class="_count">32</span>Views
-                  </span>
-                        <span class="_bookmark">
-                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g clip-path="url(#clip0_204_2957)">
-                        <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_204_2957">
-                          <rect width="24.0923" height="24" transform="translate(0.0500488)"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </span>
-                    </div>
+            </c:if>
+            <c:if test="${tips.size() <= 0}">
+                <div class="regular-h5" style="text-align: center">
+                    <span>등록된 팁과 노하우가 없습니다. 지금 바로 등록해보세요.</span>
                 </div>
-                <div class="card community-card">
-                    <div class="background-image _thumbnail"
-                         style="background-image:url('../resources/assets/images/sample/card-background-image.png')">
-                        <div class="background-image _profile"
-                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
-                    </div>
-                    <div class="card-body _body">
-                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                        <p class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을 공유했어요!</p>
-                    </div>
-                    <div class="_footer">
-                  <span class="_views medium-p1 c-gray-light">
-                    <span class="_count">32</span>Views
-                  </span>
-                        <span class="_bookmark">
-                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g clip-path="url(#clip0_204_2957)">
-                        <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_204_2957">
-                          <rect width="24.0923" height="24" transform="translate(0.0500488)"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </span>
-                    </div>
-                </div>
-                <div class="card community-card">
-                    <div class="background-image _thumbnail"
-                         style="background-image:url('../resources/assets/images/sample/card-background-image.png')">
-                        <div class="background-image _profile"
-                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
-                    </div>
-                    <div class="card-body _body">
-                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                        <p class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을 공유했어요!</p>
-                    </div>
-                    <div class="_footer">
-                  <span class="_views medium-p1 c-gray-light">
-                    <span class="_count">32</span>Views
-                  </span>
-                        <span class="_bookmark">
-                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g clip-path="url(#clip0_204_2957)">
-                        <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_204_2957">
-                          <rect width="24.0923" height="24" transform="translate(0.0500488)"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </span>
-                    </div>
-                </div>
-                <div class="card community-card is-empty">
-                    <div class="card-body _body">
-                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                        <p class="card-text _description medium-h5 c-gray-medium">Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit. Adipisci aliquid aperiam at doloremque exercitationem explicabo fugit, laudantium
-                            minus nam pariatur quibusdam quidem quod recusandae reiciendis sunt voluptate voluptatum. Aut,
-                            cum.</p>
-                    </div>
-                    <div class="_footer">
-            <span class="_views medium-p1 c-gray-light">
-              <span class="_count">32</span>Views
-            </span><span class="_bookmark">
-            <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g clip-path="url(#clip0_204_2957)">
-                <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
-              </g>
-              <defs>
-                <clipPath id="clip0_204_2957">
-                  <rect width="24.0923" height="24" transform="translate(0.0500488)"/>
-                </clipPath>
-              </defs>
-            </svg>
-          </span>
-                    </div>
-                </div>
-            </div>
+            </c:if>
         </section>
         <!--숙련된 축산 매뉴얼-->
         <section class="section">
@@ -480,146 +370,73 @@
                     </svg>
                 </div>
             </div>
-            <div class="owl-carousel card-carousel">
-                <div class="card community-card">
-                    <div class="background-image _thumbnail"
-                         style="background-image:url('../resources/assets/images/sample/card-background-image.png')">
-                        <div class="background-image _profile"
-                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
-                    </div>
-                    <div class="card-body _body">
-                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                        <p class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을 공유했어요!</p>
-                    </div>
-                    <div class="_footer">
-                  <span class="_views medium-p1 c-gray-light">
-                    <span class="_count">32</span>Views
-                  </span>
-                        <span class="_bookmark is-active">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g clip-path="url(#clip0_224_6115)">
-                        <path d="M21.179 12.7939L21.192 12.8079L12 21.9999L2.80803 12.8079L2.82103 12.7939C1.75359 11.5494 1.19587 9.94758 1.25962 8.30929C1.32337 6.67099 2.00388 5.1173 3.16478 3.95956C4.32569 2.80181 5.88123 2.12554 7.51969 2.06627C9.15815 2.00699 10.7585 2.56908 12 3.6399C13.2416 2.56908 14.8419 2.00699 16.4804 2.06627C18.1188 2.12554 19.6744 2.80181 20.8353 3.95956C21.9962 5.1173 22.6767 6.67099 22.7404 8.30929C22.8042 9.94758 22.2465 11.5494 21.179 12.7939Z"
-                              fill="#A9CC52"></path>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_224_6115">
-                          <rect width="24" height="24" fill="white"></rect>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </span>
-                    </div>
+            <c:if test="${manuals.size() > 0}">
+                <div class="owl-carousel card-carousel">
+                    <c:forEach var="tip" items="${manuals}">
+                        <c:choose>
+                            <c:when test="${tip.thumbnail.url eq null}">
+                                <div class="card community-card is-empty">
+                                    <div class="background-image _profile"
+                                         style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                    <div class="card-body _body">
+                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">${tip.title}</h5>
+                                        <p class="card-text _description medium-h5 c-gray-medium">${tip.content}</p>
+                                    </div>
+                                    <div class="_footer">
+                                    <span class="_views medium-p1 c-gray-light">
+                                    <span class="_count">${tip.views}</span> Views
+                                    </span>
+                                            <%-- TODO 좋아요 여부 --%>
+                                        <span class="_bookmark">
+                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_204_2957)"><path
+                                            d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/></g><defs><clipPath
+                                            id="clip0_204_2957"><rect width="24.0923" height="24"
+                                                                      transform="translate(0.0500488)"/></clipPath></defs></svg>
+                                    </span>
+                                    </div>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="card community-card">
+                                    <div class="background-image _thumbnail"
+                                         style="background-image:url(${tip.thumbnail.url})">
+                                        <div class="background-image _profile"
+                                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                    </div>
+                                    <div class="card-body _body">
+                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">${tip.title}</h5>
+                                        <p class="card-text _description medium-h5 c-gray-medium">${tip.content}</p>
+                                    </div>
+                                    <div class="_footer">
+                                    <span class="_views medium-p1 c-gray-light"><span
+                                            class="_count">${tip.views}</span> Views</span>
+                                            <%-- TODO 좋아요 여부 --%>
+                                        <span class="_bookmark">
+                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_204_2957)">
+                                                <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
+                                                </g>
+                                                <defs>
+                                                <clipPath id="clip0_204_2957">
+                                                <rect width="24.0923" height="24" transform="translate(0.0500488)"/>
+                                                </clipPath>
+                                                </defs>
+                                                </svg>
+                                </span>
+                                    </div>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
                 </div>
-                <div class="card community-card">
-                    <div class="background-image _thumbnail"
-                         style="background-image:url('../resources/assets/images/sample/card-background-image.png')">
-                        <div class="background-image _profile"
-                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
-                    </div>
-                    <div class="card-body _body">
-                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                        <p class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을 공유했어요!</p>
-                    </div>
-                    <div class="_footer">
-                  <span class="_views medium-p1 c-gray-light">
-                    <span class="_count">32</span>Views
-                  </span>
-                        <span class="_bookmark">
-                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g clip-path="url(#clip0_204_2957)">
-                        <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_204_2957">
-                          <rect width="24.0923" height="24" transform="translate(0.0500488)"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </span>
-                    </div>
+            </c:if>
+            <c:if test="${manuals.size() <= 0}">
+                <div class="regular-h5" style="text-align: center">
+                    <span>등록된 축산 메뉴얼이 없습니다. 지금 바로 등록해보세요.</span>
                 </div>
-                <div class="card community-card">
-                    <div class="background-image _thumbnail"
-                         style="background-image:url('../resources/assets/images/sample/card-background-image.png')">
-                        <div class="background-image _profile"
-                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
-                    </div>
-                    <div class="card-body _body">
-                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                        <p class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을 공유했어요!</p>
-                    </div>
-                    <div class="_footer">
-                  <span class="_views medium-p1 c-gray-light">
-                    <span class="_count">32</span>Views
-                  </span>
-                        <span class="_bookmark">
-                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g clip-path="url(#clip0_204_2957)">
-                        <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_204_2957">
-                          <rect width="24.0923" height="24" transform="translate(0.0500488)"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </span>
-                    </div>
-                </div>
-                <div class="card community-card">
-                    <div class="background-image _thumbnail"
-                         style="background-image:url('../resources/assets/images/sample/card-background-image.png')">
-                        <div class="background-image _profile"
-                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
-                    </div>
-                    <div class="card-body _body">
-                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                        <p class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을 공유했어요!</p>
-                    </div>
-                    <div class="_footer">
-                  <span class="_views medium-p1 c-gray-light">
-                    <span class="_count">32</span>Views
-                  </span>
-                        <span class="_bookmark">
-                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g clip-path="url(#clip0_204_2957)">
-                        <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_204_2957">
-                          <rect width="24.0923" height="24" transform="translate(0.0500488)"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </span>
-                    </div>
-                </div>
-                <div class="card community-card is-empty">
-                    <div class="card-body _body">
-                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                        <p class="card-text _description medium-h5 c-gray-medium">Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit. Adipisci aliquid aperiam at doloremque exercitationem explicabo fugit, laudantium
-                            minus nam pariatur quibusdam quidem quod recusandae reiciendis sunt voluptate voluptatum. Aut,
-                            cum.</p>
-                    </div>
-                    <div class="_footer">
-            <span class="_views medium-p1 c-gray-light">
-              <span class="_count">32</span>Views
-            </span><span class="_bookmark">
-            <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g clip-path="url(#clip0_204_2957)">
-                <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
-              </g>
-              <defs>
-                <clipPath id="clip0_204_2957">
-                  <rect width="24.0923" height="24" transform="translate(0.0500488)"/>
-                </clipPath>
-              </defs>
-            </svg>
-          </span>
-                    </div>
-                </div>
-            </div>
+            </c:if>
         </section>
         <!--최신 축산 매거진-->
         <section class="section">
@@ -643,146 +460,73 @@
                     </svg>
                 </div>
             </div>
-            <div class="owl-carousel card-carousel">
-                <div class="card community-card">
-                    <div class="background-image _thumbnail _thumbnail-lg"
-                         style="background-image:url('../resources/assets/images/sample/card-background-image.png')">
-                        <div class="background-image _profile"
-                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
-                    </div>
-                    <div class="card-body _body">
-                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                        <p class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을 공유했어요!</p>
-                    </div>
-                    <div class="_footer">
-                  <span class="_views medium-p1 c-gray-light">
-                    <span class="_count">32</span>Views
-                  </span>
-                        <span class="_bookmark is-active">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g clip-path="url(#clip0_224_6115)">
-                        <path d="M21.179 12.7939L21.192 12.8079L12 21.9999L2.80803 12.8079L2.82103 12.7939C1.75359 11.5494 1.19587 9.94758 1.25962 8.30929C1.32337 6.67099 2.00388 5.1173 3.16478 3.95956C4.32569 2.80181 5.88123 2.12554 7.51969 2.06627C9.15815 2.00699 10.7585 2.56908 12 3.6399C13.2416 2.56908 14.8419 2.00699 16.4804 2.06627C18.1188 2.12554 19.6744 2.80181 20.8353 3.95956C21.9962 5.1173 22.6767 6.67099 22.7404 8.30929C22.8042 9.94758 22.2465 11.5494 21.179 12.7939Z"
-                              fill="#A9CC52"></path>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_224_6115">
-                          <rect width="24" height="24" fill="white"></rect>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </span>
-                    </div>
+            <c:if test="${magazines.size() > 0}">
+                <div class="owl-carousel card-carousel">
+                    <c:forEach var="item" items="${magazines}">
+                        <c:choose>
+                            <c:when test="${item.thumbnail.url eq null}">
+                                <div class="card community-card is-empty">
+                                    <div class="background-image _profile"
+                                         style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                    <div class="card-body _body">
+                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
+                                        <p class="card-text _description medium-h5 c-gray-medium">${item.content}</p>
+                                    </div>
+                                    <div class="_footer">
+                                    <span class="_views medium-p1 c-gray-light">
+                                    <span class="_count">${item.views}</span> Views
+                                    </span>
+                                            <%-- TODO 좋아요 여부 --%>
+                                        <span class="_bookmark">
+                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_204_2957)"><path
+                                            d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/></g><defs><clipPath
+                                            id="clip0_204_2957"><rect width="24.0923" height="24"
+                                                                      transform="translate(0.0500488)"/></clipPath></defs></svg>
+                                    </span>
+                                    </div>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="card community-card">
+                                    <div class="background-image _thumbnail"
+                                         style="background-image:url(${item.thumbnail.url})">
+                                        <div class="background-image _profile"
+                                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                    </div>
+                                    <div class="card-body _body">
+                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
+                                        <p class="card-text _description medium-h5 c-gray-medium">${item.content}</p>
+                                    </div>
+                                    <div class="_footer">
+                                    <span class="_views medium-p1 c-gray-light"><span
+                                            class="_count">${item.views}</span> Views</span>
+                                            <%-- TODO 좋아요 여부 --%>
+                                        <span class="_bookmark">
+                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_204_2957)">
+                                                <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
+                                                </g>
+                                                <defs>
+                                                <clipPath id="clip0_204_2957">
+                                                <rect width="24.0923" height="24" transform="translate(0.0500488)"/>
+                                                </clipPath>
+                                                </defs>
+                                                </svg>
+                                </span>
+                                    </div>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
                 </div>
-                <div class="card community-card">
-                    <div class="background-image _thumbnail _thumbnail-lg"
-                         style="background-image:url('../resources/assets/images/sample/card-background-image.png')">
-                        <div class="background-image _profile"
-                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
-                    </div>
-                    <div class="card-body _body">
-                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                        <p class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을 공유했어요!</p>
-                    </div>
-                    <div class="_footer">
-                  <span class="_views medium-p1 c-gray-light">
-                    <span class="_count">32</span>Views
-                  </span>
-                        <span class="_bookmark">
-                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g clip-path="url(#clip0_204_2957)">
-                        <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_204_2957">
-                          <rect width="24.0923" height="24" transform="translate(0.0500488)"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </span>
-                    </div>
+            </c:if>
+            <c:if test="${magazines.size() <= 0}">
+                <div class="regular-h5" style="text-align: center">
+                    <span>등록된 매거진이 없습니다.</span>
                 </div>
-                <div class="card community-card">
-                    <div class="background-image _thumbnail _thumbnail-lg"
-                         style="background-image:url('../resources/assets/images/sample/card-background-image.png')">
-                        <div class="background-image _profile"
-                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
-                    </div>
-                    <div class="card-body _body">
-                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                        <p class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을 공유했어요!</p>
-                    </div>
-                    <div class="_footer">
-                  <span class="_views medium-p1 c-gray-light">
-                    <span class="_count">32</span>Views
-                  </span>
-                        <span class="_bookmark">
-                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g clip-path="url(#clip0_204_2957)">
-                        <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_204_2957">
-                          <rect width="24.0923" height="24" transform="translate(0.0500488)"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </span>
-                    </div>
-                </div>
-                <div class="card community-card">
-                    <div class="background-image _thumbnail _thumbnail-lg"
-                         style="background-image:url('../resources/assets/images/sample/card-background-image.png')">
-                        <div class="background-image _profile"
-                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
-                    </div>
-                    <div class="card-body _body">
-                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                        <p class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을 공유했어요!</p>
-                    </div>
-                    <div class="_footer">
-                  <span class="_views medium-p1 c-gray-light">
-                    <span class="_count">32</span>Views
-                  </span>
-                        <span class="_bookmark">
-                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g clip-path="url(#clip0_204_2957)">
-                        <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_204_2957">
-                          <rect width="24.0923" height="24" transform="translate(0.0500488)"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </span>
-                    </div>
-                </div>
-                <div class="card community-card is-empty">
-                    <div class="card-body _body">
-                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                        <p class="card-text _description medium-h5 c-gray-medium">Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit. Adipisci aliquid aperiam at doloremque exercitationem explicabo fugit, laudantium
-                            minus nam pariatur quibusdam quidem quod recusandae reiciendis sunt voluptate voluptatum. Aut,
-                            cum.</p>
-                    </div>
-                    <div class="_footer">
-            <span class="_views medium-p1 c-gray-light">
-              <span class="_count">32</span>Views
-            </span><span class="_bookmark">
-            <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g clip-path="url(#clip0_204_2957)">
-                <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
-              </g>
-              <defs>
-                <clipPath id="clip0_204_2957">
-                  <rect width="24.0923" height="24" transform="translate(0.0500488)"/>
-                </clipPath>
-              </defs>
-            </svg>
-          </span>
-                    </div>
-                </div>
-            </div>
+            </c:if>
         </section>
         <!--질문과 답변-->
         <section class="section">
@@ -828,7 +572,8 @@
                                  data-target="#collapseOne12"
                                  aria-expanded="true"
                                  aria-controls="collapseOne12">
-                                <svg width="16" height="16" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="16" height="16" viewBox="0 0 13 8" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6.36403 4.95024L11.314 0.000244141L12.728 1.41424L6.36403 7.77824L2.67029e-05 1.41424L1.41403 0.000244141L6.36403 4.95024Z"
                                           fill="#A9CC52"></path>
                                 </svg>
@@ -871,7 +616,8 @@
                                  data-target="#collapseOne13"
                                  aria-expanded="false"
                                  aria-controls="collapseOne13">
-                                <svg width="16" height="16" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="16" height="16" viewBox="0 0 13 8" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6.36403 4.95024L11.314 0.000244141L12.728 1.41424L6.36403 7.77824L2.67029e-05 1.41424L1.41403 0.000244141L6.36403 4.95024Z"
                                           fill="#A9CC52"></path>
                                 </svg>
@@ -914,7 +660,8 @@
                                  data-target="#collapseOne14"
                                  aria-expanded="false"
                                  aria-controls="collapseOne14">
-                                <svg width="16" height="16" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="16" height="16" viewBox="0 0 13 8" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6.36403 4.95024L11.314 0.000244141L12.728 1.41424L6.36403 7.77824L2.67029e-05 1.41424L1.41403 0.000244141L6.36403 4.95024Z"
                                           fill="#A9CC52"></path>
                                 </svg>
@@ -957,7 +704,8 @@
                                  data-target="#collapseOne15"
                                  aria-expanded="false"
                                  aria-controls="collapseOne15">
-                                <svg width="16" height="16" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="16" height="16" viewBox="0 0 13 8" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6.36403 4.95024L11.314 0.000244141L12.728 1.41424L6.36403 7.77824L2.67029e-05 1.41424L1.41403 0.000244141L6.36403 4.95024Z"
                                           fill="#A9CC52"></path>
                                 </svg>
@@ -1002,7 +750,8 @@
                                  data-target="#collapseOne2"
                                  aria-expanded="false"
                                  aria-controls="collapseOne2">
-                                <svg width="16" height="16" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="16" height="16" viewBox="0 0 13 8" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6.36403 4.95024L11.314 0.000244141L12.728 1.41424L6.36403 7.77824L2.67029e-05 1.41424L1.41403 0.000244141L6.36403 4.95024Z"
                                           fill="#A9CC52"></path>
                                 </svg>
@@ -1045,7 +794,8 @@
                                  data-target="#collapseOne3"
                                  aria-expanded="false"
                                  aria-controls="collapseOne3">
-                                <svg width="16" height="16" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="16" height="16" viewBox="0 0 13 8" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6.36403 4.95024L11.314 0.000244141L12.728 1.41424L6.36403 7.77824L2.67029e-05 1.41424L1.41403 0.000244141L6.36403 4.95024Z"
                                           fill="#A9CC52"></path>
                                 </svg>
@@ -1088,7 +838,8 @@
                                  data-target="#collapseOne4"
                                  aria-expanded="false"
                                  aria-controls="collapseOne4">
-                                <svg width="16" height="16" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="16" height="16" viewBox="0 0 13 8" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6.36403 4.95024L11.314 0.000244141L12.728 1.41424L6.36403 7.77824L2.67029e-05 1.41424L1.41403 0.000244141L6.36403 4.95024Z"
                                           fill="#A9CC52"></path>
                                 </svg>
@@ -1131,7 +882,8 @@
                                  data-target="#collapseOne5"
                                  aria-expanded="false"
                                  aria-controls="collapseOne5">
-                                <svg width="16" height="16" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="16" height="16" viewBox="0 0 13 8" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6.36403 4.95024L11.314 0.000244141L12.728 1.41424L6.36403 7.77824L2.67029e-05 1.41424L1.41403 0.000244141L6.36403 4.95024Z"
                                           fill="#A9CC52"></path>
                                 </svg>

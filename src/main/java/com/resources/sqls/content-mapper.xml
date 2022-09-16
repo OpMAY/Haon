@@ -4,10 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.ContentMapper">
     <resultMap id="Tips" type="com.model.content.tips.Tips">
-        <result column="img" property="img" typeHandler="com.middleware.JsonObjectTypeHandler"/>
+        <result column="thumbnail" property="thumbnail" typeHandler="com.middleware.JsonObjectTypeHandler"/>
     </resultMap>
     <resultMap id="Manual" type="com.model.content.manual.Manual">
-        <result column="img" property="img" typeHandler="com.middleware.JsonObjectTypeHandler"/>
+        <result column="thumbnail" property="thumbnail" typeHandler="com.middleware.JsonObjectTypeHandler"/>
+    </resultMap>
+    <resultMap id="Magazine" type="com.model.content.magazine.Magazine">
+        <result column="thumbnail" property="thumbnail" typeHandler="com.middleware.JsonObjectTypeHandler"/>
+    </resultMap>
+    <resultMap id="QuestionSummary" type="com.model.content.question.QuestionSummary">
+        <result column="thumbnail" property="thumbnail" typeHandler="com.middleware.JsonObjectTypeHandler"/>
     </resultMap>
     <select id="getLiveBoards" resultType="Board">
         select *
@@ -40,11 +46,12 @@
                        'title', q.title,
                        'content', q.content,
                        'thumbnail', q.thumbnail) as question,
-               (select content
-                from question_comment
-                         left join question_comment_like qcl on question_comment.no = qcl.comment_no
-                WHERE question_no = q.no
-                ORDER BY COUNT(qcl.user_no), RAND()
+               (select cl.content
+                from (select content, COUNT(qcl.user_no) as likes
+                      from question_comment
+                               left join question_comment_like qcl on question_comment.no = qcl.comment_no
+                      WHERE question_no = q.no
+                      ORDER BY likes) as cl
                 LIMIT 1)                         as best_comment
         from questions as q
         ORDER BY reg_datetime DESC

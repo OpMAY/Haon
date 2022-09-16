@@ -48,13 +48,13 @@ public class CommunityController {
         return VIEW;
     }
 
-    @RequestMapping(value = "/qeustion/detail", method = RequestMethod.GET)
+    @RequestMapping(value = "/question/detail", method = RequestMethod.GET)
     public ModelAndView communityQuestionDetailPage() {
         ModelAndView VIEW = new ModelAndView("community/qeustion-detail");
         return VIEW;
     }
 
-    @RequestMapping(value = "/qeustions", method = RequestMethod.GET)
+    @RequestMapping(value = "/questions", method = RequestMethod.GET)
     public ModelAndView communityQuestionsPage() {
         ModelAndView VIEW = new ModelAndView("community/qeustions");
         return VIEW;

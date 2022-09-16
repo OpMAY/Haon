@@ -96,7 +96,18 @@ input.form-control.input-box.is-focus {
 }
 
 .card.community-card.is-empty ._body {
+    padding-top: calc(16px + 54px + 16px);
     padding-bottom: calc(16px + 24px + 16px);
+}
+
+.card.community-card.is-empty ._profile {
+    position: absolute;
+    top: 42px;
+    left: 16px;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-circle);
+    transform: var(--translate-tb-center);
 }
 
 .card.community-card.is-empty ._description {
@@ -104,7 +115,7 @@ input.form-control.input-box.is-focus {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 8;
+    -webkit-line-clamp: 6;
     -webkit-box-orient: vertical;
     word-wrap: break-word;
     padding-bottom: 0;
