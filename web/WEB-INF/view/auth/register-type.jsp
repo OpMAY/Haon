@@ -23,6 +23,7 @@
                                 <label data-label="checkbox" class="checkbox-item">
                                     <input data-type="checkbox" name="FARM_TYPE" value="SHEEP_GOAT" type="checkbox"
                                            data-label="item1"
+                                           checked="checked"
                                            name="checkbox1">
                                     <span class="checkbox"></span>
                                     <span class="text">양 & 염소</span>
