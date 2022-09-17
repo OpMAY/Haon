@@ -1,5 +1,6 @@
 package com.model.farm;
 
+import com.model.Agree;
 import com.model.common.MFile;
 import lombok.Data;
 
@@ -16,4 +17,5 @@ public class Farm {
     private String description;
     private List<String> hashtag;
     private FarmSns sns;
+    private Agree agree;
 }

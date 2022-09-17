@@ -11,16 +11,28 @@
         SELECT IF(EXISTS(
                           SELECT *
                           FROM user
-                          WHERE email = #{email}), true, false)
+                          WHERE id = #{id}), true, false)
     </select>
     <insert id="register" useGeneratedKeys="true" keyProperty="no" parameterType="User">
-        insert into user(`name`, agree, email, marketing_agree, marketing_agree_date, community_kakao_alarm,
+        insert into user(id, `name`, agree, email, marketing_agree, marketing_agree_date, community_kakao_alarm,
                          community_email_alarm, comment_kakao_alarm, comment_email_alarm, service_kakao_alarm,
                          service_email_alarm)
-        VALUES (#{name}, #{agree, typeHandler=JsonObjectTypeHandler}, #{email},
+        VALUES (#{id}, #{name}, #{agree, typeHandler=JsonObjectTypeHandler}, #{email},
                 #{marketing_agree}, now(),
                 #{community_kakao_alarm}, #{community_email_alarm},
                 #{comment_kakao_alarm}, #{comment_email_alarm},
                 #{service_kakao_alarm}, #{service_email_alarm})
     </insert>
+    <update id="updateUser" parameterType="User">
+        update user
+        set `name`=#{name},
+            email=#{email},
+            agree=#{agree, typeHandler=JsonObjectTypeHandler}
+        where id = #{id}
+    </update>
+    <select id="getUserById" parameterType="String" resultType="User" resultMap="user">
+        select *
+        from user
+        where id = #{id};
+    </select>
 </mapper>

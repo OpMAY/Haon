@@ -14,11 +14,19 @@ public class UserDao {
         this.mapper = sqlSession.getMapper(UserMapper.class);
     }
 
-    public boolean isRegistered(String email) {
-        return mapper.isRegistered(email);
+    public boolean isRegistered(String id) {
+        return mapper.isRegistered(id);
     }
 
     public void register(User user) {
         mapper.register(user);
+    }
+
+    public void updateUser(User user) {
+        mapper.updateUser(user);
+    }
+
+    public int getUserById(String id) {
+        return mapper.getUserById(id).getNo();
     }
 }

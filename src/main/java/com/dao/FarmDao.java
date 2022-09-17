@@ -23,4 +23,8 @@ public class FarmDao {
     public boolean getFarm(int user_no) {
         return mapper.getFarm(user_no);
     }
+
+    public void insertFarm(Farm farm) {
+        mapper.insertFarm(farm);
+    }
 }

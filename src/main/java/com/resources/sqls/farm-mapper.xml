@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.FarmMapper">
+    <resultMap id="user" type="com.model.User">
+        <result column="agree" property="agree" javaType="com.model.Agree"
+                typeHandler="JsonObjectTypeHandler"/>
+    </resultMap>
     <select id="getMainFarms" resultType="Farm">
         select *
         from farm
@@ -12,4 +16,13 @@
     <select id="getFarm" parameterType="int" resultType="boolean">
         SELECT EXISTS(SELECT * FROM farm WHERE user_no = #{user_no});
     </select>
+    <insert id="insertFarm" parameterType="Farm" keyProperty="no" useGeneratedKeys="true">
+        insert into farm(user_no, `name`, type,
+                         profile_image, farm_image,
+                         `description`)
+        values (#{user_no}, #{name}, #{type},
+                #{profile_image, typeHandler=JsonObjectTypeHandler},
+                #{farm_image, typeHandler=JsonObjectTypeHandler},
+                #{description});
+    </insert>
 </mapper>

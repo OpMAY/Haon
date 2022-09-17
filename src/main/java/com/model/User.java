@@ -19,12 +19,4 @@ public class User extends RootUser {
     private GRANT_TYPE grant = GRANT_TYPE.USER;
     private MFile profile_img;
     private Agree agree;
-    private boolean marketing_agree;
-    private LocalDateTime marketing_agree_date;
-    private boolean community_kakao_alarm;
-    private boolean community_email_alarm;
-    private boolean comment_kakao_alarm;
-    private boolean comment_email_alarm;
-    private boolean service_kakao_alarm;
-    private boolean service_email_alarm;
 }

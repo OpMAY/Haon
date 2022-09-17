@@ -14,11 +14,19 @@ public class UserService {
     private final UserDao userDao;
     private final FarmDao farmDao;
 
-    public boolean isRegistered(String email) {
-        return userDao.isRegistered(email);
+    public boolean isRegistered(String id) {
+        return userDao.isRegistered(id);
     }
 
     public void register(User user) {
         userDao.register(user);
+    }
+
+    public void updateUser(User user) {
+        userDao.updateUser(user);
+    }
+
+    public int getUserById(String id) {
+        return userDao.getUserById(id);
     }
 }
