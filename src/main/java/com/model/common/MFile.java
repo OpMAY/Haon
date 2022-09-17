@@ -12,6 +12,7 @@ public class MFile {
     private String name;
     private long size;
     private String type;
+    private MultipartFile file;
 
     public MFile() {
     }

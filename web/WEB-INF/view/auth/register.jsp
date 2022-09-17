@@ -62,20 +62,37 @@
         if (${status ne null}) {
             console.log('status not null');
             if (${status eq true}) {
-                viewModal({
-                    vCenter: true,
-                    btnCount: 1,
-                    wCenter: true,
-                    title: '로그인',
-                    desc: '로그인에 성공하였습니다.',
-                    confirm_text: '홈으로 이동',
-                    onConfirm: function () {
-                        location.href = '/';
-                    },
-                    onHidden: function (e) {
-                        location.href = '/';
-                    }
-                });
+                if(${type eq 'register'}){
+                    viewModal({
+                        vCenter: true,
+                        btnCount: 1,
+                        wCenter: true,
+                        title: '농장',
+                        desc: '농장 정보가 없습니다. 농장 정보를 설정해주세요.',
+                        confirm_text: '확인',
+                        onConfirm: function () {
+                            location.href = '/auth/type';
+                        },
+                        onHidden: function (e) {
+                            location.href = '/auth/type';
+                        }
+                    });
+                }else if(${type eq 'login'}){
+                    viewModal({
+                        vCenter: true,
+                        btnCount: 1,
+                        wCenter: true,
+                        title: '로그인',
+                        desc: '로그인에 성공하였습니다.',
+                        confirm_text: '홈으로 이동',
+                        onConfirm: function () {
+                            location.href = '/';
+                        },
+                        onHidden: function (e) {
+                            location.href = '/';
+                        }
+                    });
+                }
             } else {
                 viewModal({
                     vCenter: true,

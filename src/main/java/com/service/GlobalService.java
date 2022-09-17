@@ -67,4 +67,8 @@ public class GlobalService {
 //        }
         return view;
     }
+
+    public boolean checkFarm(int user_no) {
+        return farmDao.getFarm(user_no);
+    }
 }
