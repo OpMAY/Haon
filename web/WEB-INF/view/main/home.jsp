@@ -1191,15 +1191,29 @@
         });
 
         $('._more-comments').on('click', function (e) {
+            let $this = $(this);
             e.preventDefault();
             let question_no = $(this).parent().parent().parent().data().no;
-            let display_comment_list = $(this).parent().prev().find('span');
+            let comments_Div = $(this).parent().prev();
+            let display_comment_list = comments_Div.find('span');
             let last_idx = display_comment_list.length - 1;
             let last_comment = display_comment_list[last_idx];
             console.log(question_no);
             console.log(last_comment);
-            let last_comment_no = last_comment.dataset.no;
-            // loadMoreComments('question', question_no, last_comment_no);
+            let last_comment_no = last_comment.dataset.commentNo * 1;
+            console.log(last_comment_no);
+            loadMoreComments('question', question_no, last_comment_no).then((result) => {
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        result.data.comments.forEach((element, index) => {
+                            comments_Div.append(`<span class="regular-h5" data-comment-no="` + element.no + `">` + element.content + `</span>`);
+                        })
+                    } else {
+                        viewAlert({content: '불러올 댓글이 없거나 댓글을 더 불러올 수 없습니다.'});
+                        $this.remove();
+                    }
+                }
+            })
         });
 
         $('._board-list ._board-container').on('click', function (e) {

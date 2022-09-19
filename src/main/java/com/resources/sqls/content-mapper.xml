@@ -53,14 +53,14 @@
                       from question_comment
                                left join question_comment_like qcl on question_comment.no = qcl.comment_no
                       WHERE question_no = q.no
-                      ORDER BY likes) as cl
+                      ORDER BY likes DESC, no) as cl
                 LIMIT 1)                         as best_comment,
                (select cl.no
                 from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
                       from question_comment
                                left join question_comment_like qcl on question_comment.no = qcl.comment_no
                       WHERE question_no = q.no
-                      ORDER BY likes) as cl
+                      ORDER BY likes DESC, no) as cl
                 LIMIT 1)                         as best_comment_no
         from questions as q
         ORDER BY reg_datetime DESC
@@ -76,4 +76,7 @@
         SET views = views + 1
         WHERE board.no = #{board_no}
     </update>
+    <select id="checkQuestionContentExists" resultType="_boolean">
+        select EXISTS(select * from questions WHERE no = #{question_no})
+    </select>
 </mapper>

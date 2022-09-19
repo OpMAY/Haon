@@ -1,18 +1,24 @@
 package com.service;
 
 import com.dao.CommentDao;
+import com.dao.ContentDao;
 import com.model.content.board.BoardComment;
+import com.model.content.common.COMMENT_TYPE;
+import com.model.content.question.QuestionComment;
+import com.response.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentDao commentDao;
+    private final ContentDao contentDao;
 
     public ArrayList<BoardComment> getBoardComments(int board_no) {
         return commentDao.getBoardComments(board_no);
@@ -28,5 +34,37 @@ public class CommentService {
 
     public boolean isBestBoardComment(int board_no, int comment_no) {
         return commentDao.getBestBoardComment(board_no).getNo() == comment_no;
+    }
+
+    public Message getMoreComments(String type, int content_no, int last_comment_no) {
+        Message message = new Message();
+        // types : BOARD, MAGAZINE, MANUAL, TIP, QUESTION
+        // last_comment_no 기준 뒤의 것 5개
+        // 마지막 comment 일 경우 is_last = true
+        // content_no에 해당하는 content 검사, last_comment_no에 해당하는 comment 존재하는지 검사
+        switch (type) {
+            case "board":
+                break;
+            case "magazine":
+                break;
+            case "manual":
+                break;
+            case "tip":
+                break;
+            case "question":
+                if(!contentDao.checkQuestionContentExists(content_no)) {
+                    message.put("status", false);
+                } else if (!commentDao.checkQuestionLastCommentExists(last_comment_no)) {
+                    message.put("status", false);
+                } else {
+                    List<QuestionComment> questionComments = commentDao.getMoreQuestionComments(content_no, last_comment_no);
+                    message.put("comments", questionComments);
+                    message.put("status", !questionComments.isEmpty());
+                }
+                break;
+            default:
+                throw new RuntimeException();
+        }
+        return message;
     }
 }

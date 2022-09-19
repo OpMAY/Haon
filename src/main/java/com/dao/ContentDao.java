@@ -48,4 +48,8 @@ public class ContentDao {
     public void updateBoardViews(int board_no) {
         mapper.updateBoardViews(board_no);
     }
+
+    public boolean checkQuestionContentExists(int question_no) {
+        return mapper.checkQuestionContentExists(question_no);
+    }
 }
