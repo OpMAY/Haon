@@ -719,3 +719,48 @@ async function updateLike(type, no) {
         console.log(error);
     }
 }
+
+async function loadMoreContents(type, last_content_no) {
+    function apiLoadMoreContents(type, last_content_no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+        };
+        const response = fetch(`${host}/api/get/${type}/content/${last_content_no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+    let result;
+    try {
+        result = await apiLoadMoreContents(type, last_content_no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function loadMoreComments(type, content_no, last_comment_no) {
+    function apiLoadMoreComments(type, content_no, last_comment_no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+        };
+        const response = fetch(`${host}/api/get/${type}/comment/${content_no}/${last_comment_no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiLoadMoreComments(type, content_no, last_comment_no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}

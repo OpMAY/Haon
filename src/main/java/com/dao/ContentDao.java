@@ -44,4 +44,8 @@ public class ContentDao {
     public Board getBoard(int board_no) {
         return mapper.getBoard(board_no);
     }
+
+    public void updateBoardViews(int board_no) {
+        mapper.updateBoardViews(board_no);
+    }
 }

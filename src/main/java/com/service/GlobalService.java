@@ -31,6 +31,8 @@ public class GlobalService {
     private final LikeDao likeDao;
     private final BookmarkDao bookmarkDao;
 
+    private final EncryptionService encryptionService;
+
     public ModelAndView getMain(HttpServletRequest request) {
         ModelAndView view = new ModelAndView("main/home");
         /**
@@ -53,6 +55,35 @@ public class GlobalService {
         List<Magazine> magazines = contentDao.getMainMagazines();
         List<QuestionSummary> questions = contentDao.getMainQuestions();
         List<Farm> farms = farmDao.getMainFarms();
+        Integer userNo = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+
+        if (userNo != null) {
+            // Like 및 Scrap 정보 by user
+            for(Board board : live_boards) {
+                board.set_bookmark(bookmarkDao.isBoardBookmarkByUserNo(board.getNo(), userNo));
+            }
+
+            for(Tips tip : tips) {
+                tip.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(tip.getNo(), userNo));
+            }
+
+            for(Manual manual : manuals) {
+                manual.set_bookmark(bookmarkDao.isManualBookmarkByUserNo(manual.getNo(), userNo));
+            }
+
+            for(Magazine magazine : magazines) {
+                magazine.set_bookmark(bookmarkDao.isMagazineBookmarkByUserNo(magazine.getNo(), userNo));
+            }
+
+            for(QuestionSummary questionSummary : questions) {
+                questionSummary.getQuestion().set_bookmark(bookmarkDao.isQuestionBookmarkByUserNo(questionSummary.getQuestion().getNo(), userNo));
+            }
+
+            for(Farm farm : farms) {
+                farm.set_bookmark(bookmarkDao.isFarmBookmarkByUserNo(farm.getNo(), userNo));
+            }
+        }
+
         view.addObject("banners", banners);
         view.addObject("live_boards", live_boards);
         view.addObject("tips", tips);
@@ -60,11 +91,8 @@ public class GlobalService {
         view.addObject("magazines", magazines);
         view.addObject("questions", questions);
         view.addObject("farms", farms);
-//        HashMap<String, Object> hashMap = new EncryptionService().decryptJWT(request.getSession().getAttribute(JWTEnum.JWTToken.name()).toString());
-//        Integer userNo = (Integer) hashMap.get(JWTEnum.NO.name());
-//        if (userNo != null) {
-//            // TODO Like 및 Scrap 정보 by user
-//        }
+
+        log.info("{}", questions);
         return view;
     }
 

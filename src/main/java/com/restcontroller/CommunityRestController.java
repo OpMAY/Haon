@@ -72,6 +72,4 @@ public class CommunityRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
-
-
 }

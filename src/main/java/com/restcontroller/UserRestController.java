@@ -1,8 +1,6 @@
 package com.restcontroller;
 
-import com.model.content.board.BoardTransaction;
 import com.model.content.common.BOOKMARK_TYPE;
-import com.model.content.common.COMMENT_TYPE;
 import com.response.DefaultRes;
 import com.response.Message;
 import com.service.BookmarkService;
@@ -194,6 +192,7 @@ public class UserRestController {
                 message.put("type", "insert");
             }
         } else if (BOOKMARK_TYPE.MANUAL == type) {
+
             if (bookmarkService.isManualBookmarkByUserNo(no, user_no)) {
                 //북마크 해제
                 bookmarkService.deleteManualBookmark(no, user_no);

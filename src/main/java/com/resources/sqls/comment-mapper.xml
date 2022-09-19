@@ -11,7 +11,7 @@
                (select COUNT(*) from board_comment_dislike WHERE comment_no = bc.no) as dislike_count
         from board
                  left join board_comment bc on board.no = bc.board_no
-        WHERE board.no = #{board_no} and bc.recomment is null;
+        WHERE board.no = #{board_no} and bc.recomment is null AND bc.no is not null;
     </select>
     <select id="getRecommentByCommentNo" resultType="BoardComment" parameterType="int">
         select *
