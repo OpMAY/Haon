@@ -29,4 +29,8 @@ public class UserDao {
     public int getUserById(String id) {
         return mapper.getUserById(id).getNo();
     }
+
+    public User getUserByNo(int user_no) {
+        return mapper.getUserByNo(user_no);
+    }
 }

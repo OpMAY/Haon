@@ -1035,6 +1035,7 @@ input.form-control.input-box {
 
 .reply-comment-container {
     padding-left: 54px;
+    margin-right: -16px;
 }
 
 .reply-comment-container ._comment {

@@ -57,4 +57,9 @@
         ORDER BY reg_datetime DESC
         LIMIT 8
     </select>
+    <select id="getBoard" parameterType="int" resultType="Board">
+        select *
+        from board
+        where no = #{board_no};
+    </select>
 </mapper>

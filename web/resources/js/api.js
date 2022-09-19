@@ -674,3 +674,48 @@ async function loginCheck() {
     }
 }
 
+async function updateBookmark(type, no) {
+    function apiUpdateBookMark(type, no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`${host}/api/bookmark/update/${type}/${no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiUpdateBookMark(type, no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function updateLike(type, no) {
+    function apiUpdateLike(type, no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`${host}/api/like/update/${type}/${no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiUpdateLike(type, no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}

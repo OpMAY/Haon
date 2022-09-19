@@ -1,6 +1,7 @@
 package com.service;
 
 import com.dao.*;
+import com.model.content.board.Board;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,4 +31,7 @@ public class ContentService {
     private final TraceDao traceDao;
 
 
+    public Board getBoard(int board_no) {
+        return contentDao.getBoard(board_no);
+    }
 }

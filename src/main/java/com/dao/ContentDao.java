@@ -40,4 +40,8 @@ public class ContentDao {
     public List<QuestionSummary> getMainQuestions() {
         return mapper.getMainQuestions();
     }
+
+    public Board getBoard(int board_no) {
+        return mapper.getBoard(board_no);
+    }
 }

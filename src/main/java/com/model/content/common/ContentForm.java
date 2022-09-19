@@ -10,4 +10,5 @@ public class ContentForm extends Time {
     private String title;
     private String content;
     private int views;
+    private String category;
 }

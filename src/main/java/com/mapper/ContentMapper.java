@@ -6,6 +6,7 @@ import com.model.content.manual.Manual;
 import com.model.content.question.Question;
 import com.model.content.question.QuestionSummary;
 import com.model.content.tips.Tips;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface ContentMapper {
     List<Magazine> getMainMagazines();
 
     List<QuestionSummary> getMainQuestions();
+
+    Board getBoard(@Param("board_no") int board_no);
 }
