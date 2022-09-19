@@ -8,6 +8,5 @@
     if(value != null) {
         bool = Duration.between(value, LocalDateTime.now()).toDays() > 1;
     }
-    System.out.println(9/4);
 %>
 <%= bool %>
