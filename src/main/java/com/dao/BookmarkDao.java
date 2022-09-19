@@ -9,7 +9,20 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BookmarkDao {
     private BookmarkMapper mapper;
+
     private BookmarkDao(SqlSession sqlSession) {
         this.mapper = sqlSession.getMapper(BookmarkMapper.class);
+    }
+
+    public boolean isBoardBookmarkByUserNo(int board_no, int user_no) {
+        return mapper.isBoardBookmarkByUserNo(board_no, user_no);
+    }
+
+    public void insertBoardBookmark(int board_no, int user_no) {
+        mapper.insertBoardBookmark(board_no, user_no);
+    }
+
+    public void deleteBoardBookmark(int board_no, int user_no) {
+        mapper.deleteBoardBookmark(board_no, user_no);
     }
 }

@@ -9,5 +9,11 @@ public class Comment extends Time {
     private int user_no;
     private int recomment;
     private String content;
+    private boolean is_like;
+    private boolean is_dislike;
     private boolean is_blocked;
+    private boolean is_new;
+    private boolean is_best;
+    private int like_count;
+    private int dislike_count;
 }

@@ -153,7 +153,6 @@ $(document).ready(function () {
         event.preventDefault();
     });
 
-
     /** Trace Control */
     $('#header-desc ._trace-search').click(function (event) {
         let search_tab = $('#tab-search');
@@ -220,6 +219,37 @@ $(document).ready(function () {
 
     $('[data-href]').on('click', function () {
         location.href = this.dataset.href;
+    });
+
+    $('[data-bookmark]').on('click', function () {
+        let no = this.dataset.no;
+        let type = this.dataset.bookmark;
+        loginCheck().then((result) => {
+            if (result.status === 'OK') {
+                if (result.data.status) {
+                    updateBookmark(type, no).then((result) => {
+                        console.log(result);
+                        if (result.status === 'OK') {
+                            if (result.data.status) {
+                                if (result.data.type === 'insert') {
+                                    if (!this.classList.contains('is-active')) {
+                                        this.classList.add('is-active');
+                                    }
+                                    viewAlert({content: '북마크를 등록했습니다.'});
+                                } else {
+                                    if (this.classList.contains('is-active')) {
+                                        this.classList.remove('is-active');
+                                    }
+                                    viewAlert({content: '북마크를 해제했습니다.'});
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    viewAlert({content: '로그인이 필요한 기능입니다.'});
+                }
+            }
+        });
     });
 
     /** Dropdown */

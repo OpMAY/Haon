@@ -15,4 +15,8 @@ public class FarmService {
     public void insertFarm(Farm farm) {
         farmDao.insertFarm(farm);
     }
+
+    public Farm getFarmByUserNo(int user_no) {
+        return farmDao.getFarmByUserNo(user_no);
+    }
 }

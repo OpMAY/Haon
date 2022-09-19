@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.FarmMapper">
-    <resultMap id="user" type="com.model.User">
-        <result column="agree" property="agree" javaType="com.model.Agree"
+    <resultMap id="farm" type="com.model.farm.Farm">
+        <result column="profile_image" property="profile_image" javaType="com.model.common.MFile"
                 typeHandler="JsonObjectTypeHandler"/>
     </resultMap>
     <select id="getMainFarms" resultType="Farm">
@@ -25,4 +25,9 @@
                 #{farm_image, typeHandler=JsonObjectTypeHandler},
                 #{description});
     </insert>
+    <select id="getFarmByUserNo" parameterType="int" resultType="Farm" resultMap="farm">
+        select *
+        from farm
+        where user_no = #{user_no}
+    </select>
 </mapper>

@@ -35,4 +35,9 @@
         from user
         where id = #{id};
     </select>
+    <select id="getUserByNo" parameterType="int" resultType="User" resultMap="user">
+        select *
+        from user
+        where no = #{user_no}
+    </select>
 </mapper>

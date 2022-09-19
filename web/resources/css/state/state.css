@@ -210,3 +210,7 @@ input.form-control.input-box.is-focus {
     fill: var(--brand-green);
     color: var(--brand-green);
 }
+
+svg.bookmark.is-active path{
+    fill: var(--brand-green);
+}
