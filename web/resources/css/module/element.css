@@ -351,13 +351,16 @@ input.form-control.input-box {
     margin: 40px auto 16px;
 }
 
-.card.farm-card ._thumbnail > svg {
+.card.farm-card ._thumbnail > ._bookmark {
     position: absolute;
     top: 16px;
     right: 16px;
     z-index: 1;
-    fill: var(--gray-light);
     cursor: pointer;
+}
+
+.card.farm-card ._thumbnail > ._bookmark svg{
+    fill: var(--gray-light);
 }
 
 .card.farm-card ._body {

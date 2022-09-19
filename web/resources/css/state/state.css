@@ -200,8 +200,8 @@ input.form-control.input-box.is-focus {
     fill: var(--brand-green);
 }
 
-.card.farm-card ._thumbnail > svg.is-active *,
-.card.farm-card ._thumbnail > svg:hover * {
+.card.farm-card ._thumbnail > ._bookmark svg.is-active *,
+.card.farm-card ._thumbnail > ._bookmark svg:hover * {
     fill: var(--brand-green);
 }
 

@@ -10,14 +10,101 @@
                           WHERE board_no = #{board_no}
                             and user_no = #{user_no}), true, false)
     </select>
+    <select id="isMagazineBookmarkByUserNo" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM magazine_bookmark
+                          WHERE magazine_no = #{magazine_no}
+                            and user_no = #{user_no}), true, false)
+    </select>
+    <select id="isManualBookmarkByUserNo" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM manual_bookmark
+                          WHERE manual_no = #{manual_no}
+                            and user_no = #{user_no}), true, false)
+    </select>
+    <select id="isTipBookmarkByUserNo" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM tips_bookmark
+                          WHERE tips_no = #{tip_no}
+                            and user_no = #{user_no}), true, false)
+    </select>
+    <select id="isQuestionBookmarkByUserNo" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM question_bookmark
+                          WHERE question_no = #{question_no}
+                            and user_no = #{user_no}), true, false)
+    </select>
+    <select id="isFarmBookmarkByUserNo" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM farm_bookmark
+                          WHERE farm_no = #{farm_no}
+                            and user_no = #{user_no}), true, false)
+    </select>
+
     <insert id="insertBoardBookmark">
         insert into board_bookmark(board_no, user_no)
         VALUES (#{board_no}, #{user_no});
     </insert>
+    <insert id="insertMagazineBookmark">
+        insert into magazine_bookmark(magazine_no, user_no)
+        VALUES (#{magazine_no}, #{user_no});
+    </insert>
+    <insert id="insertManualBookmark">
+        insert into manual_bookmark(manual_no, user_no)
+        VALUES (#{manual_no}, #{user_no});
+    </insert>
+    <insert id="insertTipBookmark">
+        insert into tips_bookmark(tips_no, user_no)
+        VALUES (#{tip_no}, #{user_no});
+    </insert>
+    <insert id="insertQuestionBookmark">
+        insert into question_bookmark(question_no, user_no)
+        VALUES (#{question_no}, #{user_no});
+    </insert>
+    <insert id="insertFarmBookmark">
+        insert into farm_bookmark(farm_no, user_no)
+        VALUES (#{farm_no}, #{user_no});
+    </insert>
+
     <delete id="deleteBoardBookmark">
         delete
         from board_bookmark
         where board_no = #{board_no}
+          and user_no = #{user_no};
+    </delete>
+    <delete id="deleteMagazineBookmark">
+        delete
+        from magazine_bookmark
+        where magazine_no = #{magazine_no}
+          and user_no = #{user_no};
+    </delete>
+    <delete id="deleteManualBookmark">
+        delete
+        from manual_bookmark
+        where manual_no = #{manual_no}
+          and user_no = #{user_no};
+    </delete>
+    <delete id="deleteTipBookmark">
+        delete
+        from tips_bookmark
+        where tips_no = #{tip_no}
+          and user_no = #{user_no};
+    </delete>
+    <delete id="deleteQuestionBookmark">
+        delete
+        from question_bookmark
+        where question_no = #{question_no}
+          and user_no = #{user_no};
+    </delete>
+    <delete id="deleteFarmBookmark">
+        delete
+        from farm_bookmark
+        where farm_no = #{farm_no}
           and user_no = #{user_no};
     </delete>
 </mapper>
