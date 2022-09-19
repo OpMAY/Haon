@@ -170,7 +170,6 @@ public class UserRestController {
         log.info("{},{}", type, no);
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         if (BOOKMARK_TYPE.BOARD == type) {
-            log.info("???");
             if (bookmarkService.isBoardBookmarkByUserNo(no, user_no)) {
                 //북마크 해제
                 bookmarkService.deleteBoardBookmark(no, user_no);
@@ -183,13 +182,65 @@ public class UserRestController {
                 message.put("type", "insert");
             }
         } else if (BOOKMARK_TYPE.MAGAZINE == type) {
-
+            if (bookmarkService.isMagazineBookmarkByUserNo(no, user_no)) {
+                //북마크 해제
+                bookmarkService.deleteMagazineBookmark(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //북마크 등록
+                bookmarkService.insertMagazineBookmark(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else if (BOOKMARK_TYPE.MANUAL == type) {
-
-        } else if (BOOKMARK_TYPE.TIPS == type) {
-
+            if (bookmarkService.isManualBookmarkByUserNo(no, user_no)) {
+                //북마크 해제
+                bookmarkService.deleteManualBookmark(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //북마크 등록
+                bookmarkService.insertManualBookmark(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
+        } else if (BOOKMARK_TYPE.TIP == type) {
+            if (bookmarkService.isTipBookmarkByUserNo(no, user_no)) {
+                //북마크 해제
+                bookmarkService.deleteTipBookmark(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //북마크 등록
+                bookmarkService.insertTipBookmark(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else if (BOOKMARK_TYPE.QUESTION == type) {
-
+            if (bookmarkService.isQuestionBookmarkByUserNo(no, user_no)) {
+                //북마크 해제
+                bookmarkService.deleteQuestionBookmark(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //북마크 등록
+                bookmarkService.insertQuestionBookmark(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
+        } else if (BOOKMARK_TYPE.FARM == type) {
+            if (bookmarkService.isFarmBookmarkByUserNo(no, user_no)) {
+                //북마크 해제
+                bookmarkService.deleteFarmBookmark(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //북마크 등록
+                bookmarkService.insertFarmBookmark(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else {
             throw new RuntimeException();
         }
@@ -202,7 +253,6 @@ public class UserRestController {
         log.info("{},{}", type, no);
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         if (BOOKMARK_TYPE.BOARD == type) {
-            log.info("???");
             if (likeService.isBoardLikeByUserNo(no, user_no)) {
                 //좋아요 해제
                 likeService.deleteBoardLike(no, user_no);
@@ -218,7 +268,7 @@ public class UserRestController {
 
         } else if (BOOKMARK_TYPE.MANUAL == type) {
 
-        } else if (BOOKMARK_TYPE.TIPS == type) {
+        } else if (BOOKMARK_TYPE.TIP == type) {
 
         } else if (BOOKMARK_TYPE.QUESTION == type) {
 
