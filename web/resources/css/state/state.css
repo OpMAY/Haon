@@ -144,6 +144,10 @@ input.form-control.input-box.is-focus {
     transition: all 0.5s;
 }
 
+.question-accordion .card-body ._accordion-content > span:hover {
+    opacity: 0.7;
+}
+
 /* left tab states */
 ._left-tabs ._left-tab-item:hover,
 ._left-tabs ._left-tab-item.is-active {
@@ -200,8 +204,8 @@ input.form-control.input-box.is-focus {
     fill: var(--brand-green);
 }
 
-.card.farm-card ._thumbnail > svg.is-active *,
-.card.farm-card ._thumbnail > svg:hover * {
+.card.farm-card ._thumbnail > ._bookmark svg.is-active *,
+.card.farm-card ._thumbnail > ._bookmark svg:hover * {
     fill: var(--brand-green);
 }
 

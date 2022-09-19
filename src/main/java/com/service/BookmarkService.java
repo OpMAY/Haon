@@ -22,4 +22,64 @@ public class BookmarkService {
     public void deleteBoardBookmark(int board_no, int user_no) {
         bookmarkDao.deleteBoardBookmark(board_no, user_no);
     }
+
+    public boolean isMagazineBookmarkByUserNo(int magazine_no, int user_no) {
+        return bookmarkDao.isMagazineBookmarkByUserNo(magazine_no, user_no);
+    }
+
+    public void deleteMagazineBookmark(int magazine_no, int user_no) {
+        bookmarkDao.deleteMagazineBookmark(magazine_no, user_no);
+    }
+
+    public void insertMagazineBookmark(int magazine_no, int user_no) {
+        bookmarkDao.insertMagazineBookmark(magazine_no, user_no);
+    }
+
+    public boolean isManualBookmarkByUserNo(int manual_no, int user_no) {
+        return bookmarkDao.isManualBookmarkByUserNo(manual_no, user_no);
+    }
+
+    public void deleteManualBookmark(int manual_no, int user_no) {
+        bookmarkDao.deleteManualBookmark(manual_no, user_no);
+    }
+
+    public void insertManualBookmark(int manual_no, int user_no) {
+        bookmarkDao.insertManualBookmark(manual_no, user_no);
+    }
+
+    public boolean isTipBookmarkByUserNo(int tip_no, int user_no) {
+        return bookmarkDao.isTipBookmarkByUserNo(tip_no, user_no);
+    }
+
+    public void deleteTipBookmark(int tip_no, int user_no) {
+        bookmarkDao.deleteTipBookmark(tip_no, user_no);
+    }
+
+    public void insertTipBookmark(int tip_no, int user_no) {
+        bookmarkDao.insertTipBookmark(tip_no, user_no);
+    }
+
+    public boolean isQuestionBookmarkByUserNo(int question_no, int user_no) {
+        return bookmarkDao.isQuestionBookmarkByUserNo(question_no, user_no);
+    }
+
+    public void deleteQuestionBookmark(int question_no, int user_no) {
+        bookmarkDao.deleteQuestionBookmark(question_no, user_no);
+    }
+
+    public void insertQuestionBookmark(int question_no, int user_no) {
+        bookmarkDao.insertQuestionBookmark(question_no, user_no);
+    }
+
+    public boolean isFarmBookmarkByUserNo(int farm_no, int user_no) {
+        return bookmarkDao.isFarmBookmarkByUserNo(farm_no, user_no);
+    }
+
+    public void deleteFarmBookmark(int farm_no, int user_no) {
+        bookmarkDao.deleteFarmBookmark(farm_no, user_no);
+    }
+
+    public void insertFarmBookmark(int farm_no, int user_no) {
+        bookmarkDao.insertFarmBookmark(farm_no, user_no);
+    }
 }

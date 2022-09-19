@@ -18,10 +18,10 @@
                          community_email_alarm, comment_kakao_alarm, comment_email_alarm, service_kakao_alarm,
                          service_email_alarm)
         VALUES (#{id}, #{name}, #{agree, typeHandler=JsonObjectTypeHandler}, #{email},
-                #{marketing_agree}, now(),
-                #{community_kakao_alarm}, #{community_email_alarm},
-                #{comment_kakao_alarm}, #{comment_email_alarm},
-                #{service_kakao_alarm}, #{service_email_alarm})
+                #{agree.marketing_agree}, now(),
+                #{agree.community_kakao_alarm}, #{agree.community_email_alarm},
+                #{agree.comment_kakao_alarm}, #{agree.comment_email_alarm},
+                #{agree.service_kakao_alarm}, #{agree.service_email_alarm})
     </insert>
     <update id="updateUser" parameterType="User">
         update user

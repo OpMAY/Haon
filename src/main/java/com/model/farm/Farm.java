@@ -18,4 +18,6 @@ public class Farm {
     private List<String> hashtag;
     private FarmSns sns;
     private Agree agree;
+
+    private boolean is_bookmark;
 }

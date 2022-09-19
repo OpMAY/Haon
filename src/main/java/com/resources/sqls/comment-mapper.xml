@@ -7,11 +7,13 @@
         select bc.*,
                bc.no,
                bc.content,
-               (select COUNT(*) from board_comment_like WHERE comment_no = bc.no) as like_count,
+               (select COUNT(*) from board_comment_like WHERE comment_no = bc.no)    as like_count,
                (select COUNT(*) from board_comment_dislike WHERE comment_no = bc.no) as dislike_count
         from board
                  left join board_comment bc on board.no = bc.board_no
-        WHERE board.no = #{board_no} and bc.recomment is null;
+        WHERE board.no = #{board_no}
+          and bc.recomment is null
+          AND bc.no is not null;
     </select>
     <select id="getRecommentByCommentNo" resultType="BoardComment" parameterType="int">
         select *
@@ -29,5 +31,26 @@
           and recomment is null
         order by count desc
         limit 1;
+    </select>
+    <select id="checkQuestionLastCommentExists" resultType="_boolean">
+        select EXISTS(select * from question_comment WHERE no = #{last_comment_no})
+    </select>
+    <select id="getMoreQuestionComments" resultType="QuestionComment">
+        SET @LAST_COMMENT_LIKES_COUNT = (select COUNT(*)
+                                         from question_comment_like
+                                         WHERE comment_no = #{last_comment_no});
+        select qc.no,
+               qc.question_no,
+               qc.content,
+               (select COUNT(*) from question_comment_like WHERE comment_no = qc.no) as like_count
+        from question_comment qc
+        WHERE question_no = #{content_no}
+          AND qc.is_blocked = false
+          AND recomment is null
+          AND ((select COUNT(*) from question_comment_like WHERE comment_no = qc.no) <![CDATA[<]]> @LAST_COMMENT_LIKES_COUNT OR
+               ((select COUNT(*) from question_comment_like WHERE comment_no = qc.no) = @LAST_COMMENT_LIKES_COUNT AND
+                qc.no <![CDATA[>]]> #{last_comment_no}))
+        order by like_count DESC, qc.no
+        LIMIT 5;
     </select>
 </mapper>

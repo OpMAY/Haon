@@ -53,7 +53,7 @@
                                     </svg>
                                     <c:choose>
                                         <c:when test="${is_bookmark eq true}">
-                                            <svg class="bookmark is-active" data-no="${board.no}" data-bookmark="BOARD"
+                                            <svg class="bookmark is-active" data-no="${board.no}" data-detail-bookmark="BOARD"
                                                  width="32" height="32" viewBox="0 0 32 32"
                                                  fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -62,7 +62,7 @@
                                             </svg>
                                         </c:when>
                                         <c:otherwise>
-                                            <svg class="bookmark" data-no="${board.no}" data-bookmark="BOARD" width="32"
+                                            <svg class="bookmark" data-no="${board.no}" data-detail-bookmark="BOARD" width="32"
                                                  height="32" viewBox="0 0 32 32"
                                                  fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -83,7 +83,7 @@
                             <div class="_detail-footer">
                                 <c:choose>
                                     <c:when test="${is_like eq true}">
-                                        <div data-no="${board.no}" data-like="BOARD" class="_like is-active">
+                                        <div data-no="${board.no}" data-detail-like="BOARD" class="_like is-active">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_261_12739)">
@@ -100,7 +100,7 @@
                                         </div>
                                     </c:when>
                                     <c:otherwise>
-                                        <div data-no="${board.no}" data-like="BOARD" class="_like">
+                                        <div data-no="${board.no}" data-detail-like="BOARD" class="_like">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_261_12739)">
@@ -323,18 +323,20 @@
                                     <div class="card farm-card">
                                         <div class="background-image _thumbnail"
                                              style="background-image: url('/resources/assets/images/sample/sample_profile_1.png')">
-                                            <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <g clip-path="url(#clip0_204_2957)">
-                                                    <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"></path>
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_204_2957">
-                                                        <rect width="24.0923" height="24"
-                                                              transform="translate(0.0500488)"></rect>
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
+                                            <div class="_bookmark" data-bookmark="FARM" data-no="4">
+                                                <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <g clip-path="url(#clip0_204_2957)">
+                                                        <path d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"></path>
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_204_2957">
+                                                            <rect width="24.0923" height="24"
+                                                                  transform="translate(0.0500488)"></rect>
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                            </div>
                                         </div>
                                         <div class="card-body _body">
                                             <h5 class="card-title _title bold-h4 c-basic-black">Name</h5>
@@ -474,10 +476,73 @@
                 $number_span.html(($number_span.html() * 1 + 1));
             }
         });
-
-        $('[data-like]').on('click', function () {
+        $('[data-detail-bookmark]').on('click', function () {
             let no = this.dataset.no;
-            let type = this.dataset.like;
+            let type = this.dataset.detailBookmark;
+            loginCheck().then((result) => {
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        updateBookmark(type, no).then((result) => {
+                            console.log(result);
+                            if (result.status === 'OK') {
+                                if (result.data.status) {
+                                    if (result.data.type === 'insert') {
+                                        if (!this.classList.contains('is-active')) {
+                                            this.classList.add('is-active');
+                                        }
+                                        viewAlert({content: '북마크를 등록했습니다.'});
+                                    } else {
+                                        if (this.classList.contains('is-active')) {
+                                            this.classList.remove('is-active');
+                                        }
+                                        viewAlert({content: '북마크를 해제했습니다.'});
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        viewAlert({content: '로그인이 필요한 기능입니다.'});
+                    }
+                }
+            });
+        });
+        $('[data-detail-like]').on('click', function () {
+            let no = this.dataset.no;
+            let type = this.dataset.detailLike;
+            loginCheck().then((result) => {
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        updateLike(type, no).then((result) => {
+                            console.log(result);
+                            if (result.status === 'OK') {
+                                if (result.data.status) {
+                                    let count = this.querySelector('span').textContent * 1;
+                                    if (result.data.type === 'insert') {
+                                        if (!this.classList.contains('is-active')) {
+                                            this.classList.add('is-active');
+                                        }
+                                        console.log(this);
+                                        this.querySelector('span').innerHTML = ++count;
+                                        viewAlert({content: '좋아요를 표시했습니다.'});
+                                    } else {
+                                        if (this.classList.contains('is-active')) {
+                                            this.classList.remove('is-active');
+                                        }
+                                        this.querySelector('span').innerHTML = --count;
+                                        viewAlert({content: '좋아요 표시를 해제했습니다.'});
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        viewAlert({content: '로그인이 필요한 기능입니다.'});
+                    }
+                }
+            });
+        });
+        $('[data-comment-like]').on('click', function () {
+            let no = this.dataset.no;
+            let type = this.dataset.detailLike;
             loginCheck().then((result) => {
                 if (result.status === 'OK') {
                     if (result.data.status) {

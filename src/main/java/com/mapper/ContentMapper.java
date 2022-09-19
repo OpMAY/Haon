@@ -22,4 +22,8 @@ public interface ContentMapper {
     List<QuestionSummary> getMainQuestions();
 
     Board getBoard(@Param("board_no") int board_no);
+
+    void updateBoardViews(@Param("board_no") int board_no);
+
+    boolean checkQuestionContentExists(@Param("question_no") int question_no);
 }
