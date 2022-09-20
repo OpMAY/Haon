@@ -255,7 +255,7 @@ public class ContentService {
         }
         for (Farm farm : farms) {
             if (userNo != null)
-                farm.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(farm.getNo(), userNo));
+                farm.set_bookmark(bookmarkDao.isFarmBookmarkByUserNo(farm.getNo(), userNo));
         }
         return farms;
     }
@@ -530,7 +530,7 @@ public class ContentService {
 
                 for (Farm farm : farms) {
                     if (userNo != null) {
-                        farm.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(farm.getNo(), userNo));
+                        farm.set_bookmark(bookmarkDao.isFarmBookmarkByUserNo(farm.getNo(), userNo));
                     }
                 }
                 message.put("list", farms);
