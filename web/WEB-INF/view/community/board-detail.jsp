@@ -2,6 +2,7 @@
 <%@ page import="com.model.content.board.BoardTransaction" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.model.content.board.BoardComment" %>
+<%@ page import="com.model.farm.Farm" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -20,6 +21,13 @@
 
     ArrayList<BoardComment> comments = (ArrayList<BoardComment>) request.getAttribute("comments");
     request.setAttribute("comments", comments);
+
+    Farm farm = (Farm) request.getAttribute("farm");
+    request.setAttribute("farm", farm);
+    ArrayList<Board> other_boards = (ArrayList<Board>) request.getAttribute("other_boards");
+    request.setAttribute("other_boards", other_boards);
+    ArrayList<Board> fame_boards = (ArrayList<Board>) request.getAttribute("fame_boards");
+    request.setAttribute("fame_boards", fame_boards);
 %>
 <html lang="ko">
 <jsp:include page="../common/head.jsp"/>
@@ -125,6 +133,10 @@
                             </div>
                         </div>
                         <div class="_comments">
+                            <div class="form-group form-inner-button">
+                                <input data-type="BOARD" data-no="${board.no}" type="text" placeholder="댓글을 입력하세요." class="form-control input-box medium-h5">
+                                <button onclick="writeComment(this);" type="button" class="btn btn-sm btn-brand bold-h5">작성</button>
+                            </div>
                             <c:forEach items="${comments}" var="comment" varStatus="status">
                                 <div class="comment-container">
                                     <div class="_comment">
@@ -236,7 +248,8 @@
                                             <div class="_reply">
                                                 <c:if test="${comment.owner_checked eq true}">
                                                     <span class="medium-h5 c-gray-dark-low _delete"
-                                                          data-no="${comment.no}" data-type="BOARD" data-parent="parent">삭제</span>
+                                                          data-no="${comment.no}" data-type="BOARD"
+                                                          data-parent="parent">삭제</span>
                                                 </c:if>
                                                 <span class="medium-h5 c-gray-dark-low _do"
                                                       data-comment-no="${comment.no}" data-type="BOARD"
@@ -289,7 +302,9 @@
                                                         <div class="_transactions">
                                                             <div class="_reply">
                                                                 <c:if test="${recomment.owner_checked eq true}">
-                                                                    <span class="medium-h5 c-gray-dark-low _delete mr-0" data-no="${recomment.no}" data-type="BOARD" data-parent="self">삭제</span>
+                                                                    <span class="medium-h5 c-gray-dark-low _delete mr-0"
+                                                                          data-no="${recomment.no}" data-type="BOARD"
+                                                                          data-parent="self">삭제</span>
                                                                 </c:if>
                                                             </div>
                                                         </div>
@@ -322,7 +337,9 @@
                                                         <div class="_transactions">
                                                             <div class="_reply">
                                                                 <c:if test="${recomment.owner_checked eq true}">
-                                                                    <span class="medium-h5 c-gray-dark-low _delete mr-0" data-no="${recomment.no}" data-type="BOARD" data-parent="self">삭제</span>
+                                                                    <span class="medium-h5 c-gray-dark-low _delete mr-0"
+                                                                          data-no="${recomment.no}" data-type="BOARD"
+                                                                          data-parent="self">삭제</span>
                                                                 </c:if>
                                                             </div>
                                                         </div>
@@ -343,8 +360,8 @@
                                 <div class="_community-module mb-32">
                                     <div class="card farm-card">
                                         <div class="background-image _thumbnail"
-                                             style="background-image: url('/resources/assets/images/sample/sample_profile_1.png')">
-                                            <div class="_bookmark" data-bookmark="FARM" data-no="4">
+                                             style="background-image: url('${farm.profile_image.url}')">
+                                            <div class="_bookmark" data-bookmark="FARM" data-no="${farm.no}">
                                                 <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <g clip-path="url(#clip0_204_2957)">
@@ -360,76 +377,70 @@
                                             </div>
                                         </div>
                                         <div class="card-body _body">
-                                            <h5 class="card-title _title bold-h4 c-basic-black">Name</h5>
-                                            <p class="card-text _farm-type bold-h5 c-brand-green">축산 농사</p>
-                                            <div class="_hashs">
-                                                <span class="_hash c-gray-medium medium-p1">해시태그1</span>
-                                                <span class="_hash c-gray-medium medium-p1">해시1</span>
-                                                <span class="_hash c-gray-medium medium-p1">해시</span>
-                                            </div>
+                                            <h5 class="card-title _title bold-h4 c-basic-black">${farm.name}</h5>
+                                            <p class="card-text _farm-type bold-h5 c-brand-green">${farm.type.korName}</p>
+                                            <c:choose>
+                                                <c:when test="${farm.hashtag.size() ne 0}">
+                                                    <c:forEach items="${farm.hashtag}" var="hash" varStatus="status">
+                                                        <c:if test="${status.first}">
+                                                            <div class="_hashs">
+                                                        </c:if>
+                                                        <span class="_hash c-gray-medium medium-p1">해시태그1</span>
+                                                        <c:if test="${status.last}">
+                                                            </div>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    해시태그가 없습니다.
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
                                         <div class="_footer">
-                                            <button type="button" class="btn btn-brand-opacity btn-block bold-h5">
+                                            <button data-href="/farm/detail/${farm.no}" type="button"
+                                                    class="btn btn-brand-opacity btn-block bold-h5">
                                                 농장 자세히 보기
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12 col-12">
-                                <div class="_community-module mb-32">
-                                    <div class="_title bold-h5 c-gray-dark-low">
-                                        오키위가 작성한 다른 게시글
-                                    </div>
-                                    <div class="_related-board-list">
-                                        <div class="_related-board-container ellipsis-one-line">
-                                            <span class="medium-h6">양 &amp; 소는 풀을 너무 많이 먹는데 어떻게 해야하나요오오오옹오?</span>
-                                        </div>
-                                        <div class="_related-board-container ellipsis-one-line">
-                                            <span class="medium-h6">양 &amp; 소는 풀을 너무 많이 먹는데 어떻게 해야하나요오오오옹오?</span>
-                                        </div>
-                                        <div class="_related-board-container ellipsis-one-line">
-                                            <span class="medium-h6">양 &amp; 소는 풀을 너무 많이 먹는데 어떻게 해야하나요오오오옹오?</span>
-                                        </div>
-                                        <div class="_related-board-container ellipsis-one-line">
-                                            <span class="medium-h6">양 &amp; 소는 풀을 너무 많이 먹는데 어떻게 해야하나요오오오옹오?</span>
-                                        </div>
-                                        <div class="_related-board-container ellipsis-one-line">
-                                            <span class="medium-h6">양 &amp; 소는 풀을 너무 많이 먹는데 어떻게 해야하나요오오오옹오?</span>
-                                        </div>
-                                        <div class="_related-board-container ellipsis-one-line">
-                                            <span class="medium-h6">양 &amp; 소는 풀을 너무 많이 먹는데 어떻게 해야하나요오오오옹오?</span>
+                            <c:choose>
+                                <c:when test="${other_boards.size() ne 0}">
+                                    <div class="col-lg-12 col-12">
+                                        <div class="_community-module mb-32">
+                                            <div class="_title bold-h5 c-gray-dark-low">
+                                                    ${farm.name}님이 작성한 다른 게시글
+                                            </div>
+                                            <div class="_related-board-list">
+                                                <c:forEach items="${other_boards}" var="board" end="3">
+                                                    <div data-href="/community/board/detail/${board.no}" class="_related-board-container ellipsis-one-line">
+                                                        <span class="medium-h6">${board.title}</span>
+                                                    </div>
+                                                </c:forEach>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-12">
-                                <div class="_community-module">
-                                    <div class="_title bold-h5 c-gray-dark-low">
-                                        인기 & 추천 게시글
-                                    </div>
-                                    <div class="_related-board-list">
-                                        <div class="_related-board-container ellipsis-one-line">
-                                            <span class="medium-h6">양 &amp; 소는 풀을 너무 많이 먹는데 어떻게 해야하나요오오오옹오?</span>
-                                        </div>
-                                        <div class="_related-board-container ellipsis-one-line">
-                                            <span class="medium-h6">양 &amp; 소는 풀을 너무 많이 먹는데 어떻게 해야하나요오오오옹오?</span>
-                                        </div>
-                                        <div class="_related-board-container ellipsis-one-line">
-                                            <span class="medium-h6">양 &amp; 소는 풀을 너무 많이 먹는데 어떻게 해야하나요오오오옹오?</span>
-                                        </div>
-                                        <div class="_related-board-container ellipsis-one-line">
-                                            <span class="medium-h6">양 &amp; 소는 풀을 너무 많이 먹는데 어떻게 해야하나요오오오옹오?</span>
-                                        </div>
-                                        <div class="_related-board-container ellipsis-one-line">
-                                            <span class="medium-h6">양 &amp; 소는 풀을 너무 많이 먹는데 어떻게 해야하나요오오오옹오?</span>
-                                        </div>
-                                        <div class="_related-board-container ellipsis-one-line">
-                                            <span class="medium-h6">양 &amp; 소는 풀을 너무 많이 먹는데 어떻게 해야하나요오오오옹오?</span>
+                                </c:when>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${fame_boards.size() ne 0}">
+                                    <div class="col-lg-12 col-12">
+                                        <div class="_community-module">
+                                            <div class="_title bold-h5 c-gray-dark-low">
+                                                인기 & 추천 게시글
+                                            </div>
+                                            <div class="_related-board-list">
+                                                <c:forEach items="${fame_boards}" var="board" end="3">
+                                                    <div data-href="/community/board/detail/${board.no}" class="_related-board-container ellipsis-one-line">
+                                                        <span class="medium-h6">${board.title}</span>
+                                                    </div>
+                                                </c:forEach>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                </c:when>
+                            </c:choose>
                         </div>
                     </div>
                 </div>
@@ -480,7 +491,7 @@
                 }
             });
         });
-        
+
         $('[data-detail-like]').on('click', function () {
             let no = this.dataset.no;
             let type = this.dataset.detailLike;

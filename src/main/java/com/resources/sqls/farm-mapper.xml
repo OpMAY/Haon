@@ -6,6 +6,8 @@
     <resultMap id="farm" type="com.model.farm.Farm">
         <result column="profile_image" property="profile_image" javaType="com.model.common.MFile"
                 typeHandler="JsonObjectTypeHandler"/>
+        <result column="farm_image" property="farm_image" javaType="com.model.common.MFile"
+                typeHandler="JsonObjectTypeHandler"/>
         <result column="hashtag" property="hashtag"
                 typeHandler="StringArrayListTypeHandler"/>
         <result column="sns" property="sns" typeHandler="JsonObjectTypeHandler"/>
@@ -32,5 +34,10 @@
         select *
         from farm
         where user_no = #{user_no}
+    </select>
+    <select id="getFarmByFarmNo" parameterType="int" resultType="Farm" resultMap="farm">
+        select *
+        from farm
+        where no = #{farm_no}
     </select>
 </mapper>

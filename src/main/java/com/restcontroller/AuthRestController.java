@@ -25,7 +25,15 @@ public class AuthRestController {
     private String KAKAO_JAVASCRIPT;
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public ResponseEntity<String> logout(HttpServletRequest request) {
+    public ResponseEntity<String> postLogout(HttpServletRequest request) {
+        if (request.getSession().getAttribute(JWTEnum.JWTToken.name()) != null) {
+            request.getSession().removeAttribute(JWTEnum.JWTToken.name());
+        }
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public ResponseEntity<String> getLogout(HttpServletRequest request) {
         if (request.getSession().getAttribute(JWTEnum.JWTToken.name()) != null) {
             request.getSession().removeAttribute(JWTEnum.JWTToken.name());
         }

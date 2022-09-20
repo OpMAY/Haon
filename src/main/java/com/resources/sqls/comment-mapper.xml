@@ -32,7 +32,10 @@
         order by count desc
         limit 1;
     </select>
-
+    <insert id="insertBoardComment" parameterType="BoardComment" keyProperty="no" useGeneratedKeys="true">
+        insert into board_comment(user_no, board_no, content, reg_datetime, is_blocked, owner_checked)
+        VALUES (#{user_no}, #{board_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
+    </insert>
     <insert id="insertBoardCommentReply" parameterType="BoardComment" keyProperty="no" useGeneratedKeys="true">
         insert into board_comment(user_no, recomment, board_no, content, reg_datetime, is_blocked, owner_checked)
         VALUES (#{user_no}, #{recomment}, #{board_no}, #{content}, now(), #{is_blocked}, #{owner_checked})

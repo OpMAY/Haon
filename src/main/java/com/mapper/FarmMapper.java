@@ -13,4 +13,6 @@ public interface FarmMapper {
     void insertFarm(Farm farm);
 
     Farm getFarmByUserNo(@Param("user_no") int user_no);
+
+    Farm getFarmByFarmNo(@Param("farm_no") int farm_no);
 }

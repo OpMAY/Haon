@@ -79,4 +79,17 @@
     <select id="checkQuestionContentExists" resultType="_boolean">
         select EXISTS(select * from questions WHERE no = #{question_no})
     </select>
+    <select id="getBoards" resultType="Board">
+        select *
+        from board
+        where farm_no = #{farm_no}
+    </select>
+    <select id="getFameBoards" resultType="Board">
+        select *, COUNT(bl.board_no) as cnt
+        from board as b
+                 inner join board_like as bl on bl.board_no = b.no
+        where b.farm_no = #{farm_no}
+        group by bl.board_no, b.views
+        order by cnt desc, b.views desc
+    </select>
 </mapper>

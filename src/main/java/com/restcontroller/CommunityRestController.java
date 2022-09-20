@@ -46,13 +46,62 @@ public class CommunityRestController {
     @RequestMapping(value = "/review/create", method = RequestMethod.POST)
     public ResponseEntity<String> insertReview(HttpServletRequest request, @RequestBody Map<String, Object> map) {
         Message message = new Message();
-        // Request
-        String type = map.get("type").toString();
+        COMMENT_TYPE type = COMMENT_TYPE.valueOf(map.get("type").toString());
         Integer no = Integer.valueOf(map.get("no").toString());
         String content = map.get("content").toString();
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        switch (type) {
+            case BOARD:
+                //Create Comment
+                BoardComment boardComment = new BoardComment();
+                boardComment.setBoard_no(no);
+                boardComment.setUser_no(user_no);
+                boardComment.setContent(content);
+                boardComment.set_blocked(false);
+                boardComment.setOwner_checked(false);
+                //Comment Insert
+                int created_comment_no = commentService.insertBoardComment(boardComment);
+                //Get Inserted Comment
+                boardComment = commentService.getBoardCommentByNo(created_comment_no);
+                //Comment Setting
+                User commented_user = userService.getUserByNo(boardComment.getUser_no());
 
-        // Response
-        message.put("a", "a");
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    log.info("farm {}", farm.toString());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    boardComment.setUser(commented_user);
+                } else {
+                    log.info("SAMPLE_PROFILE_URL {}", SAMPLE_PROFILE_URL);
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    boardComment.setUser(commented_user);
+                }
+
+                message.put("comment", boardComment);
+                message.put("status", true);
+                break;
+            case MAGAZINE:
+                message.put("status", true);
+                break;
+            case MANUAL:
+                message.put("status", true);
+                break;
+            case QUESTION:
+                message.put("status", true);
+                break;
+            case TIP:
+                message.put("status", true);
+                break;
+            default:
+                message.put("status", false);
+        }
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 

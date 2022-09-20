@@ -23,4 +23,6 @@ public interface CommentMapper {
     boolean checkQuestionLastCommentExists(@Param("last_comment_no") int last_comment_no);
 
     List<QuestionComment> getMoreQuestionComments(@Param("content_no") int content_no, @Param("last_comment_no") int last_comment_no);
+
+    void insertBoardComment(BoardComment boardComment);
 }

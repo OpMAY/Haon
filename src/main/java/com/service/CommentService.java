@@ -33,7 +33,11 @@ public class CommentService {
     }
 
     public boolean isBestBoardComment(int board_no, int comment_no) {
-        return commentDao.getBestBoardComment(board_no).getNo() == comment_no;
+        BoardComment boardComment = commentDao.getBestBoardComment(board_no);
+        if (boardComment.getCount() != null && boardComment.getCount().intValue() != 0) {
+            return commentDao.getBestBoardComment(board_no).getNo() == comment_no;
+        }
+        return false;
     }
 
     public int insertBoardCommentReply(BoardComment boardComment) {
@@ -46,9 +50,9 @@ public class CommentService {
     }
 
     public void deleteBoardCommentByNoAndUserNo(int user_no, int comment_no) {
-        commentDao.deleteBoardCommentByNoAndUserNo(user_no, comment_no);    
+        commentDao.deleteBoardCommentByNoAndUserNo(user_no, comment_no);
     }
-    
+
     public Message getMoreComments(String type, int content_no, int last_comment_no) {
         Message message = new Message();
         // types : BOARD, MAGAZINE, MANUAL, TIP, QUESTION
@@ -65,7 +69,7 @@ public class CommentService {
             case "tip":
                 break;
             case "question":
-                if(!contentDao.checkQuestionContentExists(content_no)) {
+                if (!contentDao.checkQuestionContentExists(content_no)) {
                     message.put("status", false);
                 } else if (!commentDao.checkQuestionLastCommentExists(last_comment_no)) {
                     message.put("status", false);
@@ -79,5 +83,10 @@ public class CommentService {
                 throw new RuntimeException();
         }
         return message;
+    }
+
+    public int insertBoardComment(BoardComment boardComment) {
+        commentDao.insertBoardComment(boardComment);
+        return boardComment.getNo();
     }
 }

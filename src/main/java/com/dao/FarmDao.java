@@ -31,4 +31,8 @@ public class FarmDao {
     public Farm getFarmByUserNo(int user_no) {
         return mapper.getFarmByUserNo(user_no);
     }
+
+    public Farm getFarmByFarmNo(int farm_no) {
+        return mapper.getFarmByFarmNo(farm_no);
+    }
 }

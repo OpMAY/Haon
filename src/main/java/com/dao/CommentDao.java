@@ -50,4 +50,8 @@ public class CommentDao {
     public boolean checkQuestionLastCommentExists(int last_comment_no) {
         return mapper.checkQuestionLastCommentExists(last_comment_no);
     }
+
+    public void insertBoardComment(BoardComment boardComment) {
+        mapper.insertBoardComment(boardComment);
+    }
 }

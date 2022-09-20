@@ -8,6 +8,7 @@ import com.model.content.question.QuestionSummary;
 import com.model.content.tips.Tips;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface ContentMapper {
@@ -26,4 +27,8 @@ public interface ContentMapper {
     void updateBoardViews(@Param("board_no") int board_no);
 
     boolean checkQuestionContentExists(@Param("question_no") int question_no);
+
+    ArrayList<Board> getBoards(@Param("farm_no") int farm_no);
+
+    ArrayList<Board> getFameBoards(@Param("farm_no") int farm_no);
 }

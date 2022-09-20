@@ -49,7 +49,10 @@ public class CommunityController {
         ModelAndView VIEW = new ModelAndView("community/board-detail");
         log.info("{}", board_no);
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        //Get Board Detail Data
         Board board = contentService.getBoard(board_no);
+
+        //Get Board Like Bookmark Data
         ArrayList<BoardTransaction> likes = likeService.getLikesByBoardNo(board_no);
         boolean is_like = false;
         boolean is_bookmark = false;
@@ -62,10 +65,12 @@ public class CommunityController {
             is_bookmark = bookmarkService.isBoardBookmarkByUserNo(board_no, user_no);
         }
 
+        //Get Comment
         ArrayList<BoardComment> comments = commentService.getBoardComments(board_no);
         for (BoardComment comment : comments) {
-            User commented_user = userService.getUserByNo(comment.getUser_no());
-            if (commented_user != null) {
+            User commented_user = null;
+            if (comment.getUser_no() != null) {
+                commented_user = userService.getUserByNo(comment.getUser_no());
                 if (globalService.checkFarm(commented_user.getNo())) {
                     Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
                     log.info("farm {}", farm.toString());
@@ -104,9 +109,9 @@ public class CommunityController {
 
             ArrayList<BoardComment> recomments = commentService.getRecommentByCommentNo(comment.getNo());
             for (BoardComment recomment : recomments) {
-                User recommented_user = userService.getUserByNo(recomment.getUser_no());
-                log.info("recommented_user,{},{},{}", recommented_user.getNo(), user_no, user_no != null && (user_no.intValue() == recommented_user.getNo()));
-                if (recommented_user != null) {
+                User recommented_user = null;
+                if (recomment.getUser_no() != null) {
+                    recommented_user = userService.getUserByNo(recomment.getUser_no());
                     if (globalService.checkFarm(recommented_user.getNo())) {
                         Farm farm = farmService.getFarmByUserNo(recommented_user.getNo());
                         recommented_user.setProfile_img(farm.getProfile_image());
@@ -140,7 +145,9 @@ public class CommunityController {
                     recomment.setOwner_checked(false);
                 }
             }
+
             comment.setComments(recomments);
+
             if (user_no != null && user_no.intValue() == commented_user.getNo()) {
                 comment.setOwner_checked(true);
             } else {
@@ -149,11 +156,21 @@ public class CommunityController {
             comment.set_best(commentService.isBestBoardComment(comment.getBoard_no(), comment.getNo()));
         }
 
+        //Get Farm Data
+        Farm farm = farmService.getFarmByFarmNo(board.getFarm_no());
+        //Get Farm Other Boards
+        ArrayList<Board> other_boards = contentService.getBoards(board.getFarm_no());
+        //Get Farm Favorite Boards
+        ArrayList<Board> fame_boards = contentService.getFameBoards(board.getFarm_no());
+
         VIEW.addObject("board", board);
         VIEW.addObject("likes", likes);
         VIEW.addObject("is_like", is_like);
         VIEW.addObject("is_bookmark", is_bookmark);
         VIEW.addObject("comments", comments);
+        VIEW.addObject("farm", farm);
+        VIEW.addObject("fame_boards", fame_boards);
+        VIEW.addObject("other_boards", other_boards);
         return VIEW;
     }
 

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -51,5 +52,13 @@ public class ContentDao {
 
     public boolean checkQuestionContentExists(int question_no) {
         return mapper.checkQuestionContentExists(question_no);
+    }
+
+    public ArrayList<Board> getBoards(int farm_no) {
+        return mapper.getBoards(farm_no);
+    }
+
+    public ArrayList<Board> getFameBoards(int farm_no) {
+        return mapper.getFameBoards(farm_no);
     }
 }

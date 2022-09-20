@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -39,5 +41,13 @@ public class ContentService {
     @Transactional
     public void updateBoardViews(int board_no) {
         contentDao.updateBoardViews(board_no);
+    }
+
+    public ArrayList<Board> getBoards(int farm_no) {
+        return contentDao.getBoards(farm_no);
+    }
+
+    public ArrayList<Board> getFameBoards(int farm_no) {
+        return contentDao.getFameBoards(farm_no);
     }
 }

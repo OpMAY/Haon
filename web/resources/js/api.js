@@ -210,6 +210,36 @@ async function insertReview(type, no, content) {
     }
 }
 
+async function insertReview(type, no, content) {
+    function apiInsertReview(type, no, content) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const raw = JSON.stringify({
+            type,
+            no,
+            content
+        });
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw
+        };
+        const response = fetch(`${host}/api/review/create`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiInsertReview(type, no, content);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 async function insertReviewReply(type, no, content, comment_no) {
     function apiInsertReviewReply(type, no, content, comment_no) {
         const myHeaders = new Headers();
