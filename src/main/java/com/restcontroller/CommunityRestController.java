@@ -4,13 +4,11 @@ import com.model.User;
 import com.model.common.MFile;
 import com.model.content.board.BoardComment;
 import com.model.content.common.COMMENT_TYPE;
+import com.model.content.common.ORDER_TYPE;
 import com.model.farm.Farm;
 import com.response.DefaultRes;
 import com.response.Message;
-import com.service.CommentService;
-import com.service.FarmService;
-import com.service.GlobalService;
-import com.service.UserService;
+import com.service.*;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +40,7 @@ public class CommunityRestController {
     private final UserService userService;
     private final FarmService farmService;
     private final GlobalService globalService;
+    private final ContentService contentService;
 
     @RequestMapping(value = "/review/create", method = RequestMethod.POST)
     public ResponseEntity<String> insertReview(HttpServletRequest request, @RequestBody Map<String, Object> map) {
@@ -209,6 +208,16 @@ public class CommunityRestController {
     @RequestMapping(value = "/get/{type}/comment/{content_no}/{last_comment_no}", method = RequestMethod.GET)
     public ResponseEntity getMoreComments(@PathVariable("type") String type, @PathVariable("content_no") int content_no, @PathVariable("last_comment_no") int last_comment_no) {
         Message message = commentService.getMoreComments(type, content_no, last_comment_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/get/{type}/content/{content_no}", method = RequestMethod.GET)
+    public ResponseEntity getContentList(@PathVariable("type") String type,
+                                         @PathVariable("content_no") int content_no,
+                                         @RequestParam("order") ORDER_TYPE order_type,
+                                         @RequestParam("category") String category,
+                                         HttpServletRequest request) {
+        Message message = contentService.getContentList(type, content_no, order_type, category, request);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 }

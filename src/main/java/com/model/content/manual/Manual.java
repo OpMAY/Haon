@@ -8,4 +8,5 @@ import lombok.Data;
 public class Manual extends ContentForm {
     private int farm_no;
     private MFile thumbnail;
+    private MFile profile_image;
 }

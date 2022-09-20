@@ -5,6 +5,11 @@ import com.model.common.MFile;
 import com.model.content.board.Board;
 import com.model.content.board.BoardComment;
 import com.model.content.board.BoardTransaction;
+import com.model.content.common.ORDER_TYPE;
+import com.model.content.magazine.Magazine;
+import com.model.content.manual.Manual;
+import com.model.content.question.QuestionSummary;
+import com.model.content.tips.Tips;
 import com.model.farm.Farm;
 import com.service.*;
 import com.util.Encryption.EncryptionService;
@@ -20,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -160,6 +166,8 @@ public class CommunityController {
     @RequestMapping(value = "/boards", method = RequestMethod.GET)
     public ModelAndView communityBoardsPage() {
         ModelAndView VIEW = new ModelAndView("community/boards");
+        List<Board> boards = contentService.getCommunityBoardsPage(null, ORDER_TYPE.RECENT);
+        VIEW.addObject("boards", boards);
         return VIEW;
     }
 
@@ -170,8 +178,10 @@ public class CommunityController {
     }
 
     @RequestMapping(value = "/farms", method = RequestMethod.GET)
-    public ModelAndView communityFarmsPage() {
+    public ModelAndView communityFarmsPage(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("community/farms");
+        List<Farm> farms = contentService.getCommunityFarmsPage(ORDER_TYPE.RECENT, request);
+        VIEW.addObject("farms", farms);
         return VIEW;
     }
 
@@ -182,8 +192,10 @@ public class CommunityController {
     }
 
     @RequestMapping(value = "/magazines", method = RequestMethod.GET)
-    public ModelAndView communityMagazinesPage() {
+    public ModelAndView communityMagazinesPage(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("community/magazines");
+        List<Magazine> magazines = contentService.getCommunityMagazinesPage(null, ORDER_TYPE.RECENT, request);
+        VIEW.addObject("magazines", magazines);
         return VIEW;
     }
 
@@ -196,6 +208,8 @@ public class CommunityController {
     @RequestMapping(value = "/questions", method = RequestMethod.GET)
     public ModelAndView communityQuestionsPage() {
         ModelAndView VIEW = new ModelAndView("community/qeustions");
+        List<QuestionSummary> questions = contentService.getCommunityQuestionsPage(null, ORDER_TYPE.RECENT);
+        VIEW.addObject("questions", questions);
         return VIEW;
     }
 
@@ -206,14 +220,18 @@ public class CommunityController {
     }
 
     @RequestMapping(value = "/tips", method = RequestMethod.GET)
-    public ModelAndView communityTipsPage() {
+    public ModelAndView communityTipsPage(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("community/tips");
+        List<Tips> tips = contentService.getCommunityTipsPage(null, ORDER_TYPE.RECENT, request);
+        VIEW.addObject("tips", tips);
         return VIEW;
     }
 
     @RequestMapping(value = "/manuals", method = RequestMethod.GET)
-    public ModelAndView communityManualsPage() {
+    public ModelAndView communityManualsPage(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("community/manuals");
+        List<Manual> manuals = contentService.getCommunityManualsPage(null, ORDER_TYPE.RECENT, request);
+        VIEW.addObject("manuals", manuals);
         return VIEW;
     }
 }
