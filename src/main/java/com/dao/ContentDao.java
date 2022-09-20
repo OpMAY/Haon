@@ -92,4 +92,44 @@ public class ContentDao {
     public List<Board> getCommunityBoardsOrderByBookmarksReload(String category, int content_no) {
         return mapper.getCommunityBoardsOrderByBookmarksReload(category, content_no);
     }
+
+    public List<Tips> getCommunityTipsOrderByRecent(String category) {
+        return mapper.getCommunityTipsOrderByRecent(category);
+    }
+
+    public List<Tips> getCommunityTipsOrderByViews(String category) {
+        return mapper.getCommunityTipsOrderByViews(category);
+    }
+
+    public List<Tips> getCommunityTipsOrderByComments(String category) {
+        return mapper.getCommunityTipsOrderByComments(category);
+    }
+
+    public List<Tips> getCommunityTipsOrderByLikes(String category) {
+        return mapper.getCommunityTipsOrderByLikes(category);
+    }
+
+    public List<Tips> getCommunityTipsOrderByBookmarks(String category) {
+        return mapper.getCommunityTipsOrderByBookmarks(category);
+    }
+
+    public List<Tips> getCommunityTipsOrderByRecentReload(String category, int content_no) {
+        return mapper.getCommunityTipsOrderByRecentReload(category, content_no);
+    }
+
+    public List<Tips> getCommunityTipsOrderByViewsReload(String category, int content_no) {
+        return mapper.getCommunityTipsOrderByViewsReload(category, content_no);
+    }
+
+    public List<Tips> getCommunityTipsOrderByCommentsReload(String category, int content_no) {
+        return mapper.getCommunityTipsOrderByCommentsReload(category, content_no);
+    }
+
+    public List<Tips> getCommunityTipsOrderByLikesReload(String category, int content_no) {
+        return mapper.getCommunityTipsOrderByLikesReload(category, content_no);
+    }
+
+    public List<Tips> getCommunityTipsOrderByBookmarksReload(String category, int content_no) {
+        return mapper.getCommunityTipsOrderByBookmarksReload(category, content_no);
+    }
 }

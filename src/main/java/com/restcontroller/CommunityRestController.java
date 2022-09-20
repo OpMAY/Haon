@@ -213,10 +213,11 @@ public class CommunityRestController {
 
     @RequestMapping(value = "/get/{type}/content/{content_no}", method = RequestMethod.GET)
     public ResponseEntity getContentList(@PathVariable("type") String type,
-                                          @PathVariable("content_no") int content_no,
-                                          @RequestParam("order") ORDER_TYPE order_type,
-                                          @RequestParam("category") String category) {
-        Message message = contentService.getContentList(type, content_no, order_type, category);
+                                         @PathVariable("content_no") int content_no,
+                                         @RequestParam("order") ORDER_TYPE order_type,
+                                         @RequestParam("category") String category,
+                                         HttpServletRequest request) {
+        Message message = contentService.getContentList(type, content_no, order_type, category, request);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 }

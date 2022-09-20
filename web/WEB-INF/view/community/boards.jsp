@@ -26,7 +26,6 @@
                 </div>
             </div>
             <div class="filter-dropdown-container">
-                <!--TODO Filter -->
                 <div class="dropdown input-dropdown">
                     <div data-toggle="dropdown" aria-expanded="false"
                          class="form-group form-inner-button form-md form-green">
@@ -93,13 +92,10 @@
                             <div data-value="">전체</div>
                         </a>
                         <a class="dropdown-item c-gray-light medium-h5">
-                            <div data-value="카테고리 1">카테고리 1</div>
+                            <div data-value="관리자가 선택한 카테고리 1">관리자가 선택한 카테고리 1</div>
                         </a>
                         <a class="dropdown-item c-gray-light medium-h5">
-                            <div data-value="카테고리 2">카테고리 2</div>
-                        </a>
-                        <a class="dropdown-item c-gray-light medium-h5">
-                            <div data-value="카테고리 3">카테고리 3</div>
+                            <div data-value="관리자가 선택한 카테고리 2">관리자가 선택한 카테고리 2</div>
                         </a>
                     </div>
                 </div>
@@ -164,7 +160,7 @@
                     </div>
                 </c:forEach>
             </div>
-            <div class="mt-20 _load">
+            <div class="mt-20 _load" data-type="board">
                 <button type="button" class="btn btn-brand-opacity btn-block bold-h5">
                     더 불러오기
                 </button>
@@ -185,92 +181,6 @@
      * */
     $(document).ready(function () {
         console.log('Static JS is ready');
-        let boards = $('.board-container-deck').find('.col');
-        if (boards.length <= 0) {
-            $('._load').addClass('d-none');
-        }
-
-        // // CATEGORY
-        // $('.filter-dropdown-container .dropdown:nth-child(2) .dropdown-menu .dropdown-item').on('click', function () {
-        //     // let board_deck = $('.board-container-deck');
-        //     // let category = $('#boards-filter2').data().type;
-        //     // let order = $('#boards-filter3').data().type;
-        //     // loadMoreContents('board', last_elem.dataset.no, order, category).then((result) => {
-        //     //     console.log(result);
-        //     //     if (result.status === 'OK') {
-        //     //         let data = result.data.boards;
-        //     //         if (data !== undefined && data !== null && data.length > 0) {
-        //     //             if (data.length < 4) {
-        //     //                 $('._load').addClass('d-none');
-        //     //             }
-        //     //             data.forEach((element, index) => {
-        //     //                 board_deck.append(`<div class="col" data-no="` + element.no + `">
-        //     //             <div class="_board-container" data-type="board">
-        //     //                 <div class="_content ellipsis-one-line">
-        //     //                     <span class="medium-h4">` + element.title + `</span>
-        //     //                 </div>
-        //     //                 <div class="_info">
-        //     //                     <span class="bold-h5 c-brand-green d-none">New!</span>
-        //     //                     <span class="medium-h5 c-gray-light ml-8">` + element.views + ` Views</span>
-        //     //                 </div>
-        //     //             </div>
-        //     //         </div>`);
-        //     //             })
-        //     //         } else {
-        //     //             viewAlert({content: '더 불러올 데이터가 없습니다.'});
-        //     //             $('._load').addClass('d-none');
-        //     //         }
-        //     //     }
-        //     // })
-        // })
-        //
-        // // ORDER
-        // $('.right-filter-dropdown-container .dropdown .dropdown-menu .dropdown-item').on('click', function () {
-        //     console.log($(this));
-        // })
-
-        $('._load').on('click', function () {
-            let board_deck = $('.board-container-deck');
-            let boards = board_deck.find('.col');
-            if (boards.length > 0) {
-                let last_elem = boards[boards.length - 1];
-                let category = $('#boards-filter2').data().type;
-                let order = $('#boards-filter3').data().type;
-                console.log(last_elem.dataset.no);
-                console.log(category);
-                console.log(order);
-                loadMoreContents('board', last_elem.dataset.no, order, category).then((result) => {
-                    console.log(result);
-                    if (result.status === 'OK') {
-                        let data = result.data.list;
-                        if (data !== undefined && data !== null && data.length > 0) {
-                            if (data.length < 4) {
-                                $('._load').addClass('d-none');
-                            }
-                            data.forEach((element, index) => {
-                                board_deck.append(`<div class="col" data-no="` + element.no + `">
-                        <div class="_board-container" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">` + element.title + `</span>
-                            </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green d-none">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">` + element.views + ` Views</span>
-                            </div>
-                        </div>
-                    </div>`);
-                            })
-                        } else {
-                            viewAlert({content: '더 불러올 데이터가 없습니다.'});
-                            $('._load').addClass('d-none');
-                        }
-                    }
-                })
-            } else {
-                viewAlert({content: '잘못된 접근입니다.'});
-            }
-        })
-
         $('.board-container-deck').on('click', '._board-container', function () {
             let no = $(this).parent().data().no;
             window.location.href = '/community/board/detail/' + no;

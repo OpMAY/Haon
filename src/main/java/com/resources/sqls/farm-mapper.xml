@@ -33,4 +33,9 @@
         from farm
         where user_no = #{user_no}
     </select>
+    <select id="getFarmByNo" resultType="Farm" resultMap="farm">
+        select *
+        from farm
+        WHERE no = #{farm_no}
+    </select>
 </mapper>

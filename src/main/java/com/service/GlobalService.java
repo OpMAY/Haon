@@ -59,29 +59,33 @@ public class GlobalService {
 
         if (userNo != null) {
             // Like 및 Scrap 정보 by user
-            for(Board board : live_boards) {
+            for (Board board : live_boards) {
                 board.set_bookmark(bookmarkDao.isBoardBookmarkByUserNo(board.getNo(), userNo));
             }
 
-            for(Tips tip : tips) {
-                tip.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(tip.getNo(), userNo));
-            }
-
-            for(Manual manual : manuals) {
-                manual.set_bookmark(bookmarkDao.isManualBookmarkByUserNo(manual.getNo(), userNo));
-            }
-
-            for(Magazine magazine : magazines) {
+            for (Magazine magazine : magazines) {
                 magazine.set_bookmark(bookmarkDao.isMagazineBookmarkByUserNo(magazine.getNo(), userNo));
             }
 
-            for(QuestionSummary questionSummary : questions) {
+            for (QuestionSummary questionSummary : questions) {
                 questionSummary.getQuestion().set_bookmark(bookmarkDao.isQuestionBookmarkByUserNo(questionSummary.getQuestion().getNo(), userNo));
             }
 
-            for(Farm farm : farms) {
+            for (Farm farm : farms) {
                 farm.set_bookmark(bookmarkDao.isFarmBookmarkByUserNo(farm.getNo(), userNo));
             }
+        }
+
+        for (Tips tip : tips) {
+            if (userNo != null)
+                tip.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(tip.getNo(), userNo));
+            tip.setProfile_image(farmDao.getFarmByNo(tip.getFarm_no()).getProfile_image());
+        }
+
+        for (Manual manual : manuals) {
+            if (userNo != null)
+                manual.set_bookmark(bookmarkDao.isManualBookmarkByUserNo(manual.getNo(), userNo));
+            manual.setProfile_image(farmDao.getFarmByNo(manual.getFarm_no()).getProfile_image());
         }
 
         view.addObject("banners", banners);
@@ -91,8 +95,6 @@ public class GlobalService {
         view.addObject("magazines", magazines);
         view.addObject("questions", questions);
         view.addObject("farms", farms);
-
-        log.info("{}", questions);
         return view;
     }
 

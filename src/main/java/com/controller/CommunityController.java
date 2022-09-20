@@ -6,6 +6,7 @@ import com.model.content.board.Board;
 import com.model.content.board.BoardComment;
 import com.model.content.board.BoardTransaction;
 import com.model.content.common.ORDER_TYPE;
+import com.model.content.tips.Tips;
 import com.model.farm.Farm;
 import com.service.*;
 import com.util.Encryption.EncryptionService;
@@ -210,8 +211,10 @@ public class CommunityController {
     }
 
     @RequestMapping(value = "/tips", method = RequestMethod.GET)
-    public ModelAndView communityTipsPage() {
+    public ModelAndView communityTipsPage(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("community/tips");
+        List<Tips> tips = contentService.getCommunityTipsPage(null, ORDER_TYPE.RECENT, request);
+        VIEW.addObject("tips", tips);
         return VIEW;
     }
 

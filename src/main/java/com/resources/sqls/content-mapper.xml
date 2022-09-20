@@ -157,4 +157,82 @@
         <if test="category neq null and category neq '' ">AND category = #{category}</if>
         ORDER BY bookmark_count DESC, board.no DESC LIMIT 4
     </select>
+    <select id="getCommunityTipsOrderByRecent" resultType="Tips" resultMap="Tips">
+        select *
+        from tips
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY reg_datetime DESC, tips.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityTipsOrderByViews" resultType="Tips" resultMap="Tips">
+        select *
+        from tips
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY views DESC, tips.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityTipsOrderByComments" resultType="Tips" resultMap="Tips">
+        select *, (select COUNT(*) from tips_comment WHERE tips_no = tips.no) as comment_count
+        from tips
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY comment_count DESC, tips.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityTipsOrderByLikes" resultType="Tips" resultMap="Tips">
+        select *, (select COUNT(*) from tips_like WHERE tips_no = tips.no) as like_count
+        from tips
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY like_count DESC, tips.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityTipsOrderByBookmarks" resultType="Tips" resultMap="Tips">
+        select *, (select COUNT(*) from tips_bookmark WHERE tips_no = tips.no) as bookmark_count
+        from tips
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY bookmark_count DESC, tips.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityTipsOrderByRecentReload" resultType="Tips" resultMap="Tips">
+        SET @LAST_DATETIME = (select reg_datetime from tips WHERE no = #{content_no});
+        select *
+        from tips
+        WHERE (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND tips.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY reg_datetime DESC, tips.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityTipsOrderByViewsReload" resultType="Tips" resultMap="Tips">
+        SET @LAST_VIEWS = (select views from tips WHERE no = #{content_no});
+        select *
+        from tips
+        WHERE (views <![CDATA[<]]> @LAST_VIEWS OR (views = @LAST_VIEWS AND tips.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY views DESC, tips.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityTipsOrderByCommentsReload" resultType="Tips" resultMap="Tips">
+        SET @LAST_COMMENTS = (select COUNT(*) from tips_comment WHERE tips_no = #{content_no});
+        select *, (select COUNT(*) from tips_comment WHERE tips_no = tips.no) as comment_count
+        from tips
+        WHERE ((select COUNT(*) from tips_comment WHERE tips_no = tips.no) <![CDATA[<]]> @LAST_COMMENTS OR ((select
+        COUNT(*) from tips_comment WHERE tips_no = tips.no) = @LAST_COMMENTS AND tips.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY comment_count DESC, tips.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityTipsOrderByLikesReload" resultType="Tips" resultMap="Tips">
+        SET @LAST_LIKES = (select COUNT(*) from tips_like WHERE tips_no = #{content_no});
+        select *, (select COUNT(*) from tips_like WHERE tips_no = tips.no) as like_count
+        from tips
+        WHERE ((select COUNT(*) from tips_like WHERE tips_no = tips.no) <![CDATA[<]]> @LAST_LIKES OR ((select
+        COUNT(*) from tips_like WHERE tips_no = tips.no) = @LAST_LIKES AND tips.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY like_count DESC, tips.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityTipsOrderByBookmarksReload" resultType="Tips" resultMap="Tips">
+        SET @LAST_BOOKMARKS = (select COUNT(*) from tips_bookmark WHERE tips_no = #{content_no});
+        select *, (select COUNT(*) from tips_bookmark WHERE tips_no = tips.no) as bookmark_count
+        from tips
+        WHERE ((select COUNT(*) from tips_bookmark WHERE tips_no = tips.no) <![CDATA[<]]> @LAST_BOOKMARKS OR ((select
+        COUNT(*) from tips_bookmark WHERE tips_no = tips.no) = @LAST_BOOKMARKS AND tips.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY bookmark_count DESC, tips.no DESC LIMIT 4
+    </select>
 </mapper>

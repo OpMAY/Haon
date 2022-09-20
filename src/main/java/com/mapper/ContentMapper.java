@@ -27,6 +27,7 @@ public interface ContentMapper {
 
     boolean checkQuestionContentExists(@Param("question_no") int question_no);
 
+    // BOARDS
     List<Board> getCommunityBoardsOrderByRecent(String category);
 
     List<Board> getCommunityBoardsOrderByViews(String category);
@@ -47,4 +48,24 @@ public interface ContentMapper {
 
     List<Board> getCommunityBoardsOrderByBookmarksReload(@Param("category") String category, @Param("content_no") int content_no);
 
+    // TIPS
+    List<Tips> getCommunityTipsOrderByRecent(String category);
+
+    List<Tips> getCommunityTipsOrderByViews(String category);
+
+    List<Tips> getCommunityTipsOrderByComments(String category);
+
+    List<Tips> getCommunityTipsOrderByLikes(String category);
+
+    List<Tips> getCommunityTipsOrderByBookmarks(String category);
+
+    List<Tips> getCommunityTipsOrderByRecentReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<Tips> getCommunityTipsOrderByViewsReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<Tips> getCommunityTipsOrderByCommentsReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<Tips> getCommunityTipsOrderByLikesReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<Tips> getCommunityTipsOrderByBookmarksReload(@Param("category") String category, @Param("content_no") int content_no);
 }

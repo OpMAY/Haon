@@ -321,7 +321,7 @@
                                          style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${tip.title}</h5>
-                                        <p class="card-text _description medium-h5 c-gray-medium">${tip.content}</p>
+                                        <div class="card-text _description medium-h5 c-gray-medium">${tip.content}</div>
                                     </div>
                                     <div class="_footer">
                                     <span class="_views medium-p1 c-gray-light">
@@ -369,7 +369,7 @@
                                     </div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${tip.title}</h5>
-                                        <p class="card-text _description medium-h5 c-gray-medium">${tip.content}</p>
+                                        <div class="card-text _description medium-h5 c-gray-medium">${tip.content}</div>
                                     </div>
                                     <div class="_footer">
                                     <span class="_views medium-p1 c-gray-light"><span
@@ -448,7 +448,7 @@
                                          style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
-                                        <p class="card-text _description medium-h5 c-gray-medium">${item.content}</p>
+                                        <div class="card-text _description medium-h5 c-gray-medium">${item.content}</div>
                                     </div>
                                     <div class="_footer">
                                     <span class="_views medium-p1 c-gray-light">
@@ -496,7 +496,7 @@
                                     </div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
-                                        <p class="card-text _description medium-h5 c-gray-medium">${item.content}</p>
+                                        <div class="card-text _description medium-h5 c-gray-medium">${item.content}</div>
                                     </div>
                                     <div class="_footer">
                                     <span class="_views medium-p1 c-gray-light"><span
@@ -576,7 +576,7 @@
                                          style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
-                                        <p class="card-text _description medium-h5 c-gray-medium">${item.content}</p>
+                                        <div class="card-text _description medium-h5 c-gray-medium">${item.content}</div>
                                     </div>
                                     <div class="_footer">
                                     <span class="_views medium-p1 c-gray-light">
@@ -624,7 +624,7 @@
                                     </div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
-                                        <p class="card-text _description medium-h5 c-gray-medium">${item.content}</p>
+                                        <div class="card-text _description medium-h5 c-gray-medium">${item.content}</div>
                                     </div>
                                     <div class="_footer">
                                     <span class="_views medium-p1 c-gray-light"><span
