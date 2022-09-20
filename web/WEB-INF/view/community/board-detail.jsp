@@ -53,7 +53,8 @@
                                     </svg>
                                     <c:choose>
                                         <c:when test="${is_bookmark eq true}">
-                                            <svg class="bookmark is-active" data-no="${board.no}" data-detail-bookmark="BOARD"
+                                            <svg class="bookmark is-active" data-no="${board.no}"
+                                                 data-detail-bookmark="BOARD"
                                                  width="32" height="32" viewBox="0 0 32 32"
                                                  fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -62,7 +63,8 @@
                                             </svg>
                                         </c:when>
                                         <c:otherwise>
-                                            <svg class="bookmark" data-no="${board.no}" data-detail-bookmark="BOARD" width="32"
+                                            <svg class="bookmark" data-no="${board.no}" data-detail-bookmark="BOARD"
+                                                 width="32"
                                                  height="32" viewBox="0 0 32 32"
                                                  fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -155,8 +157,11 @@
                                                         <span class="medium-h5 _content ellipsis-one-line">${comment.content}</span>
                                                     </c:otherwise>
                                                 </c:choose>
-                                                <c:if test="${comment._new eq true}">
-                                                    <span class="bold-h5 c-brand-green _new">New!</span>
+                                                <c:set var="newDiff" scope="application">
+                                                    <custom:localDateTimeDiffer value="${recomment.reg_datetime}"/>
+                                                </c:set>
+                                                <c:if test="${newDiff eq false}">
+                                                    <span class="bold-p1 c-brand-green _new">New!</span>
                                                 </c:if>
                                             </div>
                                             <div class="_info">
@@ -169,7 +174,8 @@
                                             <div class="_responds">
                                                 <c:choose>
                                                     <c:when test="${comment._like eq true}">
-                                                        <div class="_like is-active">
+                                                        <div class="_like is-active" data-comment-like="BOARD"
+                                                             data-no="${comment.no}">
                                                             <svg width="16"
                                                                  height="14"
                                                                  viewBox="0 0 16 14"
@@ -182,7 +188,8 @@
                                                         </div>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <div class="_like">
+                                                        <div class="_like" data-comment-like="BOARD"
+                                                             data-no="${comment.no}">
                                                             <svg width="16"
                                                                  height="14"
                                                                  viewBox="0 0 16 14"
@@ -197,7 +204,8 @@
                                                 </c:choose>
                                                 <c:choose>
                                                     <c:when test="${comment._dislike eq true}">
-                                                        <div class="_dislike is-active">
+                                                        <div class="_dislike is-active" data-comment-dislike="BOARD"
+                                                             data-no="${comment.no}">
                                                             <svg width="16"
                                                                  height="14"
                                                                  viewBox="0 0 16 14"
@@ -210,7 +218,8 @@
                                                         </div>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <div class="_dislike">
+                                                        <div class="_dislike" data-comment-dislike="BOARD"
+                                                             data-no="${comment.no}">
                                                             <svg width="16"
                                                                  height="14"
                                                                  viewBox="0 0 16 14"
@@ -226,14 +235,18 @@
                                             </div>
                                             <div class="_reply">
                                                 <c:if test="${comment.owner_checked eq true}">
-                                                    <span class="medium-h5 c-gray-dark-low _delete">삭제</span>
+                                                    <span class="medium-h5 c-gray-dark-low _delete"
+                                                          data-no="${comment.no}" data-type="BOARD" data-parent="parent">삭제</span>
                                                 </c:if>
-                                                <span class="medium-h5 c-gray-dark-low _do">답글</span>
+                                                <span class="medium-h5 c-gray-dark-low _do"
+                                                      data-comment-no="${comment.no}" data-type="BOARD"
+                                                      data-no="${board.no}">답글</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="reply-comment-container">
                                         <c:forEach items="${comment.comments}" var="recomment" varStatus="reStatus">
+                                            <c:set var="reply_new" value="false"/>
                                             <c:choose>
                                                 <c:when test="${recomment._blocked eq true}">
                                                     <div class="_comment">
@@ -258,7 +271,11 @@
                                                                         </clipPath>
                                                                     </defs>
                                                                 </svg>
-                                                                <c:if test="${recomment._new eq true}">
+                                                                <c:set var="newDiff" scope="application">
+                                                                    <custom:localDateTimeDiffer
+                                                                            value="${recomment.reg_datetime}"/>
+                                                                </c:set>
+                                                                <c:if test="${newDiff eq false}">
                                                                     <span class="bold-p1 c-brand-green _new">New!</span>
                                                                 </c:if>
                                                             </div>
@@ -271,8 +288,8 @@
                                                         </div>
                                                         <div class="_transactions">
                                                             <div class="_reply">
-                                                                <c:if test="${comment.owner_checked eq true}">
-                                                                    <span class="medium-h5 c-gray-dark-low _delete mr-0">삭제</span>
+                                                                <c:if test="${recomment.owner_checked eq true}">
+                                                                    <span class="medium-h5 c-gray-dark-low _delete mr-0" data-no="${recomment.no}" data-type="BOARD" data-parent="self">삭제</span>
                                                                 </c:if>
                                                             </div>
                                                         </div>
@@ -287,7 +304,11 @@
                                                         <div class="_media">
                                                             <div class="_comment-text">
                                                                 <span class="medium-p1 _content ellipsis-one-line">${recomment.content}</span>
-                                                                <c:if test="${recomment._new eq true}">
+                                                                <c:set var="newDiff" scope="application">
+                                                                    <custom:localDateTimeDiffer
+                                                                            value="${recomment.reg_datetime}"/>
+                                                                </c:set>
+                                                                <c:if test="${newDiff eq false}">
                                                                     <span class="bold-p1 c-brand-green _new">New!</span>
                                                                 </c:if>
                                                             </div>
@@ -300,8 +321,8 @@
                                                         </div>
                                                         <div class="_transactions">
                                                             <div class="_reply">
-                                                                <c:if test="${comment.owner_checked eq true}">
-                                                                    <span class="medium-h5 c-gray-dark-low _delete mr-0">삭제</span>
+                                                                <c:if test="${recomment.owner_checked eq true}">
+                                                                    <span class="medium-h5 c-gray-dark-low _delete mr-0" data-no="${recomment.no}" data-type="BOARD" data-parent="self">삭제</span>
                                                                 </c:if>
                                                             </div>
                                                         </div>
@@ -420,7 +441,7 @@
 <jsp:include page="../common/footer.jsp"/>
 
 <jsp:include page="../common/script.jsp"/>
-
+<script src="/resources/js/module/comment.js"></script>
 <script>
     /**
      * Static JS
@@ -429,53 +450,6 @@
      * */
     $(document).ready(function () {
         console.log('Static JS is ready');
-        /** Comment reply */
-        $('._reply').on('click', '._do', function () {
-            let t = this;
-            let $t = $(this);
-            $t.parent().append('<span class="medium-h5 c-basic-black _cancel">취소</span>');
-            $(t.closest('.comment-container').querySelector('.reply-comment-container')).prepend('<div class="form-group form-inner-button">\n' +
-                '                        <input type="text" placeholder="답글을 입력하세요." class="form-control input-box medium-h5"\n' +
-                '                               id="input7">\n' +
-                '                        <button type="button" class="btn btn-sm btn-brand bold-h5">\n' +
-                '                            작성\n' +
-                '                        </button>\n' +
-                '                    </div>');
-            $t.remove();
-            // input show
-
-        }).on('click', '._cancel', function () {
-            let t = this;
-            let $t = $(this);
-            $t.parent().append('<span class="medium-h5 c-basic-black _do">답글</span>');
-            $(t.closest('.comment-container')).find('.form-group.form-inner-button').remove();
-            $t.remove();
-            // input remove
-        }).on('click', '._delete', function () {
-            alert('삭제 버튼');
-        });
-
-        $('._comment ._transactions ._responds ._like').on('click', function () {
-            let $number_span = $(this).find('span');
-            if ($(this).hasClass('is-active')) {
-                $(this).removeClass('is-active');
-                $number_span.html(($number_span.html() * 1 - 1));
-            } else {
-                $(this).addClass('is-active');
-                $number_span.html(($number_span.html() * 1 + 1));
-            }
-        });
-
-        $('._comment ._transactions ._responds ._dislike').on('click', function () {
-            let $number_span = $(this).find('span');
-            if ($(this).hasClass('is-active')) {
-                $(this).removeClass('is-active');
-                $number_span.html(($number_span.html() * 1 - 1));
-            } else {
-                $(this).addClass('is-active');
-                $number_span.html(($number_span.html() * 1 + 1));
-            }
-        });
         $('[data-detail-bookmark]').on('click', function () {
             let no = this.dataset.no;
             let type = this.dataset.detailBookmark;
@@ -506,6 +480,7 @@
                 }
             });
         });
+        
         $('[data-detail-like]').on('click', function () {
             let no = this.dataset.no;
             let type = this.dataset.detailLike;
@@ -542,11 +517,11 @@
         });
         $('[data-comment-like]').on('click', function () {
             let no = this.dataset.no;
-            let type = this.dataset.detailLike;
+            let type = this.dataset.commentLike;
             loginCheck().then((result) => {
                 if (result.status === 'OK') {
                     if (result.data.status) {
-                        updateLike(type, no).then((result) => {
+                        updateCommentLike(type, no).then((result) => {
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {
@@ -564,6 +539,40 @@
                                         }
                                         this.querySelector('span').innerHTML = --count;
                                         viewAlert({content: '좋아요 표시를 해제했습니다.'});
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        viewAlert({content: '로그인이 필요한 기능입니다.'});
+                    }
+                }
+            });
+        });
+        $('[data-comment-dislike]').on('click', function () {
+            let no = this.dataset.no;
+            let type = this.dataset.commentDislike;
+            loginCheck().then((result) => {
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        updateCommentDislike(type, no).then((result) => {
+                            console.log(result);
+                            if (result.status === 'OK') {
+                                if (result.data.status) {
+                                    let count = this.querySelector('span').textContent * 1;
+                                    if (result.data.type === 'insert') {
+                                        if (!this.classList.contains('is-active')) {
+                                            this.classList.add('is-active');
+                                        }
+                                        console.log(this);
+                                        this.querySelector('span').innerHTML = ++count;
+                                        viewAlert({content: '싫어요를 표시했습니다.'});
+                                    } else {
+                                        if (this.classList.contains('is-active')) {
+                                            this.classList.remove('is-active');
+                                        }
+                                        this.querySelector('span').innerHTML = --count;
+                                        viewAlert({content: '싫어요 표시를 해제했습니다.'});
                                     }
                                 }
                             }

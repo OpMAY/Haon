@@ -33,7 +33,24 @@ public class LikeService {
     public boolean isCommentLikeByUserNo(int comment_no, int user_no) {
         return likeDao.isCommentLikeByUserNo(comment_no, user_no);
     }
-    public boolean isCommentDisLikeByUserNo(int comment_no, int user_no) {
-        return likeDao.isCommentDisLikeByUserNo(comment_no, user_no);
+
+    public void deleteBoardCommentLike(int comment_no, int user_no) {
+        likeDao.deleteBoardCommentLike(comment_no, user_no);
+    }
+
+    public void insertBoardCommentLike(int comment_no, int user_no) {
+        likeDao.insertBoardCommentLike(comment_no, user_no);
+    }
+
+    public boolean isCommentDislikeByUserNo(int comment_no, int user_no) {
+        return likeDao.isCommentDislikeByUserNo(comment_no, user_no);
+    }
+
+    public void deleteBoardCommentDislike(int comment_no, int user_no) {
+        likeDao.deleteBoardCommentDislike(comment_no, user_no);
+    }
+
+    public void insertBoardCommentDislike(int comment_no, int user_no) {
+        likeDao.insertBoardCommentDislike(comment_no, user_no);
     }
 }

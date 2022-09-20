@@ -32,6 +32,24 @@
         order by count desc
         limit 1;
     </select>
+
+    <insert id="insertBoardCommentReply" parameterType="BoardComment" keyProperty="no" useGeneratedKeys="true">
+        insert into board_comment(user_no, recomment, board_no, content, reg_datetime, is_blocked, owner_checked)
+        VALUES (#{user_no}, #{recomment}, #{board_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
+    </insert>
+
+    <select id="getBoardCommentByNo" parameterType="int" resultType="BoardComment">
+        select *
+        from board_comment
+        where no = #{comment_no};
+    </select>
+    <update id="deleteBoardCommentByNoAndUserNo">
+        update board_comment
+        set user_no=null
+        where user_no = #{user_no}
+          and no = #{comment_no}
+    </update>
+
     <select id="checkQuestionLastCommentExists" resultType="_boolean">
         select EXISTS(select * from question_comment WHERE no = #{last_comment_no})
     </select>

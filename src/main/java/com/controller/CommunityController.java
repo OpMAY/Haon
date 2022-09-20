@@ -65,46 +65,74 @@ public class CommunityController {
         ArrayList<BoardComment> comments = commentService.getBoardComments(board_no);
         for (BoardComment comment : comments) {
             User commented_user = userService.getUserByNo(comment.getUser_no());
-            if (globalService.checkFarm(commented_user.getNo())) {
-                Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
-                log.info("farm {}", farm.toString());
-                commented_user.setProfile_img(farm.getProfile_image());
-                commented_user.setName(farm.getName());
-                comment.setUser(commented_user);
-            } else {
-                log.info("SAMPLE_PROFILE_URL {}", SAMPLE_PROFILE_URL);
-                MFile profile = new MFile();
-                profile.setUrl(SAMPLE_PROFILE_URL);
-                profile.setName(SAMPLE_PROFILE_NAME);
-                profile.setSize(SAMPLE_PROFILE_SIZE);
-                profile.setType(SAMPLE_PROFILE_TYPE);
-
-                commented_user.setProfile_img(profile);
-                comment.setUser(commented_user);
-            }
-
-            if (user_no != null) {
-                comment.set_like(likeService.isCommentLikeByUserNo(comment.getNo(), user_no));
-                comment.set_dislike(likeService.isCommentDisLikeByUserNo(comment.getNo(), user_no));
-            }
-
-            ArrayList<BoardComment> recomments = commentService.getRecommentByCommentNo(comment.getNo());
-            for (BoardComment recomment : recomments) {
-                User recommented_user = userService.getUserByNo(recomment.getUser_no());
-                if (globalService.checkFarm(recommented_user.getNo())) {
-                    Farm farm = farmService.getFarmByUserNo(recommented_user.getNo());
-                    recommented_user.setProfile_img(farm.getProfile_image());
-                    recommented_user.setName(farm.getName());
-                    recomment.setUser(recommented_user);
+            if (commented_user != null) {
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    log.info("farm {}", farm.toString());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    comment.setUser(commented_user);
                 } else {
+                    log.info("SAMPLE_PROFILE_URL {}", SAMPLE_PROFILE_URL);
                     MFile profile = new MFile();
                     profile.setUrl(SAMPLE_PROFILE_URL);
                     profile.setName(SAMPLE_PROFILE_NAME);
                     profile.setSize(SAMPLE_PROFILE_SIZE);
                     profile.setType(SAMPLE_PROFILE_TYPE);
 
+                    commented_user.setProfile_img(profile);
+                    comment.setUser(commented_user);
+                }
+            } else {
+                commented_user = new User();
+                log.info("SAMPLE_PROFILE_URL {}", SAMPLE_PROFILE_URL);
+                MFile profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+                commented_user.setName("관리자");
+                commented_user.setProfile_img(profile);
+                comment.setContent("삭제된 메세지입니다.");
+                comment.setUser(commented_user);
+            }
+
+            if (user_no != null) {
+                comment.set_like(likeService.isCommentLikeByUserNo(comment.getNo(), user_no));
+                comment.set_dislike(likeService.isCommentDislikeByUserNo(comment.getNo(), user_no));
+            }
+
+            ArrayList<BoardComment> recomments = commentService.getRecommentByCommentNo(comment.getNo());
+            for (BoardComment recomment : recomments) {
+                User recommented_user = userService.getUserByNo(recomment.getUser_no());
+                log.info("recommented_user,{},{},{}", recommented_user.getNo(), user_no, user_no != null && (user_no.intValue() == recommented_user.getNo()));
+                if (recommented_user != null) {
+                    if (globalService.checkFarm(recommented_user.getNo())) {
+                        Farm farm = farmService.getFarmByUserNo(recommented_user.getNo());
+                        recommented_user.setProfile_img(farm.getProfile_image());
+                        recommented_user.setName(farm.getName());
+                        recomment.setUser(recommented_user);
+                    } else {
+                        MFile profile = new MFile();
+                        profile.setUrl(SAMPLE_PROFILE_URL);
+                        profile.setName(SAMPLE_PROFILE_NAME);
+                        profile.setSize(SAMPLE_PROFILE_SIZE);
+                        profile.setType(SAMPLE_PROFILE_TYPE);
+
+                        recommented_user.setProfile_img(profile);
+                        recomment.setUser(recommented_user);
+                    }
+                } else {
+                    recommented_user = new User();
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+                    recommented_user.setName("관리자");
                     recommented_user.setProfile_img(profile);
                     recomment.setUser(recommented_user);
+                    recomment.setContent("삭제된 메세지입니다.");
                 }
                 if (user_no != null && (user_no.intValue() == recommented_user.getNo())) {
                     recomment.setOwner_checked(true);

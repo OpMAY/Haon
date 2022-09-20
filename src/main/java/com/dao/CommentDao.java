@@ -31,6 +31,18 @@ public class CommentDao {
         return mapper.getBestBoardComment(board_no);
     }
 
+    public void insertBoardCommentReply(BoardComment boardComment) {
+        mapper.insertBoardCommentReply(boardComment);
+    }
+
+    public BoardComment getBoardCommentByNo(int created_reply_comment_no) {
+        return mapper.getBoardCommentByNo(created_reply_comment_no);
+    }
+
+    public void deleteBoardCommentByNoAndUserNo(int user_no, int comment_no) {
+        mapper.deleteBoardCommentByNoAndUserNo(user_no, comment_no);
+    }
+    
     public List<QuestionComment> getMoreQuestionComments(int content_no, int last_comment_no) {
         return mapper.getMoreQuestionComments(content_no, last_comment_no);
     }

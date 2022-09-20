@@ -192,7 +192,6 @@ public class UserRestController {
                 message.put("type", "insert");
             }
         } else if (BOOKMARK_TYPE.MANUAL == type) {
-
             if (bookmarkService.isManualBookmarkByUserNo(no, user_no)) {
                 //북마크 해제
                 bookmarkService.deleteManualBookmark(no, user_no);
@@ -260,6 +259,67 @@ public class UserRestController {
             } else {
                 //좋아요 등록
                 likeService.insertBoardLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
+        } else if (BOOKMARK_TYPE.MAGAZINE == type) {
+
+        } else if (BOOKMARK_TYPE.MANUAL == type) {
+
+        } else if (BOOKMARK_TYPE.TIP == type) {
+
+        } else if (BOOKMARK_TYPE.QUESTION == type) {
+
+        } else {
+            throw new RuntimeException();
+        }
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/like/comment/update/{type}/{no}", method = RequestMethod.POST)
+    public ResponseEntity<String> updateCommentLike(HttpServletRequest request, @PathVariable("type") BOOKMARK_TYPE type, @PathVariable("no") int no) throws Exception {
+        Message message = new Message();
+        log.info("{},{}", type, no);
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        if (BOOKMARK_TYPE.BOARD == type) {
+            if (likeService.isCommentLikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteBoardCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertBoardCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
+        } else if (BOOKMARK_TYPE.MAGAZINE == type) {
+
+        } else if (BOOKMARK_TYPE.MANUAL == type) {
+
+        } else if (BOOKMARK_TYPE.TIP == type) {
+
+        } else if (BOOKMARK_TYPE.QUESTION == type) {
+
+        } else {
+            throw new RuntimeException();
+        }
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+    @RequestMapping(value = "/dislike/comment/update/{type}/{no}", method = RequestMethod.POST)
+    public ResponseEntity<String> updateCommentDislike(HttpServletRequest request, @PathVariable("type") BOOKMARK_TYPE type, @PathVariable("no") int no) throws Exception {
+        Message message = new Message();
+        log.info("{},{}", type, no);
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        if (BOOKMARK_TYPE.BOARD == type) {
+            if (likeService.isCommentDislikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteBoardCommentDislike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertBoardCommentDislike(no, user_no);
                 message.put("status", true);
                 message.put("type", "insert");
             }

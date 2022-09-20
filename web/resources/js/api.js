@@ -210,6 +210,36 @@ async function insertReview(type, no, content) {
     }
 }
 
+async function insertReviewReply(type, no, content, comment_no) {
+    function apiInsertReviewReply(type, no, content, comment_no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const raw = JSON.stringify({
+            type,
+            no,
+            content,
+            comment_no
+        });
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw
+        };
+        const response = fetch(`${host}/api/review/reply/create`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiInsertReviewReply(type, no, content, comment_no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 async function insertMyReviewReply(type, no, content) {
     function apiInsertMyReviewReply(type, no, content) {
@@ -241,7 +271,6 @@ async function insertMyReviewReply(type, no, content) {
     }
 }
 
-
 async function updateMyReviewLike(type, no, status) {
     function apiUpdateMyReviewLike(type, no, status) {
         const myHeaders = new Headers();
@@ -265,7 +294,7 @@ async function updateMyReviewLike(type, no, status) {
     }
 }
 
-async function deleteMyReview(type, no) {
+async function deleteMyReview(type, no, parent) {
     function apiDeleteMyReview(type, no) {
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
@@ -275,7 +304,7 @@ async function deleteMyReview(type, no) {
             method: 'POST',
             headers: myHeaders,
         };
-        const response = fetch(`${host}/api/${type}/review/delete/${no}/`, requestOptions);
+        const response = fetch(`${host}/api/${type}/review/delete/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
 
@@ -289,23 +318,29 @@ async function deleteMyReview(type, no) {
 }
 
 
-async function deleteMyReviewReply(type, no, reply_no) {
-    function apiDeleteMyReviewReply(type, no, reply_no) {
+async function deleteReviewReply(type, no) {
+    function apiDeleteReviewReply(type, no) {
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
         myHeaders.append('Content-Api', tokenGenerator(8));
 
+        const raw = JSON.stringify({
+            type,
+            no
+        });
+
         const requestOptions = {
             method: 'POST',
             headers: myHeaders,
+            body: raw
         };
-        const response = fetch(`${host}/api/${type}/review/${no}/delete/${reply_no}`, requestOptions);
+        const response = fetch(`${host}/api/review/reply/delete`, requestOptions);
         return response.then((res) => res.json());
     }
 
     let result;
     try {
-        result = await apiDeleteMyReviewReply(type, no, reply_no);
+        result = await apiDeleteReviewReply(type, no);
         return result;
     } catch (error) {
         console.log(error);
@@ -759,6 +794,53 @@ async function loadMoreComments(type, content_no, last_comment_no) {
     let result;
     try {
         result = await apiLoadMoreComments(type, content_no, last_comment_no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+async function updateCommentLike(type, no) {
+    function apiUpdateCommentLike(type, no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`${host}/api/like/comment/update/${type}/${no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiUpdateCommentLike(type, no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function updateCommentDislike(type, no) {
+    function apiUpdateCommentDislike(type, no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`${host}/api/dislike/comment/update/${type}/${no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiUpdateCommentDislike(type, no);
         return result;
     } catch (error) {
         console.log(error);

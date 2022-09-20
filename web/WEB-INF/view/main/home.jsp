@@ -327,7 +327,6 @@
                                     <span class="_views medium-p1 c-gray-light">
                                     <span class="_count">${tip.views}</span> Views
                                     </span>
-
                                         <c:choose>
                                             <c:when test="${tip._bookmark eq true}">
                                                     <span class="_bookmark is-active" data-bookmark="TIP"
@@ -358,7 +357,6 @@
                                                     </span>
                                             </c:otherwise>
                                         </c:choose>
-
                                     </div>
                                 </div>
                             </c:when>
@@ -376,7 +374,6 @@
                                     <div class="_footer">
                                     <span class="_views medium-p1 c-gray-light"><span
                                             class="_count">${tip.views}</span> Views</span>
-
                                         <c:choose>
                                             <c:when test="${tip._bookmark eq true}">
                                             <span class="_bookmark is-active" data-bookmark="TIP" data-no="${tip.no}">
@@ -406,7 +403,6 @@
                                             </span>
                                             </c:otherwise>
                                         </c:choose>
-
                                     </div>
                                 </div>
                             </c:otherwise>
@@ -458,7 +454,6 @@
                                     <span class="_views medium-p1 c-gray-light">
                                     <span class="_count">${item.views}</span> Views
                                     </span>
-
                                         <c:choose>
                                             <c:when test="${item._bookmark eq true}">
                                             <span class="_bookmark is-active" data-bookmark="MANUAL"
@@ -489,7 +484,6 @@
                                             </span>
                                             </c:otherwise>
                                         </c:choose>
-
                                     </div>
                                 </div>
                             </c:when>
@@ -507,7 +501,6 @@
                                     <div class="_footer">
                                     <span class="_views medium-p1 c-gray-light"><span
                                             class="_count">${item.views}</span> Views</span>
-
                                         <c:choose>
                                             <c:when test="${item._bookmark eq true}">
                                             <span class="_bookmark is-active" data-bookmark="MANUAL"
@@ -538,7 +531,6 @@
                                             </span>
                                             </c:otherwise>
                                         </c:choose>
-
                                     </div>
                                 </div>
                             </c:otherwise>
@@ -590,7 +582,6 @@
                                     <span class="_views medium-p1 c-gray-light">
                                     <span class="_count">${item.views}</span> Views
                                     </span>
-
                                         <c:choose>
                                             <c:when test="${item._bookmark eq true}">
                                             <span class="_bookmark is-active" data-bookmark="MAGAZINE"
@@ -621,7 +612,6 @@
                                             </span>
                                             </c:otherwise>
                                         </c:choose>
-
                                     </div>
                                 </div>
                             </c:when>
@@ -639,7 +629,6 @@
                                     <div class="_footer">
                                     <span class="_views medium-p1 c-gray-light"><span
                                             class="_count">${item.views}</span> Views</span>
-
                                         <c:choose>
                                             <c:when test="${item._bookmark eq true}">
                                             <span class="_bookmark is-active" data-bookmark="MAGAZINE"
@@ -670,7 +659,6 @@
                                             </span>
                                             </c:otherwise>
                                         </c:choose>
-
                                     </div>
                                 </div>
                             </c:otherwise>

@@ -358,7 +358,7 @@ input.form-control.input-box {
     cursor: pointer;
 }
 
-.card.farm-card ._thumbnail > ._bookmark svg{
+.card.farm-card ._thumbnail > ._bookmark svg {
     fill: var(--gray-light);
 }
 
@@ -939,6 +939,11 @@ input.form-control.input-box {
     display: flex;
     margin-bottom: 4px;
     max-width: 480px;
+}
+
+._comment ._media ._comment-text > * {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 ._comment ._media ._comment-text > ._new {

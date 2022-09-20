@@ -36,6 +36,19 @@ public class CommentService {
         return commentDao.getBestBoardComment(board_no).getNo() == comment_no;
     }
 
+    public int insertBoardCommentReply(BoardComment boardComment) {
+        commentDao.insertBoardCommentReply(boardComment);
+        return boardComment.getNo();
+    }
+
+    public BoardComment getBoardCommentByNo(int created_reply_comment_no) {
+        return commentDao.getBoardCommentByNo(created_reply_comment_no);
+    }
+
+    public void deleteBoardCommentByNoAndUserNo(int user_no, int comment_no) {
+        commentDao.deleteBoardCommentByNoAndUserNo(user_no, comment_no);    
+    }
+    
     public Message getMoreComments(String type, int content_no, int last_comment_no) {
         Message message = new Message();
         // types : BOARD, MAGAZINE, MANUAL, TIP, QUESTION
