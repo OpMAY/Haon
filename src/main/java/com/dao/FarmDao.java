@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public class FarmDao {
     private FarmMapper mapper;
+
     private FarmDao(SqlSession sqlSession) {
         this.mapper = sqlSession.getMapper(FarmMapper.class);
     }
@@ -34,5 +35,31 @@ public class FarmDao {
 
     public Farm getFarmByNo(int farm_no) {
         return mapper.getFarmByNo(farm_no);
+    }
+
+    public List<Farm> getCommunityFarmsOrderByRecent() {
+        return mapper.getCommunityFarmsOrderByRecent();
+    }
+
+    public List<Farm> getCommunityFarmsOrderByViews() {
+        return mapper.getCommunityFarmsOrderByViews();
+    }
+
+    public List<Farm> getCommunityFarmsOrderByBookmarks() {
+        return mapper.getCommunityFarmsOrderByBookmarks();
+    }
+
+    public List<Farm> getCommunityFarmsOrderByRecentReload(int content_no) {
+        return mapper.getCommunityFarmsOrderByRecentReload(content_no);
+
+    }
+
+    public List<Farm> getCommunityFarmsOrderByViewsReload(int content_no) {
+        return mapper.getCommunityFarmsOrderByViewsReload(content_no);
+
+    }
+
+    public List<Farm> getCommunityFarmsOrderByBookmarksReload(int content_no) {
+        return mapper.getCommunityFarmsOrderByBookmarksReload(content_no);
     }
 }

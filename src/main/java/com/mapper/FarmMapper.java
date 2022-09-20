@@ -15,4 +15,16 @@ public interface FarmMapper {
     Farm getFarmByUserNo(@Param("user_no") int user_no);
 
     Farm getFarmByNo(int farm_no);
+
+    List<Farm> getCommunityFarmsOrderByRecent();
+
+    List<Farm> getCommunityFarmsOrderByViews();
+    
+    List<Farm> getCommunityFarmsOrderByBookmarks();
+
+    List<Farm> getCommunityFarmsOrderByRecentReload(@Param("content_no") int content_no);
+
+    List<Farm> getCommunityFarmsOrderByViewsReload(@Param("content_no") int content_no);
+
+    List<Farm> getCommunityFarmsOrderByBookmarksReload(@Param("content_no") int content_no);
 }

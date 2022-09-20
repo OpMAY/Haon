@@ -38,4 +38,59 @@
         from farm
         WHERE no = #{farm_no}
     </select>
+    <select id="getCommunityFarmsOrderByRecent" resultType="Farm" resultMap="farm">
+        select *
+        from farm
+        WHERE no != 0
+        order by reg_datetime DESC, farm.no DESC
+        LIMIT 1
+    </select>
+    <select id="getCommunityFarmsOrderByViews" resultType="Farm" resultMap="farm">
+        select *
+        from farm
+        WHERE no != 0
+        order by views DESC, farm.no DESC
+        LIMIT 1
+    </select>
+    <select id="getCommunityFarmsOrderByBookmarks" resultType="Farm" resultMap="farm">
+        select *, (select COUNT(*) from farm_bookmark WHERE farm_no = farm.no) as bookmark_count
+        from farm
+        WHERE no != 0
+        order by bookmark_count DESC, farm.no DESC
+        LIMIT 1
+    </select>
+    <select id="getCommunityFarmsOrderByRecentReload" resultType="Farm" resultMap="farm">
+        SET @LAST_DATETIME = (select reg_datetime
+                              from farm
+                              WHERE no = #{content_no});
+        select *
+        from farm
+        WHERE no != 0 AND (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND farm.no
+        <![CDATA[<]]> #{content_no}))
+        order by reg_datetime DESC, farm.no DESC
+        LIMIT 1
+    </select>
+    <select id="getCommunityFarmsOrderByViewsReload" resultType="Farm" resultMap="farm">
+        SET @LAST_VIEWS = (select views
+                           from farm
+                           WHERE no = #{content_no});
+        select *
+        from farm
+        WHERE no != 0 AND (views <![CDATA[<]]> @LAST_VIEWS OR (views = @LAST_VIEWS AND farm.no
+        <![CDATA[<]]> #{content_no}))
+        order by views DESC, farm.no DESC
+        LIMIT 1
+    </select>
+    <select id="getCommunityFarmsOrderByBookmarksReload" resultType="Farm" resultMap="farm">
+        SET @LAST_BOOKMARKS = (select COUNT(*)
+                               from farm_bookmark
+                               WHERE farm_no = #{content_no});
+        select *, (select COUNT(*) from farm_bookmark WHERE farm_no = farm.no) as bookmark_count
+        from farm
+        WHERE no != 0 AND ((select COUNT(*) from farm_bookmark WHERE farm_no = farm.no) <![CDATA[<]]> @LAST_BOOKMARKS OR
+               ((select COUNT(*) from farm_bookmark WHERE farm_no = farm.no) = @LAST_BOOKMARKS AND
+                farm.no <![CDATA[<]]> #{content_no}))
+        order by bookmark_count DESC, farm.no DESC
+        LIMIT 1
+    </select>
 </mapper>

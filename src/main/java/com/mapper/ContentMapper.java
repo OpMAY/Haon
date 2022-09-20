@@ -111,4 +111,26 @@ public interface ContentMapper {
     List<Magazine> getCommunityMagazinesOrderByLikesReload(@Param("category") String category, @Param("content_no") int content_no);
 
     List<Magazine> getCommunityMagazinesOrderByBookmarksReload(@Param("category") String category, @Param("content_no") int content_no);
+
+
+    // QUESTIONS
+    List<QuestionSummary> getCommunityQuestionsOrderByRecent(String category);
+
+    List<QuestionSummary> getCommunityQuestionsOrderByViews(String category);
+
+    List<QuestionSummary> getCommunityQuestionsOrderByComments(String category);
+
+    List<QuestionSummary> getCommunityQuestionsOrderByLikes(String category);
+
+    List<QuestionSummary> getCommunityQuestionsOrderByBookmarks(String category);
+
+    List<QuestionSummary> getCommunityQuestionsOrderByRecentReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<QuestionSummary> getCommunityQuestionsOrderByViewsReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<QuestionSummary> getCommunityQuestionsOrderByCommentsReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<QuestionSummary> getCommunityQuestionsOrderByLikesReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<QuestionSummary> getCommunityQuestionsOrderByBookmarksReload(@Param("category") String category, @Param("content_no") int content_no);
 }

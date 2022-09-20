@@ -288,7 +288,8 @@
         SET @LAST_COMMENTS = (select COUNT(*) from manual_comment WHERE manual_no = #{content_no});
         select *, (select COUNT(*) from manual_comment WHERE manual_no = manual.no) as comment_count
         from manual
-        WHERE ((select COUNT(*) from manual_comment WHERE manual_no = manual.no) <![CDATA[<]]> @LAST_COMMENTS OR ((select
+        WHERE ((select COUNT(*) from manual_comment WHERE manual_no = manual.no) <![CDATA[<]]> @LAST_COMMENTS OR
+        ((select
         COUNT(*) from manual_comment WHERE manual_no = manual.no) = @LAST_COMMENTS AND manual.no
         <![CDATA[<]]> #{content_no}))
         <if test="category neq null and category neq '' ">AND category = #{category}</if>
@@ -308,7 +309,8 @@
         SET @LAST_BOOKMARKS = (select COUNT(*) from manual_bookmark WHERE manual_no = #{content_no});
         select *, (select COUNT(*) from manual_bookmark WHERE manual_no = manual.no) as bookmark_count
         from manual
-        WHERE ((select COUNT(*) from manual_bookmark WHERE manual_no = manual.no) <![CDATA[<]]> @LAST_BOOKMARKS OR ((select
+        WHERE ((select COUNT(*) from manual_bookmark WHERE manual_no = manual.no) <![CDATA[<]]> @LAST_BOOKMARKS OR
+        ((select
         COUNT(*) from manual_bookmark WHERE manual_no = manual.no) = @LAST_BOOKMARKS AND manual.no
         <![CDATA[<]]> #{content_no}))
         <if test="category neq null and category neq '' ">AND category = #{category}</if>
@@ -367,7 +369,8 @@
         SET @LAST_COMMENTS = (select COUNT(*) from magazine_comment WHERE magazine_no = #{content_no});
         select *, (select COUNT(*) from magazine_comment WHERE magazine_no = magazine.no) as comment_count
         from magazine
-        WHERE ((select COUNT(*) from magazine_comment WHERE magazine_no = magazine.no) <![CDATA[<]]> @LAST_COMMENTS OR ((select
+        WHERE ((select COUNT(*) from magazine_comment WHERE magazine_no = magazine.no) <![CDATA[<]]> @LAST_COMMENTS OR
+        ((select
         COUNT(*) from magazine_comment WHERE magazine_no = magazine.no) = @LAST_COMMENTS AND magazine.no
         <![CDATA[<]]> #{content_no}))
         <if test="category neq null and category neq '' ">AND category = #{category}</if>
@@ -377,7 +380,8 @@
         SET @LAST_LIKES = (select COUNT(*) from magazine_like WHERE magazine_no = #{content_no});
         select *, (select COUNT(*) from magazine_like WHERE magazine_no = magazine.no) as like_count
         from magazine
-        WHERE ((select COUNT(*) from magazine_like WHERE magazine_no = magazine.no) <![CDATA[<]]> @LAST_LIKES OR ((select
+        WHERE ((select COUNT(*) from magazine_like WHERE magazine_no = magazine.no) <![CDATA[<]]> @LAST_LIKES OR
+        ((select
         COUNT(*) from magazine_like WHERE magazine_no = magazine.no) = @LAST_LIKES AND magazine.no
         <![CDATA[<]]> #{content_no}))
         <if test="category neq null and category neq '' ">AND category = #{category}</if>
@@ -387,10 +391,297 @@
         SET @LAST_BOOKMARKS = (select COUNT(*) from magazine_bookmark WHERE magazine_no = #{content_no});
         select *, (select COUNT(*) from magazine_bookmark WHERE magazine_no = magazine.no) as bookmark_count
         from magazine
-        WHERE ((select COUNT(*) from magazine_bookmark WHERE magazine_no = magazine.no) <![CDATA[<]]> @LAST_BOOKMARKS OR ((select
+        WHERE ((select COUNT(*) from magazine_bookmark WHERE magazine_no = magazine.no) <![CDATA[<]]> @LAST_BOOKMARKS OR
+        ((select
         COUNT(*) from magazine_bookmark WHERE magazine_no = magazine.no) = @LAST_BOOKMARKS AND magazine.no
         <![CDATA[<]]> #{content_no}))
         <if test="category neq null and category neq '' ">AND category = #{category}</if>
         ORDER BY bookmark_count DESC, magazine.no DESC LIMIT 4
+    </select>
+
+
+    <select id="getCommunityQuestionsOrderByRecent" resultType="QuestionSummary" resultMap="QuestionSummary">
+        select JSON_OBJECT(
+                        'no', q.no,
+                        'farm_no', q.farm_no,
+                        'title', q.title,
+                        'content', q.content,
+                        'thumbnail', q.thumbnail) as question,
+                q.reg_datetime,
+                (select cl.content
+                    from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+                        from question_comment
+                                left join question_comment_like qcl on question_comment.no = qcl.comment_no
+                        WHERE question_no = q.no
+                        ORDER BY likes DESC, no) as cl
+                LIMIT 1) as best_comment,
+                (select cl.no
+                from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+                from question_comment
+                left join question_comment_like qcl on question_comment.no = qcl.comment_no
+                WHERE question_no = q.no
+                ORDER BY likes DESC, no) as cl
+                LIMIT 1) as best_comment_no
+        from questions q
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY reg_datetime DESC, q.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityQuestionsOrderByViews" resultType="QuestionSummary" resultMap="QuestionSummary">
+        select JSON_OBJECT(
+        'no', q.no,
+        'farm_no', q.farm_no,
+        'title', q.title,
+        'content', q.content,
+        'thumbnail', q.thumbnail) as question,
+        q.reg_datetime,
+        (select cl.content
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment,
+        (select cl.no
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment_no
+        from questions q
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY views DESC, q.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityQuestionsOrderByComments" resultType="QuestionSummary" resultMap="QuestionSummary">
+        select JSON_OBJECT(
+        'no', q.no,
+        'farm_no', q.farm_no,
+        'title', q.title,
+        'content', q.content,
+        'thumbnail', q.thumbnail) as question,
+        q.reg_datetime,
+        (select cl.content
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment,
+        (select cl.no
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment_no,
+        (select COUNT(*) from question_comment WHERE question_no = q.no) as comment_count
+        from questions q
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY comment_count DESC, q.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityQuestionsOrderByLikes" resultType="QuestionSummary" resultMap="QuestionSummary">
+        select JSON_OBJECT(
+        'no', q.no,
+        'farm_no', q.farm_no,
+        'title', q.title,
+        'content', q.content,
+        'thumbnail', q.thumbnail) as question,
+        q.reg_datetime,
+        (select cl.content
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment,
+        (select cl.no
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment_no,
+        (select COUNT(*) from question_like WHERE question_no = q.no) as like_count
+        from questions q
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY like_count DESC, q.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityQuestionsOrderByBookmarks" resultType="QuestionSummary" resultMap="QuestionSummary">
+        select JSON_OBJECT(
+        'no', q.no,
+        'farm_no', q.farm_no,
+        'title', q.title,
+        'content', q.content,
+        'thumbnail', q.thumbnail) as question,
+        q.reg_datetime,
+        (select cl.content
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment,
+        (select cl.no
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment_no,
+        (select COUNT(*) from question_bookmark WHERE question_no = q.no) as bookmark_count
+        from questions q
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY bookmark_count DESC, q.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityQuestionsOrderByRecentReload" resultType="QuestionSummary" resultMap="QuestionSummary">
+        SET @LAST_DATETIME = (select reg_datetime from questions WHERE no = #{content_no});
+        select JSON_OBJECT(
+        'no', q.no,
+        'farm_no', q.farm_no,
+        'title', q.title,
+        'content', q.content,
+        'thumbnail', q.thumbnail) as question,
+        q.reg_datetime,
+        (select cl.content
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment,
+        (select cl.no
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment_no
+        from questions q
+        WHERE (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND q.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY reg_datetime DESC, q.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityQuestionsOrderByViewsReload" resultType="QuestionSummary" resultMap="QuestionSummary">
+        SET @LAST_VIEWS = (select views from questions WHERE no = #{content_no});
+        select JSON_OBJECT(
+        'no', q.no,
+        'farm_no', q.farm_no,
+        'title', q.title,
+        'content', q.content,
+        'thumbnail', q.thumbnail) as question,
+        q.reg_datetime,
+        (select cl.content
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment,
+        (select cl.no
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment_no
+        from questions q
+        WHERE (views <![CDATA[<]]> @LAST_VIEWS OR (views = @LAST_VIEWS AND q.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY views DESC, q.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityQuestionsOrderByCommentsReload" resultType="QuestionSummary" resultMap="QuestionSummary">
+        SET @LAST_COMMENTS = (select COUNT(*) from question_comment WHERE question_no = #{content_no});
+        select JSON_OBJECT(
+        'no', q.no,
+        'farm_no', q.farm_no,
+        'title', q.title,
+        'content', q.content,
+        'thumbnail', q.thumbnail) as question,
+        q.reg_datetime,
+        (select cl.content
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment,
+        (select cl.no
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment_no,
+        (select COUNT(*) from question_comment WHERE question_no = q.no) as comment_count
+        from questions q
+        WHERE ((select COUNT(*) from question_comment WHERE question_no = q.no) <![CDATA[<]]> @LAST_COMMENTS OR
+        ((select COUNT(*) from question_comment WHERE question_no = q.no) = @LAST_COMMENTS AND q.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY comment_count DESC, q.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityQuestionsOrderByLikesReload" resultType="QuestionSummary" resultMap="QuestionSummary">
+        SET @LAST_LIKES = (select COUNT(*) from question_like WHERE question_no = #{content_no});
+        select JSON_OBJECT(
+        'no', q.no,
+        'farm_no', q.farm_no,
+        'title', q.title,
+        'content', q.content,
+        'thumbnail', q.thumbnail) as question,
+        q.reg_datetime,
+        (select cl.content
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment,
+        (select cl.no
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment_no,
+        (select COUNT(*) from question_like WHERE question_no = q.no) as like_count
+        from questions q
+        WHERE ((select COUNT(*) from question_like WHERE question_no = q.no) <![CDATA[<]]> @LAST_LIKES OR
+        ((select COUNT(*) from question_like WHERE question_no = q.no) = @LAST_LIKES AND q.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY like_count DESC, q.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityQuestionsOrderByBookmarksReload" resultType="QuestionSummary" resultMap="QuestionSummary">
+        SET @LAST_BOOKMARKS = (select COUNT(*) from question_bookmark WHERE question_no = #{content_no});
+        select JSON_OBJECT(
+        'no', q.no,
+        'farm_no', q.farm_no,
+        'title', q.title,
+        'content', q.content,
+        'thumbnail', q.thumbnail) as question,
+        q.reg_datetime,
+        (select cl.content
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment,
+        (select cl.no
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment_no,
+        (select COUNT(*) from question_bookmark WHERE question_no = q.no) as bookmark_count
+        from questions q
+        WHERE ((select COUNT(*) from question_bookmark WHERE question_no = q.no) <![CDATA[<]]> @LAST_BOOKMARKS OR
+        ((select COUNT(*) from question_bookmark WHERE question_no = q.no) = @LAST_BOOKMARKS AND q.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY bookmark_count DESC, q.no DESC LIMIT 4
     </select>
 </mapper>

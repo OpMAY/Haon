@@ -5,7 +5,9 @@ import com.model.content.board.Board;
 import com.model.content.common.ORDER_TYPE;
 import com.model.content.magazine.Magazine;
 import com.model.content.manual.Manual;
+import com.model.content.question.QuestionSummary;
 import com.model.content.tips.Tips;
+import com.model.farm.Farm;
 import com.response.Message;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
@@ -139,7 +141,7 @@ public class ContentService {
         }
         for (Manual manual : manuals) {
             if (userNo != null)
-                manual.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(manual.getNo(), userNo));
+                manual.set_bookmark(bookmarkDao.isManualBookmarkByUserNo(manual.getNo(), userNo));
             manual.setProfile_image(farmDao.getFarmByNo(manual.getFarm_no()).getProfile_image());
         }
         return manuals;
@@ -169,9 +171,56 @@ public class ContentService {
         }
         for (Magazine magazine : magazines) {
             if (userNo != null)
-                magazine.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(magazine.getNo(), userNo));
+                magazine.set_bookmark(bookmarkDao.isMagazineBookmarkByUserNo(magazine.getNo(), userNo));
         }
         return magazines;
+    }
+
+    public List<QuestionSummary> getCommunityQuestionsPage(String category, ORDER_TYPE order_type) {
+        List<QuestionSummary> questions;
+        switch (order_type) {
+            case RECENT:
+                questions = contentDao.getCommunityQuestionsOrderByRecent(category);
+                break;
+            case VIEWS:
+                questions = contentDao.getCommunityQuestionsOrderByViews(category);
+                break;
+            case COMMENTS:
+                questions = contentDao.getCommunityQuestionsOrderByComments(category);
+                break;
+            case LIKES:
+                questions = contentDao.getCommunityQuestionsOrderByLikes(category);
+                break;
+            case BOOKMARKS:
+                questions = contentDao.getCommunityQuestionsOrderByBookmarks(category);
+                break;
+            default:
+                throw new RuntimeException();
+        }
+        return questions;
+    }
+
+    public List<Farm> getCommunityFarmsPage(ORDER_TYPE order_type, HttpServletRequest request) {
+        Integer userNo = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        List<Farm> farms;
+        switch (order_type) {
+            case RECENT:
+                farms = farmDao.getCommunityFarmsOrderByRecent();
+                break;
+            case VIEWS:
+                farms = farmDao.getCommunityFarmsOrderByViews();
+                break;
+            case BOOKMARKS:
+                farms = farmDao.getCommunityFarmsOrderByBookmarks();
+                break;
+            default:
+                throw new RuntimeException();
+        }
+        for (Farm farm : farms) {
+            if (userNo != null)
+                farm.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(farm.getNo(), userNo));
+        }
+        return farms;
     }
 
     public Message getContentList(String type, int content_no, ORDER_TYPE order_type, String category, HttpServletRequest request) {
@@ -372,14 +421,89 @@ public class ContentService {
                 message.put("list", magazines);
                 break;
             case "question":
+                List<QuestionSummary> questions;
+                switch (order_type) {
+                    case RECENT:
+                        if (is_reload) {
+                            questions = contentDao.getCommunityQuestionsOrderByRecentReload(category, content_no);
+                        } else {
+                            questions = contentDao.getCommunityQuestionsOrderByRecent(category);
+                        }
+                        break;
+                    case VIEWS:
+                        if (is_reload) {
+                            questions = contentDao.getCommunityQuestionsOrderByViewsReload(category, content_no);
+                        } else {
+                            questions = contentDao.getCommunityQuestionsOrderByViews(category);
+                        }
+                        break;
+                    case COMMENTS:
+                        if (is_reload) {
+                            questions = contentDao.getCommunityQuestionsOrderByCommentsReload(category, content_no);
+                        } else {
+                            questions = contentDao.getCommunityQuestionsOrderByComments(category);
+                        }
+                        break;
+                    case LIKES:
+                        if (is_reload) {
+                            questions = contentDao.getCommunityQuestionsOrderByLikesReload(category, content_no);
+                        } else {
+                            questions = contentDao.getCommunityQuestionsOrderByLikes(category);
+                        }
+                        break;
+                    case BOOKMARKS:
+                        if (is_reload) {
+                            questions = contentDao.getCommunityQuestionsOrderByBookmarksReload(category, content_no);
+                        } else {
+                            questions = contentDao.getCommunityQuestionsOrderByBookmarks(category);
+                        }
+                        break;
+                    default:
+                        throw new RuntimeException();
+                }
+                message.put("list", questions);
                 break;
             case "farm":
+                List<Farm> farms;
+                switch (order_type) {
+                    case RECENT:
+                        if (is_reload) {
+                            farms = farmDao.getCommunityFarmsOrderByRecentReload(content_no);
+                        } else {
+                            farms = farmDao.getCommunityFarmsOrderByRecent();
+                        }
+                        break;
+                    case VIEWS:
+                        if (is_reload) {
+                            farms = farmDao.getCommunityFarmsOrderByViewsReload(content_no);
+                        } else {
+                            farms = farmDao.getCommunityFarmsOrderByViews();
+                        }
+                        break;
+                    case BOOKMARKS:
+                        if (is_reload) {
+                            farms = farmDao.getCommunityFarmsOrderByBookmarksReload(content_no);
+                        } else {
+                            farms = farmDao.getCommunityFarmsOrderByBookmarks();
+                        }
+                        break;
+                    default:
+                        throw new RuntimeException();
+                }
+
+                for (Farm farm : farms) {
+                    if (userNo != null) {
+                        farm.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(farm.getNo(), userNo));
+                    }
+                }
+                message.put("list", farms);
                 break;
             default:
                 throw new RuntimeException();
         }
         return message;
     }
+
 
 
 }

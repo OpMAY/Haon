@@ -2,12 +2,13 @@ package com.model.farm;
 
 import com.model.Agree;
 import com.model.common.MFile;
+import com.model.common.Time;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class Farm {
+public class Farm extends Time {
     private int no;
     private int user_no;
     private String name;
@@ -18,6 +19,6 @@ public class Farm {
     private List<String> hashtag;
     private FarmSns sns;
     private Agree agree;
-
+    private int views;
     private boolean is_bookmark;
 }

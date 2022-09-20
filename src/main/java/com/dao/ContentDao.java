@@ -219,4 +219,46 @@ public class ContentDao {
         return mapper.getCommunityMagazinesOrderByBookmarksReload(category, content_no);
     }
 
+
+    // QUESTIONS
+    public List<QuestionSummary> getCommunityQuestionsOrderByRecent(String category) {
+        return mapper.getCommunityQuestionsOrderByRecent(category);
+    }
+
+    public List<QuestionSummary> getCommunityQuestionsOrderByViews(String category) {
+        return mapper.getCommunityQuestionsOrderByViews(category);
+    }
+
+    public List<QuestionSummary> getCommunityQuestionsOrderByComments(String category) {
+        return mapper.getCommunityQuestionsOrderByComments(category);
+    }
+
+    public List<QuestionSummary> getCommunityQuestionsOrderByLikes(String category) {
+        return mapper.getCommunityQuestionsOrderByLikes(category);
+    }
+
+    public List<QuestionSummary> getCommunityQuestionsOrderByBookmarks(String category) {
+        return mapper.getCommunityQuestionsOrderByBookmarks(category);
+    }
+
+    public List<QuestionSummary> getCommunityQuestionsOrderByRecentReload(String category, int content_no) {
+        return mapper.getCommunityQuestionsOrderByRecentReload(category, content_no);
+    }
+
+    public List<QuestionSummary> getCommunityQuestionsOrderByViewsReload(String category, int content_no) {
+        return mapper.getCommunityQuestionsOrderByViewsReload(category, content_no);
+    }
+
+    public List<QuestionSummary> getCommunityQuestionsOrderByCommentsReload(String category, int content_no) {
+        return mapper.getCommunityQuestionsOrderByCommentsReload(category, content_no);
+    }
+
+    public List<QuestionSummary> getCommunityQuestionsOrderByLikesReload(String category, int content_no) {
+        return mapper.getCommunityQuestionsOrderByLikesReload(category, content_no);
+    }
+
+    public List<QuestionSummary> getCommunityQuestionsOrderByBookmarksReload(String category, int content_no) {
+        return mapper.getCommunityQuestionsOrderByBookmarksReload(category, content_no);
+    }
+
 }
