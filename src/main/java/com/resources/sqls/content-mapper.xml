@@ -79,4 +79,82 @@
     <select id="checkQuestionContentExists" resultType="_boolean">
         select EXISTS(select * from questions WHERE no = #{question_no})
     </select>
+    <select id="getCommunityBoardsOrderByRecent" resultType="Board">
+        select *
+        from board
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY reg_datetime DESC, board.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityBoardsOrderByViews" resultType="Board">
+        select *
+        from board
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY views DESC, board.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityBoardsOrderByComments" resultType="Board">
+        select *, (select COUNT(*) from board_comment WHERE board_no = board.no) as comment_count
+        from board
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY comment_count DESC, board.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityBoardsOrderByLikes" resultType="Board">
+        select *, (select COUNT(*) from board_like WHERE board_no = board.no) as like_count
+        from board
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY like_count DESC, board.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityBoardsOrderByBookmarks" resultType="Board">
+        select *, (select COUNT(*) from board_bookmark WHERE board_no = board.no) as bookmark_count
+        from board
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY bookmark_count DESC, board.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityBoardsOrderByRecentReload" resultType="Board">
+        SET @LAST_DATETIME = (select reg_datetime from board WHERE no = #{content_no});
+        select *
+        from board
+        WHERE (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND board.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY reg_datetime DESC, board.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityBoardsOrderByViewsReload" resultType="Board">
+        SET @LAST_VIEWS = (select views from board WHERE no = #{content_no});
+        select *
+        from board
+        WHERE (views <![CDATA[<]]> @LAST_VIEWS OR (views = @LAST_VIEWS AND board.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY views DESC, board.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityBoardsOrderByCommentsReload" resultType="Board">
+        SET @LAST_COMMENTS = (select COUNT(*) from board_comment WHERE board_no = #{content_no});
+        select *, (select COUNT(*) from board_comment WHERE board_no = board.no) as comment_count
+        from board
+        WHERE ((select COUNT(*) from board_comment WHERE board_no = board.no) <![CDATA[<]]> @LAST_COMMENTS OR ((select
+        COUNT(*) from board_comment WHERE board_no = board.no) = @LAST_COMMENTS AND board.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY comment_count DESC, board.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityBoardsOrderByLikesReload" resultType="Board">
+        SET @LAST_LIKES = (select COUNT(*) from board_like WHERE board_no = #{content_no});
+        select *, (select COUNT(*) from board_like WHERE board_no = board.no) as like_count
+        from board
+        WHERE ((select COUNT(*) from board_like WHERE board_no = board.no) <![CDATA[<]]> @LAST_LIKES OR ((select
+        COUNT(*) from board_like WHERE board_no = board.no) = @LAST_LIKES AND board.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY like_count DESC, board.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityBoardsOrderByBookmarksReload" resultType="Board">
+        SET @LAST_BOOKMARKS = (select COUNT(*) from board_bookmark WHERE board_no = #{content_no});
+        select *, (select COUNT(*) from board_bookmark WHERE board_no = board.no) as bookmark_count
+        from board
+        WHERE ((select COUNT(*) from board_bookmark WHERE board_no = board.no) <![CDATA[<]]> @LAST_BOOKMARKS OR ((select
+        COUNT(*) from board_bookmark WHERE board_no = board.no) = @LAST_BOOKMARKS AND board.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY bookmark_count DESC, board.no DESC LIMIT 4
+    </select>
 </mapper>

@@ -26,4 +26,25 @@ public interface ContentMapper {
     void updateBoardViews(@Param("board_no") int board_no);
 
     boolean checkQuestionContentExists(@Param("question_no") int question_no);
+
+    List<Board> getCommunityBoardsOrderByRecent(String category);
+
+    List<Board> getCommunityBoardsOrderByViews(String category);
+
+    List<Board> getCommunityBoardsOrderByComments(String category);
+
+    List<Board> getCommunityBoardsOrderByLikes(String category);
+
+    List<Board> getCommunityBoardsOrderByBookmarks(String category);
+
+    List<Board> getCommunityBoardsOrderByRecentReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<Board> getCommunityBoardsOrderByViewsReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<Board> getCommunityBoardsOrderByCommentsReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<Board> getCommunityBoardsOrderByLikesReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<Board> getCommunityBoardsOrderByBookmarksReload(@Param("category") String category, @Param("content_no") int content_no);
+
 }

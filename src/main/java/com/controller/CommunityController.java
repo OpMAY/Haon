@@ -5,6 +5,7 @@ import com.model.common.MFile;
 import com.model.content.board.Board;
 import com.model.content.board.BoardComment;
 import com.model.content.board.BoardTransaction;
+import com.model.content.common.ORDER_TYPE;
 import com.model.farm.Farm;
 import com.service.*;
 import com.util.Encryption.EncryptionService;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -160,6 +162,8 @@ public class CommunityController {
     @RequestMapping(value = "/boards", method = RequestMethod.GET)
     public ModelAndView communityBoardsPage() {
         ModelAndView VIEW = new ModelAndView("community/boards");
+        List<Board> boards = contentService.getCommunityBoardsPage(null, ORDER_TYPE.RECENT);
+        VIEW.addObject("boards", boards);
         return VIEW;
     }
 

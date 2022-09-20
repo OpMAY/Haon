@@ -127,7 +127,7 @@
                 </div>
             </div>
             <div class="accordion question-accordion" id="accordionExample1">
-                <div class="row row-cols-2 accordion-deck-container">
+                <div class="row row-cols-2 accordion-deck-container _content-list">
                     <div class="col">
                         <div class="card">
                             <div class="card-header" id="headingOne12">

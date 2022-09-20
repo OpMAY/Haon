@@ -52,4 +52,44 @@ public class ContentDao {
     public boolean checkQuestionContentExists(int question_no) {
         return mapper.checkQuestionContentExists(question_no);
     }
+
+    public List<Board> getCommunityBoardsOrderByRecent(String category) {
+        return mapper.getCommunityBoardsOrderByRecent(category);
+    }
+
+    public List<Board> getCommunityBoardsOrderByViews(String category) {
+        return mapper.getCommunityBoardsOrderByViews(category);
+    }
+
+    public List<Board> getCommunityBoardsOrderByComments(String category) {
+        return mapper.getCommunityBoardsOrderByComments(category);
+    }
+
+    public List<Board> getCommunityBoardsOrderByLikes(String category) {
+        return mapper.getCommunityBoardsOrderByLikes(category);
+    }
+
+    public List<Board> getCommunityBoardsOrderByBookmarks(String category) {
+        return mapper.getCommunityBoardsOrderByBookmarks(category);
+    }
+
+    public List<Board> getCommunityBoardsOrderByRecentReload(String category, int content_no) {
+        return mapper.getCommunityBoardsOrderByRecentReload(category, content_no);
+    }
+
+    public List<Board> getCommunityBoardsOrderByViewsReload(String category, int content_no) {
+        return mapper.getCommunityBoardsOrderByViewsReload(category, content_no);
+    }
+
+    public List<Board> getCommunityBoardsOrderByCommentsReload(String category, int content_no) {
+        return mapper.getCommunityBoardsOrderByCommentsReload(category, content_no);
+    }
+
+    public List<Board> getCommunityBoardsOrderByLikesReload(String category, int content_no) {
+        return mapper.getCommunityBoardsOrderByLikesReload(category, content_no);
+    }
+
+    public List<Board> getCommunityBoardsOrderByBookmarksReload(String category, int content_no) {
+        return mapper.getCommunityBoardsOrderByBookmarksReload(category, content_no);
+    }
 }

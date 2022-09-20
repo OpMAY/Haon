@@ -223,21 +223,91 @@ $(document).ready(function () {
 
     /** Dropdown */
     $('.dropdown-menu').on('click', 'a.dropdown-item', function (event) {
+        let type = $(this).parent().data().type;
+        let item = $(this).parent().data().item;
         let dropdown_item = this;
-        let text = dropdown_item.textContent.trim();
-        let input = dropdown_item.closest('.dropdown').querySelector('[data-toggle="dropdown"] .dropdown-input');
-        if (input.disabled) {
-            input.removeAttribute('disabled');
-            input.value = text;
-            input.setAttribute('disabled', 'disabled');
-        } else if (input.readonly) {
-            input.removeAttribute('readonly');
-            input.value = text;
-            input.setAttribute('readonly', 'readonly');
+        if (type === 'to') {
+            window.location.href = dropdown_item.querySelector('div').dataset.to;
         } else {
-            input.value = text;
+            let input = dropdown_item.closest('.dropdown').querySelector('[data-toggle="dropdown"] .dropdown-input');
+            if (type === 'category') {
+                if (input.value !== dropdown_item.querySelector('div').dataset.value) {
+                    // 카테고리에 맞춰 새로 불러오기
+                    let order = $('[data-type="order"]').closest('.dropdown').find('[data-toggle="dropdown"] .dropdown-input').data().type;
+                    let category = dropdown_item.querySelector('div').dataset.value;
+                    loadMoreContents(item, 0, order, category).then((result) => listFormatOnResult(result, item))
+                }
+            } else if (type === 'order') {
+                if (input.value !== dropdown_item.textContent) {
+                    // 순서에 맞춰 새로 불러오기
+                    let category = $('[data-type="category"]').closest('.dropdown').find('[data-toggle="dropdown"] .dropdown-input').data().type;
+                    let order = dropdown_item.querySelector('div').dataset.value;
+                    loadMoreContents(item, 0, order, category).then((result) => listFormatOnResult(result, item))
+                }
+            }
+            let text = dropdown_item.textContent.trim();
+            if (input.disabled) {
+                input.removeAttribute('disabled');
+                input.value = text;
+                $(input).data('type', dropdown_item.querySelector('div').dataset.value);
+                input.setAttribute('disabled', 'disabled');
+            } else if (input.readonly) {
+                input.removeAttribute('readonly');
+                input.value = text;
+                $(input).data('type', dropdown_item.querySelector('div').dataset.value);
+                input.setAttribute('readonly', 'readonly');
+            } else {
+                input.value = text;
+            }
         }
     });
+
+    function listFormatOnResult(result, item) {
+        if (result.status === 'OK') {
+            let contents_elem = $('._content-list');
+            contents_elem.children().remove();
+            let data = result.data.list;
+            if (data !== undefined && data !== null && data.length > 0) {
+                if (data.length < 4) {
+                    $('._load').addClass('d-none');
+                } else {
+                    $('._load').removeClass('d-none');
+                }
+                switch (item) {
+                    case 'board':
+                        data.forEach((elem, idx) => {
+                            contents_elem.append(`<div class="col" data-no="${elem.no}">
+                        <div class="_board-container" data-type="board">
+                            <div class="_content ellipsis-one-line">
+                                <span class="medium-h4">${elem.title}</span>
+                            </div>
+                            <div class="_info">
+                                <span class="bold-h5 c-brand-green d-none">New!</span>
+                                <span class="medium-h5 c-gray-light ml-8">${elem.views} Views</span>
+                            </div>
+                        </div>
+                    </div>`)
+                        })
+                        break;
+                    case 'tip':
+                        break;
+                    case 'magazine':
+                        break;
+                    case 'manual':
+                        break;
+                    case 'question':
+                        break;
+                    case 'farm':
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                $('._load').addClass('d-none');
+                viewAlert({content: '조건에 맞는 데이터가 없습니다.'});
+            }
+        }
+    }
 
     $('._logout').click(function (event) {
         logout().then((result) => {

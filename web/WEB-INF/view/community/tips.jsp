@@ -127,7 +127,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row row-cols-4 community-container-deck">
+            <div class="row row-cols-4 community-container-deck _content-list">
                 <div class="col p-8 d-flex align-items-stretch">
                     <div class="card community-card">
                         <div class="background-image _thumbnail"
