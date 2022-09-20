@@ -144,6 +144,10 @@ input.form-control.input-box.is-focus {
     transition: all 0.5s;
 }
 
+.question-accordion .card-body ._accordion-content > span:hover {
+    opacity: 0.7;
+}
+
 /* left tab states */
 ._left-tabs ._left-tab-item:hover,
 ._left-tabs ._left-tab-item.is-active {

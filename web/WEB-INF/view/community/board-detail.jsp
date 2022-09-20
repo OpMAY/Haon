@@ -480,6 +480,7 @@
                 }
             });
         });
+        
         $('[data-detail-like]').on('click', function () {
             let no = this.dataset.no;
             let type = this.dataset.detailLike;

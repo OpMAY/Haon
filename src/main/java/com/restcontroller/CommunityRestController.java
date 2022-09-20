@@ -206,5 +206,9 @@ public class CommunityRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
-
+    @RequestMapping(value = "/get/{type}/comment/{content_no}/{last_comment_no}", method = RequestMethod.GET)
+    public ResponseEntity getMoreComments(@PathVariable("type") String type, @PathVariable("content_no") int content_no, @PathVariable("last_comment_no") int last_comment_no) {
+        Message message = commentService.getMoreComments(type, content_no, last_comment_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
 }

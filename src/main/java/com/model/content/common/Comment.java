@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class Comment extends Time {
     private int no;
-    private int user_no;
+    private Integer user_no;
     private int recomment;
     private String content;
     private boolean is_like;

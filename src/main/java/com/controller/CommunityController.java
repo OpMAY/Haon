@@ -97,8 +97,10 @@ public class CommunityController {
                 comment.setUser(commented_user);
             }
 
-            comment.set_like(likeService.isCommentLikeByUserNo(comment.getNo(), user_no));
-            comment.set_dislike(likeService.isCommentDislikeByUserNo(comment.getNo(), user_no));
+            if (user_no != null) {
+                comment.set_like(likeService.isCommentLikeByUserNo(comment.getNo(), user_no));
+                comment.set_dislike(likeService.isCommentDislikeByUserNo(comment.getNo(), user_no));
+            }
 
             ArrayList<BoardComment> recomments = commentService.getRecommentByCommentNo(comment.getNo());
             for (BoardComment recomment : recomments) {
@@ -206,6 +208,12 @@ public class CommunityController {
     @RequestMapping(value = "/tips", method = RequestMethod.GET)
     public ModelAndView communityTipsPage() {
         ModelAndView VIEW = new ModelAndView("community/tips");
+        return VIEW;
+    }
+
+    @RequestMapping(value = "/manuals", method = RequestMethod.GET)
+    public ModelAndView communityManualsPage() {
+        ModelAndView VIEW = new ModelAndView("community/manuals");
         return VIEW;
     }
 }

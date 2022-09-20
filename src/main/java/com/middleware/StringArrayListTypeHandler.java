@@ -47,7 +47,7 @@ public class StringArrayListTypeHandler<T> extends BaseTypeHandler<T> {
             ArrayList<String> strings = new ArrayList<>();
             List<String> result = Arrays.asList(arrayString.substring(1, arrayString.length() - 1).split(",\\s*"));
             result.forEach((value) -> {
-                strings.add(value);
+                strings.add(value.replaceAll("\"", ""));
             });
             result = null;
             return (T) strings;

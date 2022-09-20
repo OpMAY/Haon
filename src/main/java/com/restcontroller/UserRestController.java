@@ -1,8 +1,6 @@
 package com.restcontroller;
 
-import com.model.content.board.BoardTransaction;
 import com.model.content.common.BOOKMARK_TYPE;
-import com.model.content.common.COMMENT_TYPE;
 import com.response.DefaultRes;
 import com.response.Message;
 import com.service.BookmarkService;

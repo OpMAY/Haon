@@ -13,7 +13,8 @@
         <result column="thumbnail" property="thumbnail" typeHandler="com.middleware.JsonObjectTypeHandler"/>
     </resultMap>
     <resultMap id="QuestionSummary" type="com.model.content.question.QuestionSummary">
-        <result column="thumbnail" property="thumbnail" typeHandler="com.middleware.JsonObjectTypeHandler"/>
+        <result column="question" property="question" javaType="com.model.content.question.Question"
+                typeHandler="com.middleware.JsonObjectTypeHandler"/>
     </resultMap>
     <select id="getLiveBoards" resultType="Board">
         select *
@@ -46,13 +47,21 @@
                        'title', q.title,
                        'content', q.content,
                        'thumbnail', q.thumbnail) as question,
+               q.reg_datetime,
                (select cl.content
-                from (select content, COUNT(qcl.user_no) as likes
+                from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
                       from question_comment
                                left join question_comment_like qcl on question_comment.no = qcl.comment_no
                       WHERE question_no = q.no
-                      ORDER BY likes) as cl
-                LIMIT 1)                         as best_comment
+                      ORDER BY likes DESC, no) as cl
+                LIMIT 1)                         as best_comment,
+               (select cl.no
+                from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+                      from question_comment
+                               left join question_comment_like qcl on question_comment.no = qcl.comment_no
+                      WHERE question_no = q.no
+                      ORDER BY likes DESC, no) as cl
+                LIMIT 1)                         as best_comment_no
         from questions as q
         ORDER BY reg_datetime DESC
         LIMIT 8
@@ -61,5 +70,13 @@
         select *
         from board
         where no = #{board_no};
+    </select>
+    <update id="updateBoardViews">
+        update board
+        SET views = views + 1
+        WHERE board.no = #{board_no}
+    </update>
+    <select id="checkQuestionContentExists" resultType="_boolean">
+        select EXISTS(select * from questions WHERE no = #{question_no})
     </select>
 </mapper>

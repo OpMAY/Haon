@@ -6,8 +6,11 @@
     <resultMap id="farm" type="com.model.farm.Farm">
         <result column="profile_image" property="profile_image" javaType="com.model.common.MFile"
                 typeHandler="JsonObjectTypeHandler"/>
+        <result column="hashtag" property="hashtag"
+                typeHandler="StringArrayListTypeHandler"/>
+        <result column="sns" property="sns" typeHandler="JsonObjectTypeHandler"/>
     </resultMap>
-    <select id="getMainFarms" resultType="Farm">
+    <select id="getMainFarms" resultType="Farm" resultMap="farm">
         select *
         from farm
         order by rand()
@@ -19,11 +22,11 @@
     <insert id="insertFarm" parameterType="Farm" keyProperty="no" useGeneratedKeys="true">
         insert into farm(user_no, `name`, type,
                          profile_image, farm_image,
-                         `description`)
+                         `description`, hashtag, sns)
         values (#{user_no}, #{name}, #{type},
                 #{profile_image, typeHandler=JsonObjectTypeHandler},
                 #{farm_image, typeHandler=JsonObjectTypeHandler},
-                #{description});
+                #{description}, JSON_ARRAY(), JSON_OBJECT());
     </insert>
     <select id="getFarmByUserNo" parameterType="int" resultType="Farm" resultMap="farm">
         select *

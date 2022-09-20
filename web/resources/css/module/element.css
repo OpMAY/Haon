@@ -257,8 +257,8 @@ input.form-control.input-box {
     position: relative;
     border: var(--border-1px) var(--gray-high-light);
     border-radius: var(--radius-5);
+    cursor: pointer;
 }
-
 
 .card.community-card ._thumbnail {
     width: 100%;
@@ -456,8 +456,8 @@ input.form-control.input-box {
     top: 19px;
     right: 18px;
     cursor: pointer;
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
     text-align: center;
 }
 
@@ -471,6 +471,11 @@ input.form-control.input-box {
 
 .question-accordion .card-body ._accordion-option ._date {
     text-align: end;
+}
+
+.question-accordion .card-body ._accordion-content > span {
+    cursor: pointer;
+    display: block;
 }
 
 /*board list*/
@@ -1432,4 +1437,8 @@ input.form-control.input-box {
     background-color: var(--basic-white);
     border: var(--border-1px) var(--gray-high-light);
     border-radius: var(--radius-5);
+}
+
+.carousel-card {
+    width: 50%;
 }

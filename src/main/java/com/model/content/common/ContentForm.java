@@ -11,4 +11,5 @@ public class ContentForm extends Time {
     private String content;
     private int views;
     private String category;
+    private boolean is_bookmark;
 }
