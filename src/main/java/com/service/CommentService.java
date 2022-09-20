@@ -29,4 +29,17 @@ public class CommentService {
     public boolean isBestBoardComment(int board_no, int comment_no) {
         return commentDao.getBestBoardComment(board_no).getNo() == comment_no;
     }
+
+    public int insertBoardCommentReply(BoardComment boardComment) {
+        commentDao.insertBoardCommentReply(boardComment);
+        return boardComment.getNo();
+    }
+
+    public BoardComment getBoardCommentByNo(int created_reply_comment_no) {
+        return commentDao.getBoardCommentByNo(created_reply_comment_no);
+    }
+
+    public void deleteBoardCommentByNoAndUserNo(int user_no, int comment_no) {
+        commentDao.deleteBoardCommentByNoAndUserNo(user_no, comment_no);
+    }
 }

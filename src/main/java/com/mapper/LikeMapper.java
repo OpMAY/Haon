@@ -15,5 +15,14 @@ public interface LikeMapper {
     void deleteBoardLike(@Param("board_no") int board_no, @Param("user_no") int user_no);
 
     boolean isCommentLikeByUserNo(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
-    boolean isCommentDisLikeByUserNo(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    void deleteBoardCommentLike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    void insertBoardCommentLike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    boolean isCommentDislikeByUserNo(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    void deleteBoardCommentDislike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    void insertBoardCommentDislike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
 }

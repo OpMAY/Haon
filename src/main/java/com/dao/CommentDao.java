@@ -28,4 +28,16 @@ public class CommentDao {
     public BoardComment getBestBoardComment(int board_no) {
         return mapper.getBestBoardComment(board_no);
     }
+
+    public void insertBoardCommentReply(BoardComment boardComment) {
+        mapper.insertBoardCommentReply(boardComment);
+    }
+
+    public BoardComment getBoardCommentByNo(int created_reply_comment_no) {
+        return mapper.getBoardCommentByNo(created_reply_comment_no);
+    }
+
+    public void deleteBoardCommentByNoAndUserNo(int user_no, int comment_no) {
+        mapper.deleteBoardCommentByNoAndUserNo(user_no, comment_no);
+    }
 }

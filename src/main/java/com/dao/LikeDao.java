@@ -37,7 +37,24 @@ public class LikeDao {
     public boolean isCommentLikeByUserNo(int comment_no, int user_no) {
         return mapper.isCommentLikeByUserNo(comment_no, user_no);
     }
-    public boolean isCommentDisLikeByUserNo(int comment_no, int user_no) {
-        return mapper.isCommentDisLikeByUserNo(comment_no, user_no);
+
+    public void deleteBoardCommentLike(int comment_no, int user_no) {
+        mapper.deleteBoardCommentLike(comment_no, user_no);
+    }
+
+    public void insertBoardCommentLike(int comment_no, int user_no) {
+        mapper.insertBoardCommentLike(comment_no, user_no);
+    }
+
+    public boolean isCommentDislikeByUserNo(int comment_no, int user_no) {
+        return mapper.isCommentDislikeByUserNo(comment_no, user_no);
+    }
+
+    public void deleteBoardCommentDislike(int comment_no, int user_no) {
+        mapper.deleteBoardCommentDislike(comment_no, user_no);
+    }
+
+    public void insertBoardCommentDislike(int comment_no, int user_no) {
+        mapper.insertBoardCommentDislike(comment_no, user_no);
     }
 }

@@ -22,7 +22,7 @@
                           WHERE comment_no = #{comment_no}
                             and user_no = #{user_no}), true, false)
     </select>
-    <select id="isCommentDisLikeByUserNo" resultType="boolean">
+    <select id="isCommentDislikeByUserNo" resultType="boolean">
         SELECT IF(EXISTS(
                           SELECT *
                           FROM board_comment_dislike
@@ -39,4 +39,24 @@
         where board_no = #{board_no}
           and user_no = #{user_no};
     </delete>
+    <delete id="deleteBoardCommentLike">
+        delete
+        from board_comment_like
+        where comment_no = #{comment_no}
+          and user_no = #{user_no}
+    </delete>
+    <delete id="deleteBoardCommentDislike">
+        delete
+        from board_comment_dislike
+        where comment_no = #{comment_no}
+          and user_no = #{user_no}
+    </delete>
+    <insert id="insertBoardCommentLike">
+        insert into board_comment_like(comment_no, user_no)
+        VALUES (#{comment_no}, #{user_no});
+    </insert>
+    <insert id="insertBoardCommentDislike">
+        insert into board_comment_dislike(comment_no, user_no)
+        VALUES (#{comment_no}, #{user_no});
+    </insert>
 </mapper>
