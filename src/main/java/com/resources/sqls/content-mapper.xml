@@ -235,4 +235,162 @@
         <if test="category neq null and category neq '' ">AND category = #{category}</if>
         ORDER BY bookmark_count DESC, tips.no DESC LIMIT 4
     </select>
+
+    <select id="getCommunityManualsOrderByRecent" resultType="Manual" resultMap="Manual">
+        select *
+        from manual
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY reg_datetime DESC, manual.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityManualsOrderByViews" resultType="Manual" resultMap="Manual">
+        select *
+        from manual
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY views DESC, manual.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityManualsOrderByComments" resultType="Manual" resultMap="Manual">
+        select *, (select COUNT(*) from manual_comment WHERE manual_no = manual.no) as comment_count
+        from manual
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY comment_count DESC, manual.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityManualsOrderByLikes" resultType="Manual" resultMap="Manual">
+        select *, (select COUNT(*) from manual_like WHERE manual_no = manual.no) as like_count
+        from manual
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY like_count DESC, manual.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityManualsOrderByBookmarks" resultType="Manual" resultMap="Manual">
+        select *, (select COUNT(*) from manual_bookmark WHERE manual_no = manual.no) as bookmark_count
+        from manual
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY bookmark_count DESC, manual.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityManualsOrderByRecentReload" resultType="Manual" resultMap="Manual">
+        SET @LAST_DATETIME = (select reg_datetime from manual WHERE no = #{content_no});
+        select *
+        from manual
+        WHERE (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND manual.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY reg_datetime DESC, manual.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityManualsOrderByViewsReload" resultType="Manual" resultMap="Manual">
+        SET @LAST_VIEWS = (select views from manual WHERE no = #{content_no});
+        select *
+        from manual
+        WHERE (views <![CDATA[<]]> @LAST_VIEWS OR (views = @LAST_VIEWS AND manual.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY views DESC, manual.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityManualsOrderByCommentsReload" resultType="Manual" resultMap="Manual">
+        SET @LAST_COMMENTS = (select COUNT(*) from manual_comment WHERE manual_no = #{content_no});
+        select *, (select COUNT(*) from manual_comment WHERE manual_no = manual.no) as comment_count
+        from manual
+        WHERE ((select COUNT(*) from manual_comment WHERE manual_no = manual.no) <![CDATA[<]]> @LAST_COMMENTS OR ((select
+        COUNT(*) from manual_comment WHERE manual_no = manual.no) = @LAST_COMMENTS AND manual.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY comment_count DESC, manual.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityManualsOrderByLikesReload" resultType="Manual" resultMap="Manual">
+        SET @LAST_LIKES = (select COUNT(*) from manual_like WHERE manual_no = #{content_no});
+        select *, (select COUNT(*) from manual_like WHERE manual_no = manual.no) as like_count
+        from manual
+        WHERE ((select COUNT(*) from manual_like WHERE manual_no = manual.no) <![CDATA[<]]> @LAST_LIKES OR ((select
+        COUNT(*) from manual_like WHERE manual_no = manual.no) = @LAST_LIKES AND manual.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY like_count DESC, manual.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityManualsOrderByBookmarksReload" resultType="Manual" resultMap="Manual">
+        SET @LAST_BOOKMARKS = (select COUNT(*) from manual_bookmark WHERE manual_no = #{content_no});
+        select *, (select COUNT(*) from manual_bookmark WHERE manual_no = manual.no) as bookmark_count
+        from manual
+        WHERE ((select COUNT(*) from manual_bookmark WHERE manual_no = manual.no) <![CDATA[<]]> @LAST_BOOKMARKS OR ((select
+        COUNT(*) from manual_bookmark WHERE manual_no = manual.no) = @LAST_BOOKMARKS AND manual.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY bookmark_count DESC, manual.no DESC LIMIT 4
+    </select>
+
+    <select id="getCommunityMagazinesOrderByRecent" resultType="Magazine" resultMap="Magazine">
+        select *
+        from magazine
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY reg_datetime DESC, magazine.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityMagazinesOrderByViews" resultType="Magazine" resultMap="Magazine">
+        select *
+        from magazine
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY views DESC, magazine.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityMagazinesOrderByComments" resultType="Magazine" resultMap="Magazine">
+        select *, (select COUNT(*) from magazine_comment WHERE magazine_no = magazine.no) as comment_count
+        from magazine
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY comment_count DESC, magazine.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityMagazinesOrderByLikes" resultType="Magazine" resultMap="Magazine">
+        select *, (select COUNT(*) from magazine_like WHERE magazine_no = magazine.no) as like_count
+        from magazine
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY like_count DESC, magazine.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityMagazinesOrderByBookmarks" resultType="Magazine" resultMap="Magazine">
+        select *, (select COUNT(*) from magazine_bookmark WHERE magazine_no = magazine.no) as bookmark_count
+        from magazine
+        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        ORDER BY bookmark_count DESC, magazine.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityMagazinesOrderByRecentReload" resultType="Magazine" resultMap="Magazine">
+        SET @LAST_DATETIME = (select reg_datetime from magazine WHERE no = #{content_no});
+        select *
+        from magazine
+        WHERE (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND magazine.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY reg_datetime DESC, magazine.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityMagazinesOrderByViewsReload" resultType="Magazine" resultMap="Magazine">
+        SET @LAST_VIEWS = (select views from magazine WHERE no = #{content_no});
+        select *
+        from magazine
+        WHERE (views <![CDATA[<]]> @LAST_VIEWS OR (views = @LAST_VIEWS AND magazine.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY views DESC, magazine.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityMagazinesOrderByCommentsReload" resultType="Magazine" resultMap="Magazine">
+        SET @LAST_COMMENTS = (select COUNT(*) from magazine_comment WHERE magazine_no = #{content_no});
+        select *, (select COUNT(*) from magazine_comment WHERE magazine_no = magazine.no) as comment_count
+        from magazine
+        WHERE ((select COUNT(*) from magazine_comment WHERE magazine_no = magazine.no) <![CDATA[<]]> @LAST_COMMENTS OR ((select
+        COUNT(*) from magazine_comment WHERE magazine_no = magazine.no) = @LAST_COMMENTS AND magazine.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY comment_count DESC, magazine.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityMagazinesOrderByLikesReload" resultType="Magazine" resultMap="Magazine">
+        SET @LAST_LIKES = (select COUNT(*) from magazine_like WHERE magazine_no = #{content_no});
+        select *, (select COUNT(*) from magazine_like WHERE magazine_no = magazine.no) as like_count
+        from magazine
+        WHERE ((select COUNT(*) from magazine_like WHERE magazine_no = magazine.no) <![CDATA[<]]> @LAST_LIKES OR ((select
+        COUNT(*) from magazine_like WHERE magazine_no = magazine.no) = @LAST_LIKES AND magazine.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY like_count DESC, magazine.no DESC LIMIT 4
+    </select>
+    <select id="getCommunityMagazinesOrderByBookmarksReload" resultType="Magazine" resultMap="Magazine">
+        SET @LAST_BOOKMARKS = (select COUNT(*) from magazine_bookmark WHERE magazine_no = #{content_no});
+        select *, (select COUNT(*) from magazine_bookmark WHERE magazine_no = magazine.no) as bookmark_count
+        from magazine
+        WHERE ((select COUNT(*) from magazine_bookmark WHERE magazine_no = magazine.no) <![CDATA[<]]> @LAST_BOOKMARKS OR ((select
+        COUNT(*) from magazine_bookmark WHERE magazine_no = magazine.no) = @LAST_BOOKMARKS AND magazine.no
+        <![CDATA[<]]> #{content_no}))
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
+        ORDER BY bookmark_count DESC, magazine.no DESC LIMIT 4
+    </select>
 </mapper>

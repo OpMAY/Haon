@@ -50,10 +50,10 @@
                             <div data-to="/community/boards">자유 게시판</div>
                         </a>
                         <a class="dropdown-item c-gray-light medium-h5">
-                            <div data-to="/community/manuals">메뉴얼</div>
+                            <div data-to="/community/manuals">축산 메뉴얼</div>
                         </a>
                         <a class="dropdown-item c-gray-light medium-h5">
-                            <div data-to="/community/magazines">매거진</div>
+                            <div data-to="/community/magazines">축산 매거진</div>
                         </a>
                         <a class="dropdown-item c-gray-light medium-h5">
                             <div data-to="/community/questions">질문과 답변</div>
@@ -194,8 +194,8 @@
                         </div>
                     </c:if>
                     <c:if test="${item.thumbnail.url eq null}">
-                        <div class="col p-8 d-flex align-items-stretch">
-                            <div class="card community-card is-empty" data-no="${item.no}">
+                        <div class="col p-8 d-flex align-items-stretch" data-no="${item.no}">
+                            <div class="card community-card is-empty">
                                 <div class="background-image _profile"
                                      style="background-image:url('${item.profile_image.url}')"></div>
                                 <div class="card-body _body">
@@ -263,6 +263,10 @@
      * */
     $(document).ready(function () {
         console.log('Static JS is ready');
+
+        $('._content-list').on('click', '.col', function () {
+            window.location.href = '/community/tips/detail/' + $(this).data().no;
+        })
     });
 </script>
 </body>

@@ -3,6 +3,8 @@ package com.service;
 import com.dao.*;
 import com.model.content.board.Board;
 import com.model.content.common.ORDER_TYPE;
+import com.model.content.magazine.Magazine;
+import com.model.content.manual.Manual;
 import com.model.content.tips.Tips;
 import com.response.Message;
 import com.util.Encryption.EncryptionService;
@@ -113,6 +115,65 @@ public class ContentService {
         return tips;
     }
 
+    public List<Manual> getCommunityManualsPage(String category, ORDER_TYPE order_type, HttpServletRequest request) {
+        Integer userNo = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        List<Manual> manuals;
+        switch (order_type) {
+            case RECENT:
+                manuals = contentDao.getCommunityManualsOrderByRecent(category);
+                break;
+            case VIEWS:
+                manuals = contentDao.getCommunityManualsOrderByViews(category);
+                break;
+            case COMMENTS:
+                manuals = contentDao.getCommunityManualsOrderByComments(category);
+                break;
+            case LIKES:
+                manuals = contentDao.getCommunityManualsOrderByLikes(category);
+                break;
+            case BOOKMARKS:
+                manuals = contentDao.getCommunityManualsOrderByBookmarks(category);
+                break;
+            default:
+                throw new RuntimeException();
+        }
+        for (Manual manual : manuals) {
+            if (userNo != null)
+                manual.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(manual.getNo(), userNo));
+            manual.setProfile_image(farmDao.getFarmByNo(manual.getFarm_no()).getProfile_image());
+        }
+        return manuals;
+    }
+
+    public List<Magazine> getCommunityMagazinesPage(String category, ORDER_TYPE order_type, HttpServletRequest request) {
+        Integer userNo = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        List<Magazine> magazines;
+        switch (order_type) {
+            case RECENT:
+                magazines = contentDao.getCommunityMagazinesOrderByRecent(category);
+                break;
+            case VIEWS:
+                magazines = contentDao.getCommunityMagazinesOrderByViews(category);
+                break;
+            case COMMENTS:
+                magazines = contentDao.getCommunityMagazinesOrderByComments(category);
+                break;
+            case LIKES:
+                magazines = contentDao.getCommunityMagazinesOrderByLikes(category);
+                break;
+            case BOOKMARKS:
+                magazines = contentDao.getCommunityMagazinesOrderByBookmarks(category);
+                break;
+            default:
+                throw new RuntimeException();
+        }
+        for (Magazine magazine : magazines) {
+            if (userNo != null)
+                magazine.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(magazine.getNo(), userNo));
+        }
+        return magazines;
+    }
+
     public Message getContentList(String type, int content_no, ORDER_TYPE order_type, String category, HttpServletRequest request) {
         Message message = new Message();
         boolean is_reload = content_no > 0;
@@ -212,8 +273,103 @@ public class ContentService {
                 message.put("list", tips);
                 break;
             case "manual":
+                List<Manual> manuals;
+                switch (order_type) {
+                    case RECENT:
+                        if (is_reload) {
+                            manuals = contentDao.getCommunityManualsOrderByRecentReload(category, content_no);
+                        } else {
+                            manuals = contentDao.getCommunityManualsOrderByRecent(category);
+                        }
+                        break;
+                    case VIEWS:
+                        if (is_reload) {
+                            manuals = contentDao.getCommunityManualsOrderByViewsReload(category, content_no);
+                        } else {
+                            manuals = contentDao.getCommunityManualsOrderByViews(category);
+                        }
+                        break;
+                    case COMMENTS:
+                        if (is_reload) {
+                            manuals = contentDao.getCommunityManualsOrderByCommentsReload(category, content_no);
+                        } else {
+                            manuals = contentDao.getCommunityManualsOrderByComments(category);
+                        }
+                        break;
+                    case LIKES:
+                        if (is_reload) {
+                            manuals = contentDao.getCommunityManualsOrderByLikesReload(category, content_no);
+                        } else {
+                            manuals = contentDao.getCommunityManualsOrderByLikes(category);
+                        }
+                        break;
+                    case BOOKMARKS:
+                        if (is_reload) {
+                            manuals = contentDao.getCommunityManualsOrderByBookmarksReload(category, content_no);
+                        } else {
+                            manuals = contentDao.getCommunityManualsOrderByBookmarks(category);
+                        }
+                        break;
+                    default:
+                        throw new RuntimeException();
+                }
+
+                for (Manual manual : manuals) {
+                    if (userNo != null) {
+                        manual.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(manual.getNo(), userNo));
+                    }
+                    manual.setProfile_image(farmDao.getFarmByNo(manual.getFarm_no()).getProfile_image());
+                }
+                message.put("list", manuals);
                 break;
             case "magazine":
+                List<Magazine> magazines;
+                switch (order_type) {
+                    case RECENT:
+                        if (is_reload) {
+                            magazines = contentDao.getCommunityMagazinesOrderByRecentReload(category, content_no);
+                        } else {
+                            magazines = contentDao.getCommunityMagazinesOrderByRecent(category);
+                        }
+                        break;
+                    case VIEWS:
+                        if (is_reload) {
+                            magazines = contentDao.getCommunityMagazinesOrderByViewsReload(category, content_no);
+                        } else {
+                            magazines = contentDao.getCommunityMagazinesOrderByViews(category);
+                        }
+                        break;
+                    case COMMENTS:
+                        if (is_reload) {
+                            magazines = contentDao.getCommunityMagazinesOrderByCommentsReload(category, content_no);
+                        } else {
+                            magazines = contentDao.getCommunityMagazinesOrderByComments(category);
+                        }
+                        break;
+                    case LIKES:
+                        if (is_reload) {
+                            magazines = contentDao.getCommunityMagazinesOrderByLikesReload(category, content_no);
+                        } else {
+                            magazines = contentDao.getCommunityMagazinesOrderByLikes(category);
+                        }
+                        break;
+                    case BOOKMARKS:
+                        if (is_reload) {
+                            magazines = contentDao.getCommunityMagazinesOrderByBookmarksReload(category, content_no);
+                        } else {
+                            magazines = contentDao.getCommunityMagazinesOrderByBookmarks(category);
+                        }
+                        break;
+                    default:
+                        throw new RuntimeException();
+                }
+
+                for (Magazine magazine : magazines) {
+                    if (userNo != null) {
+                        magazine.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(magazine.getNo(), userNo));
+                    }
+                }
+                message.put("list", magazines);
                 break;
             case "question":
                 break;
@@ -224,4 +380,6 @@ public class ContentService {
         }
         return message;
     }
+
+
 }

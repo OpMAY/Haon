@@ -53,6 +53,7 @@ public class ContentDao {
         return mapper.checkQuestionContentExists(question_no);
     }
 
+    // BOARDS
     public List<Board> getCommunityBoardsOrderByRecent(String category) {
         return mapper.getCommunityBoardsOrderByRecent(category);
     }
@@ -93,6 +94,7 @@ public class ContentDao {
         return mapper.getCommunityBoardsOrderByBookmarksReload(category, content_no);
     }
 
+    // TIPS
     public List<Tips> getCommunityTipsOrderByRecent(String category) {
         return mapper.getCommunityTipsOrderByRecent(category);
     }
@@ -132,4 +134,89 @@ public class ContentDao {
     public List<Tips> getCommunityTipsOrderByBookmarksReload(String category, int content_no) {
         return mapper.getCommunityTipsOrderByBookmarksReload(category, content_no);
     }
+
+
+    // MANUALS
+    public List<Manual> getCommunityManualsOrderByRecent(String category) {
+        return mapper.getCommunityManualsOrderByRecent(category);
+    }
+
+    public List<Manual> getCommunityManualsOrderByViews(String category) {
+        return mapper.getCommunityManualsOrderByViews(category);
+    }
+
+    public List<Manual> getCommunityManualsOrderByComments(String category) {
+        return mapper.getCommunityManualsOrderByComments(category);
+    }
+
+    public List<Manual> getCommunityManualsOrderByLikes(String category) {
+        return mapper.getCommunityManualsOrderByLikes(category);
+    }
+
+    public List<Manual> getCommunityManualsOrderByBookmarks(String category) {
+        return mapper.getCommunityManualsOrderByBookmarks(category);
+    }
+
+    public List<Manual> getCommunityManualsOrderByRecentReload(String category, int content_no) {
+        return mapper.getCommunityManualsOrderByRecentReload(category, content_no);
+    }
+
+    public List<Manual> getCommunityManualsOrderByViewsReload(String category, int content_no) {
+        return mapper.getCommunityManualsOrderByViewsReload(category, content_no);
+    }
+
+    public List<Manual> getCommunityManualsOrderByCommentsReload(String category, int content_no) {
+        return mapper.getCommunityManualsOrderByCommentsReload(category, content_no);
+    }
+
+    public List<Manual> getCommunityManualsOrderByLikesReload(String category, int content_no) {
+        return mapper.getCommunityManualsOrderByLikesReload(category, content_no);
+    }
+
+    public List<Manual> getCommunityManualsOrderByBookmarksReload(String category, int content_no) {
+        return mapper.getCommunityManualsOrderByBookmarksReload(category, content_no);
+    }
+
+
+    // MAGAZINES
+    public List<Magazine> getCommunityMagazinesOrderByRecent(String category) {
+        return mapper.getCommunityMagazinesOrderByRecent(category);
+    }
+
+    public List<Magazine> getCommunityMagazinesOrderByViews(String category) {
+        return mapper.getCommunityMagazinesOrderByViews(category);
+    }
+
+    public List<Magazine> getCommunityMagazinesOrderByComments(String category) {
+        return mapper.getCommunityMagazinesOrderByComments(category);
+    }
+
+    public List<Magazine> getCommunityMagazinesOrderByLikes(String category) {
+        return mapper.getCommunityMagazinesOrderByLikes(category);
+    }
+
+    public List<Magazine> getCommunityMagazinesOrderByBookmarks(String category) {
+        return mapper.getCommunityMagazinesOrderByBookmarks(category);
+    }
+
+    public List<Magazine> getCommunityMagazinesOrderByRecentReload(String category, int content_no) {
+        return mapper.getCommunityMagazinesOrderByRecentReload(category, content_no);
+    }
+
+    public List<Magazine> getCommunityMagazinesOrderByViewsReload(String category, int content_no) {
+        return mapper.getCommunityMagazinesOrderByViewsReload(category, content_no);
+    }
+
+    public List<Magazine> getCommunityMagazinesOrderByCommentsReload(String category, int content_no) {
+        return mapper.getCommunityMagazinesOrderByCommentsReload(category, content_no);
+    }
+
+    public List<Magazine> getCommunityMagazinesOrderByLikesReload(String category, int content_no) {
+        return mapper.getCommunityMagazinesOrderByLikesReload(category, content_no);
+    }
+
+    public List<Magazine> getCommunityMagazinesOrderByBookmarksReload(String category, int content_no) {
+        return mapper.getCommunityMagazinesOrderByBookmarksReload(category, content_no);
+    }
+
 }

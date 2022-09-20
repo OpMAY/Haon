@@ -6,6 +6,8 @@ import com.model.content.board.Board;
 import com.model.content.board.BoardComment;
 import com.model.content.board.BoardTransaction;
 import com.model.content.common.ORDER_TYPE;
+import com.model.content.magazine.Magazine;
+import com.model.content.manual.Manual;
 import com.model.content.tips.Tips;
 import com.model.farm.Farm;
 import com.service.*;
@@ -187,8 +189,10 @@ public class CommunityController {
     }
 
     @RequestMapping(value = "/magazines", method = RequestMethod.GET)
-    public ModelAndView communityMagazinesPage() {
+    public ModelAndView communityMagazinesPage(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("community/magazines");
+        List<Magazine> magazines = contentService.getCommunityMagazinesPage(null, ORDER_TYPE.RECENT, request);
+        VIEW.addObject("magazines", magazines);
         return VIEW;
     }
 
@@ -219,8 +223,10 @@ public class CommunityController {
     }
 
     @RequestMapping(value = "/manuals", method = RequestMethod.GET)
-    public ModelAndView communityManualsPage() {
+    public ModelAndView communityManualsPage(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("community/manuals");
+        List<Manual> manuals = contentService.getCommunityManualsPage(null, ORDER_TYPE.RECENT, request);
+        VIEW.addObject("manuals", manuals);
         return VIEW;
     }
 }

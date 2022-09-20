@@ -51,10 +51,10 @@
                             <div data-to="/community/tips">팁과 노하우</div>
                         </a>
                         <a class="dropdown-item c-gray-light medium-h5">
-                            <div data-to="/community/manuals">메뉴얼</div>
+                            <div data-to="/community/manuals">축산 메뉴얼</div>
                         </a>
                         <a class="dropdown-item c-gray-light medium-h5">
-                            <div data-to="/community/magazines">매거진</div>
+                            <div data-to="/community/magazines">축산 매거진</div>
                         </a>
                         <a class="dropdown-item c-gray-light medium-h5">
                             <div data-to="/community/questions">질문과 답변</div>

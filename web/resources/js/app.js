@@ -286,11 +286,6 @@ $(document).ready(function () {
             }
             let data = result.data.list;
             if (data !== undefined && data !== null && data.length > 0) {
-                if (data.length < 4) {
-                    $('._load').addClass('d-none');
-                } else {
-                    $('._load').removeClass('d-none');
-                }
                 switch (item) {
                     case 'board':
                         data.forEach((elem, idx) => {
@@ -309,12 +304,11 @@ $(document).ready(function () {
                         break;
                     case 'tip':
                         data.forEach((elem, idx) => {
-                            console.log(elem);
                             let component;
                             if (elem.thumbnail.url === null) {
                                 component =
-                                    `<div class="col p-8 d-flex align-items-stretch">
-                                        <div class="card community-card is-empty" data-no="${elem.no}">
+                                    `<div class="col p-8 d-flex align-items-stretch" data-no="${elem.no}">
+                                        <div class="card community-card is-empty">
                                             <div class="background-image _profile"
                                                  style="background-image:url('${elem.profile_image.url}')"></div>
                                             <div class="card-body _body">
@@ -394,14 +388,186 @@ $(document).ready(function () {
                                     </div>
                                 </div>`;
                             }
-
-                            console.log(component);
                             contents_elem.append(component);
                         })
                         break;
                     case 'magazine':
+                        data.forEach((elem, idx) => {
+                            let component;
+                            if (elem.thumbnail.url === null) {
+                                component =
+                                    `<div class="col p-8 d-flex align-items-stretch" data-no="${elem.no}">
+                                        <div class="card community-card is-empty">
+                                            <div class="background-image _profile"
+                                                 style="background-image:url('../../resources/assets/images/sample/sample_profile_1.png')"></div>
+                                            <div class="card-body _body">
+                                                <h5 class="card-title _title bold-h4 c-gray-dark-low">${elem.title}</h5>
+                                                <div class="card-text _description medium-h5 c-gray-medium">${elem.content}</div>
+                                            </div>
+                                            <div class="_footer">
+                                                <span class="_views medium-p1 c-gray-light">
+                                                  <span class="_count">${elem.views}</span> Views
+                                                </span>`
+                                    + (elem._bookmark ? `<span class="_bookmark is-active" data-bookmark="TIPS"
+                                          data-no="${elem.no}">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                  <g clip-path="url(#clip0_249_10407)">
+                                                      <path
+                                                              d="M21.1792 12.7944L21.1922 12.8084L12.0002 22.0004L2.80821 12.8084L2.82121 12.7944C1.75378 11.5499 1.19605 9.94807 1.2598 8.30977C1.32355 6.67148 2.00406 5.11779 3.16496 3.96005C4.32587 2.8023 5.88141 2.12603 7.51987 2.06675C9.15834 2.00747 10.7587 2.56956 12.0002 3.64039C13.2417 2.56956 14.8421 2.00747 16.4806 2.06675C18.119 2.12603 19.6746 2.8023 20.8355 3.96005C21.9964 5.11779 22.6769 6.67148 22.7406 8.30977C22.8044 9.94807 22.2466 11.5499 21.1792 12.7944Z"
+                                                              fill="#A9CC52"/>
+                                                  </g>
+                                                  <defs>
+                                                      <clipPath id="clip0_249_10407">
+                                                          <rect width="24" height="24" fill="white"/>
+                                                      </clipPath>
+                                                  </defs>
+                                              </svg>
+                                    </span>` : `<span class="_bookmark" data-bookmark="TIPS" data-no="${elem.no}">
+                                                   <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"><g
+                                                           clip-path="url(#clip0_204_2957)"><path
+                                                           d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/></g><defs><clipPath
+                                                           id="clip0_204_2957"><rect width="24.0923" height="24"
+                                                                                     transform="translate(0.0500488)"/></clipPath></defs></svg>
+                                            </span>`) +
+                                    `</div>
+                                    </div>
+                                </div>`;
+                            } else {
+                                component = `<div class="col p-8 d-flex align-items-stretch" data-no="${elem.no}">
+                            <div class="card community-card">
+                                <div class="background-image _thumbnail"
+                                     style="background-image:url('${elem.thumbnail.url}')">
+                                    <div class="background-image _profile"
+                                         style="background-image:url('../../resources/assets/images/sample/sample_profile_1.png')"></div>
+                                </div>
+                                <div class="card-body _body">
+                                    <h5 class="card-title _title bold-h4 c-gray-dark-low">${elem.title}</h5>
+                                    <div class="card-text _description medium-h5 c-gray-medium">${elem.content}</div>
+                                </div>
+                                <div class="_footer">
+                                    <span class="_views medium-p1 c-gray-light">
+                                      <span class="_count">${elem.views}</span> Views
+                                    </span>`
+                                    + (elem._bookmark ? `<span class="_bookmark is-active" data-bookmark="TIPS"
+                                          data-no="${elem.no}">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                  <g clip-path="url(#clip0_249_10407)">
+                                                      <path
+                                                              d="M21.1792 12.7944L21.1922 12.8084L12.0002 22.0004L2.80821 12.8084L2.82121 12.7944C1.75378 11.5499 1.19605 9.94807 1.2598 8.30977C1.32355 6.67148 2.00406 5.11779 3.16496 3.96005C4.32587 2.8023 5.88141 2.12603 7.51987 2.06675C9.15834 2.00747 10.7587 2.56956 12.0002 3.64039C13.2417 2.56956 14.8421 2.00747 16.4806 2.06675C18.119 2.12603 19.6746 2.8023 20.8355 3.96005C21.9964 5.11779 22.6769 6.67148 22.7406 8.30977C22.8044 9.94807 22.2466 11.5499 21.1792 12.7944Z"
+                                                              fill="#A9CC52"/>
+                                                  </g>
+                                                  <defs>
+                                                      <clipPath id="clip0_249_10407">
+                                                          <rect width="24" height="24" fill="white"/>
+                                                      </clipPath>
+                                                  </defs>
+                                              </svg>
+                                    </span>` : `<span class="_bookmark" data-bookmark="TIPS" data-no="${elem.no}">
+                                                   <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"><g
+                                                           clip-path="url(#clip0_204_2957)"><path
+                                                           d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/></g><defs><clipPath
+                                                           id="clip0_204_2957"><rect width="24.0923" height="24"
+                                                                                     transform="translate(0.0500488)"/></clipPath></defs></svg>
+                                            </span>`) +
+                                    `</div>
+                                    </div>
+                                </div>`;
+                            }
+                            contents_elem.append(component);
+                        })
                         break;
                     case 'manual':
+                        data.forEach((elem, idx) => {
+                            let component;
+                            if (elem.thumbnail.url === null) {
+                                component =
+                                    `<div class="col p-8 d-flex align-items-stretch" data-no="${elem.no}">
+                                        <div class="card community-card is-empty">
+                                            <div class="background-image _profile"
+                                                 style="background-image:url('${elem.profile_image.url}')"></div>
+                                            <div class="card-body _body">
+                                                <h5 class="card-title _title bold-h4 c-gray-dark-low">${elem.title}</h5>
+                                                <div class="card-text _description medium-h5 c-gray-medium">${elem.content}</div>
+                                            </div>
+                                            <div class="_footer">
+                                                <span class="_views medium-p1 c-gray-light">
+                                                  <span class="_count">${elem.views}</span> Views
+                                                </span>`
+                                    + (elem._bookmark ? `<span class="_bookmark is-active" data-bookmark="TIPS"
+                                          data-no="${elem.no}">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                  <g clip-path="url(#clip0_249_10407)">
+                                                      <path
+                                                              d="M21.1792 12.7944L21.1922 12.8084L12.0002 22.0004L2.80821 12.8084L2.82121 12.7944C1.75378 11.5499 1.19605 9.94807 1.2598 8.30977C1.32355 6.67148 2.00406 5.11779 3.16496 3.96005C4.32587 2.8023 5.88141 2.12603 7.51987 2.06675C9.15834 2.00747 10.7587 2.56956 12.0002 3.64039C13.2417 2.56956 14.8421 2.00747 16.4806 2.06675C18.119 2.12603 19.6746 2.8023 20.8355 3.96005C21.9964 5.11779 22.6769 6.67148 22.7406 8.30977C22.8044 9.94807 22.2466 11.5499 21.1792 12.7944Z"
+                                                              fill="#A9CC52"/>
+                                                  </g>
+                                                  <defs>
+                                                      <clipPath id="clip0_249_10407">
+                                                          <rect width="24" height="24" fill="white"/>
+                                                      </clipPath>
+                                                  </defs>
+                                              </svg>
+                                    </span>` : `<span class="_bookmark" data-bookmark="TIPS" data-no="${elem.no}">
+                                                   <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"><g
+                                                           clip-path="url(#clip0_204_2957)"><path
+                                                           d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/></g><defs><clipPath
+                                                           id="clip0_204_2957"><rect width="24.0923" height="24"
+                                                                                     transform="translate(0.0500488)"/></clipPath></defs></svg>
+                                            </span>`) +
+                                    `</div>
+                                    </div>
+                                </div>`;
+                            } else {
+                                component = `<div class="col p-8 d-flex align-items-stretch" data-no="${elem.no}">
+                            <div class="card community-card">
+                                <div class="background-image _thumbnail"
+                                     style="background-image:url('${elem.thumbnail.url}')">
+                                    <div class="background-image _profile"
+                                         style="background-image:url('${elem.profile_image.url}')"></div>
+                                </div>
+                                <div class="card-body _body">
+                                    <h5 class="card-title _title bold-h4 c-gray-dark-low">${elem.title}</h5>
+                                    <div class="card-text _description medium-h5 c-gray-medium">${elem.content}</div>
+                                </div>
+                                <div class="_footer">
+                                    <span class="_views medium-p1 c-gray-light">
+                                      <span class="_count">${elem.views}</span> Views
+                                    </span>`
+                                    + (elem._bookmark ? `<span class="_bookmark is-active" data-bookmark="TIPS"
+                                          data-no="${elem.no}">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                  <g clip-path="url(#clip0_249_10407)">
+                                                      <path
+                                                              d="M21.1792 12.7944L21.1922 12.8084L12.0002 22.0004L2.80821 12.8084L2.82121 12.7944C1.75378 11.5499 1.19605 9.94807 1.2598 8.30977C1.32355 6.67148 2.00406 5.11779 3.16496 3.96005C4.32587 2.8023 5.88141 2.12603 7.51987 2.06675C9.15834 2.00747 10.7587 2.56956 12.0002 3.64039C13.2417 2.56956 14.8421 2.00747 16.4806 2.06675C18.119 2.12603 19.6746 2.8023 20.8355 3.96005C21.9964 5.11779 22.6769 6.67148 22.7406 8.30977C22.8044 9.94807 22.2466 11.5499 21.1792 12.7944Z"
+                                                              fill="#A9CC52"/>
+                                                  </g>
+                                                  <defs>
+                                                      <clipPath id="clip0_249_10407">
+                                                          <rect width="24" height="24" fill="white"/>
+                                                      </clipPath>
+                                                  </defs>
+                                              </svg>
+                                    </span>` : `<span class="_bookmark" data-bookmark="TIPS" data-no="${elem.no}">
+                                                   <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"><g
+                                                           clip-path="url(#clip0_204_2957)"><path
+                                                           d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/></g><defs><clipPath
+                                                           id="clip0_204_2957"><rect width="24.0923" height="24"
+                                                                                     transform="translate(0.0500488)"/></clipPath></defs></svg>
+                                            </span>`) +
+                                    `</div>
+                                    </div>
+                                </div>`;
+                            }
+                            contents_elem.append(component);
+                        })
                         break;
                     case 'question':
                         break;

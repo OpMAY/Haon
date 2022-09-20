@@ -68,4 +68,47 @@ public interface ContentMapper {
     List<Tips> getCommunityTipsOrderByLikesReload(@Param("category") String category, @Param("content_no") int content_no);
 
     List<Tips> getCommunityTipsOrderByBookmarksReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    // Manuals
+    List<Manual> getCommunityManualsOrderByRecent(String category);
+
+    List<Manual> getCommunityManualsOrderByViews(String category);
+
+    List<Manual> getCommunityManualsOrderByComments(String category);
+
+    List<Manual> getCommunityManualsOrderByLikes(String category);
+
+    List<Manual> getCommunityManualsOrderByBookmarks(String category);
+
+    List<Manual> getCommunityManualsOrderByRecentReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<Manual> getCommunityManualsOrderByViewsReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<Manual> getCommunityManualsOrderByCommentsReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<Manual> getCommunityManualsOrderByLikesReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<Manual> getCommunityManualsOrderByBookmarksReload(@Param("category") String category, @Param("content_no") int content_no);
+
+
+    // MAGAZINES
+    List<Magazine> getCommunityMagazinesOrderByRecent(String category);
+
+    List<Magazine> getCommunityMagazinesOrderByViews(String category);
+
+    List<Magazine> getCommunityMagazinesOrderByComments(String category);
+
+    List<Magazine> getCommunityMagazinesOrderByLikes(String category);
+
+    List<Magazine> getCommunityMagazinesOrderByBookmarks(String category);
+
+    List<Magazine> getCommunityMagazinesOrderByRecentReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<Magazine> getCommunityMagazinesOrderByViewsReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<Magazine> getCommunityMagazinesOrderByCommentsReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<Magazine> getCommunityMagazinesOrderByLikesReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    List<Magazine> getCommunityMagazinesOrderByBookmarksReload(@Param("category") String category, @Param("content_no") int content_no);
 }
