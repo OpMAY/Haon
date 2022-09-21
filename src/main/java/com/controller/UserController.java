@@ -19,7 +19,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/board/write", method = RequestMethod.GET)
-    public ModelAndView userBoardWritePage() {
+    public ModelAndView getBoardWrite() {
         ModelAndView VIEW = new ModelAndView("user/board-write");
         return VIEW;
     }

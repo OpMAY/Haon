@@ -1,17 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
-
 <jsp:include page="../common/head.jsp"/>
 
 <body>
-
 <jsp:include page="../common/header.jsp"/>
-
 <jsp:include page="../common/header-desc.jsp"/>
 <jsp:include page="../common/tab-overlay.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
-
 <div id="content-wrapper">
     <div class="container">
         <!--테마별 키워드-->
@@ -119,7 +115,7 @@
                                 </div>
                             </div>
                             <div class="_preview background-image"
-                                 style="display:none; background-image: url('../../resources/assets/images/sample/background-wallpaper1.png')">
+                                 style="display:none; background-image: url('/resources/assets/images/sample/background-wallpaper1.png')">
                                 <div class="_cancel">
                                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <circle cx="16" cy="16" r="14" fill="white"/>
@@ -144,7 +140,7 @@
                             </div>
                         </div>
                         <div class="_content">
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="22"></textarea>
+                            <div id="summernote"></div>
                         </div>
                     </div>
                 </div>
@@ -152,12 +148,11 @@
         </section>
     </div>
 </div>
-
 <jsp:include page="../common/footer.jsp"/>
-
 <jsp:include page="../common/script.jsp"/>
-
-
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script src="/resources/js/plugin/summernote/custom_summernote-bs4.js"></script>
+<script src="/resources/js/plugin/summernote/summernote-ko-KR.js"></script>
 <script>
     /**
      * Static JS
@@ -176,8 +171,33 @@
             $(preview).hide();
             $(preview).css('background-image', 'none');
         });
+        $('#summernote').summernote({
+            popover: {
+                image: [
+                    ['image', ['resizeFull', 'resizeHalf', 'resizeQuarter', 'resizeNone']],
+                    ['float', ['floatLeft', 'floatRight', 'floatNone']],
+                    ['remove', ['removeMedia']]
+                ],
+                table: [
+                    ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
+                    ['delete', ['deleteRow', 'deleteCol', 'deleteTable']]
+                ],
+            },
+            toolbar: [
+                ['insert', ['picture', 'video', 'table', 'link', 'hr']],
+                ['font', ['bold', 'underline', 'forecolor', 'backcolor']],
+                ['fontsize', ['fontsize']],
+                ['para', ['ul', 'ol', 'paragraph']],
+            ],
+            minHeight: 400,             // set minimum height of editor
+            maxHeight: 800,             // set maximum height of editor
+            focus: false,
+            lang: 'ko-KR',
+            tabDisable: false,
+            shortcuts: false,
+            placeholder: '게시글 내용을 입력해주세요.'
+        });
     });
-
     let loadFile = function (event, target) {
         let file = event.target.files[0];
         let reader = new FileReader();
@@ -196,5 +216,4 @@
     };
 </script>
 </body>
-
 </html>

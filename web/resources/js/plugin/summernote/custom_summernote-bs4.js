@@ -10864,7 +10864,7 @@ function summerNoteImageUploader(deferred) {
   formData.append('file', file);
 
   $.ajax({
-    url: '/ajax/summernote/editor/upload',
+    url: '/summernote/file/upload',
     processData: false,
     contentType: false,
     data: formData,

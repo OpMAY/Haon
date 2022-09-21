@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="/resources/css/module/element.css">
     <link rel="stylesheet" href="/resources/css/module/res-element.css">
     <link rel="stylesheet" href="/resources/css/module/modal.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/resources/css/module/summernote.css">
     <title>Home</title>
 </head>

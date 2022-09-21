@@ -4,16 +4,16 @@
 
 .summernote-container * {
     font-family: 'Pretendard', Spoqa Han Sans Neo, 'Spoqa Han Sans Neo', 'Noto Sans KR', 'Roboto', Roboto, 'sans-serif', sans-serif !important;
-    color: var(--gray-dark-low);
+    color: var(--gray-dark-low) !important;
 }
 
 .summernote-container ul {
-    padding-inline-start: 26px;
+    padding-inline-start: 26px !important;
 }
 
 .summernote-container > img {
-    width: 100%;
-    height: auto;
+    width: 100% !important;
+    height: auto !important;
 }
 
 .summernote-container span,
@@ -23,5 +23,94 @@
 .summernote-container ul,
 .summernote-container li,
 .summernote-container img {
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
+}
+
+.note-icon-menu-check {
+    display: none;
+}
+
+@media (min-width: 576px) {
+    .note-modal .modal-dialog::before {
+        height: calc(100vh - 3.5rem);
+        height: -webkit-min-content;
+        height: -moz-min-content;
+        height: min-content;
+    }
+
+    .note-modal .modal-dialog {
+        min-height: calc(100vh - 3.5rem);
+    }
+}
+
+.note-modal .modal-dialog::before {
+    display: block;
+    height: calc(100vh - 3.5rem);
+    height: -webkit-min-content;
+    height: -moz-min-content;
+    height: min-content;
+    content: "";
+}
+
+.note-modal .modal-dialog {
+    box-shadow: none;
+    border-radius: 0;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    min-height: calc(100vh - 3.5rem);
+}
+
+.note-modal .modal-dialog .modal-content {
+    box-shadow: 0 3px 9px rgb(0 0 0 / 15%);
+}
+
+.note-modal .modal-header .close {
+    font-size: var(--font-36);
+}
+
+.note-modal .form-group:not(:last-child) {
+    margin-bottom: 24px;
+}
+
+.note-modal .form-group > input:focus {
+    border: var(--border-1px) var(--brand-green);
+}
+
+.note-modal .form-group > label {
+    font-size: var(--font-20);
+    font-weight: 500;
+    line-height: var(--line-28);
+}
+
+.note-modal .form-group > label .text-muted {
+    display: block;
+}
+
+.note-modal .modal-footer .btn-primary:focus,
+.note-modal .modal-footer .btn-primary:hover,
+.note-modal .modal-footer .btn-primary {
+    color: var(--basic-white);
+    background-color: var(--brand-green);
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    opacity: 1;
+}
+
+.note-modal .modal-footer .btn-primary.disabled, .note-modal .modal-footer .btn-primary:disabled {
+    color: var(--basic-white);
+    background-color: var(--brand-green-opacity);
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    opacity: 1;
+}
+
+.note-modal .modal-title {
+    color: var(--gray-dark-low);
+    font-size: var(--font-24);
+    font-weight: bold;
+    line-height: var(--line-32);
 }
