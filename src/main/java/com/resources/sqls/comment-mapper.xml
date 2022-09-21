@@ -35,7 +35,7 @@
                (select COUNT(*) from question_comment_dislike WHERE comment_no = qc.no) as dislike_count
         from question
                  left join question_comment qc on question.no = qc.question_no
-        WHERE question.no = #{board_no}
+        WHERE question.no = #{question_no}
           and qc.recomment is null
           AND qc.no is not null;
     </select>
@@ -98,6 +98,10 @@
         insert into magazine_comment(user_no, magazine_no, content, reg_datetime, is_blocked, owner_checked)
         VALUES (#{user_no}, #{magazine_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
     </insert>
+    <insert id="insertQuestionComment" parameterType="QuestionComment" keyProperty="no" useGeneratedKeys="true">
+        insert into question_comment(user_no, question_no, content, reg_datetime, is_blocked, owner_checked)
+        VALUES (#{user_no}, #{question_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
+    </insert>
     <insert id="insertBoardCommentReply" parameterType="BoardComment" keyProperty="no" useGeneratedKeys="true">
         insert into board_comment(user_no, recomment, board_no, content, reg_datetime, is_blocked, owner_checked)
         VALUES (#{user_no}, #{recomment}, #{board_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
@@ -105,6 +109,10 @@
     <insert id="insertMagazineCommentReply" parameterType="MagazineComment" keyProperty="no" useGeneratedKeys="true">
         insert into magazine_comment(user_no, recomment, magazine_no, content, reg_datetime, is_blocked, owner_checked)
         VALUES (#{user_no}, #{recomment}, #{magazine_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
+    </insert>
+    <insert id="insertQuestionCommentReply" parameterType="QuestionComment" keyProperty="no" useGeneratedKeys="true">
+        insert into question_comment(user_no, recomment, question_no, content, reg_datetime, is_blocked, owner_checked)
+        VALUES (#{user_no}, #{recomment}, #{question_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
     </insert>
 
     <select id="getBoardCommentByNo" parameterType="int" resultType="BoardComment">
@@ -117,6 +125,11 @@
         from magazine_comment
         where no = #{comment_no};
     </select>
+    <select id="getQuestionCommentByNo" parameterType="int" resultType="QuestionComment">
+        select *
+        from question_comment
+        where no = #{comment_no};
+    </select>
     <update id="deleteBoardCommentByNoAndUserNo">
         update board_comment
         set user_no=null
@@ -125,6 +138,12 @@
     </update>
     <update id="deleteMagazineCommentByNoAndUserNo">
         update magazine_comment
+        set user_no=null
+        where user_no = #{user_no}
+          and no = #{comment_no}
+    </update>
+    <update id="deleteQuestionCommentByNoAndUserNo">
+        update question_comment
         set user_no=null
         where user_no = #{user_no}
           and no = #{comment_no}

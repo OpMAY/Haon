@@ -332,9 +332,9 @@ public class CommunityController {
         return VIEW;
     }
 
-    @RequestMapping(value = "/question/detail", method = RequestMethod.GET)
+    @RequestMapping(value = "/question/detail/{question_no}", method = RequestMethod.GET)
     public ModelAndView getQuestionDetail(HttpServletRequest request, @PathVariable("question_no") int question_no) {
-        ModelAndView VIEW = new ModelAndView("community/board-detail");
+        ModelAndView VIEW = new ModelAndView("community/question-detail");
         log.info("{}", question_no);
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         //Get Board Detail Data

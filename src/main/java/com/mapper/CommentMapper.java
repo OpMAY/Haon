@@ -17,7 +17,7 @@ public interface CommentMapper {
 
     int insertBoardCommentReply(BoardComment boardComment);
 
-    BoardComment getBoardCommentByNo(@Param("comment_no") int created_comment_no);
+    BoardComment getBoardCommentByNo(@Param("comment_no") int comment_no);
 
     void deleteBoardCommentByNoAndUserNo(@Param("user_no") int user_no, @Param("comment_no") int comment_no);
 
@@ -35,7 +35,7 @@ public interface CommentMapper {
 
     void insertMagazineComment(MagazineComment magazineComment);
 
-    MagazineComment getMagazineCommentByNo(@Param("comment_no") int created_comment_no);
+    MagazineComment getMagazineCommentByNo(@Param("comment_no") int comment_no);
 
     void insertMagazineCommentReply(MagazineComment magazineComment);
 
@@ -46,4 +46,12 @@ public interface CommentMapper {
     ArrayList<QuestionComment> getQuestionRecommentByCommentNo(@Param("comment_no") int comment_no);
 
     QuestionComment getBestQuestionComment(@Param("question_no") int question_no);
+
+    void insertQuestionComment(QuestionComment questionComment);
+
+    QuestionComment getQuestionCommentByNo(@Param("comment_no") int comment_no);
+
+    void insertQuestionCommentReply(QuestionComment questionComment);
+
+    void deleteQuestionCommentByNoAndUserNo(@Param("user_no") int user_no, @Param("comment_no") int comment_no);
 }

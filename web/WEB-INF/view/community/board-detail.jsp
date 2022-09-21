@@ -410,9 +410,9 @@
                                                     ${farm.name}님이 작성한 다른 게시글
                                             </div>
                                             <div class="_related-board-list">
-                                                <c:forEach items="${other_boards}" var="board" end="3">
-                                                    <div data-href="/community/board/detail/${board.no}" class="_related-board-container ellipsis-one-line">
-                                                        <span class="medium-h6">${board.title}</span>
+                                                <c:forEach items="${other_boards}" var="other_board" end="3">
+                                                    <div data-href="/community/board/detail/${other_board.no}" class="_related-board-container ellipsis-one-line">
+                                                        <span class="medium-h6">${other_board.title}</span>
                                                     </div>
                                                 </c:forEach>
                                             </div>
@@ -428,9 +428,9 @@
                                                 인기 & 추천 게시글
                                             </div>
                                             <div class="_related-board-list">
-                                                <c:forEach items="${fame_boards}" var="board" end="3">
-                                                    <div data-href="/community/board/detail/${board.no}" class="_related-board-container ellipsis-one-line">
-                                                        <span class="medium-h6">${board.title}</span>
+                                                <c:forEach items="${fame_boards}" var="fame_board" end="3">
+                                                    <div data-href="/community/board/detail/${fame_board.no}" class="_related-board-container ellipsis-one-line">
+                                                        <span class="medium-h6">${fame_board.title}</span>
                                                     </div>
                                                 </c:forEach>
                                             </div>
@@ -445,9 +445,7 @@
         </section>
     </div>
 </div>
-
 <jsp:include page="../common/footer.jsp"/>
-
 <jsp:include page="../common/script.jsp"/>
 <script src="/resources/js/module/comment.js"></script>
 <script>

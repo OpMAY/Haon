@@ -279,7 +279,17 @@ public class UserRestController {
         } else if (BOOKMARK_TYPE.TIP == type) {
 
         } else if (BOOKMARK_TYPE.QUESTION == type) {
-
+            if (likeService.isQuestionLikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteQuestionLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertQuestionLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else {
             throw new RuntimeException();
         }
@@ -320,7 +330,17 @@ public class UserRestController {
         } else if (BOOKMARK_TYPE.TIP == type) {
 
         } else if (BOOKMARK_TYPE.QUESTION == type) {
-
+            if (likeService.isCommentQuestionLikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteQuestionCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertQuestionCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else {
             throw new RuntimeException();
         }
@@ -360,7 +380,17 @@ public class UserRestController {
         } else if (BOOKMARK_TYPE.TIP == type) {
 
         } else if (BOOKMARK_TYPE.QUESTION == type) {
-
+            if (likeService.isCommentQuestionDislikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteQuestionCommentDislike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertQuestionCommentDislike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else {
             throw new RuntimeException();
         }

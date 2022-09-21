@@ -32,6 +32,13 @@
                           WHERE magazine_no = #{magazine_no}
                             and user_no = #{user_no}), true, false)
     </select>
+    <select id="isQuestionLikeByUserNo" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM question_like
+                          WHERE question_no = #{question_no}
+                            and user_no = #{user_no}), true, false)
+    </select>
     <select id="isCommentBoardLikeByUserNo" resultType="boolean">
         SELECT IF(EXISTS(
                           SELECT *
@@ -82,6 +89,10 @@
         insert into magazine_like(magazine_no, user_no)
         VALUES (#{magazine_no}, #{user_no});
     </insert>
+    <insert id="insertQuestionLike">
+        insert into question_like(question_no, user_no)
+        VALUES (#{question_no}, #{user_no});
+    </insert>
     <delete id="deleteBoardLike">
         delete
         from board_like
@@ -94,6 +105,12 @@
         where magazine_no = #{magazine_no}
           and user_no = #{user_no};
     </delete>
+    <select id="deleteQuestionLike">
+        delete
+        from question_like
+        where question_no = #{question_no}
+          and user_no = #{user_no};
+    </select>
     <delete id="deleteBoardCommentLike">
         delete
         from board_comment_like
@@ -103,6 +120,12 @@
     <delete id="deleteMagazineCommentLike">
         delete
         from magazine_comment_like
+        where comment_no = #{comment_no}
+          and user_no = #{user_no}
+    </delete>
+    <delete id="deleteQuestionCommentLike">
+        delete
+        from question_comment_like
         where comment_no = #{comment_no}
           and user_no = #{user_no}
     </delete>
@@ -118,6 +141,12 @@
         where comment_no = #{comment_no}
           and user_no = #{user_no}
     </delete>
+    <delete id="deleteQuestionCommentDislike">
+        delete
+        from question_comment_dislike
+        where comment_no = #{comment_no}
+          and user_no = #{user_no}
+    </delete>
     <insert id="insertBoardCommentLike">
         insert into board_comment_like(comment_no, user_no)
         VALUES (#{comment_no}, #{user_no});
@@ -126,12 +155,20 @@
         insert into magazine_comment_like(comment_no, user_no)
         VALUES (#{comment_no}, #{user_no});
     </insert>
+    <insert id="insertQuestionCommentLike">
+        insert into question_comment_like(comment_no, user_no)
+        VALUES (#{comment_no}, #{user_no});
+    </insert>
     <insert id="insertBoardCommentDislike">
         insert into board_comment_dislike(comment_no, user_no)
         VALUES (#{comment_no}, #{user_no});
     </insert>
     <insert id="insertMagazineCommentDislike">
         insert into magazine_comment_dislike(comment_no, user_no)
+        VALUES (#{comment_no}, #{user_no});
+    </insert>
+    <insert id="insertQuestionCommentDislike">
+        insert into question_comment_dislike(comment_no, user_no)
         VALUES (#{comment_no}, #{user_no});
     </insert>
 </mapper>

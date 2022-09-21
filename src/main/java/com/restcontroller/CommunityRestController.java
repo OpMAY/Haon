@@ -6,6 +6,7 @@ import com.model.content.board.BoardComment;
 import com.model.content.common.COMMENT_TYPE;
 import com.model.content.magazine.Magazine;
 import com.model.content.magazine.MagazineComment;
+import com.model.content.question.QuestionComment;
 import com.model.farm.Farm;
 import com.response.DefaultRes;
 import com.response.Message;
@@ -131,6 +132,39 @@ public class CommunityRestController {
                 message.put("status", true);
                 break;
             case QUESTION:
+                //Create Comment
+                QuestionComment questionComment = new QuestionComment();
+                questionComment.setQuestion_no(no);
+                questionComment.setUser_no(user_no);
+                questionComment.setContent(content);
+                questionComment.set_blocked(false);
+                questionComment.setOwner_checked(false);
+                //Comment Insert
+                created_comment_no = commentService.insertQuestionComment(questionComment);
+                //Get Inserted Comment
+                questionComment = commentService.getQuestionCommentByNo(created_comment_no);
+                //Comment Setting
+                commented_user = userService.getUserByNo(questionComment.getUser_no());
+
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    log.info("farm {}", farm.toString());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    questionComment.setUser(commented_user);
+                } else {
+                    log.info("SAMPLE_PROFILE_URL {}", SAMPLE_PROFILE_URL);
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    questionComment.setUser(commented_user);
+                }
+
+                message.put("comment", questionComment);
                 message.put("status", true);
                 break;
             case TIP:
@@ -231,6 +265,40 @@ public class CommunityRestController {
                 message.put("status", true);
                 break;
             case QUESTION:
+                //Create Comment
+                QuestionComment questionComment = new QuestionComment();
+                questionComment.setQuestion_no(no);
+                questionComment.setUser_no(user_no);
+                questionComment.setContent(content);
+                questionComment.setRecomment(comment_no);
+                questionComment.set_blocked(false);
+                questionComment.setOwner_checked(false);
+                //Comment Insert
+                created_reply_comment_no = commentService.insertQuestionCommentReply(questionComment);
+                //Get Inserted Comment
+                questionComment = commentService.getQuestionCommentByNo(created_reply_comment_no);
+                //Comment Setting
+                commented_user = userService.getUserByNo(questionComment.getUser_no());
+
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    log.info("farm {}", farm.toString());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    questionComment.setUser(commented_user);
+                } else {
+                    log.info("SAMPLE_PROFILE_URL {}", SAMPLE_PROFILE_URL);
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    questionComment.setUser(commented_user);
+                }
+
+                message.put("comment", questionComment);
                 message.put("status", true);
                 break;
             case TIP:
@@ -293,6 +361,22 @@ public class CommunityRestController {
                 message.put("status", true);
                 break;
             case QUESTION:
+                commentService.deleteQuestionCommentByNoAndUserNo(user_no, comment_no);
+
+                profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+                user = new User();
+                user.setProfile_img(profile);
+                user.setName("관리자");
+
+                QuestionComment questionComment = new QuestionComment();
+                questionComment.setUser(user);
+                questionComment.setContent("삭제된 메세지입니다.");
+
+                message.put("comment", questionComment);
                 message.put("status", true);
                 break;
             case TIP:

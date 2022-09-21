@@ -106,7 +106,7 @@
         where is_show = 1
         order by views desc;
     </select>
-    <select id="getQuestion" parameterType="int" resultType="Question">
+    <select id="getQuestion" parameterType="int" resultType="Question" resultMap="Question">
         select *
         from question
         where no = #{question_no};

@@ -36,8 +36,8 @@ public class CommentDao {
         mapper.insertBoardCommentReply(boardComment);
     }
 
-    public BoardComment getBoardCommentByNo(int created_comment_no) {
-        return mapper.getBoardCommentByNo(created_comment_no);
+    public BoardComment getBoardCommentByNo(int comment_no) {
+        return mapper.getBoardCommentByNo(comment_no);
     }
 
     public void deleteBoardCommentByNoAndUserNo(int user_no, int comment_no) {
@@ -72,8 +72,8 @@ public class CommentDao {
         mapper.insertMagazineComment(magazineComment);
     }
 
-    public MagazineComment getMagazineCommentByNo(int created_comment_no) {
-        return mapper.getMagazineCommentByNo(created_comment_no);
+    public MagazineComment getMagazineCommentByNo(int comment_no) {
+        return mapper.getMagazineCommentByNo(comment_no);
     }
 
     public void insertMagazineCommentReply(MagazineComment magazineComment) {
@@ -94,5 +94,21 @@ public class CommentDao {
 
     public QuestionComment getBestQuestionComment(int question_no) {
         return mapper.getBestQuestionComment(question_no);
+    }
+
+    public void insertQuestionComment(QuestionComment questionComment) {
+        mapper.insertQuestionComment(questionComment);
+    }
+
+    public QuestionComment getQuestionCommentByNo(int comment_no) {
+        return mapper.getQuestionCommentByNo(comment_no);
+    }
+
+    public void insertQuestionCommentReply(QuestionComment questionComment) {
+        mapper.insertQuestionCommentReply(questionComment);
+    }
+
+    public void deleteQuestionCommentByNoAndUserNo(int user_no, int comment_no) {
+        mapper.deleteQuestionCommentByNoAndUserNo(user_no, comment_no);
     }
 }

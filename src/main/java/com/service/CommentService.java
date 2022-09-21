@@ -46,8 +46,8 @@ public class CommentService {
         return boardComment.getNo();
     }
 
-    public BoardComment getBoardCommentByNo(int created_comment_no) {
-        return commentDao.getBoardCommentByNo(created_comment_no);
+    public BoardComment getBoardCommentByNo(int comment_no) {
+        return commentDao.getBoardCommentByNo(comment_no);
     }
 
     public void deleteBoardCommentByNoAndUserNo(int user_no, int comment_no) {
@@ -112,8 +112,8 @@ public class CommentService {
         return magazineComment.getNo();
     }
 
-    public MagazineComment getMagazineCommentByNo(int created_comment_no) {
-        return commentDao.getMagazineCommentByNo(created_comment_no);
+    public MagazineComment getMagazineCommentByNo(int comment_no) {
+        return commentDao.getMagazineCommentByNo(comment_no);
     }
 
     public int insertMagazineCommentReply(MagazineComment magazineComment) {
@@ -139,5 +139,23 @@ public class CommentService {
             return questionComment.getNo() == comment_no;
         }
         return false;
+    }
+
+    public int insertQuestionComment(QuestionComment questionComment) {
+        commentDao.insertQuestionComment(questionComment);
+        return questionComment.getNo();
+    }
+
+    public QuestionComment getQuestionCommentByNo(int comment_no) {
+        return commentDao.getQuestionCommentByNo(comment_no);
+    }
+
+    public int insertQuestionCommentReply(QuestionComment questionComment) {
+        commentDao.insertQuestionCommentReply(questionComment);
+        return questionComment.getNo();
+    }
+
+    public void deleteQuestionCommentByNoAndUserNo(int user_no, int comment_no) {
+        commentDao.deleteQuestionCommentByNoAndUserNo(user_no, comment_no);
     }
 }
