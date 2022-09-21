@@ -134,6 +134,16 @@
         from manual
         where farm_no = #{farm_no}
     </select>
+    <select id="getTip" resultType="Tips" resultMap="Tips">
+        select *
+        from tips
+        where no = #{tip_no}
+    </select>
+    <select id="getTips" resultType="Tips" resultMap="Tips">
+        select *
+        from tips
+        where farm_no = #{farm_no}
+    </select>
     <select id="getCommunityBoardsOrderByRecent" resultType="Board">
         select *
         from board
@@ -457,26 +467,26 @@
 
     <select id="getCommunityQuestionsOrderByRecent" resultType="QuestionSummary" resultMap="QuestionSummary">
         select JSON_OBJECT(
-                        'no', q.no,
-                        'farm_no', q.farm_no,
-                        'title', q.title,
-                        'content', q.content,
-                        'thumbnail', q.thumbnail) as question,
-                q.reg_datetime,
-                (select cl.content
-                    from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
-                        from question_comment
-                                left join question_comment_like qcl on question_comment.no = qcl.comment_no
-                        WHERE question_no = q.no
-                        ORDER BY likes DESC, no) as cl
-                LIMIT 1) as best_comment,
-                (select cl.no
-                from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
-                from question_comment
-                left join question_comment_like qcl on question_comment.no = qcl.comment_no
-                WHERE question_no = q.no
-                ORDER BY likes DESC, no) as cl
-                LIMIT 1) as best_comment_no
+        'no', q.no,
+        'farm_no', q.farm_no,
+        'title', q.title,
+        'content', q.content,
+        'thumbnail', q.thumbnail) as question,
+        q.reg_datetime,
+        (select cl.content
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment,
+        (select cl.no
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment_no
         from questions q
         <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
         ORDER BY reg_datetime DESC, q.no DESC LIMIT 4

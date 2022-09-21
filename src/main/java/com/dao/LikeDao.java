@@ -6,6 +6,7 @@ import com.model.content.board.BoardTransaction;
 import com.model.content.magazine.MagazineTransaction;
 import com.model.content.manual.ManualTransaction;
 import com.model.content.question.QuestionTransaction;
+import com.model.content.tips.TipsTransaction;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -171,5 +172,25 @@ public class LikeDao {
 
     public void insertManualCommentLike(int comment_no, int user_no) {
         mapper.insertManualCommentLike(comment_no, user_no);
+    }
+
+    public ArrayList<TipsTransaction> getLikesByTipsNo(int tips_no) {
+        return mapper.getLikesByTipsNo(tips_no);
+    }
+
+    public boolean isCommentTipsLikeByUserNo(int comment_no, int user_no) {
+        return mapper.isCommentTipsLikeByUserNo(comment_no, user_no);
+    }
+
+    public boolean isCommentTipsDislikeByUserNo(int comment_no, int user_no) {
+        return mapper.isCommentTipsDislikeByUserNo(comment_no, user_no);
+    }
+
+    public void deleteTipsCommentLike(int comment_no, int user_no) {
+        mapper.deleteTipsCommentLike(comment_no, user_no);
+    }
+
+    public void insertTipsCommentLike(int comment_no, int user_no) {
+        mapper.insertTipsCommentLike(comment_no, user_no);
     }
 }

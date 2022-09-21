@@ -4,6 +4,7 @@ import com.model.content.board.BoardTransaction;
 import com.model.content.magazine.MagazineTransaction;
 import com.model.content.manual.ManualTransaction;
 import com.model.content.question.QuestionTransaction;
+import com.model.content.tips.TipsTransaction;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
@@ -75,13 +76,23 @@ public interface LikeMapper {
 
     boolean isCommentManualDislikeByUserNo(@Param("manual_no") int manual_no, @Param("user_no") int user_no);
 
-    boolean isManualLikeByUserNo(@Param("manual_no") int manual_no,@Param("user_no") int user_no);
+    boolean isManualLikeByUserNo(@Param("manual_no") int manual_no, @Param("user_no") int user_no);
 
-    void deleteManualLike(@Param("manual_no") int manual_no,@Param("user_no") int user_no);
+    void deleteManualLike(@Param("manual_no") int manual_no, @Param("user_no") int user_no);
 
-    void insertManualLike(@Param("manual_no") int manual_no,@Param("user_no") int user_no);
+    void insertManualLike(@Param("manual_no") int manual_no, @Param("user_no") int user_no);
 
-    void deleteManualCommentLike(@Param("comment_no") int comment_no,@Param("user_no") int user_no);
+    void deleteManualCommentLike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
 
-    void insertManualCommentLike(@Param("comment_no") int comment_no,@Param("user_no") int user_no);
+    void insertManualCommentLike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    ArrayList<TipsTransaction> getLikesByTipsNo(@Param("tips_no") int tips_no);
+
+    boolean isCommentTipsLikeByUserNo(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    boolean isCommentTipsDislikeByUserNo(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    void deleteTipsCommentLike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    void insertTipsCommentLike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
 }

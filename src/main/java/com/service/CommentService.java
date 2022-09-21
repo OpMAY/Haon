@@ -3,10 +3,10 @@ package com.service;
 import com.dao.CommentDao;
 import com.dao.ContentDao;
 import com.model.content.board.BoardComment;
-import com.model.content.common.COMMENT_TYPE;
 import com.model.content.magazine.MagazineComment;
 import com.model.content.manual.ManualComment;
 import com.model.content.question.QuestionComment;
+import com.model.content.tips.TipsComment;
 import com.response.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -174,5 +174,57 @@ public class CommentService {
             return manualComment.getNo() == comment_no;
         }
         return false;
+    }
+
+    public ArrayList<TipsComment> getTipsComments(int tips_no) {
+        return commentDao.getTipsComments(tips_no);
+    }
+
+    public ArrayList<TipsComment> getTipsRecommentByCommentNo(int comment_no) {
+        return commentDao.getTipsRecommentByCommentNo(comment_no);
+    }
+
+    public boolean isBestTipsComment(int tips_no, int comment_no) {
+        TipsComment tipsComment = commentDao.getBestTipsComment(tips_no);
+        if (tipsComment.getCount() != null && tipsComment.getCount().intValue() != 0) {
+            return tipsComment.getNo() == comment_no;
+        }
+        return false;
+    }
+
+    public int insertManualComment(ManualComment manualComment) {
+        commentDao.insertManualComment(manualComment);
+        return manualComment.getNo();
+    }
+
+    public ManualComment getManualCommentByNo(int comment_no) {
+        return commentDao.getManualCommentByNo(comment_no);
+    }
+
+    public int insertTipsComment(TipsComment tipsComment) {
+        commentDao.insertTipsComment(tipsComment);
+        return tipsComment.getNo();
+    }
+
+    public TipsComment getTipsCommentByNo(int comment_no) {
+        return commentDao.getTipsCommentByNo(comment_no);
+    }
+
+    public int insertManualCommentReply(ManualComment manualComment) {
+        commentDao.insertManualCommentReply(manualComment);
+        return manualComment.getNo();
+    }
+
+    public int insertTipsCommentReply(TipsComment tipsComment) {
+        commentDao.insertTipsCommentReply(tipsComment);
+        return tipsComment.getNo();
+    }
+
+    public void deleteManualCommentByNoAndUserNo(int user_no, int comment_no) {
+        commentDao.deleteManualCommentByNoAndUserNo(user_no, comment_no);
+    }
+
+    public void deleteTipsCommentByNoAndUserNo(int user_no, int comment_no) {
+        commentDao.deleteTipsCommentByNoAndUserNo(user_no, comment_no);
     }
 }
