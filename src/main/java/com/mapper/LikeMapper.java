@@ -95,4 +95,24 @@ public interface LikeMapper {
     void deleteTipsCommentLike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
 
     void insertTipsCommentLike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    boolean isCommentFarmLikeByUserNo(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    void deleteFarmCommentLike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    void insertFarmCommentLike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    void deleteTipsCommentDislike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    void insertTipsCommentDislike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    void deleteManualCommentDislike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    void insertManualCommentDislike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    boolean isCommentFarmDislikeByUserNo(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    void deleteFarmCommentDislike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    void insertFarmCommentDislike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
 }

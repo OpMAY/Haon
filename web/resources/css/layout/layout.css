@@ -230,6 +230,7 @@ body {
     transform: translate(-50%, 50%);
     width: 160px;
     height: 160px;
+    border-radius: 50%;
 }
 
 #content-wrapper ._detail-banner ._profile-image ._edit {

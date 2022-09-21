@@ -9,6 +9,7 @@
  * }
  * */
 
+//const host = 'https://farmingdata.co.kr';
 const host = 'http://localhost:8080';
 
 /*Template*/

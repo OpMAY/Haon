@@ -63,6 +63,18 @@
           and tc.recomment is null
           AND tc.no is not null;
     </select>
+    <select id="getFarmComments" resultType="FarmComment" parameterType="int">
+        select fc.*,
+               fc.no,
+               fc.content,
+               (select COUNT(*) from farm_comment_like WHERE comment_no = fc.no)    as like_count,
+               (select COUNT(*) from farm_comment_dislike WHERE comment_no = fc.no) as dislike_count
+        from farm
+                 left join farm_comment fc on farm.no = fc.farm_no
+        WHERE farm.no = #{farm_no}
+          and fc.recomment is null
+          AND fc.no is not null;
+    </select>
     <select id="getBoardRecommentByCommentNo" resultType="BoardComment" parameterType="int">
         select *
         from board_comment
@@ -86,6 +98,11 @@
     <select id="getTipsRecommentByCommentNo" resultType="TipsComment" parameterType="int">
         select *
         from tips_comment
+        where recomment = #{comment_no};
+    </select>
+    <select id="getFarmRecommentByCommentNo" resultType="FarmComment" parameterType="int">
+        select *
+        from farm_comment
         where recomment = #{comment_no};
     </select>
     <select id="getBestBoardComment" parameterType="int" resultType="BoardComment">
@@ -148,6 +165,18 @@
         order by count desc
         limit 1;
     </select>
+    <select id="getBestFarmComment" parameterType="int" resultType="FarmComment">
+        select farm_comment.*,
+               (SELECT COUNT(comment_no) AS cnt
+                FROM farm_comment_like
+                where farm_comment_like.comment_no = farm_comment.no
+                GROUP BY comment_no) as count
+        from farm_comment
+        where farm_no = #{farm_no}
+          and recomment is null
+        order by count desc
+        limit 1;
+    </select>
     <insert id="insertBoardComment" parameterType="BoardComment" keyProperty="no" useGeneratedKeys="true">
         insert into board_comment(user_no, board_no, content, reg_datetime, is_blocked, owner_checked)
         VALUES (#{user_no}, #{board_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
@@ -168,6 +197,10 @@
         insert into tips_comment(user_no, tips_no, content, reg_datetime, is_blocked, owner_checked)
         VALUES (#{user_no}, #{tips_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
     </insert>
+    <insert id="insertFarmComment" parameterType="FarmComment" keyProperty="no" useGeneratedKeys="true">
+        insert into farm_comment(user_no, farm_no, content, reg_datetime, is_blocked, owner_checked)
+        VALUES (#{user_no}, #{farm_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
+    </insert>
     <insert id="insertBoardCommentReply" parameterType="BoardComment" keyProperty="no" useGeneratedKeys="true">
         insert into board_comment(user_no, recomment, board_no, content, reg_datetime, is_blocked, owner_checked)
         VALUES (#{user_no}, #{recomment}, #{board_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
@@ -187,6 +220,10 @@
     <insert id="insertTipsCommentReply" parameterType="TipsComment" keyProperty="no" useGeneratedKeys="true">
         insert into tips_comment(user_no, recomment, tips_no, content, reg_datetime, is_blocked, owner_checked)
         VALUES (#{user_no}, #{recomment}, #{tips_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
+    </insert>
+    <insert id="insertFarmCommentReply" parameterType="FarmComment" keyProperty="no" useGeneratedKeys="true">
+        insert into farm_comment(user_no, recomment, farm_no, content, reg_datetime, is_blocked, owner_checked)
+        VALUES (#{user_no}, #{recomment}, #{farm_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
     </insert>
 
     <select id="getBoardCommentByNo" parameterType="int" resultType="BoardComment">
@@ -214,6 +251,12 @@
         from tips_comment
         where no = #{comment_no};
     </select>
+    <select id="getFarmCommentByNo" parameterType="int" resultType="FarmComment">
+        select *
+        from farm_comment
+        where no = #{comment_no};
+    </select>
+
     <update id="deleteBoardCommentByNoAndUserNo">
         update board_comment
         set user_no=null
@@ -240,6 +283,12 @@
     </update>
     <update id="deleteTipsCommentByNoAndUserNo">
         update tips_comment
+        set user_no=null
+        where user_no = #{user_no}
+          and no = #{comment_no}
+    </update>
+    <update id="deleteFarmCommentByNoAndUserNo">
+        update farm_comment
         set user_no=null
         where user_no = #{user_no}
           and no = #{comment_no}

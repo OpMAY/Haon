@@ -1,6 +1,7 @@
 package com.restcontroller;
 
 import com.model.content.common.BOOKMARK_TYPE;
+import com.model.content.common.COMMENT_TYPE;
 import com.response.DefaultRes;
 import com.response.Message;
 import com.service.BookmarkService;
@@ -307,11 +308,11 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/like/comment/update/{type}/{no}", method = RequestMethod.POST)
-    public ResponseEntity<String> updateCommentLike(HttpServletRequest request, @PathVariable("type") BOOKMARK_TYPE type, @PathVariable("no") int no) throws Exception {
+    public ResponseEntity<String> updateCommentLike(HttpServletRequest request, @PathVariable("type") COMMENT_TYPE type, @PathVariable("no") int no) throws Exception {
         Message message = new Message();
         log.info("{},{}", type, no);
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
-        if (BOOKMARK_TYPE.BOARD == type) {
+        if (COMMENT_TYPE.BOARD == type) {
             if (likeService.isCommentBoardLikeByUserNo(no, user_no)) {
                 //좋아요 해제
                 likeService.deleteBoardCommentLike(no, user_no);
@@ -323,7 +324,7 @@ public class UserRestController {
                 message.put("status", true);
                 message.put("type", "insert");
             }
-        } else if (BOOKMARK_TYPE.MAGAZINE == type) {
+        } else if (COMMENT_TYPE.MAGAZINE == type) {
             if (likeService.isCommentMagazineLikeByUserNo(no, user_no)) {
                 //좋아요 해제
                 likeService.deleteMagazineCommentLike(no, user_no);
@@ -335,7 +336,7 @@ public class UserRestController {
                 message.put("status", true);
                 message.put("type", "insert");
             }
-        } else if (BOOKMARK_TYPE.MANUAL == type) {
+        } else if (COMMENT_TYPE.MANUAL == type) {
             if (likeService.isCommentManualLikeByUserNo(no, user_no)) {
                 //좋아요 해제
                 likeService.deleteManualCommentLike(no, user_no);
@@ -347,7 +348,7 @@ public class UserRestController {
                 message.put("status", true);
                 message.put("type", "insert");
             }
-        } else if (BOOKMARK_TYPE.TIP == type) {
+        } else if (COMMENT_TYPE.TIP == type) {
             if (likeService.isCommentTipsLikeByUserNo(no, user_no)) {
                 //좋아요 해제
                 likeService.deleteTipsCommentLike(no, user_no);
@@ -359,7 +360,7 @@ public class UserRestController {
                 message.put("status", true);
                 message.put("type", "insert");
             }
-        } else if (BOOKMARK_TYPE.QUESTION == type) {
+        } else if (COMMENT_TYPE.QUESTION == type) {
             if (likeService.isCommentQuestionLikeByUserNo(no, user_no)) {
                 //좋아요 해제
                 likeService.deleteQuestionCommentLike(no, user_no);
@@ -371,11 +372,24 @@ public class UserRestController {
                 message.put("status", true);
                 message.put("type", "insert");
             }
+        } else if (COMMENT_TYPE.FARM == type) {
+            if (likeService.isCommentFarmLikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteFarmCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertFarmCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else {
             throw new RuntimeException();
         }
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
+
     @RequestMapping(value = "/dislike/comment/update/{type}/{no}", method = RequestMethod.POST)
     public ResponseEntity<String> updateCommentDislike(HttpServletRequest request, @PathVariable("type") BOOKMARK_TYPE type, @PathVariable("no") int no) throws Exception {
         Message message = new Message();
@@ -406,9 +420,29 @@ public class UserRestController {
                 message.put("type", "insert");
             }
         } else if (BOOKMARK_TYPE.MANUAL == type) {
-
+            if (likeService.isCommentManualDislikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteManualCommentDislike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertManualCommentDislike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else if (BOOKMARK_TYPE.TIP == type) {
-
+            if (likeService.isCommentTipsDislikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteTipsCommentDislike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertTipsCommentDislike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else if (BOOKMARK_TYPE.QUESTION == type) {
             if (likeService.isCommentQuestionDislikeByUserNo(no, user_no)) {
                 //좋아요 해제
@@ -418,6 +452,18 @@ public class UserRestController {
             } else {
                 //좋아요 등록
                 likeService.insertQuestionCommentDislike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
+        } else if (BOOKMARK_TYPE.FARM == type) {
+            if (likeService.isCommentFarmDislikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteFarmCommentDislike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertFarmCommentDislike(no, user_no);
                 message.put("status", true);
                 message.put("type", "insert");
             }

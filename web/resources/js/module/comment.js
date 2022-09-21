@@ -79,6 +79,7 @@ function commentDislikeClickEventListener() {
 function deleteClickEventListener(event) {
     let comment_element = this.closest('._comment');
     deleteReviewReply(this.dataset.type, this.dataset.no).then((result) => {
+        console.log(result);
         if (result.status === 'OK') {
             if (result.data.status) {
                 let comment = result.data.comment;
@@ -129,6 +130,7 @@ function doClickEventListener() {
     let comment_no = t.dataset.commentNo;
     let type = t.dataset.type;
     let no = t.dataset.no;
+    console.log(type);
     $t.parent().append(`<span class="medium-h5 c-basic-black _cancel" data-comment-no="${comment_no}" data-type="${type}" data-no="${no}">취소</span>`);
     $(t.closest('.comment-container').querySelector('.reply-comment-container')).prepend(`<div class="form-group form-inner-button">
                                                                                                       <input data-comment-no="${comment_no}" data-type="${type}" data-no="${no}" type="text" placeholder="답글을 입력하세요." class="form-control input-box medium-h5">
@@ -172,7 +174,6 @@ function writeComment(element) {
         } else {
             let container = element.closest('._comments');
             insertReview(type, no, input.value.trim()).then((result) => {
-                console.log(result.data.comment);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -182,12 +183,13 @@ function writeComment(element) {
                         } else {
                             $(container).append(createCommentParentElement(type, result.data.comment));
                         }
-
+                        console.log(result.data.comment.no);
                         let comment_event = $(`[data-no="${result.data.comment.no}"][data-type="event"]`);
                         comment_event
                             .on('click', '._do', doClickEventListener)
                             .on('click', '._cancel', cancelClickEventListener)
                             .on('click', '._delete', deleteClickEventListener);
+
                         $(`[data-comment-like="${type}"][data-no="${result.data.comment.no}"]`).on('click', commentLikeClickEventListener);
                         $(`[data-comment-dislike="${type}"][data-no="${result.data.comment.no}"]`).on('click', commentDislikeClickEventListener);
                     }
@@ -218,6 +220,9 @@ const createCommentParentElement = (type, comment) => {
         case 'QUESTION':
             community_no = comment.question_no;
             break;
+        case 'FARM':
+            console.log('FARM');
+            community_no = comment.farm_no;
     }
     return `<div class="comment-container">
                 <div class="_comment">

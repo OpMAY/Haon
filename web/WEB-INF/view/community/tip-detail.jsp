@@ -505,7 +505,138 @@
      * */
     $(document).ready(function () {
         console.log('Static JS is ready');
-
+        $('[data-detail-bookmark]').on('click', function () {
+            let no = this.dataset.no;
+            let type = this.dataset.detailBookmark;
+            loginCheck().then((result) => {
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        updateBookmark(type, no).then((result) => {
+                            console.log(result);
+                            if (result.status === 'OK') {
+                                if (result.data.status) {
+                                    if (result.data.type === 'insert') {
+                                        if (!this.classList.contains('is-active')) {
+                                            this.classList.add('is-active');
+                                        }
+                                        viewAlert({content: '북마크를 등록했습니다.'});
+                                    } else {
+                                        if (this.classList.contains('is-active')) {
+                                            this.classList.remove('is-active');
+                                        }
+                                        viewAlert({content: '북마크를 해제했습니다.'});
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        viewAlert({content: '로그인이 필요한 기능입니다.'});
+                    }
+                }
+            });
+        });
+        $('[data-detail-like]').on('click', function () {
+            let no = this.dataset.no;
+            let type = this.dataset.detailLike;
+            loginCheck().then((result) => {
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        updateLike(type, no).then((result) => {
+                            console.log(result);
+                            if (result.status === 'OK') {
+                                if (result.data.status) {
+                                    let count = this.querySelector('span').textContent * 1;
+                                    if (result.data.type === 'insert') {
+                                        if (!this.classList.contains('is-active')) {
+                                            this.classList.add('is-active');
+                                        }
+                                        console.log(this);
+                                        this.querySelector('span').innerHTML = ++count;
+                                        viewAlert({content: '좋아요를 표시했습니다.'});
+                                    } else {
+                                        if (this.classList.contains('is-active')) {
+                                            this.classList.remove('is-active');
+                                        }
+                                        this.querySelector('span').innerHTML = --count;
+                                        viewAlert({content: '좋아요 표시를 해제했습니다.'});
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        viewAlert({content: '로그인이 필요한 기능입니다.'});
+                    }
+                }
+            });
+        });
+        $('[data-comment-like]').on('click', function () {
+            let no = this.dataset.no;
+            let type = this.dataset.commentLike;
+            loginCheck().then((result) => {
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        updateCommentLike(type, no).then((result) => {
+                            console.log(result);
+                            if (result.status === 'OK') {
+                                if (result.data.status) {
+                                    let count = this.querySelector('span').textContent * 1;
+                                    if (result.data.type === 'insert') {
+                                        if (!this.classList.contains('is-active')) {
+                                            this.classList.add('is-active');
+                                        }
+                                        console.log(this);
+                                        this.querySelector('span').innerHTML = ++count;
+                                        viewAlert({content: '좋아요를 표시했습니다.'});
+                                    } else {
+                                        if (this.classList.contains('is-active')) {
+                                            this.classList.remove('is-active');
+                                        }
+                                        this.querySelector('span').innerHTML = --count;
+                                        viewAlert({content: '좋아요 표시를 해제했습니다.'});
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        viewAlert({content: '로그인이 필요한 기능입니다.'});
+                    }
+                }
+            });
+        });
+        $('[data-comment-dislike]').on('click', function () {
+            let no = this.dataset.no;
+            let type = this.dataset.commentDislike;
+            loginCheck().then((result) => {
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        updateCommentDislike(type, no).then((result) => {
+                            console.log(result);
+                            if (result.status === 'OK') {
+                                if (result.data.status) {
+                                    let count = this.querySelector('span').textContent * 1;
+                                    if (result.data.type === 'insert') {
+                                        if (!this.classList.contains('is-active')) {
+                                            this.classList.add('is-active');
+                                        }
+                                        console.log(this);
+                                        this.querySelector('span').innerHTML = ++count;
+                                        viewAlert({content: '싫어요를 표시했습니다.'});
+                                    } else {
+                                        if (this.classList.contains('is-active')) {
+                                            this.classList.remove('is-active');
+                                        }
+                                        this.querySelector('span').innerHTML = --count;
+                                        viewAlert({content: '싫어요 표시를 해제했습니다.'});
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        viewAlert({content: '로그인이 필요한 기능입니다.'});
+                    }
+                }
+            });
+        });
     });
 </script>
 </body>

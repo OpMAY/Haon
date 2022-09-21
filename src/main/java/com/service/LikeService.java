@@ -190,4 +190,44 @@ public class LikeService {
     public void insertTipsCommentLike(int comment_no, int user_no) {
         likeDao.insertTipsCommentLike(comment_no, user_no);
     }
+
+    public boolean isCommentFarmLikeByUserNo(int comment_no, int user_no) {
+        return likeDao.isCommentFarmLikeByUserNo(comment_no, user_no);
+    }
+
+    public void deleteFarmCommentLike(int comment_no, int user_no) {
+        likeDao.deleteFarmCommentLike(comment_no, user_no);
+    }
+
+    public void insertFarmCommentLike(int comment_no, int user_no) {
+        likeDao.insertFarmCommentLike(comment_no, user_no);
+    }
+
+    public void deleteTipsCommentDislike(int comment_no, int user_no) {
+        likeDao.deleteTipsCommentDislike(comment_no, user_no);
+    }
+
+    public void insertTipsCommentDislike(int comment_no, int user_no) {
+        likeDao.insertTipsCommentDislike(comment_no, user_no);
+    }
+
+    public void deleteManualCommentDislike(int comment_no, int user_no) {
+        likeDao.deleteManualCommentDislike(comment_no, user_no);
+    }
+
+    public void insertManualCommentDislike(int comment_no, int user_no) {
+        likeDao.insertManualCommentDislike(comment_no, user_no);
+    }
+
+    public boolean isCommentFarmDislikeByUserNo(int comment_no, int user_no) {
+        return likeDao.isCommentFarmDislikeByUserNo(comment_no, user_no);
+    }
+
+    public void deleteFarmCommentDislike(int comment_no, int user_no) {
+        likeDao.deleteFarmCommentDislike(comment_no, user_no);
+    }
+
+    public void insertFarmCommentDislike(int comment_no, int user_no) {
+        likeDao.insertFarmCommentDislike(comment_no, user_no);
+    }
 }

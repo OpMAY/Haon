@@ -2,6 +2,7 @@ package com.service;
 
 import com.dao.CommentDao;
 import com.dao.ContentDao;
+import com.model.FarmComment;
 import com.model.content.board.BoardComment;
 import com.model.content.magazine.MagazineComment;
 import com.model.content.manual.ManualComment;
@@ -226,5 +227,39 @@ public class CommentService {
 
     public void deleteTipsCommentByNoAndUserNo(int user_no, int comment_no) {
         commentDao.deleteTipsCommentByNoAndUserNo(user_no, comment_no);
+    }
+
+    public int insertFarmCommentReply(FarmComment farmComment) {
+        commentDao.insertFarmCommentReply(farmComment);
+        return farmComment.getNo();
+    }
+
+    public FarmComment getFarmCommentByNo(int comment_no) {
+        return commentDao.getFarmCommentByNo(comment_no);
+    }
+
+    public int insertFarmComment(FarmComment farmComment) {
+        commentDao.insertFarmComment(farmComment);
+        return farmComment.getNo();
+    }
+
+    public void deleteFarmCommentByNoAndUserNo(int user_no, int comment_no) {
+        commentDao.deleteFarmCommentByNoAndUserNo(user_no, comment_no);
+    }
+
+    public ArrayList<FarmComment> getFarmComments(int farm_no) {
+        return commentDao.getFarmComments(farm_no);
+    }
+
+    public ArrayList<FarmComment> getFarmRecommentByCommentNo(int comment_no) {
+        return commentDao.getFarmRecommentByCommentNo(comment_no);
+    }
+
+    public boolean isBestFarmComment(int farm_no, int comment_no) {
+        FarmComment farmComment = commentDao.getBestFarmComment(farm_no);
+        if (farmComment.getCount() != null && farmComment.getCount().intValue() != 0) {
+            return farmComment.getNo() == comment_no;
+        }
+        return false;
     }
 }
