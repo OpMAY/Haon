@@ -3,6 +3,7 @@ package com.dao;
 import com.mapper.CommentMapper;
 import com.model.content.board.BoardComment;
 import com.model.content.magazine.MagazineComment;
+import com.model.content.manual.ManualComment;
 import com.model.content.question.QuestionComment;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
@@ -110,5 +111,17 @@ public class CommentDao {
 
     public void deleteQuestionCommentByNoAndUserNo(int user_no, int comment_no) {
         mapper.deleteQuestionCommentByNoAndUserNo(user_no, comment_no);
+    }
+
+    public ArrayList<ManualComment> getManualComments(int manual_no) {
+        return mapper.getManualComments(manual_no);
+    }
+
+    public ArrayList<ManualComment> getManualRecommentByCommentNo(int comment_no) {
+        return mapper.getManualRecommentByCommentNo(comment_no);
+    }
+
+    public ManualComment getBestManualComment(int manual_no) {
+        return mapper.getBestManualComment(manual_no);
     }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public class FarmDao {
     private FarmMapper mapper;
+
     private FarmDao(SqlSession sqlSession) {
         this.mapper = sqlSession.getMapper(FarmMapper.class);
     }
@@ -34,5 +35,9 @@ public class FarmDao {
 
     public Farm getFarmByFarmNo(int farm_no) {
         return mapper.getFarmByFarmNo(farm_no);
+    }
+
+    public boolean isFarmBookmark(int farm_no, int user_no) {
+        return mapper.isFarmBookmark(farm_no, user_no);
     }
 }

@@ -2,6 +2,7 @@ package com.mapper;
 
 import com.model.content.board.BoardTransaction;
 import com.model.content.magazine.MagazineTransaction;
+import com.model.content.manual.ManualTransaction;
 import com.model.content.question.QuestionTransaction;
 import org.apache.ibatis.annotations.Param;
 
@@ -54,11 +55,11 @@ public interface LikeMapper {
 
     boolean isCommentQuestionDislikeByUserNo(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
 
-    boolean isQuestionLikeByUserNo(@Param("question_no") int question_no,@Param("user_no") int user_no);
+    boolean isQuestionLikeByUserNo(@Param("question_no") int question_no, @Param("user_no") int user_no);
 
-    void deleteQuestionLike(@Param("question_no") int question_no,@Param("user_no") int user_no);
+    void deleteQuestionLike(@Param("question_no") int question_no, @Param("user_no") int user_no);
 
-    void insertQuestionLike(@Param("question_no") int question_no,@Param("user_no") int user_no);
+    void insertQuestionLike(@Param("question_no") int question_no, @Param("user_no") int user_no);
 
     void deleteQuestionCommentLike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
 
@@ -67,4 +68,20 @@ public interface LikeMapper {
     void deleteQuestionCommentDislike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
 
     void insertQuestionCommentDislike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    ArrayList<ManualTransaction> getLikesByManualNo(@Param("manual_no") int manual_no);
+
+    boolean isCommentManualLikeByUserNo(@Param("manual_no") int manual_no, @Param("user_no") int user_no);
+
+    boolean isCommentManualDislikeByUserNo(@Param("manual_no") int manual_no, @Param("user_no") int user_no);
+
+    boolean isManualLikeByUserNo(@Param("manual_no") int manual_no,@Param("user_no") int user_no);
+
+    void deleteManualLike(@Param("manual_no") int manual_no,@Param("user_no") int user_no);
+
+    void insertManualLike(@Param("manual_no") int manual_no,@Param("user_no") int user_no);
+
+    void deleteManualCommentLike(@Param("comment_no") int comment_no,@Param("user_no") int user_no);
+
+    void insertManualCommentLike(@Param("comment_no") int comment_no,@Param("user_no") int user_no);
 }

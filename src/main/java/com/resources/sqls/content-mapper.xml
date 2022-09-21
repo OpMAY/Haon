@@ -124,4 +124,14 @@
         from question
         where farm_no = #{farm_no}
     </select>
+    <select id="getManual" parameterType="int" resultType="Manual" resultMap="Manual">
+        select *
+        from manual
+        where no = #{manual_no};
+    </select>
+    <select id="getManuals" resultType="Manual" resultMap="Manual">
+        select *
+        from manual
+        where farm_no = #{farm_no}
+    </select>
 </mapper>

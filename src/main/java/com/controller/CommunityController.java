@@ -8,6 +8,9 @@ import com.model.content.board.BoardTransaction;
 import com.model.content.magazine.Magazine;
 import com.model.content.magazine.MagazineComment;
 import com.model.content.magazine.MagazineTransaction;
+import com.model.content.manual.Manual;
+import com.model.content.manual.ManualComment;
+import com.model.content.manual.ManualTransaction;
 import com.model.content.question.Question;
 import com.model.content.question.QuestionComment;
 import com.model.content.question.QuestionTransaction;
@@ -165,6 +168,7 @@ public class CommunityController {
 
         //Get Farm Data
         Farm farm = farmService.getFarmByFarmNo(board.getFarm_no());
+        farm.set_bookmark(farmService.isFarmBookmark(farm.getNo(), user_no));
         //Get Farm Other Boards
         ArrayList<Board> other_boards = contentService.getBoards(board.getFarm_no());
         //Get Farm Favorite Boards
@@ -313,6 +317,7 @@ public class CommunityController {
 
         //Get Farm Data
         Farm farm = farmService.getFarmByFarmNo(0);
+        farm.set_bookmark(farmService.isFarmBookmark(farm.getNo(), user_no));
         //Get Favorite Magazines
         ArrayList<Magazine> fame_magazines = contentService.getFameMagazines();
 
@@ -446,6 +451,7 @@ public class CommunityController {
 
         //Get Farm Data
         Farm farm = farmService.getFarmByFarmNo(question.getFarm_no());
+        farm.set_bookmark(farmService.isFarmBookmark(farm.getNo(), user_no));
         //Get Other Questions
         ArrayList<Question> other_questions = contentService.getQuestions(farm.getNo());
         //Get Fame Questions
@@ -483,6 +489,134 @@ public class CommunityController {
     @RequestMapping(value = "/manuals", method = RequestMethod.GET)
     public ModelAndView communityManualsPage() {
         ModelAndView VIEW = new ModelAndView("community/manuals");
+        return VIEW;
+    }
+
+    @RequestMapping(value = "/manual/detail/{manual_no}", method = RequestMethod.GET)
+    public ModelAndView getManualDetail(HttpServletRequest request, @PathVariable("manual_no") int manual_no) {
+        ModelAndView VIEW = new ModelAndView("community/manual-detail");
+        log.info("{}", manual_no);
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        //Get Board Detail Data
+        Manual manual = contentService.getManual(manual_no);
+
+        //Get Board Like Bookmark Data
+        ArrayList<ManualTransaction> likes = likeService.getLikesByManualNo(manual_no);
+        boolean is_like = false;
+        boolean is_bookmark = false;
+        if (user_no != null) {
+            for (ManualTransaction like : likes) {
+                if (like.getUser_no().intValue() == user_no.intValue()) {
+                    is_like = true;
+                }
+            }
+            is_bookmark = bookmarkService.isManualBookmarkByUserNo(manual_no, user_no);
+        }
+
+        //Get Comment
+        ArrayList<ManualComment> comments = commentService.getManualComments(manual_no);
+        for (ManualComment comment : comments) {
+            User commented_user = null;
+            if (comment.getUser_no() != null) {
+                commented_user = userService.getUserByNo(comment.getUser_no());
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    log.info("farm {}", farm.toString());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    comment.setUser(commented_user);
+                } else {
+                    log.info("SAMPLE_PROFILE_URL {}", SAMPLE_PROFILE_URL);
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    comment.setUser(commented_user);
+                }
+            } else {
+                commented_user = new User();
+                log.info("SAMPLE_PROFILE_URL {}", SAMPLE_PROFILE_URL);
+                MFile profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+                commented_user.setName("관리자");
+                commented_user.setProfile_img(profile);
+                comment.setContent("삭제된 메세지입니다.");
+                comment.setUser(commented_user);
+            }
+
+            if (user_no != null) {
+                comment.set_like(likeService.isCommentManualLikeByUserNo(comment.getNo(), user_no));
+                comment.set_dislike(likeService.isCommentManualDislikeByUserNo(comment.getNo(), user_no));
+            }
+
+            ArrayList<ManualComment> recomments = commentService.getManualRecommentByCommentNo(comment.getNo());
+            for (ManualComment recomment : recomments) {
+                User recommented_user = null;
+                if (recomment.getUser_no() != null) {
+                    recommented_user = userService.getUserByNo(recomment.getUser_no());
+                    if (globalService.checkFarm(recommented_user.getNo())) {
+                        Farm farm = farmService.getFarmByUserNo(recommented_user.getNo());
+                        recommented_user.setProfile_img(farm.getProfile_image());
+                        recommented_user.setName(farm.getName());
+                        recomment.setUser(recommented_user);
+                    } else {
+                        MFile profile = new MFile();
+                        profile.setUrl(SAMPLE_PROFILE_URL);
+                        profile.setName(SAMPLE_PROFILE_NAME);
+                        profile.setSize(SAMPLE_PROFILE_SIZE);
+                        profile.setType(SAMPLE_PROFILE_TYPE);
+
+                        recommented_user.setProfile_img(profile);
+                        recomment.setUser(recommented_user);
+                    }
+                } else {
+                    recommented_user = new User();
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+                    recommented_user.setName("관리자");
+                    recommented_user.setProfile_img(profile);
+                    recomment.setUser(recommented_user);
+                    recomment.setContent("삭제된 메세지입니다.");
+                }
+                if (user_no != null && (user_no.intValue() == recommented_user.getNo())) {
+                    recomment.setOwner_checked(true);
+                } else {
+                    recomment.setOwner_checked(false);
+                }
+            }
+
+            comment.setComments(recomments);
+
+            if (user_no != null && user_no.intValue() == commented_user.getNo()) {
+                comment.setOwner_checked(true);
+            } else {
+                comment.setOwner_checked(false);
+            }
+            comment.set_best(commentService.isBestManualComment(comment.getManual_no(), comment.getNo()));
+        }
+
+        //Get Farm Data
+        Farm farm = farmService.getFarmByFarmNo(manual.getFarm_no());
+        farm.set_bookmark(farmService.isFarmBookmark(farm.getNo(), user_no));
+        //Get Other Questions
+        ArrayList<Manual> other_manuals = contentService.getManuals(farm.getNo());
+
+        VIEW.addObject("manual", manual);
+        VIEW.addObject("likes", likes);
+        VIEW.addObject("is_like", is_like);
+        VIEW.addObject("is_bookmark", is_bookmark);
+        VIEW.addObject("comments", comments);
+        VIEW.addObject("farm", farm);
+        VIEW.addObject("other_manuals", other_manuals);
         return VIEW;
     }
 }

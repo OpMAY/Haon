@@ -15,4 +15,6 @@ public interface FarmMapper {
     Farm getFarmByUserNo(@Param("user_no") int user_no);
 
     Farm getFarmByFarmNo(@Param("farm_no") int farm_no);
+
+    boolean isFarmBookmark(@Param("farm_no") int farm_no, @Param("user_no") int user_no);
 }

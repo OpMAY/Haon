@@ -275,7 +275,17 @@ public class UserRestController {
                 message.put("type", "insert");
             }
         } else if (BOOKMARK_TYPE.MANUAL == type) {
-
+            if (likeService.isManualLikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteManualLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertManualLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else if (BOOKMARK_TYPE.TIP == type) {
 
         } else if (BOOKMARK_TYPE.QUESTION == type) {
@@ -326,7 +336,17 @@ public class UserRestController {
                 message.put("type", "insert");
             }
         } else if (BOOKMARK_TYPE.MANUAL == type) {
-
+            if (likeService.isCommentManualLikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteManualCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertManualCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else if (BOOKMARK_TYPE.TIP == type) {
 
         } else if (BOOKMARK_TYPE.QUESTION == type) {

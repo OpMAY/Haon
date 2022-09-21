@@ -4,6 +4,7 @@ import com.dao.LikeDao;
 import com.model.content.board.BoardTransaction;
 import com.model.content.magazine.Magazine;
 import com.model.content.magazine.MagazineTransaction;
+import com.model.content.manual.ManualTransaction;
 import com.model.content.question.QuestionTransaction;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -135,5 +136,37 @@ public class LikeService {
 
     public void insertQuestionCommentDislike(int comment_no, int user_no) {
         likeDao.insertQuestionCommentDislike(comment_no, user_no);
+    }
+
+    public ArrayList<ManualTransaction> getLikesByManualNo(int manual_no) {
+        return likeDao.getLikesByManualNo(manual_no);
+    }
+
+    public boolean isCommentManualLikeByUserNo(int manual_no, int user_no) {
+        return likeDao.isCommentManualLikeByUserNo(manual_no, user_no);
+    }
+
+    public boolean isCommentManualDislikeByUserNo(int manual_no, int user_no) {
+        return likeDao.isCommentManualDislikeByUserNo(manual_no, user_no);
+    }
+
+    public boolean isManualLikeByUserNo(int manual_no, int user_no) {
+        return likeDao.isManualLikeByUserNo(manual_no, user_no);
+    }
+
+    public void deleteManualLike(int manual_no, int user_no) {
+        likeDao.deleteManualLike(manual_no, user_no);
+    }
+
+    public void insertManualLike(int manual_no, int user_no) {
+        likeDao.insertManualLike(manual_no, user_no);
+    }
+
+    public void deleteManualCommentLike(int comment_no, int user_no) {
+        likeDao.deleteManualCommentLike(comment_no, user_no);
+    }
+
+    public void insertManualCommentLike(int comment_no, int user_no) {
+        likeDao.insertManualCommentLike(comment_no, user_no);
     }
 }

@@ -4,6 +4,7 @@ import com.mapper.LikeMapper;
 import com.mapper.TestMapper;
 import com.model.content.board.BoardTransaction;
 import com.model.content.magazine.MagazineTransaction;
+import com.model.content.manual.ManualTransaction;
 import com.model.content.question.QuestionTransaction;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
@@ -138,5 +139,37 @@ public class LikeDao {
 
     public void insertQuestionCommentDislike(int comment_no, int user_no) {
         mapper.insertQuestionCommentDislike(comment_no, user_no);
+    }
+
+    public ArrayList<ManualTransaction> getLikesByManualNo(int manual_no) {
+        return mapper.getLikesByManualNo(manual_no);
+    }
+
+    public boolean isCommentManualLikeByUserNo(int manual_no, int user_no) {
+        return mapper.isCommentManualLikeByUserNo(manual_no, user_no);
+    }
+
+    public boolean isCommentManualDislikeByUserNo(int manual_no, int user_no) {
+        return mapper.isCommentManualDislikeByUserNo(manual_no, user_no);
+    }
+
+    public boolean isManualLikeByUserNo(int manual_no, int user_no) {
+        return mapper.isManualLikeByUserNo(manual_no, user_no);
+    }
+
+    public void deleteManualLike(int manual_no, int user_no) {
+        mapper.deleteManualLike(manual_no, user_no);
+    }
+
+    public void insertManualLike(int manual_no, int user_no) {
+        mapper.insertManualLike(manual_no, user_no);
+    }
+
+    public void deleteManualCommentLike(int comment_no, int user_no) {
+        mapper.deleteManualCommentLike(comment_no, user_no);
+    }
+
+    public void insertManualCommentLike(int comment_no, int user_no) {
+        mapper.insertManualCommentLike(comment_no, user_no);
     }
 }

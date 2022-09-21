@@ -2,6 +2,7 @@ package com.mapper;
 
 import com.model.content.board.BoardComment;
 import com.model.content.magazine.MagazineComment;
+import com.model.content.manual.ManualComment;
 import com.model.content.question.QuestionComment;
 import org.apache.ibatis.annotations.Param;
 
@@ -54,4 +55,10 @@ public interface CommentMapper {
     void insertQuestionCommentReply(QuestionComment questionComment);
 
     void deleteQuestionCommentByNoAndUserNo(@Param("user_no") int user_no, @Param("comment_no") int comment_no);
+
+    ArrayList<ManualComment> getManualComments(@Param("manual_no") int manual_no);
+
+    ArrayList<ManualComment> getManualRecommentByCommentNo(@Param("comment_no") int comment_no);
+
+    ManualComment getBestManualComment(@Param("manual_no") int manual_no);
 }

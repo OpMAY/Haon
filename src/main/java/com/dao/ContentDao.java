@@ -81,4 +81,12 @@ public class ContentDao {
     public ArrayList<Question> getQuestions(int farm_no) {
         return mapper.getQuestions(farm_no);
     }
+
+    public Manual getManual(int manual_no) {
+        return mapper.getManual(manual_no);
+    }
+
+    public ArrayList<Manual> getManuals(int farm_no) {
+        return mapper.getManuals(farm_no);
+    }
 }

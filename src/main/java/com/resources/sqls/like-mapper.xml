@@ -18,6 +18,11 @@
         from question_like
         where question_no = #{question_no};
     </select>
+    <select id="getLikesByManualNo" parameterType="int" resultType="ManualTransaction">
+        select *
+        from manual_like
+        where manual_no = #{manual_no};
+    </select>
     <select id="isBoardLikeByUserNo" resultType="boolean">
         SELECT IF(EXISTS(
                           SELECT *
@@ -39,6 +44,13 @@
                           WHERE question_no = #{question_no}
                             and user_no = #{user_no}), true, false)
     </select>
+    <select id="isManualLikeByUserNo" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM manual_like
+                          WHERE manual_no = #{manual_no}
+                            and user_no = #{user_no}), true, false)
+    </select>
     <select id="isCommentBoardLikeByUserNo" resultType="boolean">
         SELECT IF(EXISTS(
                           SELECT *
@@ -57,6 +69,13 @@
         SELECT IF(EXISTS(
                           SELECT *
                           FROM question_comment_like
+                          WHERE comment_no = #{comment_no}
+                            and user_no = #{user_no}), true, false)
+    </select>
+    <select id="isCommentManualLikeByUserNo" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM manual_comment_like
                           WHERE comment_no = #{comment_no}
                             and user_no = #{user_no}), true, false)
     </select>
@@ -81,6 +100,13 @@
                           WHERE comment_no = #{comment_no}
                             and user_no = #{user_no}), true, false)
     </select>
+    <select id="isCommentManualDislikeByUserNo" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM manual_comment_dislike
+                          WHERE comment_no = #{comment_no}
+                            and user_no = #{user_no}), true, false)
+    </select>
     <insert id="insertBoardLike">
         insert into board_like(board_no, user_no)
         VALUES (#{board_no}, #{user_no});
@@ -91,6 +117,10 @@
     </insert>
     <insert id="insertQuestionLike">
         insert into question_like(question_no, user_no)
+        VALUES (#{question_no}, #{user_no});
+    </insert>
+    <insert id="insertManualLike">
+        insert into manual_like(manual_no, user_no)
         VALUES (#{question_no}, #{user_no});
     </insert>
     <delete id="deleteBoardLike">
@@ -111,6 +141,12 @@
         where question_no = #{question_no}
           and user_no = #{user_no};
     </select>
+    <select id="deleteManualLike">
+        delete
+        from manual_like
+        where manual_no = #{manual_no}
+          and user_no = #{user_no};
+    </select>
     <delete id="deleteBoardCommentLike">
         delete
         from board_comment_like
@@ -126,6 +162,12 @@
     <delete id="deleteQuestionCommentLike">
         delete
         from question_comment_like
+        where comment_no = #{comment_no}
+          and user_no = #{user_no}
+    </delete>
+    <delete id="deleteManualCommentLike">
+        delete
+        from manual_comment_like
         where comment_no = #{comment_no}
           and user_no = #{user_no}
     </delete>
@@ -147,6 +189,12 @@
         where comment_no = #{comment_no}
           and user_no = #{user_no}
     </delete>
+    <delete id="deleteManualCommentDislike">
+        delete
+        from manual_comment_dislike
+        where comment_no = #{comment_no}
+          and user_no = #{user_no}
+    </delete>
     <insert id="insertBoardCommentLike">
         insert into board_comment_like(comment_no, user_no)
         VALUES (#{comment_no}, #{user_no});
@@ -159,6 +207,10 @@
         insert into question_comment_like(comment_no, user_no)
         VALUES (#{comment_no}, #{user_no});
     </insert>
+    <insert id="insertManualCommentLike">
+        insert into manual_comment_like(comment_no, user_no)
+        VALUES (#{comment_no}, #{user_no});
+    </insert>
     <insert id="insertBoardCommentDislike">
         insert into board_comment_dislike(comment_no, user_no)
         VALUES (#{comment_no}, #{user_no});
@@ -169,6 +221,10 @@
     </insert>
     <insert id="insertQuestionCommentDislike">
         insert into question_comment_dislike(comment_no, user_no)
+        VALUES (#{comment_no}, #{user_no});
+    </insert>
+    <insert id="insertManualCommentDislike">
+        insert into manual_comment_dislike(comment_no, user_no)
         VALUES (#{comment_no}, #{user_no});
     </insert>
 </mapper>

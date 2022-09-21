@@ -40,4 +40,11 @@
         from farm
         where no = #{farm_no}
     </select>
+    <select id="isFarmBookmark" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM farm_bookmark
+                          WHERE farm_no = #{farm_no}
+                            and user_no = #{user_no}), true, false)
+    </select>
 </mapper>

@@ -3,6 +3,7 @@ package com.service;
 import com.dao.*;
 import com.model.content.board.Board;
 import com.model.content.magazine.Magazine;
+import com.model.content.manual.Manual;
 import com.model.content.question.Question;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,5 +72,13 @@ public class ContentService {
 
     public ArrayList<Question> getQuestions(int farm_no) {
         return contentDao.getQuestions(farm_no);
+    }
+
+    public Manual getManual(int manual_no) {
+        return contentDao.getManual(manual_no);
+    }
+
+    public ArrayList<Manual> getManuals(int farm_no) {
+        return contentDao.getManuals(farm_no);
     }
 }

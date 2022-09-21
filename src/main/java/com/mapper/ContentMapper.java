@@ -41,4 +41,8 @@ public interface ContentMapper {
     ArrayList<Question> getFameQuestions(@Param("farm_no") int farm_no);
 
     ArrayList<Question> getQuestions(@Param("farm_no") int farm_no);
+
+    Manual getManual(@Param("manual_no") int manual_no);
+
+    ArrayList<Manual> getManuals(@Param("farm_no") int farm_no);
 }

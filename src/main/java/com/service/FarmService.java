@@ -23,4 +23,8 @@ public class FarmService {
     public Farm getFarmByFarmNo(int farm_no) {
         return farmDao.getFarmByFarmNo(farm_no);
     }
+
+    public boolean isFarmBookmark(int farm_no, int user_no) {
+        return farmDao.isFarmBookmark(farm_no, user_no);
+    }
 }

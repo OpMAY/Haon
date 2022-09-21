@@ -5,6 +5,7 @@ import com.dao.ContentDao;
 import com.model.content.board.BoardComment;
 import com.model.content.common.COMMENT_TYPE;
 import com.model.content.magazine.MagazineComment;
+import com.model.content.manual.ManualComment;
 import com.model.content.question.QuestionComment;
 import com.response.Message;
 import lombok.RequiredArgsConstructor;
@@ -157,5 +158,21 @@ public class CommentService {
 
     public void deleteQuestionCommentByNoAndUserNo(int user_no, int comment_no) {
         commentDao.deleteQuestionCommentByNoAndUserNo(user_no, comment_no);
+    }
+
+    public ArrayList<ManualComment> getManualComments(int manual_no) {
+        return commentDao.getManualComments(manual_no);
+    }
+
+    public ArrayList<ManualComment> getManualRecommentByCommentNo(int comment_no) {
+        return commentDao.getManualRecommentByCommentNo(comment_no);
+    }
+
+    public boolean isBestManualComment(int manual_no, int comment_no) {
+        ManualComment manualComment = commentDao.getBestManualComment(manual_no);
+        if (manualComment.getCount() != null && manualComment.getCount().intValue() != 0) {
+            return manualComment.getNo() == comment_no;
+        }
+        return false;
     }
 }
