@@ -348,7 +348,17 @@ public class UserRestController {
                 message.put("type", "insert");
             }
         } else if (BOOKMARK_TYPE.TIP == type) {
-
+            if (likeService.isCommentTipsLikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteTipsCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertTipsCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else if (BOOKMARK_TYPE.QUESTION == type) {
             if (likeService.isCommentQuestionLikeByUserNo(no, user_no)) {
                 //좋아요 해제

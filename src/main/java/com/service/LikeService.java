@@ -6,6 +6,7 @@ import com.model.content.magazine.Magazine;
 import com.model.content.magazine.MagazineTransaction;
 import com.model.content.manual.ManualTransaction;
 import com.model.content.question.QuestionTransaction;
+import com.model.content.tips.TipsTransaction;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -168,5 +169,25 @@ public class LikeService {
 
     public void insertManualCommentLike(int comment_no, int user_no) {
         likeDao.insertManualCommentLike(comment_no, user_no);
+    }
+
+    public ArrayList<TipsTransaction> getLikesByTipsNo(int tips_no) {
+        return likeDao.getLikesByTipsNo(tips_no);
+    }
+
+    public boolean isCommentTipsLikeByUserNo(int comment_no, int user_no) {
+        return likeDao.isCommentTipsLikeByUserNo(comment_no, user_no);
+    }
+
+    public boolean isCommentTipsDislikeByUserNo(int comment_no, int user_no) {
+        return likeDao.isCommentTipsDislikeByUserNo(comment_no, user_no);
+    }
+
+    public void deleteTipsCommentLike(int comment_no, int user_no) {
+        likeDao.deleteTipsCommentLike(comment_no, user_no);
+    }
+
+    public void insertTipsCommentLike(int comment_no, int user_no) {
+        likeDao.insertTipsCommentLike(comment_no, user_no);
     }
 }

@@ -51,6 +51,18 @@
           and mc.recomment is null
           AND mc.no is not null;
     </select>
+    <select id="getTipsComments" resultType="TipsComment" parameterType="int">
+        select tc.*,
+               tc.no,
+               tc.content,
+               (select COUNT(*) from tips_comment_like WHERE comment_no = tc.no)    as like_count,
+               (select COUNT(*) from tips_comment_dislike WHERE comment_no = tc.no) as dislike_count
+        from tips
+                 left join tips_comment tc on tips.no = tc.tips_no
+        WHERE tips.no = #{tips_no}
+          and tc.recomment is null
+          AND tc.no is not null;
+    </select>
     <select id="getBoardRecommentByCommentNo" resultType="BoardComment" parameterType="int">
         select *
         from board_comment
@@ -69,6 +81,11 @@
     <select id="getManualRecommentByCommentNo" resultType="ManualComment" parameterType="int">
         select *
         from manual_comment
+        where recomment = #{comment_no};
+    </select>
+    <select id="getTipsRecommentByCommentNo" resultType="TipsComment" parameterType="int">
+        select *
+        from tips_comment
         where recomment = #{comment_no};
     </select>
     <select id="getBestBoardComment" parameterType="int" resultType="BoardComment">
@@ -119,6 +136,18 @@
         order by count desc
         limit 1;
     </select>
+    <select id="getBestTipsComment" parameterType="int" resultType="TipsComment">
+        select tips_comment.*,
+               (SELECT COUNT(comment_no) AS cnt
+                FROM tips_comment_like
+                where tips_comment_like.comment_no = tips_comment.no
+                GROUP BY comment_no) as count
+        from tips_comment
+        where tips_no = #{tips_no}
+          and recomment is null
+        order by count desc
+        limit 1;
+    </select>
     <insert id="insertBoardComment" parameterType="BoardComment" keyProperty="no" useGeneratedKeys="true">
         insert into board_comment(user_no, board_no, content, reg_datetime, is_blocked, owner_checked)
         VALUES (#{user_no}, #{board_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
@@ -135,6 +164,10 @@
         insert into manual_comment(user_no, manual_no, content, reg_datetime, is_blocked, owner_checked)
         VALUES (#{user_no}, #{manual_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
     </insert>
+    <insert id="insertTipsComment" parameterType="TipsComment" keyProperty="no" useGeneratedKeys="true">
+        insert into tips_comment(user_no, tips_no, content, reg_datetime, is_blocked, owner_checked)
+        VALUES (#{user_no}, #{tips_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
+    </insert>
     <insert id="insertBoardCommentReply" parameterType="BoardComment" keyProperty="no" useGeneratedKeys="true">
         insert into board_comment(user_no, recomment, board_no, content, reg_datetime, is_blocked, owner_checked)
         VALUES (#{user_no}, #{recomment}, #{board_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
@@ -150,6 +183,10 @@
     <insert id="insertManualCommentReply" parameterType="ManualComment" keyProperty="no" useGeneratedKeys="true">
         insert into manual_comment(user_no, recomment, manual_no, content, reg_datetime, is_blocked, owner_checked)
         VALUES (#{user_no}, #{recomment}, #{manual_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
+    </insert>
+    <insert id="insertTipsCommentReply" parameterType="TipsComment" keyProperty="no" useGeneratedKeys="true">
+        insert into tips_comment(user_no, recomment, tips_no, content, reg_datetime, is_blocked, owner_checked)
+        VALUES (#{user_no}, #{recomment}, #{tips_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
     </insert>
 
     <select id="getBoardCommentByNo" parameterType="int" resultType="BoardComment">
@@ -172,6 +209,11 @@
         from manual_comment
         where no = #{comment_no};
     </select>
+    <select id="getTipsCommentByNo" parameterType="int" resultType="TipsComment">
+        select *
+        from tips_comment
+        where no = #{comment_no};
+    </select>
     <update id="deleteBoardCommentByNoAndUserNo">
         update board_comment
         set user_no=null
@@ -192,6 +234,12 @@
     </update>
     <update id="deleteManualCommentByNoAndUserNo">
         update manual_comment
+        set user_no=null
+        where user_no = #{user_no}
+          and no = #{comment_no}
+    </update>
+    <update id="deleteTipsCommentByNoAndUserNo">
+        update tips_comment
         set user_no=null
         where user_no = #{user_no}
           and no = #{comment_no}

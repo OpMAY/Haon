@@ -540,4 +540,12 @@ public class ContentService {
         }
         return message;
     }
+
+    public Tips getTip(int tip_no) {
+        return contentDao.getTip(tip_no);
+    }
+
+    public ArrayList<Tips> getTips(int farm_no) {
+        return contentDao.getTips(farm_no);
+    }
 }

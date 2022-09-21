@@ -152,4 +152,8 @@ public interface ContentMapper {
     List<QuestionSummary> getCommunityQuestionsOrderByLikesReload(@Param("category") String category, @Param("content_no") int content_no);
 
     List<QuestionSummary> getCommunityQuestionsOrderByBookmarksReload(@Param("category") String category, @Param("content_no") int content_no);
+
+    Tips getTip(@Param("tip_no") int tip_no);
+
+    ArrayList<Tips> getTips(@Param("farm_no") int farm_no);
 }

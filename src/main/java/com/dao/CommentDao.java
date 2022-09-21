@@ -5,6 +5,7 @@ import com.model.content.board.BoardComment;
 import com.model.content.magazine.MagazineComment;
 import com.model.content.manual.ManualComment;
 import com.model.content.question.QuestionComment;
+import com.model.content.tips.TipsComment;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -123,5 +124,49 @@ public class CommentDao {
 
     public ManualComment getBestManualComment(int manual_no) {
         return mapper.getBestManualComment(manual_no);
+    }
+
+    public ArrayList<TipsComment> getTipsComments(int tips_no) {
+        return mapper.getTipsComments(tips_no);
+    }
+
+    public ArrayList<TipsComment> getTipsRecommentByCommentNo(int comment_no) {
+        return mapper.getTipsRecommentByCommentNo(comment_no);
+    }
+
+    public TipsComment getBestTipsComment(int tips_no) {
+        return mapper.getBestTipsComment(tips_no);
+    }
+
+    public void insertManualComment(ManualComment manualComment) {
+        mapper.insertManualComment(manualComment);
+    }
+
+    public ManualComment getManualCommentByNo(int comment_no) {
+        return mapper.getManualCommentByNo(comment_no);
+    }
+
+    public void insertTipsComment(TipsComment tipsComment) {
+        mapper.insertTipsComment(tipsComment);
+    }
+
+    public TipsComment getTipsCommentByNo(int comment_no) {
+        return mapper.getTipsCommentByNo(comment_no);
+    }
+
+    public void insertManualCommentReply(ManualComment manualComment) {
+        mapper.insertManualCommentReply(manualComment);
+    }
+
+    public void insertTipsCommentReply(TipsComment tipsComment) {
+        mapper.insertTipsCommentReply(tipsComment);
+    }
+
+    public void deleteManualCommentByNoAndUserNo(int user_no, int comment_no) {
+        mapper.deleteManualCommentByNoAndUserNo(user_no, comment_no);
+    }
+
+    public void deleteTipsCommentByNoAndUserNo(int user_no, int comment_no) {
+        mapper.deleteTipsCommentByNoAndUserNo(user_no, comment_no);
     }
 }

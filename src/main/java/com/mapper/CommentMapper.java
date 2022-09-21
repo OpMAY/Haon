@@ -4,6 +4,7 @@ import com.model.content.board.BoardComment;
 import com.model.content.magazine.MagazineComment;
 import com.model.content.manual.ManualComment;
 import com.model.content.question.QuestionComment;
+import com.model.content.tips.TipsComment;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
@@ -61,4 +62,26 @@ public interface CommentMapper {
     ArrayList<ManualComment> getManualRecommentByCommentNo(@Param("comment_no") int comment_no);
 
     ManualComment getBestManualComment(@Param("manual_no") int manual_no);
+
+    ArrayList<TipsComment> getTipsComments(@Param("tips_no") int tips_no);
+
+    ArrayList<TipsComment> getTipsRecommentByCommentNo(@Param("comment_no") int comment_no);
+
+    TipsComment getBestTipsComment(@Param("tips_no") int tips_no);
+
+    void insertManualComment(ManualComment manualComment);
+
+    ManualComment getManualCommentByNo(@Param("comment_no") int comment_no);
+
+    void insertTipsComment(TipsComment tipsComment);
+
+    TipsComment getTipsCommentByNo(@Param("comment_no") int comment_no);
+
+    void insertManualCommentReply(ManualComment manualComment);
+
+    void insertTipsCommentReply(TipsComment tipsComment);
+
+    void deleteManualCommentByNoAndUserNo(@Param("user_no") int user_no, @Param("comment_no") int comment_no);
+
+    void deleteTipsCommentByNoAndUserNo(@Param("user_no") int user_no, @Param("comment_no") int comment_no);
 }

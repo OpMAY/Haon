@@ -297,4 +297,12 @@ public class ContentDao {
     public List<QuestionSummary> getCommunityQuestionsOrderByBookmarksReload(String category, int content_no) {
         return mapper.getCommunityQuestionsOrderByBookmarksReload(category, content_no);
     }
+
+    public Tips getTip(int tip_no) {
+        return mapper.getTip(tip_no);
+    }
+
+    public ArrayList<Tips> getTips(int farm_no) {
+        return mapper.getTips(farm_no);
+    }
 }
