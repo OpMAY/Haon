@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -53,6 +54,42 @@ public class ContentDao {
         return mapper.checkQuestionContentExists(question_no);
     }
 
+    public ArrayList<Board> getBoards(int farm_no) {
+        return mapper.getBoards(farm_no);
+    }
+
+    public ArrayList<Board> getFameBoards(int farm_no) {
+        return mapper.getFameBoards(farm_no);
+    }
+
+    public Magazine getMagazine(int magazine_no) {
+        return mapper.getMagazine(magazine_no);
+    }
+
+    public ArrayList<Magazine> getFameMagazines() {
+        return mapper.getFameMagazines();
+    }
+
+    public Question getQuestion(int question_no) {
+        return mapper.getQuestion(question_no);
+    }
+
+    public ArrayList<Question> getFameQuestions(int farm_no) {
+        return mapper.getFameQuestions(farm_no);
+    }
+
+    public ArrayList<Question> getQuestions(int farm_no) {
+        return mapper.getQuestions(farm_no);
+    }
+
+    public Manual getManual(int manual_no) {
+        return mapper.getManual(manual_no);
+    }
+
+    public ArrayList<Manual> getManuals(int farm_no) {
+        return mapper.getManuals(farm_no);
+    }
+  
     // BOARDS
     public List<Board> getCommunityBoardsOrderByRecent(String category) {
         return mapper.getCommunityBoardsOrderByRecent(category);
@@ -260,5 +297,4 @@ public class ContentDao {
     public List<QuestionSummary> getCommunityQuestionsOrderByBookmarksReload(String category, int content_no) {
         return mapper.getCommunityQuestionsOrderByBookmarksReload(category, content_no);
     }
-
 }

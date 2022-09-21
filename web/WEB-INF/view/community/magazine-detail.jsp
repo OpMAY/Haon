@@ -1,16 +1,15 @@
-<%@ page import="com.model.content.board.Board" %>
-<%@ page import="com.model.content.board.BoardTransaction" %>
+<%@ page import="com.model.content.magazine.Magazine" %>
+<%@ page import="com.model.content.magazine.MagazineTransaction" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.model.content.board.BoardComment" %>
-<%@ page import="com.model.farm.Farm" %>
+<%@ page import="com.model.content.magazine.MagazineComment" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Board board = (Board) request.getAttribute("board");
-    request.setAttribute("board", board);
+    Magazine magazine = (Magazine) request.getAttribute("magazine");
+    request.setAttribute("magazine", magazine);
 
-    ArrayList<BoardTransaction> likes = (ArrayList<BoardTransaction>) request.getAttribute("likes");
+    ArrayList<MagazineTransaction> likes = (ArrayList<MagazineTransaction>) request.getAttribute("likes");
     request.setAttribute("likes", likes);
 
     boolean is_like = (boolean) request.getAttribute("is_like");
@@ -19,33 +18,38 @@
     boolean is_bookmark = (boolean) request.getAttribute("is_bookmark");
     request.setAttribute("is_bookmark", is_bookmark);
 
-    ArrayList<BoardComment> comments = (ArrayList<BoardComment>) request.getAttribute("comments");
+    ArrayList<MagazineComment> comments = (ArrayList<MagazineComment>) request.getAttribute("comments");
     request.setAttribute("comments", comments);
 
-    Farm farm = (Farm) request.getAttribute("farm");
-    request.setAttribute("farm", farm);
-    ArrayList<Board> other_boards = (ArrayList<Board>) request.getAttribute("other_boards");
-    request.setAttribute("other_boards", other_boards);
-    ArrayList<Board> fame_boards = (ArrayList<Board>) request.getAttribute("fame_boards");
-    request.setAttribute("fame_boards", fame_boards);
+    ArrayList<Magazine> fame_magazines = (ArrayList<Magazine>) request.getAttribute("fame_magazines");
+    request.setAttribute("fame_magazines", fame_magazines);
 %>
 <html lang="ko">
+
 <jsp:include page="../common/head.jsp"/>
+
 <body style="background-color: var(--gray-bg);">
+
 <jsp:include page="../common/header.jsp"/>
+
 <jsp:include page="../common/header-desc.jsp"/>
 <jsp:include page="../common/tab-overlay.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
+
 <div id="content-wrapper">
     <div class="container">
         <!--테마별 키워드-->
-        <section class="section sm-section mt-40 mb-40" style="min-height: calc(80vh);">
+        <section class="section sm-section mt-40" style="min-height: calc(80vh);">
             <div class="row">
                 <div class="col-xl-9 col-12">
                     <div class="community-container">
+                        <c:if test="${question.thumbnail.url ne null}">
+                            <div class="_thumbnail background-image"
+                                 style="padding-top: 32%; background-image: url('${magazine.thumbnail.url}')"></div>
+                        </c:if>
                         <div class="_detail">
                             <div class="_title ellipsis-one-line bold-h2 c-gray-dark-low">
-                                <span>${board.title}</span>
+                                <span>${magazine.title}</span>
                                 <div class="_right-option">
                                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -61,8 +65,8 @@
                                     </svg>
                                     <c:choose>
                                         <c:when test="${is_bookmark eq true}">
-                                            <svg class="bookmark is-active" data-no="${board.no}"
-                                                 data-detail-bookmark="BOARD"
+                                            <svg class="bookmark is-active" data-no="${magazine.no}"
+                                                 data-detail-bookmark="MAGAZINE"
                                                  width="32" height="32" viewBox="0 0 32 32"
                                                  fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -71,7 +75,8 @@
                                             </svg>
                                         </c:when>
                                         <c:otherwise>
-                                            <svg class="bookmark" data-no="${board.no}" data-detail-bookmark="BOARD"
+                                            <svg class="bookmark" data-no="${magazine.no}"
+                                                 data-detail-bookmark="MAGAZINE"
                                                  width="32"
                                                  height="32" viewBox="0 0 32 32"
                                                  fill="none"
@@ -84,16 +89,17 @@
                                 </div>
                             </div>
                             <div class="_breadcrumb">
-                                <span data-href="#" class="c-brand-green medium-h5">자유 게시판</span>
-                                <span data-href="#" class="c-brand-green medium-h5">${board.category}</span>
+                                <span data-href="#" class="c-brand-green medium-h5">최신 매거진</span>
+                                <span data-href="#" class="c-brand-green medium-h5">${magazine.category}</span>
                             </div>
                             <div class="_desc summernote-container">
-                                ${board.content}
+                                ${magazine.content}
                             </div>
                             <div class="_detail-footer">
                                 <c:choose>
                                     <c:when test="${is_like eq true}">
-                                        <div data-no="${board.no}" data-detail-like="BOARD" class="_like is-active">
+                                        <div data-no="${magazine.no}" data-detail-like="MAGAZINE"
+                                             class="_like is-active">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_261_12739)">
@@ -110,7 +116,7 @@
                                         </div>
                                     </c:when>
                                     <c:otherwise>
-                                        <div data-no="${board.no}" data-detail-like="BOARD" class="_like">
+                                        <div data-no="${magazine.no}" data-detail-like="MAGAZINE" class="_like">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_261_12739)">
@@ -128,14 +134,14 @@
                                     </c:otherwise>
                                 </c:choose>
                                 <div class="_views medium-h5 c-gray-light">
-                                    <span class="mr-1">${board.views}</span>Views
+                                    <span class="mr-1">${magazine.views}</span>Views
                                 </div>
                             </div>
                         </div>
                         <div class="_comments">
                             <div class="form-group form-inner-button">
-                                <input data-type="BOARD" data-no="${board.no}" type="text" placeholder="댓글을 입력하세요."
-                                       class="form-control input-box medium-h5">
+                                <input data-type="MAGAZINE" data-no="${magazine.no}" type="text"
+                                       placeholder="댓글을 입력하세요." class="form-control input-box medium-h5">
                                 <button onclick="writeComment(this);" type="button"
                                         class="btn btn-sm btn-brand bold-h5">작성
                                 </button>
@@ -189,7 +195,7 @@
                                             <div class="_responds">
                                                 <c:choose>
                                                     <c:when test="${comment._like eq true}">
-                                                        <div class="_like is-active" data-comment-like="BOARD"
+                                                        <div class="_like is-active" data-comment-like="MAGAZINE"
                                                              data-no="${comment.no}">
                                                             <svg width="16"
                                                                  height="14"
@@ -203,7 +209,7 @@
                                                         </div>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <div class="_like" data-comment-like="BOARD"
+                                                        <div class="_like" data-comment-like="MAGAZINE"
                                                              data-no="${comment.no}">
                                                             <svg width="16"
                                                                  height="14"
@@ -219,7 +225,7 @@
                                                 </c:choose>
                                                 <c:choose>
                                                     <c:when test="${comment._dislike eq true}">
-                                                        <div class="_dislike is-active" data-comment-dislike="BOARD"
+                                                        <div class="_dislike is-active" data-comment-dislike="MAGAZINE"
                                                              data-no="${comment.no}">
                                                             <svg width="16"
                                                                  height="14"
@@ -233,7 +239,7 @@
                                                         </div>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <div class="_dislike" data-comment-dislike="BOARD"
+                                                        <div class="_dislike" data-comment-dislike="MAGAZINE"
                                                              data-no="${comment.no}">
                                                             <svg width="16"
                                                                  height="14"
@@ -251,12 +257,12 @@
                                             <div class="_reply">
                                                 <c:if test="${comment.owner_checked eq true}">
                                                     <span class="medium-h5 c-gray-dark-low _delete"
-                                                          data-no="${comment.no}" data-type="BOARD"
+                                                          data-no="${comment.no}" data-type="MAGAZINE"
                                                           data-parent="parent">삭제</span>
                                                 </c:if>
                                                 <span class="medium-h5 c-gray-dark-low _do"
-                                                      data-comment-no="${comment.no}" data-type="BOARD"
-                                                      data-no="${board.no}">답글</span>
+                                                      data-comment-no="${comment.no}" data-type="MAGAZINE"
+                                                      data-no="${magazine.no}">답글</span>
                                             </div>
                                         </div>
                                     </div>
@@ -306,7 +312,7 @@
                                                             <div class="_reply">
                                                                 <c:if test="${recomment.owner_checked eq true}">
                                                                     <span class="medium-h5 c-gray-dark-low _delete mr-0"
-                                                                          data-no="${recomment.no}" data-type="BOARD"
+                                                                          data-no="${recomment.no}" data-type="MAGAZINE"
                                                                           data-parent="self">삭제</span>
                                                                 </c:if>
                                                             </div>
@@ -341,7 +347,7 @@
                                                             <div class="_reply">
                                                                 <c:if test="${recomment.owner_checked eq true}">
                                                                     <span class="medium-h5 c-gray-dark-low _delete mr-0"
-                                                                          data-no="${recomment.no}" data-type="BOARD"
+                                                                          data-no="${recomment.no}" data-type="MAGAZINE"
                                                                           data-parent="self">삭제</span>
                                                                 </c:if>
                                                             </div>
@@ -359,8 +365,8 @@
                 <div class="col-xl-3 col-12">
                     <div class="community-sub-container">
                         <div class="row">
-                            <div class="col-lg-12 col-12 mb-32">
-                                <div class="_community-module mb-32">
+                            <div class="col-xl-12 col-6 mb-32">
+                                <div class="_community-module">
                                     <div class="card farm-card">
                                         <div class="background-image _thumbnail"
                                              style="background-image: url('${farm.profile_image.url}')">
@@ -409,7 +415,7 @@
                                                         <c:if test="${status.first}">
                                                             <div class="_hashs">
                                                         </c:if>
-                                                        <span class="_hash c-gray-medium medium-p1">해시태그1</span>
+                                                        <span class="_hash c-gray-medium medium-p1">${farm.hashtag.size()}${hash}</span>
                                                         <c:if test="${status.last}">
                                                             </div>
                                                         </c:if>
@@ -427,37 +433,56 @@
                                 </div>
                             </div>
                             <c:choose>
-                                <c:when test="${other_boards.size() ne 0}">
-                                    <div class="col-lg-12 col-12">
-                                        <div class="_community-module mb-32">
-                                            <div class="_title bold-h5 c-gray-dark-low">
-                                                    ${farm.name}님이 작성한 다른 게시글
-                                            </div>
-                                            <div class="_related-board-list">
-                                                <c:forEach items="${other_boards}" var="other_board" end="3">
-                                                    <div data-href="/community/board/detail/${other_board.no}"
-                                                         class="_related-board-container ellipsis-one-line">
-                                                        <span class="medium-h6">${other_board.title}</span>
-                                                    </div>
-                                                </c:forEach>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </c:when>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${fame_boards.size() ne 0}">
-                                    <div class="col-lg-12 col-12">
+                                <c:when test="${fame_magazines.size() ne 0}">
+                                    <div class="col-xl-12 col-6">
                                         <div class="_community-module">
                                             <div class="_title bold-h5 c-gray-dark-low">
-                                                인기 & 추천 게시글
+                                                하은 축산이 제공하는 최신 매거진
                                             </div>
-                                            <div class="_related-board-list">
-                                                <c:forEach items="${fame_boards}" var="fame_board" end="3">
-                                                    <div data-href="/community/board/detail/${fame_board.no}"
-                                                         class="_related-board-container ellipsis-one-line">
-                                                        <span class="medium-h6">${fame_board.title}</span>
-                                                    </div>
+                                            <div class="row row-cols-1 community-container-deck">
+                                                <c:forEach items="${fame_magazines}" var="fame_mangazine" end="3"
+                                                           varStatus="status">
+                                                    <c:choose>
+                                                        <c:when test="${fame_mangazine.thumbnail.url ne null}">
+                                                            <div class="col p-8"
+                                                                 data-href="/community/magazine/detail/${fame_mangazine.no}">
+                                                                <div class="card community-card">
+                                                                    <div class="background-image _thumbnail _thumbnail-lg"
+                                                                         style="background-image:url('${fame_mangazine.thumbnail.url}')">
+                                                                        <div class="background-image _profile"
+                                                                             style="background-image:url('${farm.profile_image.url}')"></div>
+                                                                    </div>
+                                                                    <div class="card-body _body">
+                                                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">${fame_mangazine.title}</h5>
+                                                                        <div class="card-text _description medium-h5 c-gray-medium">${fame_mangazine.content}</div>
+                                                                    </div>
+                                                                    <div class="_footer">
+                                                                        <span class="_views medium-p1 c-gray-light">
+                                                                            <span class="_count">${fame_mangazine.views}</span>Views
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <div class="col p-8"
+                                                                 data-href="/community/magazine/detail/${fame_mangazine.no}">
+                                                                <div class="card community-card is-empty">
+                                                                    <div class="background-image _profile"
+                                                                         style="background-image:url('${farm.profile_image.url}')"></div>
+                                                                    <div class="card-body _body">
+                                                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">${fame_mangazine.title}</h5>
+                                                                        <div class="card-text _description medium-h5 c-gray-medium">${fame_mangazine.content}</div>
+                                                                    </div>
+                                                                    <div class="_footer">
+                                                                        <span class="_views medium-p1 c-gray-light">
+                                                                            <span class="_count">${fame_mangazine.views}</span>Views
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                 </c:forEach>
                                             </div>
                                         </div>
@@ -512,7 +537,6 @@
                 }
             });
         });
-
         $('[data-detail-like]').on('click', function () {
             let no = this.dataset.no;
             let type = this.dataset.detailLike;
@@ -618,4 +642,5 @@
     });
 </script>
 </body>
+
 </html>

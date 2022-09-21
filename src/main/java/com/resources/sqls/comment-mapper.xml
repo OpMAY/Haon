@@ -15,9 +15,60 @@
           and bc.recomment is null
           AND bc.no is not null;
     </select>
-    <select id="getRecommentByCommentNo" resultType="BoardComment" parameterType="int">
+    <select id="getMagazineComments" resultType="MagazineComment" parameterType="int">
+        select mc.*,
+               mc.no,
+               mc.content,
+               (select COUNT(*) from magazine_comment_like WHERE comment_no = mc.no)    as like_count,
+               (select COUNT(*) from magazine_comment_dislike WHERE comment_no = mc.no) as dislike_count
+        from magazine
+                 left join magazine_comment mc on magazine.no = mc.magazine_no
+        WHERE magazine.no = #{magazine_no}
+          and mc.recomment is null
+          AND mc.no is not null;
+    </select>
+    <select id="getQuestionComments" resultType="QuestionComment" parameterType="int">
+        select qc.*,
+               qc.no,
+               qc.content,
+               (select COUNT(*) from question_comment_like WHERE comment_no = qc.no)    as like_count,
+               (select COUNT(*) from question_comment_dislike WHERE comment_no = qc.no) as dislike_count
+        from question
+                 left join question_comment qc on question.no = qc.question_no
+        WHERE question.no = #{question_no}
+          and qc.recomment is null
+          AND qc.no is not null;
+    </select>
+    <select id="getManualComments" resultType="ManualComment" parameterType="int">
+        select mc.*,
+               mc.no,
+               mc.content,
+               (select COUNT(*) from manual_comment_like WHERE comment_no = mc.no)    as like_count,
+               (select COUNT(*) from manual_comment_dislike WHERE comment_no = mc.no) as dislike_count
+        from manual
+                 left join manual_comment mc on manual.no = mc.manual_no
+        WHERE manual.no = #{manual_no}
+          and mc.recomment is null
+          AND mc.no is not null;
+    </select>
+    <select id="getBoardRecommentByCommentNo" resultType="BoardComment" parameterType="int">
         select *
         from board_comment
+        where recomment = #{comment_no};
+    </select>
+    <select id="getMagazineRecommentByCommentNo" resultType="MagazineComment" parameterType="int">
+        select *
+        from magazine_comment
+        where recomment = #{comment_no};
+    </select>
+    <select id="getQuestionRecommentByCommentNo" resultType="QuestionComment" parameterType="int">
+        select *
+        from question_comment
+        where recomment = #{comment_no};
+    </select>
+    <select id="getManualRecommentByCommentNo" resultType="ManualComment" parameterType="int">
+        select *
+        from manual_comment
         where recomment = #{comment_no};
     </select>
     <select id="getBestBoardComment" parameterType="int" resultType="BoardComment">
@@ -32,10 +83,73 @@
         order by count desc
         limit 1;
     </select>
-
+    <select id="getBestMagazineComment" parameterType="int" resultType="MagazineComment">
+        select magazine_comment.*,
+               (SELECT COUNT(comment_no) AS cnt
+                FROM magazine_comment_like
+                where magazine_comment_like.comment_no = magazine_comment.no
+                GROUP BY comment_no) as count
+        from magazine_comment
+        where magazine_no = #{magazine_no}
+          and recomment is null
+        order by count desc
+        limit 1;
+    </select>
+    <select id="getBestQuestionComment" parameterType="int" resultType="QuestionComment">
+        select question_comment.*,
+               (SELECT COUNT(comment_no) AS cnt
+                FROM question_comment_like
+                where question_comment_like.comment_no = question_comment.no
+                GROUP BY comment_no) as count
+        from question_comment
+        where question_no = #{question_no}
+          and recomment is null
+        order by count desc
+        limit 1;
+    </select>
+    <select id="getBestManualComment" parameterType="int" resultType="ManualComment">
+        select manual_comment.*,
+               (SELECT COUNT(comment_no) AS cnt
+                FROM manual_comment_like
+                where manual_comment_like.comment_no = manual_comment.no
+                GROUP BY comment_no) as count
+        from manual_comment
+        where manual_no = #{manual_no}
+          and recomment is null
+        order by count desc
+        limit 1;
+    </select>
+    <insert id="insertBoardComment" parameterType="BoardComment" keyProperty="no" useGeneratedKeys="true">
+        insert into board_comment(user_no, board_no, content, reg_datetime, is_blocked, owner_checked)
+        VALUES (#{user_no}, #{board_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
+    </insert>
+    <insert id="insertMagazineComment" parameterType="MagazineComment" keyProperty="no" useGeneratedKeys="true">
+        insert into magazine_comment(user_no, magazine_no, content, reg_datetime, is_blocked, owner_checked)
+        VALUES (#{user_no}, #{magazine_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
+    </insert>
+    <insert id="insertQuestionComment" parameterType="QuestionComment" keyProperty="no" useGeneratedKeys="true">
+        insert into question_comment(user_no, question_no, content, reg_datetime, is_blocked, owner_checked)
+        VALUES (#{user_no}, #{question_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
+    </insert>
+    <insert id="insertManualComment" parameterType="ManualComment" keyProperty="no" useGeneratedKeys="true">
+        insert into manual_comment(user_no, manual_no, content, reg_datetime, is_blocked, owner_checked)
+        VALUES (#{user_no}, #{manual_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
+    </insert>
     <insert id="insertBoardCommentReply" parameterType="BoardComment" keyProperty="no" useGeneratedKeys="true">
         insert into board_comment(user_no, recomment, board_no, content, reg_datetime, is_blocked, owner_checked)
         VALUES (#{user_no}, #{recomment}, #{board_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
+    </insert>
+    <insert id="insertMagazineCommentReply" parameterType="MagazineComment" keyProperty="no" useGeneratedKeys="true">
+        insert into magazine_comment(user_no, recomment, magazine_no, content, reg_datetime, is_blocked, owner_checked)
+        VALUES (#{user_no}, #{recomment}, #{magazine_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
+    </insert>
+    <insert id="insertQuestionCommentReply" parameterType="QuestionComment" keyProperty="no" useGeneratedKeys="true">
+        insert into question_comment(user_no, recomment, question_no, content, reg_datetime, is_blocked, owner_checked)
+        VALUES (#{user_no}, #{recomment}, #{question_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
+    </insert>
+    <insert id="insertManualCommentReply" parameterType="ManualComment" keyProperty="no" useGeneratedKeys="true">
+        insert into manual_comment(user_no, recomment, manual_no, content, reg_datetime, is_blocked, owner_checked)
+        VALUES (#{user_no}, #{recomment}, #{manual_no}, #{content}, now(), #{is_blocked}, #{owner_checked})
     </insert>
 
     <select id="getBoardCommentByNo" parameterType="int" resultType="BoardComment">
@@ -43,8 +157,41 @@
         from board_comment
         where no = #{comment_no};
     </select>
+    <select id="getMagazineCommentByNo" parameterType="int" resultType="MagazineComment">
+        select *
+        from magazine_comment
+        where no = #{comment_no};
+    </select>
+    <select id="getQuestionCommentByNo" parameterType="int" resultType="QuestionComment">
+        select *
+        from question_comment
+        where no = #{comment_no};
+    </select>
+    <select id="getManualCommentByNo" parameterType="int" resultType="ManualComment">
+        select *
+        from manual_comment
+        where no = #{comment_no};
+    </select>
     <update id="deleteBoardCommentByNoAndUserNo">
         update board_comment
+        set user_no=null
+        where user_no = #{user_no}
+          and no = #{comment_no}
+    </update>
+    <update id="deleteMagazineCommentByNoAndUserNo">
+        update magazine_comment
+        set user_no=null
+        where user_no = #{user_no}
+          and no = #{comment_no}
+    </update>
+    <update id="deleteQuestionCommentByNoAndUserNo">
+        update question_comment
+        set user_no=null
+        where user_no = #{user_no}
+          and no = #{comment_no}
+    </update>
+    <update id="deleteManualCommentByNoAndUserNo">
+        update manual_comment
         set user_no=null
         where user_no = #{user_no}
           and no = #{comment_no}

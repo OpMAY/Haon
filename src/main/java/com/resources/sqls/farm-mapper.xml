@@ -6,6 +6,8 @@
     <resultMap id="farm" type="com.model.farm.Farm">
         <result column="profile_image" property="profile_image" javaType="com.model.common.MFile"
                 typeHandler="JsonObjectTypeHandler"/>
+        <result column="farm_image" property="farm_image" javaType="com.model.common.MFile"
+                typeHandler="JsonObjectTypeHandler"/>
         <result column="hashtag" property="hashtag"
                 typeHandler="StringArrayListTypeHandler"/>
         <result column="sns" property="sns" typeHandler="JsonObjectTypeHandler"/>
@@ -33,6 +35,20 @@
         from farm
         where user_no = #{user_no}
     </select>
+
+    <select id="getFarmByFarmNo" parameterType="int" resultType="Farm" resultMap="farm">
+        select *
+        from farm
+        where no = #{farm_no}
+    </select>
+    <select id="isFarmBookmark" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM farm_bookmark
+                          WHERE farm_no = #{farm_no}
+                            and user_no = #{user_no}), true, false)
+    </select>
+
     <select id="getFarmByNo" resultType="Farm" resultMap="farm">
         select *
         from farm

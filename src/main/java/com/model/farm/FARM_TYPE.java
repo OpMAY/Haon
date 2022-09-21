@@ -2,7 +2,7 @@ package com.model.farm;
 
 public enum FARM_TYPE {
     CATTLE("CATTLE", "소"), PIG("PIG", "돼지"), FOWL("FOWL", "닭"), DUCK("DUCK", "오리"), RABBIT("RABBIT", "토끼"), HORSE("HORSE", "말"),
-    SHEEP_GOAT("SHEEP_GOAT", "양 & 염소"), NONE("NONE", "해당 없음");
+    SHEEP_GOAT("SHEEP_GOAT", "양 & 염소"), NONE("NONE", "해당 없음"), ADMIN("ADMIN", "관리자");
     private final String code;
     private final String kor_name;
 

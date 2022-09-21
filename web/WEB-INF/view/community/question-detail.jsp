@@ -1,16 +1,16 @@
-<%@ page import="com.model.content.board.Board" %>
-<%@ page import="com.model.content.board.BoardTransaction" %>
+<%@ page import="com.model.content.question.Question" %>
+<%@ page import="com.model.content.question.QuestionTransaction" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.model.content.board.BoardComment" %>
+<%@ page import="com.model.content.question.QuestionComment" %>
 <%@ page import="com.model.farm.Farm" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Board board = (Board) request.getAttribute("board");
-    request.setAttribute("board", board);
+    Question question = (Question) request.getAttribute("question");
+    request.setAttribute("question", question);
 
-    ArrayList<BoardTransaction> likes = (ArrayList<BoardTransaction>) request.getAttribute("likes");
+    ArrayList<QuestionTransaction> likes = (ArrayList<QuestionTransaction>) request.getAttribute("likes");
     request.setAttribute("likes", likes);
 
     boolean is_like = (boolean) request.getAttribute("is_like");
@@ -19,15 +19,15 @@
     boolean is_bookmark = (boolean) request.getAttribute("is_bookmark");
     request.setAttribute("is_bookmark", is_bookmark);
 
-    ArrayList<BoardComment> comments = (ArrayList<BoardComment>) request.getAttribute("comments");
+    ArrayList<QuestionComment> comments = (ArrayList<QuestionComment>) request.getAttribute("comments");
     request.setAttribute("comments", comments);
 
     Farm farm = (Farm) request.getAttribute("farm");
     request.setAttribute("farm", farm);
-    ArrayList<Board> other_boards = (ArrayList<Board>) request.getAttribute("other_boards");
-    request.setAttribute("other_boards", other_boards);
-    ArrayList<Board> fame_boards = (ArrayList<Board>) request.getAttribute("fame_boards");
-    request.setAttribute("fame_boards", fame_boards);
+    ArrayList<Question> other_questions = (ArrayList<Question>) request.getAttribute("other_questions");
+    request.setAttribute("other_questions", other_questions);
+    ArrayList<Question> fame_questions = (ArrayList<Question>) request.getAttribute("fame_questions");
+    request.setAttribute("fame_questions", fame_questions);
 %>
 <html lang="ko">
 <jsp:include page="../common/head.jsp"/>
@@ -36,16 +36,21 @@
 <jsp:include page="../common/header-desc.jsp"/>
 <jsp:include page="../common/tab-overlay.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
+
 <div id="content-wrapper">
     <div class="container">
         <!--테마별 키워드-->
-        <section class="section sm-section mt-40 mb-40" style="min-height: calc(80vh);">
+        <section class="section sm-section mt-40" style="min-height: calc(80vh);">
             <div class="row">
                 <div class="col-xl-9 col-12">
                     <div class="community-container">
+                        <c:if test="${question.thumbnail.url ne null}">
+                            <div class="_thumbnail background-image"
+                                 style="padding-top: 32%; background-image: url('${question.thumbnail.url}')"></div>
+                        </c:if>
                         <div class="_detail">
                             <div class="_title ellipsis-one-line bold-h2 c-gray-dark-low">
-                                <span>${board.title}</span>
+                                <span>${question.title}</span>
                                 <div class="_right-option">
                                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -61,8 +66,8 @@
                                     </svg>
                                     <c:choose>
                                         <c:when test="${is_bookmark eq true}">
-                                            <svg class="bookmark is-active" data-no="${board.no}"
-                                                 data-detail-bookmark="BOARD"
+                                            <svg class="bookmark is-active" data-no="${question.no}"
+                                                 data-detail-bookmark="QUESTION"
                                                  width="32" height="32" viewBox="0 0 32 32"
                                                  fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -71,7 +76,8 @@
                                             </svg>
                                         </c:when>
                                         <c:otherwise>
-                                            <svg class="bookmark" data-no="${board.no}" data-detail-bookmark="BOARD"
+                                            <svg class="bookmark" data-no="${question.no}"
+                                                 data-detail-bookmark="QUESTION"
                                                  width="32"
                                                  height="32" viewBox="0 0 32 32"
                                                  fill="none"
@@ -84,16 +90,17 @@
                                 </div>
                             </div>
                             <div class="_breadcrumb">
-                                <span data-href="#" class="c-brand-green medium-h5">자유 게시판</span>
-                                <span data-href="#" class="c-brand-green medium-h5">${board.category}</span>
+                                <span data-href="#" class="c-brand-green medium-h5">질문과 답변</span>
+                                <span data-href="#" class="c-brand-green medium-h5">${question.category}</span>
                             </div>
                             <div class="_desc summernote-container">
-                                ${board.content}
+                                ${question.content}
                             </div>
                             <div class="_detail-footer">
                                 <c:choose>
                                     <c:when test="${is_like eq true}">
-                                        <div data-no="${board.no}" data-detail-like="BOARD" class="_like is-active">
+                                        <div data-no="${question.no}" data-detail-like="QUESTION"
+                                             class="_like is-active">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_261_12739)">
@@ -110,7 +117,7 @@
                                         </div>
                                     </c:when>
                                     <c:otherwise>
-                                        <div data-no="${board.no}" data-detail-like="BOARD" class="_like">
+                                        <div data-no="${question.no}" data-detail-like="QUESTION" class="_like">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_261_12739)">
@@ -128,14 +135,14 @@
                                     </c:otherwise>
                                 </c:choose>
                                 <div class="_views medium-h5 c-gray-light">
-                                    <span class="mr-1">${board.views}</span>Views
+                                    <span class="mr-1">${question.views}</span>Views
                                 </div>
                             </div>
                         </div>
                         <div class="_comments">
                             <div class="form-group form-inner-button">
-                                <input data-type="BOARD" data-no="${board.no}" type="text" placeholder="댓글을 입력하세요."
-                                       class="form-control input-box medium-h5">
+                                <input data-type="QUESTION" data-no="${question.no}" type="text"
+                                       placeholder="댓글을 입력하세요." class="form-control input-box medium-h5">
                                 <button onclick="writeComment(this);" type="button"
                                         class="btn btn-sm btn-brand bold-h5">작성
                                 </button>
@@ -189,7 +196,7 @@
                                             <div class="_responds">
                                                 <c:choose>
                                                     <c:when test="${comment._like eq true}">
-                                                        <div class="_like is-active" data-comment-like="BOARD"
+                                                        <div class="_like is-active" data-comment-like="QUESTION"
                                                              data-no="${comment.no}">
                                                             <svg width="16"
                                                                  height="14"
@@ -203,7 +210,7 @@
                                                         </div>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <div class="_like" data-comment-like="BOARD"
+                                                        <div class="_like" data-comment-like="QUESTION"
                                                              data-no="${comment.no}">
                                                             <svg width="16"
                                                                  height="14"
@@ -219,7 +226,7 @@
                                                 </c:choose>
                                                 <c:choose>
                                                     <c:when test="${comment._dislike eq true}">
-                                                        <div class="_dislike is-active" data-comment-dislike="BOARD"
+                                                        <div class="_dislike is-active" data-comment-dislike="QUESTION"
                                                              data-no="${comment.no}">
                                                             <svg width="16"
                                                                  height="14"
@@ -233,7 +240,7 @@
                                                         </div>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <div class="_dislike" data-comment-dislike="BOARD"
+                                                        <div class="_dislike" data-comment-dislike="QUESTION"
                                                              data-no="${comment.no}">
                                                             <svg width="16"
                                                                  height="14"
@@ -251,12 +258,12 @@
                                             <div class="_reply">
                                                 <c:if test="${comment.owner_checked eq true}">
                                                     <span class="medium-h5 c-gray-dark-low _delete"
-                                                          data-no="${comment.no}" data-type="BOARD"
+                                                          data-no="${comment.no}" data-type="QUESTION"
                                                           data-parent="parent">삭제</span>
                                                 </c:if>
                                                 <span class="medium-h5 c-gray-dark-low _do"
-                                                      data-comment-no="${comment.no}" data-type="BOARD"
-                                                      data-no="${board.no}">답글</span>
+                                                      data-comment-no="${comment.no}" data-type="QUESTION"
+                                                      data-no="${question.no}">답글</span>
                                             </div>
                                         </div>
                                     </div>
@@ -306,7 +313,7 @@
                                                             <div class="_reply">
                                                                 <c:if test="${recomment.owner_checked eq true}">
                                                                     <span class="medium-h5 c-gray-dark-low _delete mr-0"
-                                                                          data-no="${recomment.no}" data-type="BOARD"
+                                                                          data-no="${recomment.no}" data-type="QUESTION"
                                                                           data-parent="self">삭제</span>
                                                                 </c:if>
                                                             </div>
@@ -341,7 +348,7 @@
                                                             <div class="_reply">
                                                                 <c:if test="${recomment.owner_checked eq true}">
                                                                     <span class="medium-h5 c-gray-dark-low _delete mr-0"
-                                                                          data-no="${recomment.no}" data-type="BOARD"
+                                                                          data-no="${recomment.no}" data-type="QUESTION"
                                                                           data-parent="self">삭제</span>
                                                                 </c:if>
                                                             </div>
@@ -359,8 +366,8 @@
                 <div class="col-xl-3 col-12">
                     <div class="community-sub-container">
                         <div class="row">
-                            <div class="col-lg-12 col-12 mb-32">
-                                <div class="_community-module mb-32">
+                            <div class="col-xl-12 col-6 mb-32">
+                                <div class="_community-module">
                                     <div class="card farm-card">
                                         <div class="background-image _thumbnail"
                                              style="background-image: url('${farm.profile_image.url}')">
@@ -431,13 +438,13 @@
                                     <div class="col-lg-12 col-12">
                                         <div class="_community-module mb-32">
                                             <div class="_title bold-h5 c-gray-dark-low">
-                                                    ${farm.name}님이 작성한 다른 게시글
+                                                    ${farm.name}님이 작성한 다른 질문
                                             </div>
                                             <div class="_related-board-list">
-                                                <c:forEach items="${other_boards}" var="other_board" end="3">
-                                                    <div data-href="/community/board/detail/${other_board.no}"
+                                                <c:forEach items="${other_questions}" var="other_question" end="3">
+                                                    <div data-href="/community/question/detail/${other_question.no}"
                                                          class="_related-board-container ellipsis-one-line">
-                                                        <span class="medium-h6">${other_board.title}</span>
+                                                        <span class="medium-h6">${other_question.title}</span>
                                                     </div>
                                                 </c:forEach>
                                             </div>
@@ -446,17 +453,17 @@
                                 </c:when>
                             </c:choose>
                             <c:choose>
-                                <c:when test="${fame_boards.size() ne 0}">
+                                <c:when test="${fame_questions.size() ne 0}">
                                     <div class="col-lg-12 col-12">
                                         <div class="_community-module">
                                             <div class="_title bold-h5 c-gray-dark-low">
-                                                인기 & 추천 게시글
+                                                인기 질문
                                             </div>
                                             <div class="_related-board-list">
-                                                <c:forEach items="${fame_boards}" var="fame_board" end="3">
-                                                    <div data-href="/community/board/detail/${fame_board.no}"
+                                                <c:forEach items="${fame_questions}" var="fame_question" end="3">
+                                                    <div data-href="/community/question/detail/${fame_question.no}"
                                                          class="_related-board-container ellipsis-one-line">
-                                                        <span class="medium-h6">${fame_board.title}</span>
+                                                        <span class="medium-h6">${fame_question.title}</span>
                                                     </div>
                                                 </c:forEach>
                                             </div>
@@ -618,4 +625,5 @@
     });
 </script>
 </body>
+
 </html>

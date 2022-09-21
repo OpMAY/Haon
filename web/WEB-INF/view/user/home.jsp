@@ -420,8 +420,8 @@
                                                     </div>
                                                     <div class="card-body _body">
                                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                                                        <p class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을
-                                                            공유했어요!</p>
+                                                        <div class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을
+                                                            공유했어요!</div>
                                                     </div>
                                                     <div class="_footer">
                             <span class="_views medium-p1 c-gray-light">
@@ -447,10 +447,10 @@
                                                     </div>
                                                     <div class="card-body _body">
                                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                                                        <p class="card-text _description medium-h5 c-gray-medium">Lorem ipsum dolor sit amet,
+                                                        <div class="card-text _description medium-h5 c-gray-medium">Lorem ipsum dolor sit amet,
                                                             consectetur adipisicing elit. Adipisci aliquid aperiam at doloremque exercitationem
                                                             explicabo fugit, laudantium minus nam pariatur quibusdam quidem quod recusandae reiciendis
-                                                            sunt voluptate voluptatum. Aut, cum.</p>
+                                                            sunt voluptate voluptatum. Aut, cum.</div>
                                                     </div>
                                                     <div class="_footer">
                             <span class="_views medium-p1 c-gray-light">
@@ -488,8 +488,8 @@
                                                     </div>
                                                     <div class="card-body _body">
                                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                                                        <p class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을
-                                                            공유했어요!</p>
+                                                        <div class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을
+                                                            공유했어요!</div>
                                                     </div>
                                                     <div class="_footer">
                             <span class="_views medium-p1 c-gray-light">
@@ -515,10 +515,10 @@
                                                     </div>
                                                     <div class="card-body _body">
                                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                                                        <p class="card-text _description medium-h5 c-gray-medium">Lorem ipsum dolor sit amet,
+                                                        <div class="card-text _description medium-h5 c-gray-medium">Lorem ipsum dolor sit amet,
                                                             consectetur adipisicing elit. Adipisci aliquid aperiam at doloremque exercitationem
                                                             explicabo fugit, laudantium minus nam pariatur quibusdam quidem quod recusandae reiciendis
-                                                            sunt voluptate voluptatum. Aut, cum.</p>
+                                                            sunt voluptate voluptatum. Aut, cum.</div>
                                                     </div>
                                                     <div class="_footer">
                             <span class="_views medium-p1 c-gray-light">
@@ -635,8 +635,8 @@
                                                     </div>
                                                     <div class="card-body _body">
                                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                                                        <p class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을
-                                                            공유했어요!</p>
+                                                        <div class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을
+                                                            공유했어요!</div>
                                                     </div>
                                                     <div class="_footer">
                             <span class="_views medium-p1 c-gray-light">
@@ -662,10 +662,10 @@
                                                     </div>
                                                     <div class="card-body _body">
                                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                                                        <p class="card-text _description medium-h5 c-gray-medium">Lorem ipsum dolor sit amet,
+                                                        <div class="card-text _description medium-h5 c-gray-medium">Lorem ipsum dolor sit amet,
                                                             consectetur adipisicing elit. Adipisci aliquid aperiam at doloremque exercitationem
                                                             explicabo fugit, laudantium minus nam pariatur quibusdam quidem quod recusandae reiciendis
-                                                            sunt voluptate voluptatum. Aut, cum.</p>
+                                                            sunt voluptate voluptatum. Aut, cum.</div>
                                                     </div>
                                                     <div class="_footer">
                             <span class="_views medium-p1 c-gray-light">

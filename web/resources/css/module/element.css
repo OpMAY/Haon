@@ -1156,8 +1156,6 @@ input.form-control.input-box {
 }
 
 .community-sub-container {
-    position: sticky;
-    top: calc(66px + 80px);
     margin-top: 32px;
 }
 

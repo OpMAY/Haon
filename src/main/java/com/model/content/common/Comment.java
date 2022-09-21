@@ -16,4 +16,5 @@ public class Comment extends Time {
     private boolean is_best;
     private int like_count;
     private int dislike_count;
+    private Integer count;
 }

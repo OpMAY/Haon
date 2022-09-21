@@ -263,13 +263,43 @@ public class UserRestController {
                 message.put("type", "insert");
             }
         } else if (BOOKMARK_TYPE.MAGAZINE == type) {
-
+            if (likeService.isMagazineLikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteMagazineLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertMagazineLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else if (BOOKMARK_TYPE.MANUAL == type) {
-
+            if (likeService.isManualLikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteManualLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertManualLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else if (BOOKMARK_TYPE.TIP == type) {
 
         } else if (BOOKMARK_TYPE.QUESTION == type) {
-
+            if (likeService.isQuestionLikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteQuestionLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertQuestionLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else {
             throw new RuntimeException();
         }
@@ -282,7 +312,7 @@ public class UserRestController {
         log.info("{},{}", type, no);
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         if (BOOKMARK_TYPE.BOARD == type) {
-            if (likeService.isCommentLikeByUserNo(no, user_no)) {
+            if (likeService.isCommentBoardLikeByUserNo(no, user_no)) {
                 //좋아요 해제
                 likeService.deleteBoardCommentLike(no, user_no);
                 message.put("status", true);
@@ -294,13 +324,43 @@ public class UserRestController {
                 message.put("type", "insert");
             }
         } else if (BOOKMARK_TYPE.MAGAZINE == type) {
-
+            if (likeService.isCommentMagazineLikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteMagazineCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertMagazineCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else if (BOOKMARK_TYPE.MANUAL == type) {
-
+            if (likeService.isCommentManualLikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteManualCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertManualCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else if (BOOKMARK_TYPE.TIP == type) {
 
         } else if (BOOKMARK_TYPE.QUESTION == type) {
-
+            if (likeService.isCommentQuestionLikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteQuestionCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertQuestionCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else {
             throw new RuntimeException();
         }
@@ -312,7 +372,7 @@ public class UserRestController {
         log.info("{},{}", type, no);
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         if (BOOKMARK_TYPE.BOARD == type) {
-            if (likeService.isCommentDislikeByUserNo(no, user_no)) {
+            if (likeService.isCommentBoardDislikeByUserNo(no, user_no)) {
                 //좋아요 해제
                 likeService.deleteBoardCommentDislike(no, user_no);
                 message.put("status", true);
@@ -324,13 +384,33 @@ public class UserRestController {
                 message.put("type", "insert");
             }
         } else if (BOOKMARK_TYPE.MAGAZINE == type) {
-
+            if (likeService.isCommentMagazineDislikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteMagazineCommentDislike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertMagazineCommentDislike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else if (BOOKMARK_TYPE.MANUAL == type) {
 
         } else if (BOOKMARK_TYPE.TIP == type) {
 
         } else if (BOOKMARK_TYPE.QUESTION == type) {
-
+            if (likeService.isCommentQuestionDislikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteQuestionCommentDislike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertQuestionCommentDislike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else {
             throw new RuntimeException();
         }

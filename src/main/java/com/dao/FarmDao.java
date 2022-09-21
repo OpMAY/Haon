@@ -33,6 +33,14 @@ public class FarmDao {
         return mapper.getFarmByUserNo(user_no);
     }
 
+    public Farm getFarmByFarmNo(int farm_no) {
+        return mapper.getFarmByFarmNo(farm_no);
+    }
+
+    public boolean isFarmBookmark(int farm_no, int user_no) {
+        return mapper.isFarmBookmark(farm_no, user_no);
+    }
+
     public Farm getFarmByNo(int farm_no) {
         return mapper.getFarmByNo(farm_no);
     }

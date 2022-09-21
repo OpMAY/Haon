@@ -8,6 +8,7 @@ import com.model.content.question.QuestionSummary;
 import com.model.content.tips.Tips;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface ContentMapper {
@@ -27,6 +28,24 @@ public interface ContentMapper {
 
     boolean checkQuestionContentExists(@Param("question_no") int question_no);
 
+    ArrayList<Board> getBoards(@Param("farm_no") int farm_no);
+
+    ArrayList<Board> getFameBoards(@Param("farm_no") int farm_no);
+
+    Magazine getMagazine(@Param("magazine_no") int magazine_no);
+
+    ArrayList<Magazine> getFameMagazines();
+
+    Question getQuestion(@Param("question_no") int question_no);
+
+    ArrayList<Question> getFameQuestions(@Param("farm_no") int farm_no);
+
+    ArrayList<Question> getQuestions(@Param("farm_no") int farm_no);
+
+    Manual getManual(@Param("manual_no") int manual_no);
+
+    ArrayList<Manual> getManuals(@Param("farm_no") int farm_no);
+  
     // BOARDS
     List<Board> getCommunityBoardsOrderByRecent(String category);
 

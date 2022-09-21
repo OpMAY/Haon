@@ -12,6 +12,9 @@
     <resultMap id="Magazine" type="com.model.content.magazine.Magazine">
         <result column="thumbnail" property="thumbnail" typeHandler="com.middleware.JsonObjectTypeHandler"/>
     </resultMap>
+    <resultMap id="Question" type="com.model.content.question.Question">
+        <result column="thumbnail" property="thumbnail" typeHandler="com.middleware.JsonObjectTypeHandler"/>
+    </resultMap>
     <resultMap id="QuestionSummary" type="com.model.content.question.QuestionSummary">
         <result column="question" property="question" javaType="com.model.content.question.Question"
                 typeHandler="com.middleware.JsonObjectTypeHandler"/>
@@ -62,7 +65,7 @@
                       WHERE question_no = q.no
                       ORDER BY likes DESC, no) as cl
                 LIMIT 1)                         as best_comment_no
-        from questions as q
+        from question as q
         ORDER BY reg_datetime DESC
         LIMIT 8
     </select>
@@ -77,7 +80,59 @@
         WHERE board.no = #{board_no}
     </update>
     <select id="checkQuestionContentExists" resultType="_boolean">
-        select EXISTS(select * from questions WHERE no = #{question_no})
+        select EXISTS(select * from question WHERE no = #{question_no})
+    </select>
+    <select id="getBoards" resultType="Board">
+        select *
+        from board
+        where farm_no = #{farm_no}
+    </select>
+    <select id="getFameBoards" resultType="Board">
+        select *, COUNT(bl.board_no) as cnt
+        from board as b
+                 inner join board_like as bl on bl.board_no = b.no
+        where b.farm_no = #{farm_no}
+        group by bl.board_no, b.views
+        order by cnt desc, b.views desc
+    </select>
+    <select id="getMagazine" parameterType="int" resultType="Magazine" resultMap="Magazine">
+        select *
+        from magazine
+        where no = #{magazine_no};
+    </select>
+    <select id="getFameMagazines" resultType="Magazine" resultMap="Magazine">
+        select *
+        from magazine
+        where is_show = 1
+        order by views desc;
+    </select>
+    <select id="getQuestion" parameterType="int" resultType="Question" resultMap="Question">
+        select *
+        from question
+        where no = #{question_no};
+    </select>
+    <select id="getFameQuestions" resultType="Question" resultMap="Question">
+        select *, COUNT(ql.question_no) as cnt
+        from question as q
+                 inner join question_like as ql on ql.question_no = q.no
+        where q.farm_no = #{farm_no}
+        group by ql.question_no, q.views
+        order by cnt desc, q.views desc
+    </select>
+    <select id="getQuestions" resultType="Question" resultMap="Question">
+        select *
+        from question
+        where farm_no = #{farm_no}
+    </select>
+    <select id="getManual" parameterType="int" resultType="Manual" resultMap="Manual">
+        select *
+        from manual
+        where no = #{manual_no};
+    </select>
+    <select id="getManuals" resultType="Manual" resultMap="Manual">
+        select *
+        from manual
+        where farm_no = #{farm_no}
     </select>
     <select id="getCommunityBoardsOrderByRecent" resultType="Board">
         select *

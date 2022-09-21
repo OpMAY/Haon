@@ -5,5 +5,4 @@ import lombok.Data;
 
 @Data
 public class Board extends ContentForm {
-    private int farm_no;
 }
