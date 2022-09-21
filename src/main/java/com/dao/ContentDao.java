@@ -61,4 +61,24 @@ public class ContentDao {
     public ArrayList<Board> getFameBoards(int farm_no) {
         return mapper.getFameBoards(farm_no);
     }
+
+    public Magazine getMagazine(int magazine_no) {
+        return mapper.getMagazine(magazine_no);
+    }
+
+    public ArrayList<Magazine> getFameMagazines() {
+        return mapper.getFameMagazines();
+    }
+
+    public Question getQuestion(int question_no) {
+        return mapper.getQuestion(question_no);
+    }
+
+    public ArrayList<Question> getFameQuestions(int farm_no) {
+        return mapper.getFameQuestions(farm_no);
+    }
+
+    public ArrayList<Question> getQuestions(int farm_no) {
+        return mapper.getQuestions(farm_no);
+    }
 }

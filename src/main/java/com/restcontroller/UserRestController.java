@@ -263,7 +263,17 @@ public class UserRestController {
                 message.put("type", "insert");
             }
         } else if (BOOKMARK_TYPE.MAGAZINE == type) {
-
+            if (likeService.isMagazineLikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteMagazineLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertMagazineLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else if (BOOKMARK_TYPE.MANUAL == type) {
 
         } else if (BOOKMARK_TYPE.TIP == type) {
@@ -282,7 +292,7 @@ public class UserRestController {
         log.info("{},{}", type, no);
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         if (BOOKMARK_TYPE.BOARD == type) {
-            if (likeService.isCommentLikeByUserNo(no, user_no)) {
+            if (likeService.isCommentBoardLikeByUserNo(no, user_no)) {
                 //좋아요 해제
                 likeService.deleteBoardCommentLike(no, user_no);
                 message.put("status", true);
@@ -294,7 +304,17 @@ public class UserRestController {
                 message.put("type", "insert");
             }
         } else if (BOOKMARK_TYPE.MAGAZINE == type) {
-
+            if (likeService.isCommentMagazineLikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteMagazineCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertMagazineCommentLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else if (BOOKMARK_TYPE.MANUAL == type) {
 
         } else if (BOOKMARK_TYPE.TIP == type) {
@@ -312,7 +332,7 @@ public class UserRestController {
         log.info("{},{}", type, no);
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         if (BOOKMARK_TYPE.BOARD == type) {
-            if (likeService.isCommentDislikeByUserNo(no, user_no)) {
+            if (likeService.isCommentBoardDislikeByUserNo(no, user_no)) {
                 //좋아요 해제
                 likeService.deleteBoardCommentDislike(no, user_no);
                 message.put("status", true);
@@ -324,7 +344,17 @@ public class UserRestController {
                 message.put("type", "insert");
             }
         } else if (BOOKMARK_TYPE.MAGAZINE == type) {
-
+            if (likeService.isCommentMagazineDislikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteMagazineCommentDislike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertMagazineCommentDislike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else if (BOOKMARK_TYPE.MANUAL == type) {
 
         } else if (BOOKMARK_TYPE.TIP == type) {

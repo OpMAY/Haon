@@ -8,6 +8,16 @@
         from board_like
         where board_no = #{board_no};
     </select>
+    <select id="getLikesByMagazineNo" parameterType="int" resultType="MagazineTransaction">
+        select *
+        from magazine_like
+        where magazine_no = #{magazine_no};
+    </select>
+    <select id="getLikesByQuestionNo" parameterType="int" resultType="QuestionTransaction">
+        select *
+        from question_like
+        where question_no = #{question_no};
+    </select>
     <select id="isBoardLikeByUserNo" resultType="boolean">
         SELECT IF(EXISTS(
                           SELECT *
@@ -15,17 +25,52 @@
                           WHERE board_no = #{board_no}
                             and user_no = #{user_no}), true, false)
     </select>
-    <select id="isCommentLikeByUserNo" resultType="boolean">
+    <select id="isMagazineLikeByUserNo" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM magazine_like
+                          WHERE magazine_no = #{magazine_no}
+                            and user_no = #{user_no}), true, false)
+    </select>
+    <select id="isCommentBoardLikeByUserNo" resultType="boolean">
         SELECT IF(EXISTS(
                           SELECT *
                           FROM board_comment_like
                           WHERE comment_no = #{comment_no}
                             and user_no = #{user_no}), true, false)
     </select>
-    <select id="isCommentDislikeByUserNo" resultType="boolean">
+    <select id="isCommentMagazineLikeByUserNo" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM magazine_comment_like
+                          WHERE comment_no = #{comment_no}
+                            and user_no = #{user_no}), true, false)
+    </select>
+    <select id="isCommentQuestionLikeByUserNo" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM question_comment_like
+                          WHERE comment_no = #{comment_no}
+                            and user_no = #{user_no}), true, false)
+    </select>
+    <select id="isCommentBoardDislikeByUserNo" resultType="boolean">
         SELECT IF(EXISTS(
                           SELECT *
                           FROM board_comment_dislike
+                          WHERE comment_no = #{comment_no}
+                            and user_no = #{user_no}), true, false)
+    </select>
+    <select id="isCommentMagazineDislikeByUserNo" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM magazine_comment_dislike
+                          WHERE comment_no = #{comment_no}
+                            and user_no = #{user_no}), true, false)
+    </select>
+    <select id="isCommentQuestionDislikeByUserNo" resultType="boolean">
+        SELECT IF(EXISTS(
+                          SELECT *
+                          FROM question_comment_dislike
                           WHERE comment_no = #{comment_no}
                             and user_no = #{user_no}), true, false)
     </select>
@@ -33,15 +78,31 @@
         insert into board_like(board_no, user_no)
         VALUES (#{board_no}, #{user_no});
     </insert>
+    <insert id="insertMagazineLike">
+        insert into magazine_like(magazine_no, user_no)
+        VALUES (#{magazine_no}, #{user_no});
+    </insert>
     <delete id="deleteBoardLike">
         delete
         from board_like
         where board_no = #{board_no}
           and user_no = #{user_no};
     </delete>
+    <delete id="deleteMagazineLike">
+        delete
+        from magazine_like
+        where magazine_no = #{magazine_no}
+          and user_no = #{user_no};
+    </delete>
     <delete id="deleteBoardCommentLike">
         delete
         from board_comment_like
+        where comment_no = #{comment_no}
+          and user_no = #{user_no}
+    </delete>
+    <delete id="deleteMagazineCommentLike">
+        delete
+        from magazine_comment_like
         where comment_no = #{comment_no}
           and user_no = #{user_no}
     </delete>
@@ -51,12 +112,26 @@
         where comment_no = #{comment_no}
           and user_no = #{user_no}
     </delete>
+    <delete id="deleteMagazineCommentDislike">
+        delete
+        from magazine_comment_dislike
+        where comment_no = #{comment_no}
+          and user_no = #{user_no}
+    </delete>
     <insert id="insertBoardCommentLike">
         insert into board_comment_like(comment_no, user_no)
         VALUES (#{comment_no}, #{user_no});
     </insert>
+    <insert id="insertMagazineCommentLike">
+        insert into magazine_comment_like(comment_no, user_no)
+        VALUES (#{comment_no}, #{user_no});
+    </insert>
     <insert id="insertBoardCommentDislike">
         insert into board_comment_dislike(comment_no, user_no)
+        VALUES (#{comment_no}, #{user_no});
+    </insert>
+    <insert id="insertMagazineCommentDislike">
+        insert into magazine_comment_dislike(comment_no, user_no)
         VALUES (#{comment_no}, #{user_no});
     </insert>
 </mapper>

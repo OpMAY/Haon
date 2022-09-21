@@ -31,4 +31,14 @@ public interface ContentMapper {
     ArrayList<Board> getBoards(@Param("farm_no") int farm_no);
 
     ArrayList<Board> getFameBoards(@Param("farm_no") int farm_no);
+
+    Magazine getMagazine(@Param("magazine_no") int magazine_no);
+
+    ArrayList<Magazine> getFameMagazines();
+
+    Question getQuestion(@Param("question_no") int question_no);
+
+    ArrayList<Question> getFameQuestions(@Param("farm_no") int farm_no);
+
+    ArrayList<Question> getQuestions(@Param("farm_no") int farm_no);
 }

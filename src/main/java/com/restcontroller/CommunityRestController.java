@@ -4,6 +4,8 @@ import com.model.User;
 import com.model.common.MFile;
 import com.model.content.board.BoardComment;
 import com.model.content.common.COMMENT_TYPE;
+import com.model.content.magazine.Magazine;
+import com.model.content.magazine.MagazineComment;
 import com.model.farm.Farm;
 import com.response.DefaultRes;
 import com.response.Message;
@@ -50,6 +52,8 @@ public class CommunityRestController {
         Integer no = Integer.valueOf(map.get("no").toString());
         String content = map.get("content").toString();
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        int created_comment_no = 0;
+        User commented_user = null;
         switch (type) {
             case BOARD:
                 //Create Comment
@@ -60,11 +64,11 @@ public class CommunityRestController {
                 boardComment.set_blocked(false);
                 boardComment.setOwner_checked(false);
                 //Comment Insert
-                int created_comment_no = commentService.insertBoardComment(boardComment);
+                created_comment_no = commentService.insertBoardComment(boardComment);
                 //Get Inserted Comment
                 boardComment = commentService.getBoardCommentByNo(created_comment_no);
                 //Comment Setting
-                User commented_user = userService.getUserByNo(boardComment.getUser_no());
+                commented_user = userService.getUserByNo(boardComment.getUser_no());
 
                 if (globalService.checkFarm(commented_user.getNo())) {
                     Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
@@ -88,6 +92,39 @@ public class CommunityRestController {
                 message.put("status", true);
                 break;
             case MAGAZINE:
+                //Create Comment
+                MagazineComment magazineComment = new MagazineComment();
+                magazineComment.setMagazine_no(no);
+                magazineComment.setUser_no(user_no);
+                magazineComment.setContent(content);
+                magazineComment.set_blocked(false);
+                magazineComment.setOwner_checked(false);
+                //Comment Insert
+                created_comment_no = commentService.insertMagazineComment(magazineComment);
+                //Get Inserted Comment
+                magazineComment = commentService.getMagazineCommentByNo(created_comment_no);
+                //Comment Setting
+                commented_user = userService.getUserByNo(magazineComment.getUser_no());
+
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    log.info("farm {}", farm.toString());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    magazineComment.setUser(commented_user);
+                } else {
+                    log.info("SAMPLE_PROFILE_URL {}", SAMPLE_PROFILE_URL);
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    magazineComment.setUser(commented_user);
+                }
+
+                message.put("comment", magazineComment);
                 message.put("status", true);
                 break;
             case MANUAL:
@@ -113,6 +150,8 @@ public class CommunityRestController {
         String content = map.get("content").toString();
         Integer comment_no = Integer.valueOf(map.get("comment_no").toString());
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        int created_reply_comment_no = 0;
+        User commented_user = null;
         switch (type) {
             case BOARD:
                 //Create Comment
@@ -124,11 +163,11 @@ public class CommunityRestController {
                 boardComment.set_blocked(false);
                 boardComment.setOwner_checked(false);
                 //Comment Insert
-                int created_reply_comment_no = commentService.insertBoardCommentReply(boardComment);
+                created_reply_comment_no = commentService.insertBoardCommentReply(boardComment);
                 //Get Inserted Comment
                 boardComment = commentService.getBoardCommentByNo(created_reply_comment_no);
                 //Comment Setting
-                User commented_user = userService.getUserByNo(boardComment.getUser_no());
+                commented_user = userService.getUserByNo(boardComment.getUser_no());
 
                 if (globalService.checkFarm(commented_user.getNo())) {
                     Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
@@ -152,6 +191,40 @@ public class CommunityRestController {
                 message.put("status", true);
                 break;
             case MAGAZINE:
+                //Create Comment
+                MagazineComment magazineComment = new MagazineComment();
+                magazineComment.setMagazine_no(no);
+                magazineComment.setUser_no(user_no);
+                magazineComment.setContent(content);
+                magazineComment.setRecomment(comment_no);
+                magazineComment.set_blocked(false);
+                magazineComment.setOwner_checked(false);
+                //Comment Insert
+                created_reply_comment_no = commentService.insertMagazineCommentReply(magazineComment);
+                //Get Inserted Comment
+                magazineComment = commentService.getMagazineCommentByNo(created_reply_comment_no);
+                //Comment Setting
+                commented_user = userService.getUserByNo(magazineComment.getUser_no());
+
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    log.info("farm {}", farm.toString());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    magazineComment.setUser(commented_user);
+                } else {
+                    log.info("SAMPLE_PROFILE_URL {}", SAMPLE_PROFILE_URL);
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    magazineComment.setUser(commented_user);
+                }
+
+                message.put("comment", magazineComment);
                 message.put("status", true);
                 break;
             case MANUAL:
@@ -175,16 +248,18 @@ public class CommunityRestController {
         COMMENT_TYPE type = COMMENT_TYPE.valueOf(map.get("type").toString());
         Integer comment_no = Integer.valueOf(map.get("no").toString());
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        MFile profile = null;
+        User user = null;
         switch (type) {
             case BOARD:
                 commentService.deleteBoardCommentByNoAndUserNo(user_no, comment_no);
 
-                MFile profile = new MFile();
+                profile = new MFile();
                 profile.setUrl(SAMPLE_PROFILE_URL);
                 profile.setName(SAMPLE_PROFILE_NAME);
                 profile.setSize(SAMPLE_PROFILE_SIZE);
                 profile.setType(SAMPLE_PROFILE_TYPE);
-                User user = new User();
+                user = new User();
                 user.setProfile_img(profile);
                 user.setName("관리자");
 
@@ -196,6 +271,22 @@ public class CommunityRestController {
                 message.put("status", true);
                 break;
             case MAGAZINE:
+                commentService.deleteMagazineCommentByNoAndUserNo(user_no, comment_no);
+
+                profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+                user = new User();
+                user.setProfile_img(profile);
+                user.setName("관리자");
+
+                MagazineComment magazineComment = new MagazineComment();
+                magazineComment.setUser(user);
+                magazineComment.setContent("삭제된 메세지입니다.");
+
+                message.put("comment", magazineComment);
                 message.put("status", true);
                 break;
             case MANUAL:

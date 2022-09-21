@@ -2,6 +2,8 @@ package com.service;
 
 import com.dao.*;
 import com.model.content.board.Board;
+import com.model.content.magazine.Magazine;
+import com.model.content.question.Question;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -49,5 +51,25 @@ public class ContentService {
 
     public ArrayList<Board> getFameBoards(int farm_no) {
         return contentDao.getFameBoards(farm_no);
+    }
+
+    public Magazine getMagazine(int magazine_no) {
+        return contentDao.getMagazine(magazine_no);
+    }
+
+    public ArrayList<Magazine> getFameMagazines() {
+        return contentDao.getFameMagazines();
+    }
+
+    public Question getQuestion(int question_no) {
+        return contentDao.getQuestion(question_no);
+    }
+
+    public ArrayList<Question> getFameQuestions(int farm_no) {
+        return contentDao.getFameQuestions(farm_no);
+    }
+
+    public ArrayList<Question> getQuestions(int farm_no) {
+        return contentDao.getQuestions(farm_no);
     }
 }

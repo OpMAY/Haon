@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
+import org.eclipse.core.internal.jobs.ObjectMap;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
@@ -45,12 +46,16 @@ public class JsonObjectTypeHandler<T> extends BaseTypeHandler<T> {
     }
 
     private T convertToObject(String jsonString) {
-        try {
-            Class<?> findClass = type;
-            return (T) new ObjectMapper().readValue(jsonString, findClass);
-        } catch (Exception e) {
-            log.error("JSONTypeHandler failed to casting jsonString to Object, JSON String : " + jsonString, e);
+        if (jsonString != null) {
+            try {
+                Class<?> findClass = type;
+                return (T) new ObjectMapper().readValue(jsonString, findClass);
+            } catch (Exception e) {
+                log.error("JSONTypeHandler failed to casting jsonString to Object, JSON String : " + jsonString, e);
+                throw new RuntimeException();
+            }
+        } else {
+            return null;
         }
-        return (type.cast(new Object()));
     }
 }

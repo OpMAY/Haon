@@ -4,6 +4,7 @@ import com.dao.CommentDao;
 import com.dao.ContentDao;
 import com.model.content.board.BoardComment;
 import com.model.content.common.COMMENT_TYPE;
+import com.model.content.magazine.MagazineComment;
 import com.model.content.question.QuestionComment;
 import com.response.Message;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,8 @@ public class CommentService {
         return commentDao.getBoardComments(board_no);
     }
 
-    public ArrayList<BoardComment> getRecommentByCommentNo(int comment_no) {
-        return commentDao.getRecommentByCommentNo(comment_no);
+    public ArrayList<BoardComment> getBoardRecommentByCommentNo(int comment_no) {
+        return commentDao.getBoardRecommentByCommentNo(comment_no);
     }
 
     public BoardComment getBestBoardComment(int board_no) {
@@ -35,7 +36,7 @@ public class CommentService {
     public boolean isBestBoardComment(int board_no, int comment_no) {
         BoardComment boardComment = commentDao.getBestBoardComment(board_no);
         if (boardComment.getCount() != null && boardComment.getCount().intValue() != 0) {
-            return commentDao.getBestBoardComment(board_no).getNo() == comment_no;
+            return boardComment.getNo() == comment_no;
         }
         return false;
     }
@@ -45,8 +46,8 @@ public class CommentService {
         return boardComment.getNo();
     }
 
-    public BoardComment getBoardCommentByNo(int created_reply_comment_no) {
-        return commentDao.getBoardCommentByNo(created_reply_comment_no);
+    public BoardComment getBoardCommentByNo(int created_comment_no) {
+        return commentDao.getBoardCommentByNo(created_comment_no);
     }
 
     public void deleteBoardCommentByNoAndUserNo(int user_no, int comment_no) {
@@ -88,5 +89,55 @@ public class CommentService {
     public int insertBoardComment(BoardComment boardComment) {
         commentDao.insertBoardComment(boardComment);
         return boardComment.getNo();
+    }
+
+    public ArrayList<MagazineComment> getMagazineComments(int magazine_no) {
+        return commentDao.getMagazineComments(magazine_no);
+    }
+
+    public ArrayList<MagazineComment> getMagazineRecommentByCommentNo(int comment_no) {
+        return commentDao.getMagazineRecommentByCommentNo(comment_no);
+    }
+
+    public boolean isBestMagazineComment(int magazine_no, int comment_no) {
+        MagazineComment magazineComment = commentDao.getBestMagazineComment(magazine_no);
+        if (magazineComment.getCount() != null && magazineComment.getCount().intValue() != 0) {
+            return magazineComment.getNo() == comment_no;
+        }
+        return false;
+    }
+
+    public int insertMagazineComment(MagazineComment magazineComment) {
+        commentDao.insertMagazineComment(magazineComment);
+        return magazineComment.getNo();
+    }
+
+    public MagazineComment getMagazineCommentByNo(int created_comment_no) {
+        return commentDao.getMagazineCommentByNo(created_comment_no);
+    }
+
+    public int insertMagazineCommentReply(MagazineComment magazineComment) {
+        commentDao.insertMagazineCommentReply(magazineComment);
+        return magazineComment.getNo();
+    }
+
+    public void deleteMagazineCommentByNoAndUserNo(int user_no, int comment_no) {
+        commentDao.deleteMagazineCommentByNoAndUserNo(user_no, comment_no);
+    }
+
+    public ArrayList<QuestionComment> getQuestionComments(int question_no) {
+        return commentDao.getQuestionComments(question_no);
+    }
+
+    public ArrayList<QuestionComment> getQuestionRecommentByCommentNo(int comment_no) {
+        return commentDao.getQuestionRecommentByCommentNo(comment_no);
+    }
+
+    public boolean isBestQuestionComment(int question_no, int comment_no) {
+        QuestionComment questionComment = commentDao.getBestQuestionComment(question_no);
+        if (questionComment.getCount() != null && questionComment.getCount().intValue() != 0) {
+            return questionComment.getNo() == comment_no;
+        }
+        return false;
     }
 }
