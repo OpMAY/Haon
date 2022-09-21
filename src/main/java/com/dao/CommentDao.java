@@ -1,6 +1,7 @@
 package com.dao;
 
 import com.mapper.CommentMapper;
+import com.model.FarmComment;
 import com.model.content.board.BoardComment;
 import com.model.content.magazine.MagazineComment;
 import com.model.content.manual.ManualComment;
@@ -168,5 +169,33 @@ public class CommentDao {
 
     public void deleteTipsCommentByNoAndUserNo(int user_no, int comment_no) {
         mapper.deleteTipsCommentByNoAndUserNo(user_no, comment_no);
+    }
+
+    public void insertFarmCommentReply(FarmComment farmComment) {
+        mapper.insertFarmCommentReply(farmComment);
+    }
+
+    public FarmComment getFarmCommentByNo(int comment_no) {
+        return mapper.getFarmCommentByNo(comment_no);
+    }
+
+    public void insertFarmComment(FarmComment farmComment) {
+        mapper.insertFarmComment(farmComment);
+    }
+
+    public void deleteFarmCommentByNoAndUserNo(int user_no, int comment_no) {
+        mapper.deleteFarmCommentByNoAndUserNo(user_no, comment_no);
+    }
+
+    public ArrayList<FarmComment> getFarmComments(int farm_no) {
+        return mapper.getFarmComments(farm_no);
+    }
+
+    public ArrayList<FarmComment> getFarmRecommentByCommentNo(int comment_no) {
+        return mapper.getFarmRecommentByCommentNo(comment_no);
+    }
+
+    public FarmComment getBestFarmComment(int farm_no) {
+        return mapper.getBestFarmComment(farm_no);
     }
 }

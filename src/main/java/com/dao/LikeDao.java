@@ -193,4 +193,44 @@ public class LikeDao {
     public void insertTipsCommentLike(int comment_no, int user_no) {
         mapper.insertTipsCommentLike(comment_no, user_no);
     }
+
+    public boolean isCommentFarmLikeByUserNo(int comment_no, int user_no) {
+        return mapper.isCommentFarmLikeByUserNo(comment_no, user_no);
+    }
+
+    public void deleteFarmCommentLike(int comment_no, int user_no) {
+        mapper.deleteFarmCommentLike(comment_no, user_no);
+    }
+
+    public void insertFarmCommentLike(int comment_no, int user_no) {
+        mapper.insertFarmCommentLike(comment_no, user_no);
+    }
+
+    public void deleteTipsCommentDislike(int comment_no, int user_no) {
+        mapper.deleteTipsCommentDislike(comment_no, user_no);
+    }
+
+    public void insertTipsCommentDislike(int comment_no, int user_no) {
+        mapper.insertTipsCommentDislike(comment_no, user_no);
+    }
+
+    public void deleteManualCommentDislike(int comment_no, int user_no) {
+        mapper.deleteManualCommentDislike(comment_no, user_no);
+    }
+
+    public void insertManualCommentDislike(int comment_no, int user_no) {
+        mapper.insertManualCommentDislike(comment_no, user_no);
+    }
+
+    public boolean isCommentFarmDislikeByUserNo(int comment_no, int user_no) {
+        return mapper.isCommentFarmDislikeByUserNo(comment_no, user_no);
+    }
+
+    public void deleteFarmCommentDislike(int comment_no, int user_no) {
+        mapper.deleteFarmCommentDislike(comment_no, user_no);
+    }
+
+    public void insertFarmCommentDislike(int comment_no, int user_no) {
+        mapper.insertFarmCommentDislike(comment_no, user_no);
+    }
 }

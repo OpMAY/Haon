@@ -1,5 +1,6 @@
 package com.mapper;
 
+import com.model.FarmComment;
 import com.model.content.board.BoardComment;
 import com.model.content.magazine.MagazineComment;
 import com.model.content.manual.ManualComment;
@@ -84,4 +85,18 @@ public interface CommentMapper {
     void deleteManualCommentByNoAndUserNo(@Param("user_no") int user_no, @Param("comment_no") int comment_no);
 
     void deleteTipsCommentByNoAndUserNo(@Param("user_no") int user_no, @Param("comment_no") int comment_no);
+
+    void insertFarmCommentReply(FarmComment farmComment);
+
+    FarmComment getFarmCommentByNo(@Param("comment_no") int comment_no);
+
+    void insertFarmComment(FarmComment farmComment);
+
+    void deleteFarmCommentByNoAndUserNo(@Param("user_no") int user_no, @Param("comment_no") int comment_no);
+
+    ArrayList<FarmComment> getFarmComments(@Param("farm_no") int farm_no);
+
+    ArrayList<FarmComment> getFarmRecommentByCommentNo(@Param("comment_no") int comment_no);
+
+    FarmComment getBestFarmComment(@Param("farm_no") int farm_no);
 }

@@ -846,6 +846,14 @@ input.form-control.input-box {
     top: 10%;
     right: calc(-40px - 16px);
 }
+.farm-detail ._desc .summernote-container.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* 라인수 */
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+}
 
 .farm-detail ._desc ._edit {
     cursor: pointer;

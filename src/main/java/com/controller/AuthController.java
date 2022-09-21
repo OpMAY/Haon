@@ -56,7 +56,7 @@ public class AuthController {
     @RequestMapping(value = "/{type}/intro", method = RequestMethod.POST)
     public ModelAndView postRegisterIntro(HttpServletRequest request, Farm farm, @PathVariable("type") FARM_TYPE farm_type) {
         ModelAndView VIEW = new ModelAndView("auth/register-intro");
-        int user_no = (int) encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         farm.setType(farm_type);
         farm.setUser_no(user_no);
         log.info("{}", farm);

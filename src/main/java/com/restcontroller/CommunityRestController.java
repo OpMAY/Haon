@@ -1,5 +1,6 @@
 package com.restcontroller;
 
+import com.model.FarmComment;
 import com.model.User;
 import com.model.common.MFile;
 import com.model.content.board.BoardComment;
@@ -239,6 +240,42 @@ public class CommunityRestController {
                 message.put("comment", tipsComment);
                 message.put("status", true);
                 break;
+            case FARM:
+                //Create Comment
+                FarmComment farmComment = new FarmComment();
+                farmComment.setFarm_no(no);
+                farmComment.setUser_no(user_no);
+                farmComment.setContent(content);
+                farmComment.set_blocked(false);
+                farmComment.setOwner_checked(false);
+                //Comment Insert
+                created_comment_no = commentService.insertFarmComment(farmComment);
+                //Get Inserted Comment
+                farmComment = commentService.getFarmCommentByNo(created_comment_no);
+                //Comment Setting
+                commented_user = userService.getUserByNo(farmComment.getUser_no());
+
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    log.info("farm {}", farm.toString());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    farmComment.setUser(commented_user);
+                } else {
+                    log.info("SAMPLE_PROFILE_URL {}", SAMPLE_PROFILE_URL);
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    farmComment.setUser(commented_user);
+                }
+
+                message.put("comment", farmComment);
+                message.put("status", true);
+                break;
             default:
                 message.put("status", false);
         }
@@ -441,6 +478,43 @@ public class CommunityRestController {
                 message.put("comment", tipsComment);
                 message.put("status", true);
                 break;
+            case FARM:
+                //Create Comment
+                FarmComment farmComment = new FarmComment();
+                farmComment.setFarm_no(no);
+                farmComment.setUser_no(user_no);
+                farmComment.setContent(content);
+                farmComment.setRecomment(comment_no);
+                farmComment.set_blocked(false);
+                farmComment.setOwner_checked(false);
+                //Comment Insert
+                created_reply_comment_no = commentService.insertFarmCommentReply(farmComment);
+                //Get Inserted Comment
+                farmComment = commentService.getFarmCommentByNo(created_reply_comment_no);
+                //Comment Setting
+                commented_user = userService.getUserByNo(farmComment.getUser_no());
+
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    log.info("farm {}", farm.toString());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    farmComment.setUser(commented_user);
+                } else {
+                    log.info("SAMPLE_PROFILE_URL {}", SAMPLE_PROFILE_URL);
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    farmComment.setUser(commented_user);
+                }
+
+                message.put("comment", farmComment);
+                message.put("status", true);
+                break;
             default:
                 message.put("status", false);
         }
@@ -549,6 +623,25 @@ public class CommunityRestController {
                 tipsComment.setContent("삭제된 메세지입니다.");
 
                 message.put("comment", tipsComment);
+                message.put("status", true);
+                break;
+            case FARM:
+                commentService.deleteFarmCommentByNoAndUserNo(user_no, comment_no);
+
+                profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+                user = new User();
+                user.setProfile_img(profile);
+                user.setName("관리자");
+
+                FarmComment farmComment = new FarmComment();
+                farmComment.setUser(user);
+                farmComment.setContent("삭제된 메세지입니다.");
+
+                message.put("comment", farmComment);
                 message.put("status", true);
                 break;
             default:

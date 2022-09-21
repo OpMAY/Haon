@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.model.FarmComment;
 import com.model.User;
 import com.model.common.MFile;
 import com.model.content.board.Board;
@@ -66,7 +67,6 @@ public class CommunityController {
     @RequestMapping(value = "/board/detail/{board_no}", method = RequestMethod.GET)
     public ModelAndView getBoardDetail(HttpServletRequest request, @PathVariable("board_no") int board_no) {
         ModelAndView VIEW = new ModelAndView("community/board-detail");
-        log.info("{}", board_no);
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         //Get Board Detail Data
         Board board = contentService.getBoard(board_no);
@@ -92,7 +92,6 @@ public class CommunityController {
                 commented_user = userService.getUserByNo(comment.getUser_no());
                 if (globalService.checkFarm(commented_user.getNo())) {
                     Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
-                    log.info("farm {}", farm.toString());
                     commented_user.setProfile_img(farm.getProfile_image());
                     commented_user.setName(farm.getName());
                     comment.setUser(commented_user);
@@ -202,9 +201,107 @@ public class CommunityController {
         return VIEW;
     }
 
-    @RequestMapping(value = "/farm/detail", method = RequestMethod.GET)
-    public ModelAndView communityFarmDetailPage() {
+    @RequestMapping(value = "/farm/detail/{farm_no}", method = RequestMethod.GET)
+    public ModelAndView getFarmDetail(HttpServletRequest request, @PathVariable("farm_no") int farm_no) {
         ModelAndView VIEW = new ModelAndView("community/farm-detail");
+        Farm farm = farmService.getFarmByFarmNo(farm_no);
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        if (user_no != null) {
+            farm.set_bookmark(farmService.isFarmBookmark(farm.getNo(), user_no));
+        }
+
+        //Get Comment
+        ArrayList<FarmComment> comments = commentService.getFarmComments(farm_no);
+        for (FarmComment comment : comments) {
+            User commented_user = null;
+            if (comment.getUser_no() != null) {
+                commented_user = userService.getUserByNo(comment.getUser_no());
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm check_farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    commented_user.setProfile_img(check_farm.getProfile_image());
+                    commented_user.setName(check_farm.getName());
+                    comment.setUser(commented_user);
+                } else {
+                    log.info("SAMPLE_PROFILE_URL {}", SAMPLE_PROFILE_URL);
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    comment.setUser(commented_user);
+                }
+            } else {
+                commented_user = new User();
+                log.info("SAMPLE_PROFILE_URL {}", SAMPLE_PROFILE_URL);
+                MFile profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+                commented_user.setName("관리자");
+                commented_user.setProfile_img(profile);
+                comment.setContent("삭제된 메세지입니다.");
+                comment.setUser(commented_user);
+            }
+
+            if (user_no != null) {
+                comment.set_like(likeService.isCommentFarmLikeByUserNo(comment.getNo(), user_no));
+                comment.set_dislike(likeService.isCommentFarmDislikeByUserNo(comment.getNo(), user_no));
+            }
+
+            ArrayList<FarmComment> recomments = commentService.getFarmRecommentByCommentNo(comment.getNo());
+            for (FarmComment recomment : recomments) {
+                User recommented_user = null;
+                if (recomment.getUser_no() != null) {
+                    recommented_user = userService.getUserByNo(recomment.getUser_no());
+                    if (globalService.checkFarm(recommented_user.getNo())) {
+                        Farm check_farm = farmService.getFarmByUserNo(recommented_user.getNo());
+                        recommented_user.setProfile_img(check_farm.getProfile_image());
+                        recommented_user.setName(check_farm.getName());
+                        recomment.setUser(recommented_user);
+                    } else {
+                        MFile profile = new MFile();
+                        profile.setUrl(SAMPLE_PROFILE_URL);
+                        profile.setName(SAMPLE_PROFILE_NAME);
+                        profile.setSize(SAMPLE_PROFILE_SIZE);
+                        profile.setType(SAMPLE_PROFILE_TYPE);
+
+                        recommented_user.setProfile_img(profile);
+                        recomment.setUser(recommented_user);
+                    }
+                } else {
+                    recommented_user = new User();
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+                    recommented_user.setName("관리자");
+                    recommented_user.setProfile_img(profile);
+                    recomment.setUser(recommented_user);
+                    recomment.setContent("삭제된 메세지입니다.");
+                }
+                if (user_no != null && (user_no.intValue() == recommented_user.getNo())) {
+                    recomment.setOwner_checked(true);
+                } else {
+                    recomment.setOwner_checked(false);
+                }
+            }
+
+            comment.setComments(recomments);
+
+            if (user_no != null && user_no.intValue() == commented_user.getNo()) {
+                comment.setOwner_checked(true);
+            } else {
+                comment.setOwner_checked(false);
+            }
+            comment.set_best(commentService.isBestFarmComment(comment.getFarm_no(), comment.getNo()));
+        }
+
+        VIEW.addObject("farm", farm);
+        VIEW.addObject("comments", comments);
         return VIEW;
     }
 
@@ -219,7 +316,6 @@ public class CommunityController {
     @RequestMapping(value = "/magazine/detail/{magazine_no}", method = RequestMethod.GET)
     public ModelAndView getMagazineDetail(HttpServletRequest request, @PathVariable("magazine_no") int magazine_no) {
         ModelAndView VIEW = new ModelAndView("community/magazine-detail");
-        log.info("{}", magazine_no);
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         //Get Board Detail Data
         Magazine magazine = contentService.getMagazine(magazine_no);
@@ -245,7 +341,6 @@ public class CommunityController {
                 commented_user = userService.getUserByNo(comment.getUser_no());
                 if (globalService.checkFarm(commented_user.getNo())) {
                     Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
-                    log.info("farm {}", farm.toString());
                     commented_user.setProfile_img(farm.getProfile_image());
                     commented_user.setName(farm.getName());
                     comment.setUser(commented_user);
@@ -355,7 +450,6 @@ public class CommunityController {
     @RequestMapping(value = "/question/detail/{question_no}", method = RequestMethod.GET)
     public ModelAndView getQuestionDetail(HttpServletRequest request, @PathVariable("question_no") int question_no) {
         ModelAndView VIEW = new ModelAndView("community/question-detail");
-        log.info("{}", question_no);
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         //Get Board Detail Data
         Question question = contentService.getQuestion(question_no);
@@ -381,7 +475,6 @@ public class CommunityController {
                 commented_user = userService.getUserByNo(comment.getUser_no());
                 if (globalService.checkFarm(commented_user.getNo())) {
                     Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
-                    log.info("farm {}", farm.toString());
                     commented_user.setProfile_img(farm.getProfile_image());
                     commented_user.setName(farm.getName());
                     comment.setUser(commented_user);
@@ -494,7 +587,6 @@ public class CommunityController {
     @RequestMapping(value = "/tip/detail/{tip_no}", method = RequestMethod.GET)
     public ModelAndView getTipsDetail(HttpServletRequest request, @PathVariable("tip_no") int tip_no) {
         ModelAndView VIEW = new ModelAndView("community/tip-detail");
-        log.info("{}", tip_no);
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         //Get Board Detail Data
         Tips tip = contentService.getTip(tip_no);
@@ -520,7 +612,6 @@ public class CommunityController {
                 commented_user = userService.getUserByNo(comment.getUser_no());
                 if (globalService.checkFarm(commented_user.getNo())) {
                     Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
-                    log.info("farm {}", farm.toString());
                     commented_user.setProfile_img(farm.getProfile_image());
                     commented_user.setName(farm.getName());
                     comment.setUser(commented_user);
@@ -638,7 +729,6 @@ public class CommunityController {
     @RequestMapping(value = "/manual/detail/{manual_no}", method = RequestMethod.GET)
     public ModelAndView getManualDetail(HttpServletRequest request, @PathVariable("manual_no") int manual_no) {
         ModelAndView VIEW = new ModelAndView("community/manual-detail");
-        log.info("{}", manual_no);
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         //Get Board Detail Data
         Manual manual = contentService.getManual(manual_no);
@@ -664,7 +754,6 @@ public class CommunityController {
                 commented_user = userService.getUserByNo(comment.getUser_no());
                 if (globalService.checkFarm(commented_user.getNo())) {
                     Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
-                    log.info("farm {}", farm.toString());
                     commented_user.setProfile_img(farm.getProfile_image());
                     commented_user.setName(farm.getName());
                     comment.setUser(commented_user);
