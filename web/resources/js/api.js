@@ -785,8 +785,8 @@ async function updateLike(type, no) {
     }
 }
 
-async function loadMoreContents(type, last_content_no) {
-    function apiLoadMoreContents(type, last_content_no) {
+async function loadMoreContents(type, last_content_no, order, category) {
+    function apiLoadMoreContents(type, last_content_no, order, category) {
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
         myHeaders.append('Content-Api', tokenGenerator(8));
@@ -795,12 +795,14 @@ async function loadMoreContents(type, last_content_no) {
             method: 'GET',
             headers: myHeaders,
         };
-        const response = fetch(`${host}/api/get/${type}/content/${last_content_no}`, requestOptions);
+        console.log(`${host}/api/get/${type}/content/${last_content_no}/${order}/${category}`);
+
+        const response = fetch(`${host}/api/get/${type}/content/${last_content_no}?order=${order}&category=${category}`, requestOptions);
         return response.then((res) => res.json());
     }
     let result;
     try {
-        result = await apiLoadMoreContents(type, last_content_no);
+        result = await apiLoadMoreContents(type, last_content_no, order, category);
         return result;
     } catch (error) {
         console.log(error);
