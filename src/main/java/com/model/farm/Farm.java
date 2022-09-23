@@ -1,6 +1,7 @@
 package com.model.farm;
 
 import com.model.Agree;
+import com.model.User;
 import com.model.common.MFile;
 import com.model.common.Time;
 import lombok.Data;
@@ -21,4 +22,7 @@ public class Farm extends Time {
     private Agree agree;
     private int views;
     private boolean is_bookmark;
+
+    //Model
+    private User user;
 }

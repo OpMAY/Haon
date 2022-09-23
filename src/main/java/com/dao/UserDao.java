@@ -33,4 +33,8 @@ public class UserDao {
     public User getUserByNo(int user_no) {
         return mapper.getUserByNo(user_no);
     }
+
+    public void unregister(int user_no) {
+        mapper.unregister(user_no);
+    }
 }

@@ -662,8 +662,9 @@ input.form-control.input-box {
 }
 
 .user-media ._profile {
-    width: 75px;
-    padding-top: 75px;
+    width: 64px;
+    padding-top: 64px;
+    border-radius: 50%;
 }
 
 .user-media .media-body {

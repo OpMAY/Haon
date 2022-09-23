@@ -801,6 +801,7 @@ async function loadMoreContents(type, last_content_no, order, category) {
         const response = fetch(`${host}/api/get/${type}/content/${last_content_no}?order=${order}&category=${category}`, requestOptions);
         return response.then((res) => res.json());
     }
+
     let result;
     try {
         result = await apiLoadMoreContents(type, last_content_no, order, category);
@@ -874,6 +875,32 @@ async function updateCommentDislike(type, no) {
     let result;
     try {
         result = await apiUpdateCommentDislike(type, no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function withdrawal() {
+    function apiWithdrawal() {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const raw = JSON.stringify({});
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+        };
+        const response = fetch(`${host}/api/auth/withdrawal`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiWithdrawal();
         return result;
     } catch (error) {
         console.log(error);

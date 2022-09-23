@@ -38,6 +38,10 @@
 }
 
 @media (min-width: 992px) {
+    .left-sidebar-container {
+        max-width: 342px;
+    }
+
     .left-sidebar-container ._left-tabs {
         display: block;
     }
