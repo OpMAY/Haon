@@ -11,6 +11,7 @@ import com.service.ContentService;
 import com.service.FarmService;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
+import com.util.Format;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -49,6 +50,7 @@ public class UserController {
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         Farm farm = farmService.getFarmByUserNo(user_no);
         contentForm.setFarm_no(farm.getNo());
+        contentForm.setContent(Format.summernoteReplaceCharacter(contentForm.getContent()));
         switch (contentForm.getCommunity_type()) {
             case BOARD:
             case QUESTION:
@@ -82,7 +84,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/farm/manage", method = RequestMethod.GET)
-    public ModelAndView userFarmManagePage() {
+    public ModelAndView getFarmDetailManage(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("user/farm-manage");
         return VIEW;
     }

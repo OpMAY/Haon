@@ -1,21 +1,33 @@
 package com.restcontroller;
 
+import com.aws.file.FileUploadUtility;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.model.common.MFile;
 import com.model.content.common.BOOKMARK_TYPE;
 import com.model.content.common.COMMENT_TYPE;
+import com.model.farm.Farm;
+import com.model.farm.FarmSns;
 import com.response.DefaultRes;
 import com.response.Message;
 import com.service.BookmarkService;
+import com.service.FarmService;
 import com.service.GlobalService;
 import com.service.LikeService;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
+import com.util.Format;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Map;
 
 @Slf4j
@@ -27,6 +39,8 @@ public class UserRestController {
     private final EncryptionService encryptionService;
     private final BookmarkService bookmarkService;
     private final LikeService likeService;
+    private final FarmService farmService;
+    private final FileUploadUtility fileUploadUtility;
 
     @RequestMapping(value = "/{type}/bookmark/like/{no}", method = RequestMethod.POST)
     public ResponseEntity<String> insertBookMark(HttpServletRequest request, @PathVariable("type") String type, @PathVariable("no") int no) throws Exception {
@@ -91,10 +105,56 @@ public class UserRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/farmhouse/change/name/{name}", method = RequestMethod.POST)
-    public ResponseEntity<String> updateFarmHouseName(HttpServletRequest request, @PathVariable("name") String name) throws Exception {
+    @RequestMapping(value = "/farmhouse/change/profile", method = RequestMethod.POST)
+    public ResponseEntity<String> updateFarmHouseName(MultipartHttpServletRequest request) throws Exception {
         Message message = new Message();
-        message.put("example", "example");
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Farm farm = farmService.getFarmByUserNo(user_no);
+        MultipartFile file = request.getFile("file");
+        if (file != null && file.getSize() != 0) {
+            log.info(file.getName());
+            log.info(file.getOriginalFilename());
+            log.info("{}", file.getSize());
+            log.info(file.getContentType());
+            MFile uploaded_file = fileUploadUtility.uploadFile(file, "/user/profile/");
+            farmService.updateFarmProfile(farm.getNo(), uploaded_file);
+            message.put("file", uploaded_file);
+            message.put("status", true);
+        } else {
+            message.put("status", false);
+        }
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/farmhouse/change/banner", method = RequestMethod.POST)
+    public ResponseEntity<String> updateFarmHouseBanner(MultipartHttpServletRequest request) throws Exception {
+        Message message = new Message();
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Farm farm = farmService.getFarmByUserNo(user_no);
+        MultipartFile file = request.getFile("file");
+        if (file != null && file.getSize() != 0) {
+            log.info(file.getName());
+            log.info(file.getOriginalFilename());
+            log.info("{}", file.getSize());
+            log.info(file.getContentType());
+            MFile uploaded_file = fileUploadUtility.uploadFile(file, "/user/profile/");
+            farmService.updateFarmBanner(farm.getNo(), uploaded_file);
+            message.put("file", uploaded_file);
+            message.put("status", true);
+        } else {
+            message.put("status", false);
+        }
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/farmhouse/change/name", method = RequestMethod.POST)
+    public ResponseEntity<String> updateFarmHouseName(HttpServletRequest request, @RequestBody Map<String, Object> map) throws Exception {
+        Message message = new Message();
+        String name = map.get("name").toString();
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Farm farm = farmService.getFarmByUserNo(user_no);
+        farmService.updateFarmName(farm.getNo(), name);
+        message.put("status", true);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
@@ -108,31 +168,40 @@ public class UserRestController {
     @RequestMapping(value = "/farmhouse/change/details", method = RequestMethod.POST)
     public ResponseEntity<String> updateFarmHouseDetails(HttpServletRequest request, @RequestBody Map<String, Object> map) {
         Message message = new Message();
-        // Request
         String details = map.get("details").toString();
-
-        // Response
-        message.put("a", "a");
+        details = Format.summernoteReplaceCharacter(details);
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Farm farm = farmService.getFarmByUserNo(user_no);
+        farmService.updateFarmDescription(farm.getNo(), details);
+        message.put("status", true);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/farmhouse/change/hashtag/{tag}", method = RequestMethod.POST)
-    public ResponseEntity<String> updateFarmHouseHashTag(HttpServletRequest request, @PathVariable("tag") String tag) throws Exception {
+    @RequestMapping(value = "/farmhouse/change/hashtag", method = RequestMethod.POST)
+    public ResponseEntity<String> updateFarmHouseHashTag(HttpServletRequest request, @RequestBody Map<String, Object> map) throws Exception {
         Message message = new Message();
-        message.put("example", "example");
+        String hashs_json_string = map.get("hashs").toString();
+        Type hash_type = new TypeToken<ArrayList<String>>() {
+        }.getType();
+        ArrayList<String> hashs = new Gson().fromJson(hashs_json_string, hash_type);
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Farm farm = farmService.getFarmByUserNo(user_no);
+        farmService.updateFarmHashtag(farm.getNo(), hashs);
+        message.put("status", true);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/farmhouse/change/sns", method = RequestMethod.POST)
     public ResponseEntity<String> updateFarmHouseSNS(HttpServletRequest request, @RequestBody Map<String, Object> map) {
         Message message = new Message();
-        // Request
-        String insta = map.get("insta").toString();
+        String instagram = map.get("instagram").toString();
         String blog = map.get("blog").toString();
-        String home = map.get("home").toString();
-
-        // Response
-        message.put("a", "a");
+        String homepage = map.get("homepage").toString();
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Farm farm = farmService.getFarmByUserNo(user_no);
+        FarmSns farmSns = new FarmSns(instagram, blog, homepage);
+        farmService.updateFarmSns(farm.getNo(), farmSns);
+        message.put("status", true);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 

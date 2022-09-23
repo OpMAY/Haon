@@ -25,6 +25,7 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ViewResolver;
@@ -154,7 +155,7 @@ public class AppConfig implements WebApplicationInitializer, SchedulingConfigure
     }
 
     @Bean // 파일 업로드 설정
-    public CommonsMultipartResolver multipartResolver() {
+    public MultipartResolver multipartResolver() {
         log.info("multipartResolver : initializing");
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
         multipartResolver.setDefaultEncoding("utf-8");

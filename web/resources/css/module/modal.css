@@ -46,6 +46,8 @@ body .general-modal {
 .modal-name-change._preview-img {
     padding-top: 16px;
     width: 100%;
+    padding-top: 40%;
+    margin-top: 16px;
 }
 
 .modal-md-max {

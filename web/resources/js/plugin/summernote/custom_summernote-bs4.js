@@ -10791,9 +10791,7 @@
           },
           showDialog: function showDialog($dialog) {
             $dialog.modal('show');
-            $('.modal-backdrop').remove();
             const dialog = document.querySelector('.note-editor .modal-dialog');
-            console.log(dialog);
             dialog.classList.add('summernote-dialog');
           },
           hideDialog: function hideDialog($dialog) {

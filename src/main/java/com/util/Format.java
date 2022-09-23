@@ -3,6 +3,7 @@ package com.util;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Arrays;
@@ -184,6 +185,18 @@ public class Format {
         Matcher matcher = Pattern.compile(regex).matcher(phoneNumber);
         Matcher matcher2 = Pattern.compile(regex2).matcher(phoneNumber);
         return matcher.find() || matcher2.find();
+    }
+
+    public static String summernoteReplaceCharacter(String strings) {
+        if (strings == null) return null;
+
+        byte[] bytes = strings.getBytes(StandardCharsets.UTF_8);
+        String text = new String(bytes, StandardCharsets.UTF_8);
+        strings = text;
+        strings = strings.replaceAll("\r\n", "");
+        strings = strings.replaceAll("\\n", "");
+        strings = strings.replaceAll("\'", "&#39;");
+        return strings;
     }
 
     public void example() {

@@ -126,4 +126,34 @@
         </if>
         ORDER BY reg_datetime DESC, no DESC
     </select>
+    <update id="updateFarmDescription">
+        update farm
+        set description=#{description}
+        where no = #{farm_no};
+    </update>
+    <update id="updateFarmSns">
+        update farm
+        set sns=#{farmSns, typeHandler=JsonObjectTypeHandler}
+        where no = #{farm_no};
+    </update>
+    <update id="updateFarmName">
+        update farm
+        set name=#{name}
+        where no = #{farm_no};
+    </update>
+    <update id="updateFarmHashtag">
+        update farm
+        set hashtag=#{hashs, typeHandler=StringArrayListTypeHandler}
+        where no = #{farm_no}
+    </update>
+    <update id="updateFarmProfile">
+        update farm
+        set profile_image=#{profile, typeHandler=JsonObjectTypeHandler}
+        where no = #{farm_no}
+    </update>
+    <update id="updateFarmBanner">
+        update farm
+        set farm_image=#{banner, typeHandler=JsonObjectTypeHandler}
+        where no = #{farm_no}
+    </update>
 </mapper>
