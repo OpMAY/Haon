@@ -749,4 +749,28 @@
         <if test="category neq null and category neq '' ">AND category = #{category}</if>
         ORDER BY bookmark_count DESC, q.no DESC LIMIT 4
     </select>
+    <insert id="insertBoard" parameterType="Board" keyProperty="no" useGeneratedKeys="true">
+        insert into board(farm_no, title, content, reg_datetime, updated_datetime, views, category)
+        VALUES (#{farm_no}, #{title}, #{content}, now(), now(), 0, #{category});
+    </insert>
+    <insert id="insertQuestion" parameterType="Question" keyProperty="no" useGeneratedKeys="true">
+        insert into question(farm_no, title, content, reg_datetime, updated_datetime, views, category)
+        VALUES (#{farm_no}, #{title}, #{content}, now(), now(), 0, #{category});
+    </insert>
+    <insert id="insertTips" parameterType="Tips" keyProperty="no" useGeneratedKeys="true">
+        insert into tips(farm_no, title, thumbnail, content, reg_datetime, updated_datetime, views, category)
+        VALUES (#{farm_no}, #{title}, #{thumbnail, typeHandler=JsonObjectTypeHandler}, #{content}, now(), now(),
+                #{views},
+                #{category});
+    </insert>
+    <insert id="insertManual" parameterType="Manual" keyProperty="no" useGeneratedKeys="true">
+        insert into manual(farm_no, title, thumbnail, content, reg_datetime, updated_datetime, views, category)
+        VALUES (#{farm_no}, #{title}, #{thumbnail, typeHandler=JsonObjectTypeHandler}, #{content}, now(), now(),
+                #{views},
+                #{category});
+    </insert>
+    <insert id="insertMagazine" parameterType="Magazine" keyProperty="no" useGeneratedKeys="true">
+        insert into magazine(title, thumbnail, content, reg_datetime, updated_datetime, is_show, category)
+        VALUES (#{title}, #{thumbnail, typeHandler=JsonObjectTypeHandler}, #{content}, now(), now(), true, #{category});
+    </insert>
 </mapper>

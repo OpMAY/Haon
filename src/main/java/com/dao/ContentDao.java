@@ -305,4 +305,24 @@ public class ContentDao {
     public ArrayList<Tips> getTips(int farm_no) {
         return mapper.getTips(farm_no);
     }
+
+    public void insertBoard(Board board) {
+        mapper.insertBoard(board);
+    }
+
+    public void insertQuestion(Question question) {
+        mapper.insertQuestion(question);
+    }
+
+    public void insertTips(Tips tips) {
+        mapper.insertTips(tips);
+    }
+
+    public void insertManual(Manual manual) {
+        mapper.insertManual(manual);
+    }
+
+    public void insertMagazine(Magazine magazine) {
+        mapper.insertMagazine(magazine);
+    }
 }

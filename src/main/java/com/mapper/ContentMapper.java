@@ -156,4 +156,14 @@ public interface ContentMapper {
     Tips getTip(@Param("tip_no") int tip_no);
 
     ArrayList<Tips> getTips(@Param("farm_no") int farm_no);
+
+    void insertBoard(Board board);
+
+    void insertQuestion(Question question);
+
+    void insertTips(Tips tips);
+
+    void insertManual(Manual manual);
+
+    void insertMagazine(Magazine magazine);
 }

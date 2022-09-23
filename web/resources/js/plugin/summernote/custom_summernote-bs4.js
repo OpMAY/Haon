@@ -10877,8 +10877,7 @@ function summerNoteImageUploader(deferred) {
     },
     success: function(data, status, xhr) {
       console.log('sample success', data, status, xhr);
-      console.log(data.data);
-      deferred.resolve(data.data.url);
+      deferred.resolve(data.data.file.url);
       // 정상적으로 응답 받았을 경우에는 success 콜백이 호출되게 됩니다.
       // 이 콜백 함수의 파라미터에서는 응답 바디, 응답 코드 그리고 XHR 헤더를 확인할 수 있습니다.
     },
