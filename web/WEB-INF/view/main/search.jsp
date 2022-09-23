@@ -119,10 +119,10 @@
                     </svg>
                 </div>
             </div>
-            <c:if test="${live_boards.size() > 0}">
+            <c:if test="${boards.size() > 0}">
                 <div class="owl-carousel free-board">
                     <c:set var="fullMax" scope="application">
-                        <custom:numberDivision value="${live_boards.size()}" share="true" divide="4"/>
+                        <custom:numberDivision value="${boards.size()}" share="true" divide="4"/>
                     </c:set>
                     <div class="_board-list">
                         <c:set var="endValue" scope="application">
@@ -131,26 +131,26 @@
                                     3
                                 </c:when>
                                 <c:otherwise>
-                                    ${live_boards.size() % 4 - 1}
+                                    ${boards.size() % 4 - 1}
                                 </c:otherwise>
                             </c:choose>
                         </c:set>
                         <c:forEach var="i" begin="0" end="${endValue}">
-                            <div class="_board-container" data-no="${live_boards[i].no}" data-type="board">
+                            <div class="_board-container" data-no="${boards[i].no}" data-type="board">
                                 <div class="_content ellipsis-one-line">
-                                    <span class="medium-h4">${live_boards[i].title}</span>
+                                    <span class="medium-h4">${boards[i].title}</span>
                                 </div>
                                 <div class="_info">
                                     <c:set var="newDiff" scope="application">
-                                        <custom:localDateTimeDiffer value="${live_boards[i].reg_datetime}"/>
+                                        <custom:localDateTimeDiffer value="${boards[i].reg_datetime}"/>
                                     </c:set>
                                     <span class="bold-h5 c-brand-green<c:if test="${newDiff eq true}"> d-none</c:if>">New!</span>
-                                    <span class="medium-h5 c-gray-light ml-8">${live_boards[i].views} Views</span>
+                                    <span class="medium-h5 c-gray-light ml-8">${boards[i].views} Views</span>
                                 </div>
                             </div>
                         </c:forEach>
                     </div>
-                    <c:if test="${live_boards.size() > 4}">
+                    <c:if test="${boards.size() > 4}">
                         <div class="_board-list">
                             <c:set var="endValue" scope="application">
                                 <c:choose>
@@ -158,77 +158,77 @@
                                         7
                                     </c:when>
                                     <c:otherwise>
-                                        ${4 + live_boards.size() % 4 - 1}
+                                        ${4 + boards.size() % 4 - 1}
                                     </c:otherwise>
                                 </c:choose>
                             </c:set>
                             <c:forEach var="i" begin="4" end="${endValue}">
-                                <div class="_board-container" data-no="${live_boards[i].no}" data-type="board">
+                                <div class="_board-container" data-no="${boards[i].no}" data-type="board">
                                     <div class="_content ellipsis-one-line">
-                                        <span class="medium-h4">${live_boards[i].title}</span>
+                                        <span class="medium-h4">${boards[i].title}</span>
                                     </div>
                                     <div class="_info">
                                         <c:set var="newDiff" scope="application">
-                                            <custom:localDateTimeDiffer value="${live_boards[i].reg_datetime}"/>
+                                            <custom:localDateTimeDiffer value="${boards[i].reg_datetime}"/>
                                         </c:set>
                                         <span class="bold-h5 c-brand-green<c:if test="${newDiff eq true}"> d-none</c:if>">New!</span>
-                                        <span class="medium-h5 c-gray-light ml-8">${live_boards[i].views} Views</span>
+                                        <span class="medium-h5 c-gray-light ml-8">${boards[i].views} Views</span>
                                     </div>
                                 </div>
                             </c:forEach>
                         </div>
                     </c:if>
-                    <c:if test="${live_boards.size() > 8}">
+                    <c:if test="${boards.size() > 8}">
                         <c:set var="endValue" scope="application">
                             <c:choose>
                                 <c:when test="${fullMax > 2}">
                                     11
                                 </c:when>
                                 <c:otherwise>
-                                    ${8 + live_boards.size() % 4 - 1}
+                                    ${8 + boards.size() % 4 - 1}
                                 </c:otherwise>
                             </c:choose>
                         </c:set>
                         <div class="_board-list">
                             <c:forEach var="i" begin="8" end="${endValue}">
-                                <div class="_board-container" data-no="${live_boards[i].no}" data-type="board">
+                                <div class="_board-container" data-no="${boards[i].no}" data-type="board">
                                     <div class="_content ellipsis-one-line">
-                                        <span class="medium-h4">${live_boards[i].title}</span>
+                                        <span class="medium-h4">${boards[i].title}</span>
                                     </div>
                                     <div class="_info">
                                         <c:set var="newDiff" scope="application">
-                                            <custom:localDateTimeDiffer value="${live_boards[i].reg_datetime}"/>
+                                            <custom:localDateTimeDiffer value="${boards[i].reg_datetime}"/>
                                         </c:set>
                                         <span class="bold-h5 c-brand-green<c:if test="${newDiff eq true}"> d-none</c:if>">New!</span>
-                                        <span class="medium-h5 c-gray-light ml-8">${live_boards[i].views} Views</span>
+                                        <span class="medium-h5 c-gray-light ml-8">${boards[i].views} Views</span>
                                     </div>
                                 </div>
                             </c:forEach>
                         </div>
                     </c:if>
-                    <c:if test="${live_boards.size() > 12}">
+                    <c:if test="${boards.size() > 12}">
                         <c:set var="endValue" scope="application">
                             <c:choose>
                                 <c:when test="${fullMax > 3}">
                                     15
                                 </c:when>
                                 <c:otherwise>
-                                    ${12 + live_boards.size() % 4 - 1}
+                                    ${12 + boards.size() % 4 - 1}
                                 </c:otherwise>
                             </c:choose>
                         </c:set>
                         <div class="_board-list">
                             <c:forEach var="i" begin="12" end="${endValue}">
-                                <div class="_board-container" data-no="${live_boards[i].no}" data-type="board">
+                                <div class="_board-container" data-no="${boards[i].no}" data-type="board">
                                     <div class="_content ellipsis-one-line">
-                                        <span class="medium-h4">${live_boards[i].title}</span>
+                                        <span class="medium-h4">${boards[i].title}</span>
                                     </div>
                                     <div class="_info">
                                         <c:set var="newDiff" scope="application">
-                                            <custom:localDateTimeDiffer value="${live_boards[i].reg_datetime}"/>
+                                            <custom:localDateTimeDiffer value="${boards[i].reg_datetime}"/>
                                         </c:set>
                                         <span class="bold-h5 c-brand-green<c:if test="${newDiff eq true}"> d-none</c:if>">New!</span>
-                                        <span class="medium-h5 c-gray-light ml-8">${live_boards[i].views} Views</span>
+                                        <span class="medium-h5 c-gray-light ml-8">${boards[i].views} Views</span>
                                     </div>
                                 </div>
                             </c:forEach>
@@ -236,9 +236,9 @@
                     </c:if>
                 </div>
             </c:if>
-            <c:if test="${live_boards.size() <= 0}">
-                <div class="regular-h5" style="text-align: center">
-                    <span>등록된 자유 게시판이 없습니다. 지금 바로 등록해보세요.</span>
+            <c:if test="${boards.size() <= 0}">
+                <div class="bold-h2 c-gray-light" style="text-align: center">
+                    <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
         </section>
@@ -364,8 +364,8 @@
                 </div>
             </c:if>
             <c:if test="${tips.size() <= 0}">
-                <div class="regular-h5" style="text-align: center">
-                    <span>등록된 팁과 노하우가 없습니다. 지금 바로 등록해보세요.</span>
+                <div class="bold-h2 c-gray-light" style="text-align: center">
+                    <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
         </section>
@@ -492,8 +492,8 @@
                 </div>
             </c:if>
             <c:if test="${manuals.size() <= 0}">
-                <div class="regular-h5" style="text-align: center">
-                    <span>등록된 축산 메뉴얼이 없습니다. 지금 바로 등록해보세요.</span>
+                <div class="bold-h2 c-gray-light" style="text-align: center">
+                    <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
         </section>
@@ -620,8 +620,8 @@
                 </div>
             </c:if>
             <c:if test="${magazines.size() <= 0}">
-                <div class="regular-h5" style="text-align: center">
-                    <span>등록된 매거진이 없습니다.</span>
+                <div class="bold-h2 c-gray-light" style="text-align: center">
+                    <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
         </section>
@@ -916,8 +916,8 @@
                 </div>
             </c:if>
             <c:if test="${questions.size() <= 0}">
-                <div class="regular-h5" style="text-align: center">
-                    <span>등록된 질문이 없습니다. 지금 바로 등록해보세요.</span>
+                <div class="bold-h2 c-gray-light" style="text-align: center">
+                    <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
         </section>
@@ -943,69 +943,76 @@
                     </svg>
                 </div>
             </div>
-            <div class="owl-carousel card-carousel">
-                <c:forEach var="item" items="${farms}">
-                    <div class="card farm-card">
-                        <div class="background-image _thumbnail"
-                             style="background-image: url('${item.profile_image.url}')">
+            <c:if test="${farms.size() > 0}">
+                <div class="owl-carousel card-carousel">
+                    <c:forEach var="item" items="${farms}">
+                        <div class="card farm-card">
+                            <div class="background-image _thumbnail"
+                                 style="background-image: url('${item.profile_image.url}')">
 
-                            <c:choose>
-                                <c:when test="${item._bookmark eq true}">
-                                    <div class="_bookmark is-active" data-bookmark="FARM" data-no="${item.no}">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_249_10407)">
-                                                <path
-                                                        d="M21.1792 12.7944L21.1922 12.8084L12.0002 22.0004L2.80821 12.8084L2.82121 12.7944C1.75378 11.5499 1.19605 9.94807 1.2598 8.30977C1.32355 6.67148 2.00406 5.11779 3.16496 3.96005C4.32587 2.8023 5.88141 2.12603 7.51987 2.06675C9.15834 2.00747 10.7587 2.56956 12.0002 3.64039C13.2417 2.56956 14.8421 2.00747 16.4806 2.06675C18.119 2.12603 19.6746 2.8023 20.8355 3.96005C21.9964 5.11779 22.6769 6.67148 22.7406 8.30977C22.8044 9.94807 22.2466 11.5499 21.1792 12.7944Z"
-                                                        fill="#A9CC52"/>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_249_10407">
-                                                    <rect width="24" height="24" fill="white"/>
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </div>
-                                </c:when>
-                                <c:otherwise>
-                                    <div class="_bookmark" data-bookmark="FARM" data-no="${item.no}">
-                                        <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <g
-                                                    clip-path="url(#clip0_204_2957)">
-                                                <path
-                                                        d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
-                                            </g>
-                                            <defs>
-                                                <clipPath
-                                                        id="clip0_204_2957">
-                                                    <rect width="24.0923" height="24"
-                                                          transform="translate(0.0500488)"/>
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </div>
-                                </c:otherwise>
-                            </c:choose>
+                                <c:choose>
+                                    <c:when test="${item._bookmark eq true}">
+                                        <div class="_bookmark is-active" data-bookmark="FARM" data-no="${item.no}">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_249_10407)">
+                                                    <path
+                                                            d="M21.1792 12.7944L21.1922 12.8084L12.0002 22.0004L2.80821 12.8084L2.82121 12.7944C1.75378 11.5499 1.19605 9.94807 1.2598 8.30977C1.32355 6.67148 2.00406 5.11779 3.16496 3.96005C4.32587 2.8023 5.88141 2.12603 7.51987 2.06675C9.15834 2.00747 10.7587 2.56956 12.0002 3.64039C13.2417 2.56956 14.8421 2.00747 16.4806 2.06675C18.119 2.12603 19.6746 2.8023 20.8355 3.96005C21.9964 5.11779 22.6769 6.67148 22.7406 8.30977C22.8044 9.94807 22.2466 11.5499 21.1792 12.7944Z"
+                                                            fill="#A9CC52"/>
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_249_10407">
+                                                        <rect width="24" height="24" fill="white"/>
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="_bookmark" data-bookmark="FARM" data-no="${item.no}">
+                                            <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <g
+                                                        clip-path="url(#clip0_204_2957)">
+                                                    <path
+                                                            d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/>
+                                                </g>
+                                                <defs>
+                                                    <clipPath
+                                                            id="clip0_204_2957">
+                                                        <rect width="24.0923" height="24"
+                                                              transform="translate(0.0500488)"/>
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
 
-                        </div>
-                        <div class="card-body _body">
-                            <h5 class="card-title _title bold-h4 c-basic-black">${item.name}</h5>
-                            <p class="card-text _farm-type bold-h5 c-brand-green">${item.type.korName}</p>
-                            <div class="_hashs">
-                                <c:forEach var="hash" items="${item.hashtag}">
-                                    <span class="_hash c-gray-medium medium-p1">${hash}</span>
-                                </c:forEach>
+                            </div>
+                            <div class="card-body _body">
+                                <h5 class="card-title _title bold-h4 c-basic-black">${item.name}</h5>
+                                <p class="card-text _farm-type bold-h5 c-brand-green">${item.type.korName}</p>
+                                <div class="_hashs">
+                                    <c:forEach var="hash" items="${item.hashtag}">
+                                        <span class="_hash c-gray-medium medium-p1">${hash}</span>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                            <div class="_footer">
+                                <button type="button" class="btn btn-brand-opacity btn-block bold-h5" data-no="${item.no}">
+                                    농장 자세히 보기
+                                </button>
                             </div>
                         </div>
-                        <div class="_footer">
-                            <button type="button" class="btn btn-brand-opacity btn-block bold-h5" data-no="${item.no}">
-                                농장 자세히 보기
-                            </button>
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>
+                    </c:forEach>
+                </div>
+            </c:if>
+            <c:if test="${farms.size() <= 0}">
+                <div class="bold-h2 c-gray-light" style="text-align: center">
+                    <span>'${query}'에 맞는 검색 결과가 없어요.</span>
+                </div>
+            </c:if>
         </section>
     </div>
 </div>

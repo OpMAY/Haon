@@ -487,7 +487,7 @@
         WHERE question_no = q.no
         ORDER BY likes DESC, no) as cl
         LIMIT 1) as best_comment_no
-        from questions q
+        from question q
         <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
         ORDER BY reg_datetime DESC, q.no DESC LIMIT 4
     </select>
@@ -513,7 +513,7 @@
         WHERE question_no = q.no
         ORDER BY likes DESC, no) as cl
         LIMIT 1) as best_comment_no
-        from questions q
+        from question q
         <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
         ORDER BY views DESC, q.no DESC LIMIT 4
     </select>
@@ -540,7 +540,7 @@
         ORDER BY likes DESC, no) as cl
         LIMIT 1) as best_comment_no,
         (select COUNT(*) from question_comment WHERE question_no = q.no) as comment_count
-        from questions q
+        from question q
         <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
         ORDER BY comment_count DESC, q.no DESC LIMIT 4
     </select>
@@ -567,7 +567,7 @@
         ORDER BY likes DESC, no) as cl
         LIMIT 1) as best_comment_no,
         (select COUNT(*) from question_like WHERE question_no = q.no) as like_count
-        from questions q
+        from question q
         <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
         ORDER BY like_count DESC, q.no DESC LIMIT 4
     </select>
@@ -594,12 +594,12 @@
         ORDER BY likes DESC, no) as cl
         LIMIT 1) as best_comment_no,
         (select COUNT(*) from question_bookmark WHERE question_no = q.no) as bookmark_count
-        from questions q
+        from question q
         <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
         ORDER BY bookmark_count DESC, q.no DESC LIMIT 4
     </select>
     <select id="getCommunityQuestionsOrderByRecentReload" resultType="QuestionSummary" resultMap="QuestionSummary">
-        SET @LAST_DATETIME = (select reg_datetime from questions WHERE no = #{content_no});
+        SET @LAST_DATETIME = (select reg_datetime from question WHERE no = #{content_no});
         select JSON_OBJECT(
         'no', q.no,
         'farm_no', q.farm_no,
@@ -621,14 +621,14 @@
         WHERE question_no = q.no
         ORDER BY likes DESC, no) as cl
         LIMIT 1) as best_comment_no
-        from questions q
+        from question q
         WHERE (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND q.no
         <![CDATA[<]]> #{content_no}))
         <if test="category neq null and category neq '' ">AND category = #{category}</if>
         ORDER BY reg_datetime DESC, q.no DESC LIMIT 4
     </select>
     <select id="getCommunityQuestionsOrderByViewsReload" resultType="QuestionSummary" resultMap="QuestionSummary">
-        SET @LAST_VIEWS = (select views from questions WHERE no = #{content_no});
+        SET @LAST_VIEWS = (select views from question WHERE no = #{content_no});
         select JSON_OBJECT(
         'no', q.no,
         'farm_no', q.farm_no,
@@ -650,7 +650,7 @@
         WHERE question_no = q.no
         ORDER BY likes DESC, no) as cl
         LIMIT 1) as best_comment_no
-        from questions q
+        from question q
         WHERE (views <![CDATA[<]]> @LAST_VIEWS OR (views = @LAST_VIEWS AND q.no
         <![CDATA[<]]> #{content_no}))
         <if test="category neq null and category neq '' ">AND category = #{category}</if>
@@ -680,7 +680,7 @@
         ORDER BY likes DESC, no) as cl
         LIMIT 1) as best_comment_no,
         (select COUNT(*) from question_comment WHERE question_no = q.no) as comment_count
-        from questions q
+        from question q
         WHERE ((select COUNT(*) from question_comment WHERE question_no = q.no) <![CDATA[<]]> @LAST_COMMENTS OR
         ((select COUNT(*) from question_comment WHERE question_no = q.no) = @LAST_COMMENTS AND q.no
         <![CDATA[<]]> #{content_no}))
@@ -711,7 +711,7 @@
         ORDER BY likes DESC, no) as cl
         LIMIT 1) as best_comment_no,
         (select COUNT(*) from question_like WHERE question_no = q.no) as like_count
-        from questions q
+        from question q
         WHERE ((select COUNT(*) from question_like WHERE question_no = q.no) <![CDATA[<]]> @LAST_LIKES OR
         ((select COUNT(*) from question_like WHERE question_no = q.no) = @LAST_LIKES AND q.no
         <![CDATA[<]]> #{content_no}))
@@ -742,11 +742,86 @@
         ORDER BY likes DESC, no) as cl
         LIMIT 1) as best_comment_no,
         (select COUNT(*) from question_bookmark WHERE question_no = q.no) as bookmark_count
-        from questions q
+        from question q
         WHERE ((select COUNT(*) from question_bookmark WHERE question_no = q.no) <![CDATA[<]]> @LAST_BOOKMARKS OR
         ((select COUNT(*) from question_bookmark WHERE question_no = q.no) = @LAST_BOOKMARKS AND q.no
         <![CDATA[<]]> #{content_no}))
         <if test="category neq null and category neq '' ">AND category = #{category}</if>
         ORDER BY bookmark_count DESC, q.no DESC LIMIT 4
+    </select>
+    <select id="getBoardSearchResult" resultType="Board">
+        SET @QUERY = concat('%', #{query}, '%');
+        <if test="last_content_no != 0">
+            SET @LAST_DATETIME = (select reg_datetime from board WHERE no = #{last_content_no});
+        </if>
+        select *
+        from board
+        WHERE title like @QUERY
+        OR content like @QUERY
+        <if test="last_content_no != 0">
+            AND (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND no
+            <![CDATA[<]]> #{last_content_no}))
+        </if>
+        ORDER BY reg_datetime DESC, no DESC
+    </select>
+    <select id="getTipsSearchResult" resultType="Tips" resultMap="Tips">
+        SET @QUERY = concat('%', #{query}, '%');
+        <if test="last_content_no != 0">
+            SET @LAST_DATETIME = (select reg_datetime from tips WHERE no = #{last_content_no});
+        </if>
+        select *
+        from tips
+        WHERE title like @QUERY
+        OR content like @QUERY
+        <if test="last_content_no != 0">
+            AND (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND no
+            <![CDATA[<]]> #{last_content_no}))
+        </if>
+        ORDER BY reg_datetime DESC, no DESC
+    </select>
+    <select id="getManualSearchResult" resultType="Manual" resultMap="Manual">
+        SET @QUERY = concat('%', #{query}, '%');
+        <if test="last_content_no != 0">
+            SET @LAST_DATETIME = (select reg_datetime from manual WHERE no = #{last_content_no});
+        </if>
+        select *
+        from manual
+        WHERE title like @QUERY
+        OR content like @QUERY
+        <if test="last_content_no != 0">
+            AND (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND no
+            <![CDATA[<]]> #{last_content_no}))
+        </if>
+        ORDER BY reg_datetime DESC, no DESC
+    </select>
+    <select id="getMagazineSearchResult" resultType="Magazine" resultMap="Magazine">
+        SET @QUERY = concat('%', #{query}, '%');
+        <if test="last_content_no != 0">
+            SET @LAST_DATETIME = (select reg_datetime from magazine WHERE no = #{last_content_no});
+        </if>
+        select *
+        from magazine
+        WHERE title like @QUERY
+        OR content like @QUERY
+        <if test="last_content_no != 0">
+            AND (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND no
+            <![CDATA[<]]> #{last_content_no}))
+        </if>
+        ORDER BY reg_datetime DESC, no DESC
+    </select>
+    <select id="getQuestionSearchResult" resultType="QuestionSummary" resultMap="QuestionSummary">
+        SET @QUERY = concat('%', #{query}, '%');
+        <if test="last_content_no != 0">
+            SET @LAST_DATETIME = (select reg_datetime from question WHERE no = #{last_content_no});
+        </if>
+        select *
+        from question
+        WHERE title like @QUERY
+        OR content like @QUERY
+        <if test="last_content_no != 0">
+            AND (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND no
+            <![CDATA[<]]> #{last_content_no}))
+        </if>
+        ORDER BY reg_datetime DESC, no DESC
     </select>
 </mapper>

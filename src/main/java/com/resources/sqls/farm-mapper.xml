@@ -81,7 +81,8 @@
                               WHERE no = #{content_no});
         select *
         from farm
-        WHERE no != 0 AND (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND farm.no
+        WHERE no != 0
+          AND (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND farm.no
         <![CDATA[<]]> #{content_no}))
         order by reg_datetime DESC, farm.no DESC
         LIMIT 1
@@ -92,7 +93,8 @@
                            WHERE no = #{content_no});
         select *
         from farm
-        WHERE no != 0 AND (views <![CDATA[<]]> @LAST_VIEWS OR (views = @LAST_VIEWS AND farm.no
+        WHERE no != 0
+          AND (views <![CDATA[<]]> @LAST_VIEWS OR (views = @LAST_VIEWS AND farm.no
         <![CDATA[<]]> #{content_no}))
         order by views DESC, farm.no DESC
         LIMIT 1
@@ -103,10 +105,25 @@
                                WHERE farm_no = #{content_no});
         select *, (select COUNT(*) from farm_bookmark WHERE farm_no = farm.no) as bookmark_count
         from farm
-        WHERE no != 0 AND ((select COUNT(*) from farm_bookmark WHERE farm_no = farm.no) <![CDATA[<]]> @LAST_BOOKMARKS OR
+        WHERE no != 0
+          AND ((select COUNT(*) from farm_bookmark WHERE farm_no = farm.no) <![CDATA[<]]> @LAST_BOOKMARKS OR
                ((select COUNT(*) from farm_bookmark WHERE farm_no = farm.no) = @LAST_BOOKMARKS AND
                 farm.no <![CDATA[<]]> #{content_no}))
         order by bookmark_count DESC, farm.no DESC
         LIMIT 1
+    </select>
+    <select id="getFarmSearchResult" resultType="Farm" resultMap="farm">
+        SET @QUERY = concat('%', #{query}, '%');
+        <if test="last_content_no != 0">
+            SET @LAST_DATETIME = (select reg_datetime from farm WHERE no = #{last_content_no});
+        </if>
+        select * from farm
+        WHERE name like @QUERY
+        OR farm.hashtag like @QUERY
+        <if test="last_content_no != 0">
+            AND (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND no
+            <![CDATA[<]]> #{last_content_no}))
+        </if>
+        ORDER BY reg_datetime DESC, no DESC
     </select>
 </mapper>

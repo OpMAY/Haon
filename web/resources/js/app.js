@@ -829,6 +829,16 @@ $(document).ready(function () {
             viewAlert({'content' : '검색어를 입력하세요.'});
         }
     })
+
+    $('.nav-link._search').on('click', function () {
+        $('#tab-search-input').focus();
+    })
+
+    $('#tab-search-input').on('keypress', function (e) {
+        if(e.keyCode === 10 || e.keyCode === 13) {
+            $(this).next().click();
+        }
+    })
 });
 
 const getPosition = ($target) => {
