@@ -1,14 +1,23 @@
 package com.model.farm;
 
 public enum FARM_TYPE {
-    CATTLE("CATTLE", "소"), PIG("PIG", "돼지"), FOWL("FOWL", "닭"), DUCK("DUCK", "오리"), RABBIT("RABBIT", "토끼"), HORSE("HORSE", "말"),
-    SHEEP_GOAT("SHEEP_GOAT", "양 & 염소"), NONE("NONE", "해당 없음"), ADMIN("ADMIN", "관리자");
+    CATTLE("CATTLE", "소", false),
+    PIG("PIG", "돼지", false),
+    FOWL("FOWL", "닭", false),
+    DUCK("DUCK", "오리", false),
+    RABBIT("RABBIT", "토끼", true),
+    HORSE("HORSE", "말", true),
+    SHEEP_GOAT("SHEEP_GOAT", "양 & 염소", true),
+    NONE("NONE", "해당 없음", false),
+    ADMIN("ADMIN", "관리자", true);
     private final String code;
     private final String kor_name;
+    private final boolean manual_available;
 
-    FARM_TYPE(String code, String kor_name) {
+    FARM_TYPE(String code, String kor_name, boolean manual_available) {
         this.code = code;
         this.kor_name = kor_name;
+        this.manual_available = manual_available;
     }
 
     public String getCode() {
@@ -17,5 +26,8 @@ public enum FARM_TYPE {
 
     public String getKorName() {
         return kor_name;
+    }
+    public boolean isManual_available() {
+        return manual_available;
     }
 }

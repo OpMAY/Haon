@@ -9,6 +9,7 @@ import com.model.content.common.ContentForm;
 import com.model.farm.Farm;
 import com.service.ContentService;
 import com.service.FarmService;
+import com.service.TraceService;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,8 @@ public class UserController {
     private final FileUploadUtility fileUploadUtility;
     private final EncryptionService encryptionService;
     private final FarmService farmService;
+
+    private final TraceService traceService;
 
     @RequestMapping(value = "/alarm", method = RequestMethod.GET)
     public ModelAndView userAlarmPage() {
@@ -93,15 +96,12 @@ public class UserController {
         return VIEW;
     }
 
-    @RequestMapping(value = "/package/trace", method = RequestMethod.GET)
-    public ModelAndView userPackageTracePage() {
-        ModelAndView VIEW = new ModelAndView("user/package-trace");
-        return VIEW;
-    }
-
     @RequestMapping(value = "/trace", method = RequestMethod.GET)
-    public ModelAndView userTracePage() {
+    public ModelAndView userTracePage(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("user/trace");
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        VIEW.addObject("traces", traceService.getFarmTraces(user_no));
+        VIEW.addObject("farmType", farmService.getFarmByUserNo(user_no).getType());
         return VIEW;
     }
 

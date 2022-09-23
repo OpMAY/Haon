@@ -24,6 +24,7 @@ $(document).ready(function () {
  * @param {string | InnerHTML} content Alert 메세지에서 보여줄 내용
  * @param {number} fadeTimeOut Alert 메세지가 사라지는데 걸리는 시간 (ms), default = 400
  * @param {number} timeOut Alert 메세지가 유지되는 시간 (ms), default = 2000
+ * @Param {number} zIndex Modal보다 위에 alert를 띄우고 싶을 때, css Default = 11
  * @example
  * viewAlert({id: 'alert-1', type: 'failed', content: 'Login Failed', fadeTimeOut: 400, timeOut: 2000});
  * */
@@ -33,6 +34,7 @@ const viewAlert = ({
                        content,
                        fadeTimeOut = 400,
                        timeOut = 2000,
+                       zIndex,
                    }) => {
     const alert = document.createElement('div');
     alert.setAttribute('id', id);
@@ -45,6 +47,9 @@ const viewAlert = ({
         alert.classList.add('alert-failed');
     } else if (type === 'info') {
         alert.classList.add('alert-info');
+    }
+    if(zIndex !== undefined) {
+        alert.style.zIndex = zIndex;
     }
     alert.classList.add('medium-h5', 'c-basic-white');
     alert.innerHTML = `${content}`;

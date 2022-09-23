@@ -3,4 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.TraceMapper">
+    <resultMap id="Trace" type="com.model.farm.trace.Trace">
+        <result property="entity" column="entity" typeHandler="JsonObjectTypeHandler"/>
+        <result property="breed" column="breed" typeHandler="JsonArrayObjectTypeHandler"/>
+        <result property="butchery" column="butchery" typeHandler="JsonArrayObjectTypeHandler"/>
+        <result property="process" column="process" typeHandler="JsonArrayObjectTypeHandler"/>
+    </resultMap>
+    <select id="getFarmTraces" resultType="Trace" resultMap="Trace">
+        select *
+        from trace
+        WHERE farm_no = #{farm_no}
+    </select>
 </mapper>

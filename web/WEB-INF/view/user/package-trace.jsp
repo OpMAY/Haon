@@ -55,10 +55,15 @@
                         <ul class="list-group _left-tabs">
                             <li class="list-group-item regular-h4 c-gray-dark-low _left-tab-item" data-href="#">홈</li>
                             <li class="list-group-item regular-h4 c-gray-dark-low _left-tab-item" data-href="#">책갈피</li>
-                            <li class="list-group-item regular-h4 c-gray-dark-low _left-tab-item is-active" data-href="#">이력 관리</li>
-                            <li class="list-group-item regular-h4 c-gray-dark-low _left-tab-item" data-href="#">알림 설정</li>
-                            <li class="list-group-item regular-h4 c-gray-dark-low _left-tab-item" data-href="#">로그아웃</li>
-                            <li class="list-group-item regular-h4 c-gray-dark-low _left-tab-item" data-href="#">회원탈퇴</li>
+                            <li class="list-group-item regular-h4 c-gray-dark-low _left-tab-item is-active"
+                                data-href="#">이력 관리
+                            </li>
+                            <li class="list-group-item regular-h4 c-gray-dark-low _left-tab-item" data-href="#">알림 설정
+                            </li>
+                            <li class="list-group-item regular-h4 c-gray-dark-low _left-tab-item" data-href="#">로그아웃
+                            </li>
+                            <li class="list-group-item regular-h4 c-gray-dark-low _left-tab-item" data-href="#">회원탈퇴
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -69,20 +74,23 @@
                                 <div class="_title-container">
                                     <span class="bold-h3">이력 관리</span>
                                     <div class="dropdown input-dropdown">
-                                        <div data-toggle="dropdown" aria-expanded="false" class="form-group form-inner-button form-sm">
+                                        <div data-toggle="dropdown" aria-expanded="false"
+                                             class="form-group form-inner-button form-sm">
                                             <input type="text"
                                                    class="form-control input-box medium-h5 dropdown-input"
                                                    disabled="disabled"
                                                    value="축산 이력"
                                                    id="board-filter1">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_278_13355)">
                                                     <path d="M12 13.1727L16.95 8.22266L18.364 9.63666L12 16.0007L5.636 9.63666L7.05 8.22266L12 13.1727Z"
                                                           fill="#222222"></path>
                                                 </g>
                                                 <defs>
                                                     <clipPath id="clip0_278_13355">
-                                                        <rect width="24" height="24" fill="white" transform="translate(24) rotate(90)"></rect>
+                                                        <rect width="24" height="24" fill="white"
+                                                              transform="translate(24) rotate(90)"></rect>
                                                     </clipPath>
                                                 </defs>
                                             </svg>
@@ -100,9 +108,11 @@
 
                                 <div class="medium-h5 c-brand-green">
                                     묶음 이력 만들기
-                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="padding-bottom: 2px;">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg" style="padding-bottom: 2px;">
                                         <g clip-path="url(#clip0_249_9073)">
-                                            <path d="M9.16666 9.16602V4.16602H10.8333V9.16602H15.8333V10.8327H10.8333V15.8327H9.16666V10.8327H4.16666V9.16602H9.16666Z" fill="#A9CC52"/>
+                                            <path d="M9.16666 9.16602V4.16602H10.8333V9.16602H15.8333V10.8327H10.8333V15.8327H9.16666V10.8327H4.16666V9.16602H9.16666Z"
+                                                  fill="#A9CC52"/>
                                         </g>
                                         <defs>
                                             <clipPath id="clip0_249_9073">
@@ -124,27 +134,18 @@
                                         <span class="regular-h5" data-count="12">12개의 이력</span>
                                     </div>
                                     <div class="_bundle-bottom">
-                    <span class="medium-h5 c-brand-green cursor-pointer">이력 추가하기<svg style="padding-bottom: 1px;" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_249_9083)">
-<path d="M10.9767 10.0006L6.85165 5.8756L8.02999 4.69727L13.3333 10.0006L8.02999 15.3039L6.85165 14.1256L10.9767 10.0006Z" fill="#A9CC52"/>
-</g>
-<defs>
-<clipPath id="clip0_249_9083">
-<rect width="20" height="20" fill="white"/>
-</clipPath>
-</defs>
-</svg>
-</span>
+                                        <span class="medium-h5 c-brand-green cursor-pointer">이력 추가하기<svg
+                                                style="padding-bottom: 1px;" width="20" height="20" viewBox="0 0 20 20"
+                                                fill="none" xmlns="http://www.w3.org/2000/svg"><g
+                                                clip-path="url(#clip0_249_9083)"><path
+                                                d="M10.9767 10.0006L6.85165 5.8756L8.02999 4.69727L13.3333 10.0006L8.02999 15.3039L6.85165 14.1256L10.9767 10.0006Z"
+                                                fill="#A9CC52"/></g><defs><clipPath id="clip0_249_9083"><rect width="20"
+                                                                                                              height="20"
+                                                                                                              fill="white"/></clipPath></defs></svg></span>
                                         <span class="regular-h5 _date">2023.12.12</span>
                                     </div>
                                 </div>
-
-
-
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>
