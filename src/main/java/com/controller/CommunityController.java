@@ -212,6 +212,12 @@ public class CommunityController {
             farm.set_bookmark(farmService.isFarmBookmark(farm.getNo(), user_no));
         }
 
+        // GET BOARDS
+        List<Board> boards = contentService.getFarmBoards(farm_no, 0, null);
+
+        // GET TIPS
+        List<Tips> tips = contentService.getFarmTips(farm_no, 0, null);
+
         //Get Comment
         ArrayList<FarmComment> comments = commentService.getFarmComments(farm_no);
         for (FarmComment comment : comments) {
@@ -303,6 +309,8 @@ public class CommunityController {
         }
 
         VIEW.addObject("farm", farm);
+        VIEW.addObject("boards", boards);
+        VIEW.addObject("tips", tips);
         VIEW.addObject("comments", comments);
         return VIEW;
     }

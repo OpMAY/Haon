@@ -186,4 +186,12 @@ public interface ContentMapper {
     ArrayList<Question> getBookmarkQuestions(@Param("user_no") int user_no);
 
     ArrayList<Magazine> getBookmarkMagazines(@Param("user_no") int user_no);
+
+    List<Board> getFarmBoards(@Param("farm_no") int farm_no, @Param("content_no") int content_no, @Param("category") String category);
+
+    List<Tips> getFarmTips(@Param("farm_no") int farm_no, @Param("content_no") int content_no, @Param("category") String category);
+
+    List<QuestionSummary> getFarmQuestions(@Param("farm_no") int farm_no, @Param("content_no") int content_no, @Param("category") String category);
+
+    List<Manual> getFarmManuals(@Param("farm_no") int farm_no, @Param("content_no") int content_no, @Param("category") String category);
 }

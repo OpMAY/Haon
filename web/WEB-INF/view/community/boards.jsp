@@ -173,6 +173,7 @@
 
 <jsp:include page="../common/script.jsp"/>
 
+<script src="/resources/js/filter.js"></script>
 <script>
     /**
      * Static JS

@@ -254,7 +254,7 @@
 <jsp:include page="../common/footer.jsp"/>
 
 <jsp:include page="../common/script.jsp"/>
-
+<script src="/resources/js/filter.js"></script>
 <script>
     /**
      * Static JS
