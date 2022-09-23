@@ -166,4 +166,14 @@ public interface ContentMapper {
     void insertManual(Manual manual);
 
     void insertMagazine(Magazine magazine);
+    
+    List<Board> getBoardSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
+
+    List<Tips> getTipsSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
+
+    List<Manual> getManualSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
+
+    List<Magazine> getMagazineSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
+
+    List<QuestionSummary> getQuestionSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
 }

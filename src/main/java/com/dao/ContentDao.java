@@ -325,4 +325,24 @@ public class ContentDao {
     public void insertMagazine(Magazine magazine) {
         mapper.insertMagazine(magazine);
     }
+    
+    public List<Board> getBoardSearchResult(String query, int last_content_no) {
+        return mapper.getBoardSearchResult(query, last_content_no);
+    }
+
+    public List<Tips> getTipsSearchResult(String query, int last_content_no) {
+        return mapper.getTipsSearchResult(query, last_content_no);
+    }
+
+    public List<Manual> getManualSearchResult(String query, int last_content_no) {
+        return mapper.getManualSearchResult(query, last_content_no);
+    }
+
+    public List<Magazine> getMagazineSearchResult(String query, int last_content_no) {
+        return mapper.getMagazineSearchResult(query, last_content_no);
+    }
+
+    public List<QuestionSummary> getQuestionSearchResult(String query, int last_content_no) {
+        return mapper.getQuestionSearchResult(query, last_content_no);
+    }
 }

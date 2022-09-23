@@ -31,4 +31,6 @@ public interface FarmMapper {
     List<Farm> getCommunityFarmsOrderByViewsReload(@Param("content_no") int content_no);
 
     List<Farm> getCommunityFarmsOrderByBookmarksReload(@Param("content_no") int content_no);
+
+    List<Farm> getFarmSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
 }

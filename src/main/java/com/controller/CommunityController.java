@@ -176,7 +176,9 @@ public class CommunityController {
 
         //Get Farm Data
         Farm farm = farmService.getFarmByFarmNo(board.getFarm_no());
-        farm.set_bookmark(farmService.isFarmBookmark(farm.getNo(), user_no));
+        if (user_no != null) {
+            farm.set_bookmark(farmService.isFarmBookmark(farm.getNo(), user_no));
+        }
         //Get Farm Other Boards
         ArrayList<Board> other_boards = contentService.getBoards(board.getFarm_no());
         //Get Farm Favorite Boards

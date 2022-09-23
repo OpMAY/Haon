@@ -70,4 +70,8 @@ public class FarmDao {
     public List<Farm> getCommunityFarmsOrderByBookmarksReload(int content_no) {
         return mapper.getCommunityFarmsOrderByBookmarksReload(content_no);
     }
+
+    public List<Farm> getFarmSearchResult(String query, int last_content_no) {
+        return mapper.getFarmSearchResult(query, last_content_no);
+    }
 }
