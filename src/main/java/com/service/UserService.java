@@ -33,4 +33,8 @@ public class UserService {
     public User getUserByNo(int user_no) {
         return userDao.getUserByNo(user_no);
     }
+
+    public void unregister(int user_no) {
+        userDao.unregister(user_no);
+    }
 }

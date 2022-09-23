@@ -1,6 +1,9 @@
 package com.interceptor;
 
+import com.model.farm.Farm;
+import com.service.FarmService;
 import com.service.GlobalService;
+import com.service.UserService;
 import com.util.Constant;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
@@ -23,6 +26,8 @@ import java.util.Objects;
 public class AuthInterceptor extends HandlerInterceptorAdapter {
     private final EncryptionService encryptionService;
     private final GlobalService globalService;
+    private final FarmService farmService;
+    private final UserService userService;
 
     @PostConstruct
     public void AuthInterceptor() {
@@ -45,10 +50,14 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             response.sendRedirect("/auth/register");
             return false;
         }
-        int user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         if (!globalService.checkFarm(user_no)) {
             response.sendRedirect("/auth/type");
             return false;
+        } else {
+            Farm farm = farmService.getFarmByUserNo(user_no);
+            farm.setUser(userService.getUserByNo(user_no));
+            request.setAttribute("farm", farm);
         }
         return true;
     }

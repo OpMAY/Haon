@@ -1,7 +1,10 @@
 package com.restcontroller;
 
+import com.api.sns.kakao.KakaoAPI;
 import com.response.DefaultRes;
 import com.response.Message;
+import com.service.UserService;
+import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +24,10 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class AuthRestController {
+    private final UserService userService;
+    private final EncryptionService encryptionService;
+    private final KakaoAPI kakaoAPI;
+
     @Value("${KAKAO.JAVASCRIPT}")
     private String KAKAO_JAVASCRIPT;
 
@@ -54,5 +61,25 @@ public class AuthRestController {
     @RequestMapping(value = "/kakao/disconnect")
     public void disconnectKakao(HttpServletRequest request, String user_id, String referrer_type) {
         log.info("{},{}", user_id, referrer_type);
+    }
+
+    @RequestMapping(value = "/auth/withdrawal")
+    public ResponseEntity<String> unregister(HttpServletRequest request) {
+        Message message = new Message();
+        if (request.getSession().getAttribute(JWTEnum.JWTToken.name()) != null) {
+            Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+            String user_id = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.ID.name());
+            log.info("disconnect kakao api");
+            if (kakaoAPI.disconnect(user_id).contains(user_id)) {
+                userService.unregister(user_no);
+                request.getSession().removeAttribute(JWTEnum.JWTToken.name());
+                message.put("status", true);
+            } else {
+                message.put("status", false);
+            }
+        } else {
+            message.put("status", false);
+        }
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message), HttpStatus.OK);
     }
 }

@@ -13,4 +13,6 @@ public interface UserMapper {
     User getUserById(@Param("id") String id);
 
     User getUserByNo(@Param("user_no") int user_no);
+
+    void unregister(@Param("user_no") int user_no);
 }

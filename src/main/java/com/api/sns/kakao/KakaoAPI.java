@@ -3,6 +3,7 @@ package com.api.sns.kakao;
 import com.transfer.ProtocolBuilder;
 import com.util.Encryption.EncryptionService;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,15 @@ public class KakaoAPI {
     private String KAKAO_CLIENT_ID;
     @Value("${KAKAO.CLIENT_SECRET}")
     private String KAKAO_CLIENT_SECRET;
+    @Value("${KAKAO.ADMIN}")
+    private String KAKAO_ADMIN;
     @Autowired
     private EncryptionService encryptionService;
 
     private final String KAKAO_OAUTH_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
     private final String KAKAO_USER_INFO_REQUEST_URL = "https://kapi.kakao.com/v2/user/me";
     private final String KAKAO_LOGOUT_REQUEST_URL = "https://kapi.kakao.com/v1/user/logout";
+    private final String KAKAO_UNLINK_REQUEST_URL = "https://kapi.kakao.com/v1/user/unlink";
     private KakaoAccess kakaoAccess;
     private KakaoInfo kakaoInfo;
 
@@ -112,6 +116,42 @@ public class KakaoAPI {
 
             String id = protocolBuilder.openReader("UTF-8", true);
             return id;
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+            return null;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Kakao Disconnect
+     */
+    public String disconnect(String user_id) {
+        try {
+            HashMap<String, String> properties = new HashMap<>();
+            properties.put("Authorization", "KakaoAK " + KAKAO_ADMIN);
+            properties.put("Content-Type", "application/x-www-form-urlencoded");
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("target_id_type", "user_id");
+            jsonObject.put("target_id", user_id);
+
+            ProtocolBuilder protocolBuilder = new ProtocolBuilder()
+                    .url(KAKAO_UNLINK_REQUEST_URL)
+                    .conn()
+                    .setRequestProperty(properties)
+                    .setDoOutput(true)
+                    .setDoInput(true)
+                    .setRequestMethod("POST")
+                    .openWriter("target_id_type=user_id&" + "target_id=" + user_id);
+
+            String result = protocolBuilder.openReader("UTF-8", true);
+            return result;
         } catch (ProtocolException e) {
             e.printStackTrace();
             return null;
