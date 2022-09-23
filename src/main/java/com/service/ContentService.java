@@ -255,7 +255,7 @@ public class ContentService {
         }
         for (Farm farm : farms) {
             if (userNo != null)
-                farm.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(farm.getNo(), userNo));
+                farm.set_bookmark(bookmarkDao.isFarmBookmarkByUserNo(farm.getNo(), userNo));
         }
         return farms;
     }
@@ -530,7 +530,7 @@ public class ContentService {
 
                 for (Farm farm : farms) {
                     if (userNo != null) {
-                        farm.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(farm.getNo(), userNo));
+                        farm.set_bookmark(bookmarkDao.isFarmBookmarkByUserNo(farm.getNo(), userNo));
                     }
                 }
                 message.put("list", farms);
@@ -547,5 +547,30 @@ public class ContentService {
 
     public ArrayList<Tips> getTips(int farm_no) {
         return contentDao.getTips(farm_no);
+    }
+
+    public List<Board> getBoardSearchResult(String query, int last_content_no) {
+        return contentDao.getBoardSearchResult(query, last_content_no);
+    }
+
+    public List<Tips> getTipsSearchResult(String query, int last_content_no) {
+        return contentDao.getTipsSearchResult(query, last_content_no);
+    }
+
+    public List<Manual> getManualSearchResult(String query, int last_content_no) {
+        return contentDao.getManualSearchResult(query, last_content_no);
+    }
+
+    public List<Magazine> getMagazineSearchResult(String query, int last_content_no) {
+        return contentDao.getMagazineSearchResult(query, last_content_no);
+    }
+
+
+    public List<Farm> getFarmSearchResult(String query, int last_content_no) {
+        return farmDao.getFarmSearchResult(query, last_content_no);
+    }
+
+    public List<QuestionSummary> getQuestionSearchResult(String query, int last_content_no) {
+        return contentDao.getQuestionSearchResult(query, last_content_no);
     }
 }

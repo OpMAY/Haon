@@ -156,4 +156,14 @@ public interface ContentMapper {
     Tips getTip(@Param("tip_no") int tip_no);
 
     ArrayList<Tips> getTips(@Param("farm_no") int farm_no);
+
+    List<Board> getBoardSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
+
+    List<Tips> getTipsSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
+
+    List<Manual> getManualSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
+
+    List<Magazine> getMagazineSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
+
+    List<QuestionSummary> getQuestionSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
 }

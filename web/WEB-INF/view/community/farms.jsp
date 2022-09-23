@@ -103,7 +103,7 @@
                     <div class="col p-8 d-flex align-items-stretch" data-no="${item.no}">
                         <div class="card farm-card">
                             <div class="background-image _thumbnail"
-                                 style="background-image: url('${item.profile_image.url}')"></div>
+                                 style="background-image: url('${item.profile_image.url}')">
                             <c:choose>
                                 <c:when test="${item._bookmark eq true}">
                                     <div class="_bookmark is-active" data-bookmark="FARM" data-no="${item.no}">
@@ -142,6 +142,7 @@
                                     </div>
                                 </c:otherwise>
                             </c:choose>
+                            </div>
                             <div class="card-body _body">
                                 <h5 class="card-title _title bold-h4 c-basic-black">${item.name}</h5>
                                 <p class="card-text _farm-type bold-h5 c-brand-green">${item.type.korName}</p>

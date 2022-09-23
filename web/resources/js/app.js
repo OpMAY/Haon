@@ -625,6 +625,7 @@ $(document).ready(function () {
                         break;
                     case 'farm':
                         data.forEach((elem, idx) => {
+                            console.log(elem._bookmark);
                             let korName;
                             switch (elem.type) {
                                 case 'CATTLE' :
@@ -658,8 +659,8 @@ $(document).ready(function () {
                             let component = `<div class="col p-8 d-flex align-items-stretch" data-no="${elem.no}">
                         <div class="card farm-card">
                             <div class="background-image _thumbnail"
-                                 style="background-image: url('${elem.profile_image.url}')"></div>
-                            ` + (item._bookmark ? `<div class="_bookmark is-active" data-bookmark="FARM" data-no="${elem.no}">
+                                 style="background-image: url('${elem.profile_image.url}')">
+                            ` + (elem._bookmark ? `<div class="_bookmark is-active" data-bookmark="FARM" data-no="${elem.no}">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <g clip-path="url(#clip0_249_10407)">
@@ -692,7 +693,8 @@ $(document).ready(function () {
                                         </svg>
                                     </div>`)
                                 +
-                                `<div class="card-body _body">
+                                `</div>
+                                <div class="card-body _body">
                                 <h5 class="card-title _title bold-h4 c-basic-black">${elem.name}</h5>
                                 <p class="card-text _farm-type bold-h5 c-brand-green">${korName}</p>
                                 <div class="_hashs">
@@ -840,6 +842,29 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('.theme-keyword button:not(.btn-brand)').on('click', function () {
+        window.location.href = `/search/${$(this).text().trim()}`;
+    })
+
+    $('#tab-search').on('click', '.form-group > svg', function () {
+        let input = $('#tab-search-input');
+        if(input.val().trim().length > 0) {
+            window.location.href = `/search/${input.val()}`;
+        } else {
+            viewAlert({'content' : '검색어를 입력하세요.'});
+        }
+    })
+
+    $('.nav-link._search').on('click', function () {
+        $('#tab-search-input').focus();
+    })
+
+    $('#tab-search-input').on('keypress', function (e) {
+        if(e.keyCode === 10 || e.keyCode === 13) {
+            $(this).next().click();
+        }
+    })
 });
 
 const getPosition = ($target) => {
