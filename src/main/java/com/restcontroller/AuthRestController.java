@@ -1,6 +1,7 @@
 package com.restcontroller;
 
 import com.api.sns.kakao.KakaoAPI;
+import com.model.User;
 import com.response.DefaultRes;
 import com.response.Message;
 import com.service.UserService;
@@ -61,6 +62,10 @@ public class AuthRestController {
     @RequestMapping(value = "/kakao/disconnect")
     public void disconnectKakao(HttpServletRequest request, String user_id, String referrer_type) {
         log.info("{},{}", user_id, referrer_type);
+        Integer user_no = userService.getUserById(user_id);
+        if (user_no != null) {
+            userService.unregister(user_no);
+        }
     }
 
     @RequestMapping(value = "/auth/withdrawal")

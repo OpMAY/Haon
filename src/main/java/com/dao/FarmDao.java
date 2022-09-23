@@ -1,11 +1,14 @@
 package com.dao;
 
 import com.mapper.FarmMapper;
+import com.model.common.MFile;
 import com.model.farm.Farm;
+import com.model.farm.FarmSns;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -73,5 +76,29 @@ public class FarmDao {
 
     public List<Farm> getFarmSearchResult(String query, int last_content_no) {
         return mapper.getFarmSearchResult(query, last_content_no);
+    }
+
+    public void updateFarmDescription(int farm_no, String description) {
+        mapper.updateFarmDescription(farm_no, description);
+    }
+
+    public void updateFarmSns(int farm_no, FarmSns farmSns) {
+        mapper.updateFarmSns(farm_no, farmSns);
+    }
+
+    public void updateFarmName(int farm_no, String name) {
+        mapper.updateFarmName(farm_no, name);
+    }
+
+    public void updateFarmHashtag(int farm_no, ArrayList<String> hashs) {
+        mapper.updateFarmHashtag(farm_no, hashs);
+    }
+
+    public void updateFarmProfile(int farm_no, MFile file) {
+        mapper.updateFarmProfile(farm_no, file);
+    }
+
+    public void updateFarmBanner(int farm_no, MFile file) {
+        mapper.updateFarmBanner(farm_no, file);
     }
 }

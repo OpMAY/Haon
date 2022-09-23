@@ -6,11 +6,17 @@ import com.model.content.board.Board;
 import com.model.content.common.BOOKMARK_TYPE;
 import com.model.content.common.COMMENT_TYPE;
 import com.model.content.common.ContentForm;
+import com.model.content.magazine.Magazine;
+import com.model.content.manual.Manual;
+import com.model.content.question.Question;
+import com.model.content.tips.Tips;
 import com.model.farm.Farm;
 import com.service.ContentService;
 import com.service.FarmService;
+import com.service.UserService;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
+import com.util.Format;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -20,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 
 @Slf4j
 @Controller
@@ -29,6 +36,7 @@ public class UserController {
     private final ContentService contentService;
     private final FileUploadUtility fileUploadUtility;
     private final EncryptionService encryptionService;
+    private final UserService userService;
     private final FarmService farmService;
 
     @RequestMapping(value = "/alarm", method = RequestMethod.GET)
@@ -49,6 +57,7 @@ public class UserController {
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         Farm farm = farmService.getFarmByUserNo(user_no);
         contentForm.setFarm_no(farm.getNo());
+        contentForm.setContent(Format.summernoteReplaceCharacter(contentForm.getContent()));
         switch (contentForm.getCommunity_type()) {
             case BOARD:
             case QUESTION:
@@ -76,13 +85,36 @@ public class UserController {
     }
 
     @RequestMapping(value = "/bookmark", method = RequestMethod.GET)
-    public ModelAndView userBookmarkPage() {
+    public ModelAndView getBookmark(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("user/bookmark");
+
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+
+        ArrayList<Board> boards = contentService.getBookmarkBoards(user_no);
+        ArrayList<Tips> tips = contentService.getBookmarkTips(user_no);
+        for (Tips tip : tips) {
+            tip.setProfile_image(farmService.getFarmByFarmNo(tip.getFarm_no()).getProfile_image());
+        }
+        ArrayList<Manual> manuals = contentService.getBookmarkManuals(user_no);
+        for (Manual manual : manuals) {
+            manual.setProfile_image(farmService.getFarmByFarmNo(manual.getFarm_no()).getProfile_image());
+        }
+        ArrayList<Question> questions = contentService.getBookmarkQuestions(user_no);
+        ArrayList<Magazine> magazines = contentService.getBookmarkMagazines(user_no);
+        for (Magazine magazine : magazines) {
+            magazine.setProfile_image(farmService.getFarmByFarmNo(magazine.getFarm_no()).getProfile_image());
+        }
+
+        VIEW.addObject("boards", boards);
+        VIEW.addObject("tips", tips);
+        VIEW.addObject("manuals", manuals);
+        VIEW.addObject("questions", questions);
+        VIEW.addObject("magazines", magazines);
         return VIEW;
     }
 
     @RequestMapping(value = "/farm/manage", method = RequestMethod.GET)
-    public ModelAndView userFarmManagePage() {
+    public ModelAndView getFarmDetailManage(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("user/farm-manage");
         return VIEW;
     }

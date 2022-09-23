@@ -87,6 +87,12 @@
         from board
         where farm_no = #{farm_no}
     </select>
+    <select id="getBookmarkBoards" parameterType="int" resultType="Board">
+        select *
+        from board
+                 inner join board_bookmark as bb on bb.user_no = #{user_no}
+        where board.no = bb.board_no;
+    </select>
     <select id="getFameBoards" resultType="Board">
         select *, COUNT(bl.board_no) as cnt
         from board as b
@@ -99,6 +105,12 @@
         select *
         from magazine
         where no = #{magazine_no};
+    </select>
+    <select id="getBookmarkMagazines" parameterType="int" resultType="Magazine" resultMap="Magazine">
+        select *
+        from magazine
+                 inner join magazine_bookmark mb on mb.user_no = #{user_no}
+        where magazine.no = mb.magazine_no;
     </select>
     <select id="getFameMagazines" resultType="Magazine" resultMap="Magazine">
         select *
@@ -124,6 +136,12 @@
         from question
         where farm_no = #{farm_no}
     </select>
+    <select id="getBookmarkQuestions" parameterType="int" resultType="Question" resultMap="Question">
+        select *
+        from question
+                 inner join question_bookmark as qb on qb.user_no = #{user_no}
+        where question.no = qb.question_no;
+    </select>
     <select id="getManual" parameterType="int" resultType="Manual" resultMap="Manual">
         select *
         from manual
@@ -134,6 +152,12 @@
         from manual
         where farm_no = #{farm_no}
     </select>
+    <select id="getBookmarkManuals" parameterType="int" resultType="Manual" resultMap="Manual">
+        select *
+        from manual
+                 inner join manual_bookmark as mb on mb.user_no = #{user_no}
+        where manual.no = mb.manual_no;
+    </select>
     <select id="getTip" resultType="Tips" resultMap="Tips">
         select *
         from tips
@@ -143,6 +167,12 @@
         select *
         from tips
         where farm_no = #{farm_no}
+    </select>
+    <select id="getBookmarkTips" resultType="Tips" resultMap="Tips" parameterType="int">
+        select *
+        from tips
+                 inner join tips_bookmark tb on tb.user_no = #{user_no}
+        where tips.no = tb.tips_no;
     </select>
     <select id="getCommunityBoardsOrderByRecent" resultType="Board">
         select *

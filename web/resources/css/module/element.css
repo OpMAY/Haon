@@ -844,9 +844,10 @@ input.form-control.input-box {
 .farm-detail ._desc .summernote-inner-container {
     position: absolute;
     z-index: 1;
-    top: 10%;
+    top: 0;
     right: calc(-40px - 16px);
 }
+
 .farm-detail ._desc .summernote-container.ellipsis {
     overflow: hidden;
     text-overflow: ellipsis;

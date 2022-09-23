@@ -473,17 +473,75 @@ async function updateMyReviewLock(no, status) {
     }
 }
 
+async function updateFarmHouseProfile(file) {
+    function apiUpdateFarmHouseProfile(file) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Api', tokenGenerator(8));
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: formData,
+        };
+
+        const response = fetch(`${host}/api/farmhouse/change/profile`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiUpdateFarmHouseProfile(file);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function updateFarmHouseBanner(file) {
+    function apiUpdateFarmHouseBanner(file) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Api', tokenGenerator(8));
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: formData,
+        };
+
+        const response = fetch(`${host}/api/farmhouse/change/banner`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiUpdateFarmHouseBanner(file);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 async function updateFarmHouseName(name) {
     function apiUpdateFarmHouseName(name) {
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
         myHeaders.append('Content-Api', tokenGenerator(8));
 
+        const raw = JSON.stringify({
+            name
+        });
+
         const requestOptions = {
             method: 'POST',
             headers: myHeaders,
+            body: raw,
         };
-        const response = fetch(`${host}/api/farmhouse/change/name/${name}`, requestOptions);
+
+        const response = fetch(`${host}/api/farmhouse/change/name`, requestOptions);
         return response.then((res) => res.json());
     }
 
@@ -547,24 +605,28 @@ async function updateFarmHouseDetails(details) {
     }
 }
 
-
-async function updateFarmHouseHashTag(tag) {
-    function apiUpdateFarmHouseHashTag(tag) {
+async function updateFarmHouseHashTag(json_hashs) {
+    function apiUpdateFarmHouseHashTag(hashs) {
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
         myHeaders.append('Content-Api', tokenGenerator(8));
 
+        const raw = JSON.stringify({
+            hashs,
+        });
+
         const requestOptions = {
             method: 'POST',
             headers: myHeaders,
+            body: raw,
         };
-        const response = fetch(`${host}/api/farmhouse/change/hashtag/${tag}`, requestOptions);
+        const response = fetch(`${host}/api/farmhouse/change/hashtag`, requestOptions);
         return response.then((res) => res.json());
     }
 
     let result;
     try {
-        result = await apiUpdateFarmHouseHashTag(tag);
+        result = await apiUpdateFarmHouseHashTag(json_hashs);
         return result;
     } catch (error) {
         console.log(error);
@@ -572,14 +634,14 @@ async function updateFarmHouseHashTag(tag) {
 }
 
 
-async function updateFarmHouseSNS(insta, blog, home) {
-    function apiUpdateFarmHouseSNS(insta, blog, home) {
+async function updateFarmHouseSNS(instagram, blog, homepage) {
+    function apiUpdateFarmHouseSNS(instagram, blog, homepage) {
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
         myHeaders.append('Content-Api', tokenGenerator(8));
 
         const raw = JSON.stringify({
-            insta, blog, home
+            instagram, blog, homepage
         });
 
         const requestOptions = {
@@ -593,7 +655,7 @@ async function updateFarmHouseSNS(insta, blog, home) {
 
     let result;
     try {
-        result = await apiUpdateFarmHouseSNS(tag);
+        result = await apiUpdateFarmHouseSNS(instagram, blog, homepage);
         return result;
     } catch (error) {
         console.log(error);
