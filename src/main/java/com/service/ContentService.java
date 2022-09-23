@@ -1,7 +1,9 @@
 package com.service;
 
 import com.dao.*;
+import com.model.common.MFile;
 import com.model.content.board.Board;
+import com.model.content.common.ContentForm;
 import com.model.content.magazine.Magazine;
 import com.model.content.question.Question;
 import com.model.content.common.ORDER_TYPE;
@@ -549,6 +551,62 @@ public class ContentService {
         return contentDao.getTips(farm_no);
     }
 
+    public void insertCommunity(ContentForm contentForm) {
+        switch (contentForm.getCommunity_type()) {
+            case BOARD:
+                Board board = new Board();
+                board.setFarm_no(contentForm.getFarm_no());
+                board.setTitle(contentForm.getTitle());
+                board.setContent(contentForm.getContent());
+                board.setCategory(contentForm.getCategory());
+                contentDao.insertBoard(board);
+                break;
+            case QUESTION:
+                Question question = new Question();
+                question.setFarm_no(contentForm.getFarm_no());
+                question.setTitle(contentForm.getTitle());
+                question.setContent(contentForm.getContent());
+                question.setCategory(contentForm.getCategory());
+                log.info("question -> {}", question);
+                contentDao.insertQuestion(question);
+                break;
+            default:
+        }
+    }
+
+    public void insertCommunityThumbnail(ContentForm contentForm, MFile thumbnail) {
+        switch (contentForm.getCommunity_type()) {
+            case TIP:
+                Tips tips = new Tips();
+                tips.setThumbnail(thumbnail);
+                tips.setFarm_no(contentForm.getFarm_no());
+                tips.setTitle(contentForm.getTitle());
+                tips.setContent(contentForm.getContent());
+                tips.setCategory(contentForm.getCategory());
+                contentDao.insertTips(tips);
+                break;
+            case MANUAL:
+                Manual manual = new Manual();
+                manual.setThumbnail(thumbnail);
+                manual.setFarm_no(contentForm.getFarm_no());
+                manual.setTitle(contentForm.getTitle());
+                manual.setContent(contentForm.getContent());
+                manual.setCategory(contentForm.getCategory());
+                contentDao.insertManual(manual);
+                break;
+            case MAGAZINE:
+                Magazine magazine = new Magazine();
+                magazine.setThumbnail(thumbnail);
+                magazine.setFarm_no(contentForm.getFarm_no());
+                magazine.setTitle(contentForm.getTitle());
+                magazine.setContent(contentForm.getContent());
+                magazine.setCategory(contentForm.getCategory());
+                contentDao.insertMagazine(magazine);
+                break;
+            default:
+        }
+    }
+    
     public List<Board> getBoardSearchResult(String query, int last_content_no) {
         return contentDao.getBoardSearchResult(query, last_content_no);
     }

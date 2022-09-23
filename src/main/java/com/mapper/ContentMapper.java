@@ -157,6 +157,16 @@ public interface ContentMapper {
 
     ArrayList<Tips> getTips(@Param("farm_no") int farm_no);
 
+    void insertBoard(Board board);
+
+    void insertQuestion(Question question);
+
+    void insertTips(Tips tips);
+
+    void insertManual(Manual manual);
+
+    void insertMagazine(Magazine magazine);
+    
     List<Board> getBoardSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
 
     List<Tips> getTipsSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
