@@ -45,7 +45,7 @@ public interface ContentMapper {
     Manual getManual(@Param("manual_no") int manual_no);
 
     ArrayList<Manual> getManuals(@Param("farm_no") int farm_no);
-  
+
     // BOARDS
     List<Board> getCommunityBoardsOrderByRecent(String category);
 
@@ -166,7 +166,7 @@ public interface ContentMapper {
     void insertManual(Manual manual);
 
     void insertMagazine(Magazine magazine);
-    
+
     List<Board> getBoardSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
 
     List<Tips> getTipsSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
@@ -176,4 +176,14 @@ public interface ContentMapper {
     List<Magazine> getMagazineSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
 
     List<QuestionSummary> getQuestionSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
+
+    ArrayList<Board> getBookmarkBoards(@Param("user_no") int user_no);
+
+    ArrayList<Tips> getBookmarkTips(@Param("user_no") int user_no);
+
+    ArrayList<Manual> getBookmarkManuals(@Param("user_no") int user_no);
+
+    ArrayList<Question> getBookmarkQuestions(@Param("user_no") int user_no);
+
+    ArrayList<Magazine> getBookmarkMagazines(@Param("user_no") int user_no);
 }

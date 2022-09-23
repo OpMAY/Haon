@@ -631,4 +631,24 @@ public class ContentService {
     public List<QuestionSummary> getQuestionSearchResult(String query, int last_content_no) {
         return contentDao.getQuestionSearchResult(query, last_content_no);
     }
+
+    public ArrayList<Board> getBookmarkBoards(int user_no) {
+        return contentDao.getBookmarkBoards(user_no);
+    }
+
+    public ArrayList<Tips> getBookmarkTips(int user_no) {
+        return contentDao.getBookmarkTips(user_no);
+    }
+
+    public ArrayList<Manual> getBookmarkManuals(int user_no) {
+        return contentDao.getBookmarkManuals(user_no);
+    }
+
+    public ArrayList<Question> getBookmarkQuestions(int user_no) {
+        return contentDao.getBookmarkQuestions(user_no);
+    }
+
+    public ArrayList<Magazine> getBookmarkMagazines(int user_no) {
+        return contentDao.getBookmarkMagazines(user_no);
+    }
 }

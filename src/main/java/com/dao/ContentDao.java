@@ -345,4 +345,24 @@ public class ContentDao {
     public List<QuestionSummary> getQuestionSearchResult(String query, int last_content_no) {
         return mapper.getQuestionSearchResult(query, last_content_no);
     }
+
+    public ArrayList<Board> getBookmarkBoards(int user_no) {
+        return mapper.getBookmarkBoards(user_no);
+    }
+
+    public ArrayList<Tips> getBookmarkTips(int user_no) {
+        return mapper.getBookmarkTips(user_no);
+    }
+
+    public ArrayList<Manual> getBookmarkManuals(int user_no) {
+        return mapper.getBookmarkManuals(user_no);
+    }
+
+    public ArrayList<Question> getBookmarkQuestions(int user_no) {
+        return mapper.getBookmarkQuestions(user_no);
+    }
+
+    public ArrayList<Magazine> getBookmarkMagazines(int user_no) {
+        return mapper.getBookmarkMagazines(user_no);
+    }
 }
