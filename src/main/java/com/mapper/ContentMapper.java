@@ -45,7 +45,7 @@ public interface ContentMapper {
     Manual getManual(@Param("manual_no") int manual_no);
 
     ArrayList<Manual> getManuals(@Param("farm_no") int farm_no);
-  
+
     // BOARDS
     List<Board> getCommunityBoardsOrderByRecent(String category);
 
@@ -176,4 +176,12 @@ public interface ContentMapper {
     List<Magazine> getMagazineSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
 
     List<QuestionSummary> getQuestionSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
+
+    List<Board> getFarmBoards(@Param("farm_no") int farm_no, @Param("content_no") int content_no, @Param("category") String category);
+
+    List<Tips> getFarmTips(@Param("farm_no") int farm_no, @Param("content_no") int content_no, @Param("category") String category);
+
+    List<QuestionSummary> getFarmQuestions(@Param("farm_no") int farm_no, @Param("content_no") int content_no, @Param("category") String category);
+
+    List<Manual> getFarmManuals(@Param("farm_no") int farm_no, @Param("content_no") int content_no, @Param("category") String category);
 }

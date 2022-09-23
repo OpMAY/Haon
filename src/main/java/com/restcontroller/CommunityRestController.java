@@ -707,4 +707,14 @@ public class CommunityRestController {
         Message message = contentService.getContentList(type, content_no, order_type, category, request);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/get/{type}/farm/{farm_no}/content/{content_no}", method = RequestMethod.GET)
+    public ResponseEntity getFarmContentList(@PathVariable("type") String type,
+                                         @PathVariable("content_no") int content_no,
+                                         @PathVariable("farm_no") int farm_no,
+                                         @RequestParam("category") String category,
+                                         HttpServletRequest request) {
+        Message message = contentService.getFarmContentList(type, content_no, farm_no, category, request);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
 }

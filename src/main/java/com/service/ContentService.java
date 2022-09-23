@@ -631,4 +631,58 @@ public class ContentService {
     public List<QuestionSummary> getQuestionSearchResult(String query, int last_content_no) {
         return contentDao.getQuestionSearchResult(query, last_content_no);
     }
+
+    public List<Board> getFarmBoards(int farm_no, int content_no, String category) {
+        return contentDao.getFarmBoards(farm_no, content_no, category);
+    }
+
+    public List<Tips> getFarmTips(int farm_no, int content_no, String category) {
+        return contentDao.getFarmTips(farm_no, content_no, category);
+    }
+
+    public List<QuestionSummary> getFarmQuestions(int farm_no, int content_no, String category) {
+        return contentDao.getFarmQuestions(farm_no, content_no, category);
+    }
+
+    public List<Manual> getFarmManuals(int farm_no, int content_no, String category) {
+        return contentDao.getFarmManuals(farm_no, content_no, category);
+    }
+
+    public Message getFarmContentList(String type, int content_no, int farm_no, String category, HttpServletRequest request) {
+        Message message = new Message();
+        Integer userNo = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        switch (type) {
+            case "board":
+                List<Board> boards = contentDao.getFarmBoards(farm_no, content_no, category);
+                message.put("list", boards);
+                break;
+            case "tip":
+                List<Tips> tips = contentDao.getFarmTips(farm_no, content_no, category);
+                for(Tips tip : tips) {
+                    if(userNo != null) {
+                        tip.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(tip.getNo(), userNo));
+                    }
+                    tip.setProfile_image(farmDao.getFarmByNo(tip.getFarm_no()).getProfile_image());
+                }
+                message.put("list", tips);
+                break;
+            case "question":
+                List<QuestionSummary> questions = contentDao.getFarmQuestions(farm_no, content_no, category);
+                message.put("list", questions);
+                break;
+            case "manual":
+                List<Manual> manuals = contentDao.getFarmManuals(farm_no, content_no, category);
+                for(Manual manual : manuals) {
+                    if(userNo != null) {
+                        manual.set_bookmark(bookmarkDao.isManualBookmarkByUserNo(manual.getNo(), userNo));
+                    }
+                    manual.setProfile_image(farmDao.getFarmByNo(manual.getFarm_no()).getProfile_image());
+                }
+                message.put("list", manuals);
+                break;
+            default:
+                throw new RuntimeException();
+        }
+        return message;
+    }
 }

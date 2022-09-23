@@ -345,4 +345,20 @@ public class ContentDao {
     public List<QuestionSummary> getQuestionSearchResult(String query, int last_content_no) {
         return mapper.getQuestionSearchResult(query, last_content_no);
     }
+
+    public List<Board> getFarmBoards(int farm_no, int content_no, String category) {
+        return mapper.getFarmBoards(farm_no, content_no, category);
+    }
+
+    public List<Tips> getFarmTips(int farm_no, int content_no, String category) {
+        return mapper.getFarmTips(farm_no, content_no, category);
+    }
+
+    public List<QuestionSummary> getFarmQuestions(int farm_no, int content_no, String category) {
+        return mapper.getFarmQuestions(farm_no, content_no, category);
+    }
+
+    public List<Manual> getFarmManuals(int farm_no, int content_no, String category) {
+        return mapper.getFarmManuals(farm_no, content_no, category);
+    }
 }

@@ -840,8 +840,28 @@
         <if test="last_content_no != 0">
             SET @LAST_DATETIME = (select reg_datetime from question WHERE no = #{last_content_no});
         </if>
-        select *
-        from question
+        select JSON_OBJECT(
+        'no', q.no,
+        'farm_no', q.farm_no,
+        'title', q.title,
+        'content', q.content,
+        'thumbnail', q.thumbnail) as question,
+        q.reg_datetime,
+        (select cl.content
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment,
+        (select cl.no
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment_no
+        from question q
         WHERE title like @QUERY
         OR content like @QUERY
         <if test="last_content_no != 0">
@@ -849,5 +869,89 @@
             <![CDATA[<]]> #{last_content_no}))
         </if>
         ORDER BY reg_datetime DESC, no DESC
+    </select>
+    <select id="getFarmBoards" resultType="Board">
+        SET @LAST_DATETIME = (select reg_datetime
+        from board
+        WHERE no = #{content_no});
+        select *
+        from board
+        WHERE farm_no = #{farm_no}
+        <if test="content_no != 0">
+            AND (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND no
+            <![CDATA[<]]> #{content_no}))
+        </if>
+        <if test="category neq null and category neq ''">
+            AND category = #{category}
+        </if>
+        order by reg_datetime DESC, no DESC LIMIT 4
+    </select>
+    <select id="getFarmTips" resultType="Tips" resultMap="Tips">
+        SET @LAST_DATETIME = (select reg_datetime
+        from tips
+        WHERE no = #{content_no});
+        select *
+        from tips
+        WHERE farm_no = #{farm_no}
+        <if test="content_no != 0">
+            AND (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND no
+            <![CDATA[<]]> #{content_no}))
+        </if>
+        <if test="category neq null and category neq ''">
+            AND category = #{category}
+        </if>
+        order by reg_datetime DESC, no DESC LIMIT 4
+    </select>
+    <select id="getFarmQuestions" resultType="QuestionSummary" resultMap="QuestionSummary">
+        SET @LAST_DATETIME = (select reg_datetime
+        from question
+        WHERE no = #{content_no});
+        select JSON_OBJECT(
+        'no', q.no,
+        'farm_no', q.farm_no,
+        'title', q.title,
+        'content', q.content,
+        'thumbnail', q.thumbnail) as question,
+        q.reg_datetime,
+        (select cl.content
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment,
+        (select cl.no
+        from (select question_comment.no as no, content, COUNT(qcl.user_no) as likes
+        from question_comment
+        left join question_comment_like qcl on question_comment.no = qcl.comment_no
+        WHERE question_no = q.no
+        ORDER BY likes DESC, no) as cl
+        LIMIT 1) as best_comment_no
+        from question q
+        WHERE farm_no = #{farm_no}
+        <if test="content_no != 0">
+            AND (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND no
+            <![CDATA[<]]> #{content_no}))
+        </if>
+        <if test="category neq null and category neq ''">
+            AND category = #{category}
+        </if>
+        order by reg_datetime DESC, no DESC LIMIT 4
+    </select>
+    <select id="getFarmManuals" resultType="Manual" resultMap="Manual">
+        SET @LAST_DATETIME = (select reg_datetime
+        from manual
+        WHERE no = #{content_no});
+        select *
+        from manual
+        WHERE farm_no = #{farm_no}
+        <if test="content_no != 0">
+            AND (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND no
+            <![CDATA[<]]> #{content_no}))
+        </if>
+        <if test="category neq null and category neq ''">
+            AND category = #{category}
+        </if>
+        order by reg_datetime DESC, no DESC LIMIT 4
     </select>
 </mapper>

@@ -834,6 +834,32 @@ async function loadMoreComments(type, content_no, last_comment_no) {
     }
 }
 
+async function loadMoreFarmContents(type, farm_no, content_no, category) {
+    function apiLoadMoreContents(type, farm_no, content_no, category) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+        };
+        console.log(category)
+
+        console.log(`${host}/api/get/${type}/farm/${farm_no}/content/${content_no}?category=${category === undefined ? '' : category}`);
+
+        const response = fetch(`${host}/api/get/${type}/farm/${farm_no}/content/${content_no}?category=${category === undefined ? '' : category}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+    let result;
+    try {
+        result = await apiLoadMoreContents(type, farm_no, content_no, category);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 async function updateCommentLike(type, no) {
     function apiUpdateCommentLike(type, no) {
