@@ -15,4 +15,6 @@ public interface UserMapper {
     User getUserByNo(@Param("user_no") int user_no);
 
     void unregister(@Param("user_no") int user_no);
+
+    void updateAgree(User user);
 }

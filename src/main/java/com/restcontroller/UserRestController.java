@@ -3,6 +3,9 @@ package com.restcontroller;
 import com.aws.file.FileUploadUtility;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.model.ALARM_TYPE;
+import com.model.Agree;
+import com.model.User;
 import com.model.common.MFile;
 import com.model.content.common.BOOKMARK_TYPE;
 import com.model.content.common.COMMENT_TYPE;
@@ -10,10 +13,7 @@ import com.model.farm.Farm;
 import com.model.farm.FarmSns;
 import com.response.DefaultRes;
 import com.response.Message;
-import com.service.BookmarkService;
-import com.service.FarmService;
-import com.service.GlobalService;
-import com.service.LikeService;
+import com.service.*;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
 import com.util.Format;
@@ -41,6 +41,7 @@ public class UserRestController {
     private final LikeService likeService;
     private final FarmService farmService;
     private final FileUploadUtility fileUploadUtility;
+    private final UserService userService;
 
     @RequestMapping(value = "/{type}/bookmark/like/{no}", method = RequestMethod.POST)
     public ResponseEntity<String> insertBookMark(HttpServletRequest request, @PathVariable("type") String type, @PathVariable("no") int no) throws Exception {
@@ -205,10 +206,34 @@ public class UserRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/alarm/{type}/{status}/{value}", method = RequestMethod.POST)
-    public ResponseEntity<String> updateAlarm(HttpServletRequest request, @PathVariable("type") String type, @PathVariable("status") String stauts, @PathVariable("value") boolean value) throws Exception {
+    @RequestMapping(value = "/alarm/update/{type}/{value}", method = RequestMethod.POST)
+    public ResponseEntity<String> updateAlarm(HttpServletRequest request, @PathVariable("type") ALARM_TYPE type, @PathVariable("value") boolean value) throws Exception {
         Message message = new Message();
-        message.put("example", "example");
+        log.info("type -> {}, value -> {}", type, value);
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        User user = userService.getUserByNo(user_no);
+        switch (type) {
+            case COMMENT_EMAIL_ALARM:
+                user.getAgree().setComment_email_alarm(value);
+                break;
+            case COMMENT_KAKAO_ALARM:
+                user.getAgree().setComment_kakao_alarm(value);
+                break;
+            case SERVICE_EMAIL_ALARM:
+                user.getAgree().setService_email_alarm(value);
+                break;
+            case SERVICE_KAKAO_ALARM:
+                user.getAgree().setService_kakao_alarm(value);
+                break;
+            case COMMUNITY_EMAIL_ALARM:
+                user.getAgree().setCommunity_email_alarm(value);
+                break;
+            case COMMUNITY_KAKAO_ALARM:
+                user.getAgree().setCommunity_kakao_alarm(value);
+                break;
+        }
+        userService.updateAgree(user);
+        message.put("status", true);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 

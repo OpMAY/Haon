@@ -37,4 +37,8 @@ public class UserDao {
     public void unregister(int user_no) {
         mapper.unregister(user_no);
     }
+
+    public void updateAgree(User user) {
+        mapper.updateAgree(user);
+    }
 }

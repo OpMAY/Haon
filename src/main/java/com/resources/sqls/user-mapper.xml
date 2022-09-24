@@ -45,4 +45,9 @@
         from user
         where no = #{user_no};
     </delete>
+    <update id="updateAgree" parameterType="User">
+        update user
+        set agree=#{agree, typeHandler=JsonObjectTypeHandler}
+        where no = #{no}
+    </update>
 </mapper>
