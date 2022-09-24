@@ -37,4 +37,8 @@ public class UserService {
     public void unregister(int user_no) {
         userDao.unregister(user_no);
     }
+
+    public void updateAgree(User user) {
+        userDao.updateAgree(user);
+    }
 }

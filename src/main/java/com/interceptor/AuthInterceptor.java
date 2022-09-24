@@ -57,6 +57,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         } else {
             Farm farm = farmService.getFarmByUserNo(user_no);
             farm.setUser(userService.getUserByNo(user_no));
+            log.info("user -> {}", userService.getUserByNo(user_no));
             request.setAttribute("farm", farm);
         }
         return true;

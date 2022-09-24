@@ -41,7 +41,7 @@ public class UserController {
     private final FarmService farmService;
 
     @RequestMapping(value = "/alarm", method = RequestMethod.GET)
-    public ModelAndView userAlarmPage() {
+    public ModelAndView getAlarm() {
         ModelAndView VIEW = new ModelAndView("user/alarm");
         return VIEW;
     }

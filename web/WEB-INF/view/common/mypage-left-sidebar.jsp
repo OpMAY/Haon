@@ -26,7 +26,7 @@
                 <div class="bold-h4 c-gray-dark-low ellipsis-one-line">${farm.name}</div>
                 <button type="button" data-href="/user/farm/manage"
                         class="ml-auto btn btn-sm btn-sm-xp btn-brand btn-icon">
-                    <span class="bold-h5 my-auto">농장 페이지 관리</span>
+                    <span class="bold-h5 my-auto">농장 관리</span>
                     <svg class="my-auto ml-8"
                          width="16"
                          height="16"

@@ -687,8 +687,8 @@ async function selectTrace(type, value) {
 }
 
 
-async function updateAlarm(type, value, status) {
-    function apiUpdateAlarm(type, value, status) {
+async function updateAlarm(type, value) {
+    function apiUpdateAlarm(type, value) {
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
         myHeaders.append('Content-Api', tokenGenerator(8));
@@ -697,13 +697,13 @@ async function updateAlarm(type, value, status) {
             method: 'POST',
             headers: myHeaders,
         };
-        const response = fetch(`${host}/api/alarm/${type}/${status}/${value}`, requestOptions);
+        const response = fetch(`${host}/api/alarm/update/${type}/${value}`, requestOptions);
         return response.then((res) => res.json());
     }
 
     let result;
     try {
-        result = await apiUpdateAlarm(type, value, status);
+        result = await apiUpdateAlarm(type, value);
         return result;
     } catch (error) {
         console.log(error);
