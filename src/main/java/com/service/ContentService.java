@@ -574,6 +574,31 @@ public class ContentService {
         }
     }
 
+    public void updateCommunity(ContentForm contentForm) {
+        switch (contentForm.getCommunity_type()) {
+            case BOARD:
+                Board board = new Board();
+                board.setNo(contentForm.getNo());
+                board.setFarm_no(contentForm.getFarm_no());
+                board.setTitle(contentForm.getTitle());
+                board.setContent(contentForm.getContent());
+                board.setCategory(contentForm.getCategory());
+                contentDao.updateBoard(board);
+                break;
+            case QUESTION:
+                Question question = new Question();
+                question.setNo(contentForm.getNo());
+                question.setFarm_no(contentForm.getFarm_no());
+                question.setTitle(contentForm.getTitle());
+                question.setContent(contentForm.getContent());
+                question.setCategory(contentForm.getCategory());
+                log.info("question -> {}", question);
+                contentDao.updateQuestion(question);
+                break;
+            default:
+        }
+    }
+
     public void insertCommunityThumbnail(ContentForm contentForm, MFile thumbnail) {
         switch (contentForm.getCommunity_type()) {
             case TIP:
@@ -606,7 +631,7 @@ public class ContentService {
             default:
         }
     }
-    
+
     public List<Board> getBoardSearchResult(String query, int last_content_no) {
         return contentDao.getBoardSearchResult(query, last_content_no);
     }
@@ -651,7 +676,7 @@ public class ContentService {
     public ArrayList<Magazine> getBookmarkMagazines(int user_no) {
         return contentDao.getBookmarkMagazines(user_no);
     }
-    
+
     public List<Board> getFarmBoards(int farm_no, int content_no, String category) {
         return contentDao.getFarmBoards(farm_no, content_no, category);
     }
@@ -678,8 +703,8 @@ public class ContentService {
                 break;
             case "tip":
                 List<Tips> tips = contentDao.getFarmTips(farm_no, content_no, category);
-                for(Tips tip : tips) {
-                    if(userNo != null) {
+                for (Tips tip : tips) {
+                    if (userNo != null) {
                         tip.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(tip.getNo(), userNo));
                     }
                     tip.setProfile_image(farmDao.getFarmByNo(tip.getFarm_no()).getProfile_image());
@@ -692,8 +717,8 @@ public class ContentService {
                 break;
             case "manual":
                 List<Manual> manuals = contentDao.getFarmManuals(farm_no, content_no, category);
-                for(Manual manual : manuals) {
-                    if(userNo != null) {
+                for (Manual manual : manuals) {
+                    if (userNo != null) {
                         manual.set_bookmark(bookmarkDao.isManualBookmarkByUserNo(manual.getNo(), userNo));
                     }
                     manual.setProfile_image(farmDao.getFarmByNo(manual.getFarm_no()).getProfile_image());
@@ -705,4 +730,61 @@ public class ContentService {
         }
         return message;
     }
+
+    public ContentForm getContentFormByBoardNo(int board_no) {
+        return contentDao.getContentFormByBoardNo(board_no);
+    }
+
+    public ContentForm getContentFormByQuestionNo(int question_no) {
+        return contentDao.getContentFormByQuestionNo(question_no);
+    }
+
+    public ContentForm getContentFormByMagazineNo(int magazine_no) {
+        return contentDao.getContentFormByMagazineNo(magazine_no);
+    }
+
+    public ContentForm getContentFormByManualNo(int manual_no) {
+        return contentDao.getContentFormByManualNo(manual_no);
+    }
+
+    public ContentForm getContentFormByTipNo(int tips_no) {
+        return contentDao.getContentFormByTipNo(tips_no);
+    }
+
+    public void updateCommunityThumbnail(ContentForm contentForm, MFile thumbnail) {
+        switch (contentForm.getCommunity_type()) {
+            case TIP:
+                Tips tips = new Tips();
+                tips.setNo(contentForm.getNo());
+                tips.setThumbnail(thumbnail);
+                tips.setFarm_no(contentForm.getFarm_no());
+                tips.setTitle(contentForm.getTitle());
+                tips.setContent(contentForm.getContent());
+                tips.setCategory(contentForm.getCategory());
+                contentDao.updateTips(tips);
+                break;
+            case MANUAL:
+                Manual manual = new Manual();
+                manual.setNo(contentForm.getNo());
+                manual.setThumbnail(thumbnail);
+                manual.setFarm_no(contentForm.getFarm_no());
+                manual.setTitle(contentForm.getTitle());
+                manual.setContent(contentForm.getContent());
+                manual.setCategory(contentForm.getCategory());
+                contentDao.updateManual(manual);
+                break;
+            case MAGAZINE:
+                Magazine magazine = new Magazine();
+                magazine.setNo(contentForm.getNo());
+                magazine.setThumbnail(thumbnail);
+                magazine.setFarm_no(contentForm.getFarm_no());
+                magazine.setTitle(contentForm.getTitle());
+                magazine.setContent(contentForm.getContent());
+                magazine.setCategory(contentForm.getCategory());
+                contentDao.updateMagazine(magazine);
+                break;
+            default:
+        }
+    }
+
 }

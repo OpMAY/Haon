@@ -1,5 +1,6 @@
 package com.model.content.common;
 
+import com.model.common.MFile;
 import com.model.common.Time;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,8 +14,11 @@ public class ContentForm extends Time {
     private int views;
     private String category;
     private boolean is_bookmark;
+    private MFile thumbnail;
 
     //업로드 전용 변수
     private MultipartFile file;
     private COMMENT_TYPE community_type;
+    //수정 전용 변수
+    private MFile origin_thumbnail;
 }
