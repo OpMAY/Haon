@@ -3,6 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.ContentMapper">
+    <resultMap id="contentForm" type="com.model.content.common.ContentForm">
+        <result column="thumbnail" property="thumbnail" typeHandler="com.middleware.JsonObjectTypeHandler"/>
+    </resultMap>
     <resultMap id="Tips" type="com.model.content.tips.Tips">
         <result column="thumbnail" property="thumbnail" typeHandler="com.middleware.JsonObjectTypeHandler"/>
     </resultMap>
@@ -784,27 +787,73 @@
         insert into board(farm_no, title, content, reg_datetime, updated_datetime, views, category)
         VALUES (#{farm_no}, #{title}, #{content}, now(), now(), 0, #{category});
     </insert>
+    <update id="updateBoard" parameterType="Board">
+        update board
+        set title=#{title},
+            category=#{category},
+            content=#{content},
+            updated_datetime=now()
+        where no = #{no}
+          and farm_no = #{farm_no}
+    </update>
     <insert id="insertQuestion" parameterType="Question" keyProperty="no" useGeneratedKeys="true">
         insert into question(farm_no, title, content, reg_datetime, updated_datetime, views, category)
         VALUES (#{farm_no}, #{title}, #{content}, now(), now(), 0, #{category});
     </insert>
+    <update id="updateQuestion" parameterType="Question">
+        update question
+        set title=#{title},
+            category=#{category},
+            content=#{content},
+            updated_datetime=now()
+        where no = #{no}
+          and farm_no = #{farm_no}
+    </update>
     <insert id="insertTips" parameterType="Tips" keyProperty="no" useGeneratedKeys="true">
         insert into tips(farm_no, title, thumbnail, content, reg_datetime, updated_datetime, views, category)
         VALUES (#{farm_no}, #{title}, #{thumbnail, typeHandler=JsonObjectTypeHandler}, #{content}, now(), now(),
                 #{views},
                 #{category});
     </insert>
+    <update id="updateTips" parameterType="Tips">
+        update tips
+        set title=#{title},
+            category=#{category},
+            content=#{content},
+            updated_datetime=now(),
+            thumbnail=#{thumbnail, typeHandler=JsonObjectTypeHandler}
+        where no = #{no}
+          and farm_no = #{farm_no}
+    </update>
     <insert id="insertManual" parameterType="Manual" keyProperty="no" useGeneratedKeys="true">
         insert into manual(farm_no, title, thumbnail, content, reg_datetime, updated_datetime, views, category)
         VALUES (#{farm_no}, #{title}, #{thumbnail, typeHandler=JsonObjectTypeHandler}, #{content}, now(), now(),
                 #{views},
                 #{category});
     </insert>
+    <update id="updateManual" parameterType="Manual">
+        update tips
+        set title=#{title},
+            category=#{category},
+            content=#{content},
+            updated_datetime=now(),
+            thumbnail=#{thumbnail, typeHandler=JsonObjectTypeHandler}
+        where no = #{no}
+          and farm_no = #{farm_no}
+    </update>
     <insert id="insertMagazine" parameterType="Magazine" keyProperty="no" useGeneratedKeys="true">
         insert into magazine(title, thumbnail, content, reg_datetime, updated_datetime, is_show, category)
         VALUES (#{title}, #{thumbnail, typeHandler=JsonObjectTypeHandler}, #{content}, now(), now(), true, #{category});
     </insert>
-
+    <update id="updateMagazine" parameterType="Magazine">
+        update magazine
+        set title=#{title},
+            category=#{category},
+            content=#{content},
+            updated_datetime=now(),
+            thumbnail=#{thumbnail, typeHandler=JsonObjectTypeHandler}
+        where no = #{no}
+    </update>
     <select id="getBoardSearchResult" resultType="Board">
         SET @QUERY = concat('%', #{query}, '%');
         <if test="last_content_no != 0">
@@ -983,5 +1032,30 @@
             AND category = #{category}
         </if>
         order by reg_datetime DESC, no DESC LIMIT 4
+    </select>
+    <select id="getContentFormByBoardNo" parameterType="int" resultType="ContentForm" resultMap="contentForm">
+        select *
+        from board
+        where no = #{board_no};
+    </select>
+    <select id="getContentFormByQuestionNo" parameterType="int" resultType="ContentForm" resultMap="contentForm">
+        select *
+        from question
+        where no = #{question_no};
+    </select>
+    <select id="getContentFormByMagazineNo" parameterType="int" resultType="ContentForm" resultMap="contentForm">
+        select *
+        from magazine
+        where no = #{magazine_no};
+    </select>
+    <select id="getContentFormByManualNo" parameterType="int" resultType="ContentForm" resultMap="contentForm">
+        select *
+        from manual
+        where no = #{manual_no};
+    </select>
+    <select id="getContentFormByTipNo" parameterType="int" resultType="ContentForm" resultMap="contentForm">
+        select *
+        from tips
+        where no = #{tips_no};
     </select>
 </mapper>

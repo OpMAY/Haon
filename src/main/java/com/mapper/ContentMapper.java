@@ -1,6 +1,7 @@
 package com.mapper;
 
 import com.model.content.board.Board;
+import com.model.content.common.ContentForm;
 import com.model.content.magazine.Magazine;
 import com.model.content.manual.Manual;
 import com.model.content.question.Question;
@@ -194,4 +195,24 @@ public interface ContentMapper {
     List<QuestionSummary> getFarmQuestions(@Param("farm_no") int farm_no, @Param("content_no") int content_no, @Param("category") String category);
 
     List<Manual> getFarmManuals(@Param("farm_no") int farm_no, @Param("content_no") int content_no, @Param("category") String category);
+
+    ContentForm getContentFormByBoardNo(@Param("board_no") int board_no);
+
+    ContentForm getContentFormByQuestionNo(@Param("question_no") int question_no);
+
+    ContentForm getContentFormByMagazineNo(@Param("magazine_no") int magazine_no);
+
+    ContentForm getContentFormByManualNo(@Param("manual_no") int manual_no);
+
+    ContentForm getContentFormByTipNo(@Param("tips_no") int tips_no);
+
+    void updateBoard(Board board);
+
+    void updateQuestion(Question question);
+
+    void updateTips(Tips tips);
+
+    void updateManual(Manual manual);
+
+    void updateMagazine(Magazine magazine);
 }

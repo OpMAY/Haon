@@ -2,6 +2,7 @@ package com.dao;
 
 import com.mapper.ContentMapper;
 import com.model.content.board.Board;
+import com.model.content.common.ContentForm;
 import com.model.content.magazine.Magazine;
 import com.model.content.manual.Manual;
 import com.model.content.question.Question;
@@ -380,5 +381,45 @@ public class ContentDao {
 
     public List<Manual> getFarmManuals(int farm_no, int content_no, String category) {
         return mapper.getFarmManuals(farm_no, content_no, category);
+    }
+
+    public ContentForm getContentFormByBoardNo(int board_no) {
+        return mapper.getContentFormByBoardNo(board_no);
+    }
+
+    public ContentForm getContentFormByQuestionNo(int question_no) {
+        return mapper.getContentFormByQuestionNo(question_no);
+    }
+
+    public ContentForm getContentFormByMagazineNo(int magazine_no) {
+        return mapper.getContentFormByMagazineNo(magazine_no);
+    }
+
+    public ContentForm getContentFormByManualNo(int manual_no) {
+        return mapper.getContentFormByManualNo(manual_no);
+    }
+
+    public ContentForm getContentFormByTipNo(int tips_no) {
+        return mapper.getContentFormByTipNo(tips_no);
+    }
+
+    public void updateBoard(Board board) {
+        mapper.updateBoard(board);
+    }
+
+    public void updateQuestion(Question question) {
+        mapper.updateQuestion(question);
+    }
+
+    public void updateTips(Tips tips) {
+        mapper.updateTips(tips);
+    }
+
+    public void updateManual(Manual manual) {
+        mapper.updateManual(manual);
+    }
+
+    public void updateMagazine(Magazine magazine) {
+        mapper.updateMagazine(magazine);
     }
 }
