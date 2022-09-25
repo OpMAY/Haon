@@ -1217,8 +1217,8 @@
             let path = e.originalEvent.path;
             if (!path.includes($(this).find('._bookmark')[0])) {
                 alert('home.jsp 1207 줄 수정');
-                window.open('/community/tips/detail/' + $(this).data().no, '_blank');
-                // window.location.href = '/community/tips/detail/' + $(this).data().no;
+                window.open('/community/tip/detail/' + $(this).data().no, '_blank');
+                // window.location.href = '/community/tip/detail/' + $(this).data().no;
             }
         })
 
@@ -1227,7 +1227,7 @@
             if (!path.includes($(this).find('._bookmark')[0])) {
                 alert('home.jsp 1216 줄 수정');
                 window.open('/community/manual/detail/' + $(this).data().no, '_blank');
-                // window.location.href = '/community/tips/detail/' + $(this).data().no;
+                // window.location.href = '/community/manual/detail/' + $(this).data().no;
             }
         })
 
@@ -1236,7 +1236,7 @@
             if (!path.includes($(this).find('._bookmark')[0])) {
                 alert('home.jsp 1225 줄 수정');
                 window.open('/community/magazine/detail/' + $(this).data().no, '_blank');
-                // window.location.href = '/community/tips/detail/' + $(this).data().no;
+                // window.location.href = '/community/manual/detail/' + $(this).data().no;
             }
         })
 

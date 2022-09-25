@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
 
@@ -128,22 +129,24 @@
                                 </div>
                                 <div class="_traces">
                                     <c:if test="${traces.size() > 0}">
-                                        <div class="_trace mt-32">
-                                            <div class="_bundle-header">
-                                                <span class="bold-h2" data-code="L-0-220819-9763-101">L-0-220819-9763-101</span>
-                                                <button type="button"
-                                                        class="_qr btn btn-brand-opacity btn-block bold-h5">
-                                                    QR 코드 다운로드
-                                                </button>
+                                        <c:forEach var="trace" items="${traces}">
+                                            <div class="_trace mt-32">
+                                                <div class="_bundle-header">
+                                                    <span class="bold-h2" data-code="${trace.trace_code}">${trace.trace_code}</span>
+                                                    <button type="button"
+                                                            class="_qr btn btn-brand-opacity btn-block bold-h5">
+                                                        QR 코드 다운로드
+                                                    </button>
+                                                </div>
+                                                <div class="_bundle-body d-flex">
+                                                    <span class="_livestock regular-h5 p-2">${trace.entity.entity_type.typeName}</span>
+                                                    <span class="regular-h5 p-2">1++</span>
+                                                    <span class="regular-h5 p-2">수컷</span>
+                                                    <span class="regular-h5 p-2">2022.12.22 출생</span>
+                                                    <span class="regular-h5 _date ml-auto p-2"><custom:formatDatetime value="${trace.reg_datetime}" pattern="yyyy-MM-dd"/></span>
+                                                </div>
                                             </div>
-                                            <div class="_bundle-body d-flex">
-                                                <span class="_livestock regular-h5 p-2">양 & 염소</span>
-                                                <span class="regular-h5 p-2">1++</span>
-                                                <span class="regular-h5 p-2">수컷</span>
-                                                <span class="regular-h5 p-2">2022.12.22 출생</span>
-                                                <span class="regular-h5 _date ml-auto p-2">2023.12.12</span>
-                                            </div>
-                                        </div>
+                                        </c:forEach>
                                     </c:if>
                                     <c:if test="${traces.size() <= 0}">
                                         <div class="bold-h2 c-gray-light" style="text-align: center">
@@ -275,6 +278,7 @@
                                         <label class="medium-h6 c-gray-dark-low">등급</label>
                                         <input type="text"
                                                placeholder="등급을 선택해주세요."
+                                               data-category="rate"
                                                class="form-control input-box medium-h5 dropdown-input"
                                                disabled>
                                         <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
@@ -315,8 +319,8 @@
                                     <label class="medium-h6 c-gray-dark-low">출생 일자</label>
                                     <input type="text"
                                            data-provide="datepicker"
-                                           readonly
-                                           placeholder="Input Box + Icon"
+                                           readonly name="trace-birth"
+                                           placeholder="날짜를 선택해주세요."
                                            class="form-control input-box medium-h5 dropdown-input">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -348,7 +352,7 @@
                             <div class="col-12 d-flex flex-row">
                                 <div class="mt-16">
                                     <label data-label="checkbox" class="radio-item">
-                                        <input data-type="radio" type="radio" name="radio1">
+                                        <input data-type="radio" data-value="수컷" type="radio" name="gender">
                                         <span class="design"></span>
                                         <span class="ml-16">수컷</span>
                                     </label>
@@ -356,7 +360,7 @@
 
                                 <div class="mt-16 ml-24">
                                     <label data-label="checkbox" class="radio-item">
-                                        <input data-type="radio" type="radio" name="radio1">
+                                        <input data-type="radio" data-value="암컷" type="radio" name="gender">
                                         <span class="design"></span>
                                         <span class="ml-16">암컷</span>
                                     </label>
@@ -393,8 +397,7 @@
                                     <!--사육 Tab-->
                                     <div class="tab-pane fade show active" id="pills-breed" role="tabpanel"
                                          aria-labelledby="pills-home-tab">
-
-                                        <div class="row">
+                                        <div class="row _breed-table">
                                             <div class="col-12">
                                                 <table class="table table-bordered trace-register-table">
                                                     <thead>
@@ -408,132 +411,22 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr>
-                                                        <td>전산 등록</td>
-                                                        <td>유병준</td>
-                                                        <td>오키위 축산</td>
-                                                        <td>2012.02.12</td>
-                                                        <td>서울특별시 남부순환로 1892 4층</td>
-                                                        <td scope="row">
-                                                            <svg class="_trace-breed-delete cursor-pointer" width="24"
-                                                                 height="24" viewBox="0 0 24 24"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd"
-                                                                      clip-rule="evenodd"
-                                                                      d="M12 1C5.925 1 1 5.925 1 12C1 18.075 5.925 23 12 23C18.075 23 23 18.075 23 12C23 5.925 18.075 1 12 1ZM15.707 9.707C15.8892 9.5184 15.99 9.2658 15.9877 9.0036C15.9854 8.7414 15.8802 8.49059 15.6948 8.30518C15.5094 8.11977 15.2586 8.0146 14.9964 8.01233C14.7342 8.01005 14.4816 8.11084 14.293 8.293L12 10.586L9.707 8.293C9.61475 8.19749 9.50441 8.12131 9.3824 8.0689C9.2604 8.01649 9.12918 7.9889 8.9964 7.98775C8.86362 7.9866 8.73194 8.0119 8.60905 8.06218C8.48615 8.11246 8.3745 8.18671 8.28061 8.28061C8.18671 8.3745 8.11246 8.48615 8.06218 8.60905C8.0119 8.73194 7.9866 8.86362 7.98775 8.9964C7.9889 9.12918 8.01649 9.2604 8.0689 9.3824C8.12131 9.50441 8.19749 9.61475 8.293 9.707L10.586 12L8.293 14.293C8.19749 14.3852 8.12131 14.4956 8.0689 14.6176C8.01649 14.7396 7.9889 14.8708 7.98775 15.0036C7.9866 15.1364 8.0119 15.2681 8.06218 15.391C8.11246 15.5139 8.18671 15.6255 8.28061 15.7194C8.3745 15.8133 8.48615 15.8875 8.60905 15.9378C8.73194 15.9881 8.86362 16.0134 8.9964 16.0123C9.12918 16.0111 9.2604 15.9835 9.3824 15.9311C9.50441 15.8787 9.61475 15.8025 9.707 15.707L12 13.414L14.293 15.707C14.4816 15.8892 14.7342 15.99 14.9964 15.9877C15.2586 15.9854 15.5094 15.8802 15.6948 15.6948C15.8802 15.5094 15.9854 15.2586 15.9877 14.9964C15.99 14.7342 15.8892 14.4816 15.707 14.293L13.414 12L15.707 9.707Z"
-                                                                      fill="#A9CC52"/>
-                                                            </svg>
+                                                    <tr data-type="empty">
+                                                        <td colspan="6">
+                                                            <span class="c-gray-light">사육 정보를 추가하세요.</span>
                                                         </td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
-
-                                        <div class="row mt-24">
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label class="medium-h6 c-gray-dark-low">신고 구분</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-12 d-flex flex-row">
-                                                <div class="mt-16">
-                                                    <label data-label="checkbox" class="radio-item">
-                                                        <input data-type="radio" type="radio" name="radio1">
-                                                        <span class="design"></span>
-                                                        <span class="ml-16">등록</span>
-                                                    </label>
-                                                </div>
-
-                                                <div class="mt-16 ml-24">
-                                                    <label data-label="checkbox" class="radio-item">
-                                                        <input data-type="radio" type="radio" name="radio1">
-                                                        <span class="design"></span>
-                                                        <span class="ml-16">양도</span>
-                                                    </label>
-                                                </div>
-
-                                                <div class="mt-16 ml-24">
-                                                    <label data-label="checkbox" class="radio-item">
-                                                        <input data-type="radio" type="radio" name="radio1">
-                                                        <span class="design"></span>
-                                                        <span class="ml-16">출하</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row mt-32">
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label class="medium-h6 c-gray-dark-low">농장
-                                                        경영자</label>
-                                                    <input type="text"
-                                                           placeholder="농장 경영자 명 입력"
-                                                           class="form-control input-underline input-brand-green medium-h4">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label class="medium-h6 c-gray-dark-low">농장
-                                                        명</label>
-                                                    <input type="text"
-                                                           placeholder="농장 명 입력"
-                                                           class="form-control input-underline input-brand-green medium-h4">
-                                                </div>
-                                            </div>
-                                        </div>
-
                                         <div class="row mt-32">
                                             <div class="col-12">
-                                                <div class="form-group">
-                                                    <label class="medium-h6 c-gray-dark-low">농장 링크</label>
-                                                    <input type="text"
-                                                           placeholder="농장 링크 입력"
-                                                           class="form-control input-underline input-brand-green medium-h4">
-                                                </div>
+                                                <span class="card-text _farm-type bold-h5 c-brand-green _add-new cursor-pointer">
+                                                    사육 정보 추가 +
+                                                </span>
                                             </div>
                                         </div>
-
-                                        <div class="row mt-32">
-                                            <div class="col-6">
-                                                <label class="medium-h6 c-gray-dark-low">소재지</label>
-                                                <div class="form-group form-inner-button">
-                                                    <input type="text" placeholder="주소를 입력해주세요."
-                                                           class="form-control input-box medium-h5"
-                                                           id="input20">
-                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M12 23.7279L5.636 17.3639C4.37734 16.1052 3.52019 14.5016 3.17293 12.7558C2.82567 11.0099 3.00391 9.20035 3.6851 7.55582C4.36629 5.91129 5.51984 4.50569 6.99988 3.51677C8.47992 2.52784 10.22 2 12 2C13.78 2 15.5201 2.52784 17.0001 3.51677C18.4802 4.50569 19.6337 5.91129 20.3149 7.55582C20.9961 9.20035 21.1743 11.0099 20.8271 12.7558C20.4798 14.5016 19.6227 16.1052 18.364 17.3639L12 23.7279ZM16.95 15.9499C17.9289 14.9709 18.5955 13.7236 18.8656 12.3658C19.1356 11.0079 18.9969 9.60052 18.4671 8.32148C17.9373 7.04244 17.04 5.94923 15.8889 5.18009C14.7378 4.41095 13.3844 4.00043 12 4.00043C10.6156 4.00043 9.26222 4.41095 8.11109 5.18009C6.95996 5.94923 6.06275 7.04244 5.53292 8.32148C5.00308 9.60052 4.86442 11.0079 5.13445 12.3658C5.40449 13.7236 6.07111 14.9709 7.05 15.9499L12 20.8999L16.95 15.9499ZM12 12.9999C11.4696 12.9999 10.9609 12.7892 10.5858 12.4141C10.2107 12.0391 10 11.5304 10 10.9999C10 10.4695 10.2107 9.96078 10.5858 9.58571C10.9609 9.21064 11.4696 8.99992 12 8.99992C12.5304 8.99992 13.0391 9.21064 13.4142 9.58571C13.7893 9.96078 14 10.4695 14 10.9999C14 11.5304 13.7893 12.0391 13.4142 12.4141C13.0391 12.7892 12.5304 12.9999 12 12.9999Z"
-                                                              fill="#A9CC52"/>
-                                                    </svg>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label class="medium-h6 c-gray-dark-low">상세 주소</label>
-                                                    <input type="text"
-                                                           placeholder="상세주소 입력"
-                                                           class="form-control input-underline input-brand-green medium-h4">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row mt-32">
-                                            <div class="col-12">
-                                                            <span class="card-text _farm-type bold-h5 c-brand-green">
-                                                                사육 정보 추가 +
-                                                            </span>
-                                            </div>
-                                        </div>
-
-
                                     </div>
 
                                     <!--도축 Tab-->
@@ -552,7 +445,7 @@
                                             <div class="col-12 d-flex flex-row">
                                                 <div class="mt-16">
                                                     <label data-label="checkbox" class="radio-item">
-                                                        <input data-type="radio" type="radio" name="radio1">
+                                                        <input data-type="radio" data-value="true" type="radio" name="amniotic-success">
                                                         <span class="design"></span>
                                                         <span class="ml-16">합격</span>
                                                     </label>
@@ -560,7 +453,7 @@
 
                                                 <div class="mt-16 ml-24">
                                                     <label data-label="checkbox" class="radio-item">
-                                                        <input data-type="radio" type="radio" name="radio1">
+                                                        <input data-type="radio" data-value="false" type="radio" name="amniotic-success">
                                                         <span class="design"></span>
                                                         <span class="ml-16">불합격</span>
                                                     </label>
@@ -573,7 +466,7 @@
                                                 <div class="form-group">
                                                     <label class="medium-h6 c-gray-dark-low">농장 명</label>
                                                     <input type="text"
-                                                           placeholder="농장 명 입력"
+                                                           placeholder="농장 명 입력" name="amniotic-farm"
                                                            class="form-control input-underline input-brand-green medium-h4">
                                                 </div>
                                             </div>
@@ -584,8 +477,8 @@
                                                     <input type="text"
                                                            data-provide="datepicker"
                                                            readonly
-                                                           value="2022-07-02"
-                                                           placeholder="Input Box + Icon"
+                                                           placeholder="날짜를 입력하세요."
+                                                           name="amniotic-date"
                                                            class="form-control input-box medium-h5 dropdown-input">
                                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                                          xmlns="http://www.w3.org/2000/svg">
@@ -620,8 +513,8 @@
                                             <div class="col-6">
                                                 <label class="medium-h6 c-gray-dark-low">소재지</label>
                                                 <div class="form-group form-inner-button">
-                                                    <input type="text" placeholder="주소를 입력해주세요."
-                                                           class="form-control input-box medium-h5"
+                                                    <input type="text" placeholder="주소를 입력해주세요." data-type="postcode"
+                                                           class="form-control input-box medium-h5 cursor-pointer" readonly
                                                            id="input21">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                          xmlns="http://www.w3.org/2000/svg">
@@ -648,29 +541,21 @@
                                     <div class="tab-pane fade" id="pills-processing" role="tabpanel"
                                          aria-labelledby="pills-profile-tab">
 
-                                        <div class="row">
+                                        <div class="row _slaughter-table">
                                             <div class="col-12">
                                                 <table class="table table-bordered trace-register-table">
                                                     <thead>
                                                     <tr>
                                                         <th scope="col">업소 명</th>
                                                         <th scope="col">소재지</th>
+                                                        <th scope="col">가공 일자</th>
                                                         <th scope="col">삭제</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr>
-                                                        <td>오키위 축산</td>
-                                                        <td>서울특별시 남부순환로 1892 4층</td>
-                                                        <td scope="row">
-                                                            <svg width="24" height="24" viewBox="0 0 24 24"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd"
-                                                                      clip-rule="evenodd"
-                                                                      d="M12 1C5.925 1 1 5.925 1 12C1 18.075 5.925 23 12 23C18.075 23 23 18.075 23 12C23 5.925 18.075 1 12 1ZM15.707 9.707C15.8892 9.5184 15.99 9.2658 15.9877 9.0036C15.9854 8.7414 15.8802 8.49059 15.6948 8.30518C15.5094 8.11977 15.2586 8.0146 14.9964 8.01233C14.7342 8.01005 14.4816 8.11084 14.293 8.293L12 10.586L9.707 8.293C9.61475 8.19749 9.50441 8.12131 9.3824 8.0689C9.2604 8.01649 9.12918 7.9889 8.9964 7.98775C8.86362 7.9866 8.73194 8.0119 8.60905 8.06218C8.48615 8.11246 8.3745 8.18671 8.28061 8.28061C8.18671 8.3745 8.11246 8.48615 8.06218 8.60905C8.0119 8.73194 7.9866 8.86362 7.98775 8.9964C7.9889 9.12918 8.01649 9.2604 8.0689 9.3824C8.12131 9.50441 8.19749 9.61475 8.293 9.707L10.586 12L8.293 14.293C8.19749 14.3852 8.12131 14.4956 8.0689 14.6176C8.01649 14.7396 7.9889 14.8708 7.98775 15.0036C7.9866 15.1364 8.0119 15.2681 8.06218 15.391C8.11246 15.5139 8.18671 15.6255 8.28061 15.7194C8.3745 15.8133 8.48615 15.8875 8.60905 15.9378C8.73194 15.9881 8.86362 16.0134 8.9964 16.0123C9.12918 16.0111 9.2604 15.9835 9.3824 15.9311C9.50441 15.8787 9.61475 15.8025 9.707 15.707L12 13.414L14.293 15.707C14.4816 15.8892 14.7342 15.99 14.9964 15.9877C15.2586 15.9854 15.5094 15.8802 15.6948 15.6948C15.8802 15.5094 15.9854 15.2586 15.9877 14.9964C15.99 14.7342 15.8892 14.4816 15.707 14.293L13.414 12L15.707 9.707Z"
-                                                                      fill="#A9CC52"/>
-                                                            </svg>
+                                                    <tr data-type="empty">
+                                                        <td colspan="6">
+                                                            <span class="c-gray-light">가공 정보를 추가하세요.</span>
                                                         </td>
                                                     </tr>
                                                     </tbody>
@@ -678,87 +563,13 @@
                                             </div>
                                         </div>
 
-                                        <div class="row mt-24">
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label class="medium-h6 c-gray-dark-low">농장 명</label>
-                                                    <input type="text"
-                                                           placeholder="농장 명 입력"
-                                                           class="form-control input-underline input-brand-green medium-h4">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-6">
-                                                <div class="form-group form-inner-button form-inner-label">
-                                                    <label class="medium-h6 c-gray-dark-low">가공 일자</label>
-                                                    <input type="text"
-                                                           data-provide="datepicker"
-                                                           readonly
-                                                           value="2022-07-02"
-                                                           placeholder="Input Box + Icon"
-                                                           class="form-control input-box medium-h5 dropdown-input">
-                                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_224_6221)">
-                                                            <path d="M14.1667 2.49992H17.5C17.721 2.49992 17.933 2.58772 18.0893 2.744C18.2455 2.90028 18.3333 3.11224 18.3333 3.33325V16.6666C18.3333 16.8876 18.2455 17.0996 18.0893 17.2558C17.933 17.4121 17.721 17.4999 17.5 17.4999H2.5C2.27899 17.4999 2.06703 17.4121 1.91075 17.2558C1.75447 17.0996 1.66667 16.8876 1.66667 16.6666V3.33325C1.66667 3.11224 1.75447 2.90028 1.91075 2.744C2.06703 2.58772 2.27899 2.49992 2.5 2.49992H5.83333V0.833252H7.5V2.49992H12.5V0.833252H14.1667V2.49992ZM16.6667 7.49992V4.16659H14.1667V5.83325H12.5V4.16659H7.5V5.83325H5.83333V4.16659H3.33333V7.49992H16.6667ZM16.6667 9.16658H3.33333V15.8333H16.6667V9.16658ZM5 10.8333H9.16667V14.1666H5V10.8333Z"
-                                                                  fill="#A9CC52"/>
-                                                        </g>
-                                                        <defs>
-                                                            <clipPath id="clip0_224_6221">
-                                                                <rect width="20" height="20" fill="white"/>
-                                                            </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
                                         <div class="row mt-32">
                                             <div class="col-12">
-                                                <div class="form-group">
-                                                    <label class="medium-h6 c-gray-dark-low">농장 링크</label>
-                                                    <input type="text"
-                                                           placeholder="농장 링크 입력"
-                                                           class="form-control input-underline input-brand-green medium-h4">
-                                                </div>
+                                                <span class="card-text _farm-type bold-h5 c-brand-green _add-new cursor-pointer">
+                                                    가공 정보 추가 +
+                                                </span>
                                             </div>
                                         </div>
-
-                                        <div class="row mt-32">
-                                            <div class="col-6">
-                                                <label class="medium-h6 c-gray-dark-low">소재지</label>
-                                                <div class="form-group form-inner-button">
-                                                    <input type="text" placeholder="주소를 입력해주세요."
-                                                           class="form-control input-box medium-h5"
-                                                           id="input22">
-                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M12 23.7279L5.636 17.3639C4.37734 16.1052 3.52019 14.5016 3.17293 12.7558C2.82567 11.0099 3.00391 9.20035 3.6851 7.55582C4.36629 5.91129 5.51984 4.50569 6.99988 3.51677C8.47992 2.52784 10.22 2 12 2C13.78 2 15.5201 2.52784 17.0001 3.51677C18.4802 4.50569 19.6337 5.91129 20.3149 7.55582C20.9961 9.20035 21.1743 11.0099 20.8271 12.7558C20.4798 14.5016 19.6227 16.1052 18.364 17.3639L12 23.7279ZM16.95 15.9499C17.9289 14.9709 18.5955 13.7236 18.8656 12.3658C19.1356 11.0079 18.9969 9.60052 18.4671 8.32148C17.9373 7.04244 17.04 5.94923 15.8889 5.18009C14.7378 4.41095 13.3844 4.00043 12 4.00043C10.6156 4.00043 9.26222 4.41095 8.11109 5.18009C6.95996 5.94923 6.06275 7.04244 5.53292 8.32148C5.00308 9.60052 4.86442 11.0079 5.13445 12.3658C5.40449 13.7236 6.07111 14.9709 7.05 15.9499L12 20.8999L16.95 15.9499ZM12 12.9999C11.4696 12.9999 10.9609 12.7892 10.5858 12.4141C10.2107 12.0391 10 11.5304 10 10.9999C10 10.4695 10.2107 9.96078 10.5858 9.58571C10.9609 9.21064 11.4696 8.99992 12 8.99992C12.5304 8.99992 13.0391 9.21064 13.4142 9.58571C13.7893 9.96078 14 10.4695 14 10.9999C14 11.5304 13.7893 12.0391 13.4142 12.4141C13.0391 12.7892 12.5304 12.9999 12 12.9999Z"
-                                                              fill="#A9CC52"/>
-                                                    </svg>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label class="medium-h6 c-gray-dark-low">상세 주소</label>
-                                                    <input type="text"
-                                                           placeholder="상세주소 입력"
-                                                           class="form-control input-underline input-brand-green medium-h4">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row mt-32">
-                                            <div class="col-12">
-                                                            <span class="card-text _farm-type bold-h5 c-brand-green">
-                                                                가공 정보 추가 +
-                                                            </span>
-                                            </div>
-                                        </div>
-
-
                                     </div>
                                 </div>
                             </div>
@@ -766,17 +577,17 @@
                         </div>
                     </div>
                 </c:if>
-
-
             </div>
             <div class="modal-footer">
                 <button data-dismiss="modal" type="button"
                         class="btn btn-gray-high-light medium-h4">
                     취소
                 </button>
-                <button type="button" class="btn btn-brand medium-h4">
-                    만들기
-                </button>
+                <c:if test="${farmType.manual_available}">
+                    <button type="button" class="btn btn-brand medium-h4" id="make-trace">
+                        만들기
+                    </button>
+                </c:if>
             </div>
         </div>
     </div>
@@ -799,59 +610,15 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-12">
-                        <div class="mt-16">
+                    <div class="col-12 d-flex _animals">
+                        <div class="_animal">
                             <label data-label="checkbox" class="radio-item">
-                                <input data-type="radio" type="radio" name="radio1">
+                                <input data-type="radio" data-category="${farmType}" type="radio" name="bundle-animal" checked>
                                 <span class="design"></span>
-                                <span class="ml-16">양 & 염소</span>
-                            </label>
-                        </div>
-                        <div class="mt-16 ml-24">
-                            <label data-label="checkbox" class="radio-item">
-                                <input data-type="radio" type="radio" name="radio1">
-                                <span class="design"></span>
-                                <span class="ml-16">말</span>
-                            </label>
-                        </div>
-                        <div class="mt-16 ml-24">
-                            <label data-label="checkbox" class="radio-item">
-                                <input data-type="radio" type="radio" name="radio1">
-                                <span class="design"></span>
-                                <span class="ml-16">돼지</span>
-                            </label>
-                        </div>
-                        <div class="mt-16 ml-24">
-                            <label data-label="checkbox" class="radio-item">
-                                <input data-type="radio" type="radio" name="radio1">
-                                <span class="design"></span>
-                                <span class="ml-16">소</span>
-                            </label>
-                        </div>
-                        <div class="mt-16 ml-24">
-                            <label data-label="checkbox" class="radio-item">
-                                <input data-type="radio" type="radio" name="radio1">
-                                <span class="design"></span>
-                                <span class="ml-16">닭 & 계란</span>
-                            </label>
-                        </div>
-                        <div class="mt-16 ml-24">
-                            <label data-label="checkbox" class="radio-item">
-                                <input data-type="radio" type="radio" name="radio1">
-                                <span class="design"></span>
-                                <span class="ml-16">토끼</span>
-                            </label>
-                        </div>
-                        <div class="mt-16 ml-24">
-                            <label data-label="checkbox" class="radio-item">
-                                <input data-type="radio" type="radio" name="radio1">
-                                <span class="design"></span>
-                                <span class="ml-16">오리</span>
+                                <span class="ml-16">${farmType.korName}</span>
                             </label>
                         </div>
                     </div>
-
-
                 </div>
 
                 <div class="row mt-32">
@@ -961,6 +728,7 @@
 </div>
 
 <jsp:include page="../common/script.jsp"/>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/resources/js/page/user-trace.js"></script>
 <script>
     /**
@@ -1056,7 +824,12 @@
             defaultViewDate: 'today',
             autoclose: true
         }).datepicker('setDate', 'now');
+
     });
+</script>
+
+<script>
+
 </script>
 </body>
 

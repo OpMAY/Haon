@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.XML;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,22 +43,56 @@ public class TraceService {
         return traceDao.getFarmTraces(farm.getNo());
     }
 
+    @Transactional
+    public Message registerTrace(Trace trace, int user_no) {
+        Message message = new Message();
+        Farm farm = farmDao.getFarmByUserNo(user_no);
+        if(farm != null) {
+            if(traceDao.isCodeExists(trace.getTrace_code())) {
+                message.put("status", false);
+            } else {
+                message.put("status", true);
+                trace.setFarm_no(farm.getNo());
+                traceDao.registerTrace(trace);
+            }
+        }
+        return message;
+    }
+
     public Message isCodeValid(String code) {
         Message message = new Message();
-        TraceResponse response;
-        try {
-            response = TraceApi.apiRequest(code).getResponse();
-        } catch (JsonSyntaxException e) {
+        if(traceDao.isCodeExists(code)) {
+            // 코드 이미 존재?
             message.put("status", false);
-            response = null;
-        }
-        if(response != null) {
-           if(response.getHeader().getResultCode().equals("00")) {
-               message.put("status", true);
-               message.put("address", response.getBody().getItems().getItem().get(0).getFarmAddr());
-           } else {
-               message.put("status", false);
-           }
+            message.put("type", 1);
+        } else {
+            if (Character.isDigit(code.charAt(0))) {
+                // 묶음인지 아닌지?
+                TraceResponse response;
+                try {
+                    response = TraceApi.apiRequest(code).getResponse();
+                } catch (JsonSyntaxException e) {
+                    message.put("status", false);
+                    message.put("type", -1);
+                    response = null;
+                }
+                if (response != null) {
+                    if (response.getHeader().getResultCode().equals("00")) {
+                        message.put("status", true);
+                        message.put("data", getTraceInfo(response.getBody().getItems().getItem()));
+                        message.put("address", response.getBody().getItems().getItem().get(0).getFarmAddr());
+                        // return status false, type = bundle
+//                    message.put("data", getBundleInfo(response.getBody().getItems().getItem()));
+//                    message.put("address", response.getBody().getItems().getItem().get(1).getButcheryPlaceAddr());
+                    } else {
+                        message.put("status", false);
+                        message.put("type", -1);
+                    }
+                }
+            } else {
+                message.put("status", false);
+                message.put("type", 0);
+            }
         }
         return message;
     }

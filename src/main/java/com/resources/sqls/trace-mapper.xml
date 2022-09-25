@@ -14,4 +14,12 @@
         from trace
         WHERE farm_no = #{farm_no}
     </select>
+    <select id="isCodeExists" resultType="_boolean">
+        select EXISTS(select * from trace WHERE trace_code = #{code})
+    </select>
+    <insert id="registerTrace">
+        insert into trace(farm_no, trace_code, entity, breed, butchery, process) VALUE (#{farm_no}, #{trace_code},
+                                                                                        #{entity, typeHandler=JsonArrayObjectTypeHandler}, #{breed, typeHandler=JsonArrayObjectTypeHandler},
+                                                                                        #{butchery, typeHandler=JsonArrayObjectTypeHandler}, #{process, typeHandler=JsonArrayObjectTypeHandler})
+    </insert>
 </mapper>

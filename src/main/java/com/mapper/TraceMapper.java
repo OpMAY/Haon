@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface TraceMapper {
     List<Trace> getFarmTraces(int farmNo);
+
+    boolean isCodeExists(String code);
+
+    void registerTrace(Trace trace);
 }
