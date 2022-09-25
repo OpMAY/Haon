@@ -9,6 +9,7 @@
 
 $(document).ready(function () {
     getKakaoKey().then((result) => {
+        console.log(result);
         if (typeof Kakao === 'undefined') {
             // CALL naver login script
             $.getScript('https://developers.kakao.com/sdk/js/kakao.js', function () {
@@ -49,5 +50,6 @@ const kakaoRestLoginFunction = (key) => {
     const c = key;
     const r = window.location.protocol + '//' + window.location.host + '/auth/oauth/callback';
     const t = 'code';
+    console.log(h + '?' + 'client_id=' + c + '&redirect_uri=' + r + '&response_type=' + t);
     location.href = h + '?' + 'client_id=' + c + '&redirect_uri=' + r + '&response_type=' + t;
 };

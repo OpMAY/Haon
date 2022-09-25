@@ -9,8 +9,8 @@
  * }
  * */
 
-//const host = 'https://farmingdata.co.kr';
-const host = 'http://localhost:8080';
+const host = 'https://farmingdata.co.kr';
+// const host = 'http://localhost:8080';
 
 /*Template*/
 async function apiLogin(email, password) {
