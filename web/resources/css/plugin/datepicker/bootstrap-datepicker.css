@@ -6,6 +6,7 @@
 :root {
     --bg-pick-date: black;
     --color-pick-date: white;
+    --bg-today-date: #A9CC52;
 }
 
 .datepicker {
@@ -126,7 +127,7 @@
 .datepicker table tr td.today:hover,
 .datepicker table tr td.today.disabled,
 .datepicker table tr td.today.disabled:hover {
-    background-color: var(--bg-pick-date);
+    background-color: var(--bg-today-date);
     font-weight: bold;
     color: var(--color-pick-date);
     border-radius: 14px;
@@ -152,7 +153,7 @@
 .datepicker table tr td.today:hover[disabled],
 .datepicker table tr td.today.disabled[disabled],
 .datepicker table tr td.today.disabled:hover[disabled] {
-    background-color: var(--bg-pick-date);
+    background-color: var(--bg-today-date);
 }
 
 .datepicker table tr td.today:active,
@@ -163,7 +164,7 @@
 .datepicker table tr td.today:hover.active,
 .datepicker table tr td.today.disabled.active,
 .datepicker table tr td.today.disabled:hover.active {
-    background-color: var(--bg-pick-date);
+    background-color: var(--bg-today-date);
 }
 
 .datepicker table tr td.today:hover:hover {

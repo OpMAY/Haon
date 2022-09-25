@@ -2,8 +2,13 @@ package com.service;
 
 import com.api.trace.TraceApi;
 import com.api.trace.response.*;
+import com.dao.FarmDao;
+import com.dao.TraceDao;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.model.farm.Farm;
 import com.model.farm.trace.*;
+import com.response.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.XML;
@@ -11,11 +16,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class TraceService {
+    private final FarmDao farmDao;
+    private final TraceDao traceDao;
+
     /**
      * CATTLE/CATTLE_NO : 소 개체
      * CATTLE/LOT_NO : 소 묶음
@@ -28,15 +37,39 @@ public class TraceService {
      * DUCK/LOT_NO : 오리 묶음
      **/
 
-    public static void main(String[] args) {
-        int a = 9;
-        System.out.println(a / 4);
-        System.out.println((a / 4) * 4);
-        System.out.println(a - ((a/4) * 4));
+    public List<Trace> getFarmTraces(int user_no) {
+        Farm farm = farmDao.getFarmByUserNo(user_no);
+        return traceDao.getFarmTraces(farm.getNo());
     }
+
+    public Message isCodeValid(String code) {
+        Message message = new Message();
+        TraceResponse response;
+        try {
+            response = TraceApi.apiRequest(code).getResponse();
+        } catch (JsonSyntaxException e) {
+            message.put("status", false);
+            response = null;
+        }
+        if(response != null) {
+           if(response.getHeader().getResultCode().equals("00")) {
+               message.put("status", true);
+               message.put("address", response.getBody().getItems().getItem().get(0).getFarmAddr());
+           } else {
+               message.put("status", false);
+           }
+        }
+        return message;
+    }
+
     public void requestInfo(String code) {
-        TraceResponse response = TraceApi.apiRequest(code).getResponse();
-        if (response.getHeader().getResultCode().equals("00")) {
+        TraceResponse response = null;
+        try {
+            response = TraceApi.apiRequest(code).getResponse();
+        } catch (JsonSyntaxException e) {
+            log.info("해당 번호 없음");
+        }
+        if (response != null && response.getHeader().getResultCode().equals("00")) {
             TraceResponseBody body = response.getBody();
             if (body.getItems() != null && body.getItems().getItem() != null && !body.getItems().getItem().isEmpty()) {
                 List<TraceData> dataList = body.getItems().getItem();
@@ -45,11 +78,11 @@ public class TraceService {
                 if (type.isBundle()) {
                     // 묶음 이력
                     Bundle bundle = getBundleInfo(dataList);
-                    System.out.println("bundle : " + bundle);
+                    log.info("bundle : " + bundle);
                 } else {
                     // 일반 이력
                     Trace trace = getTraceInfo(dataList);
-                    System.out.println("trace : " + trace);
+                    log.info("trace : " + trace);
                 }
 
                 /**
@@ -71,7 +104,9 @@ public class TraceService {
                  * **/
             }
         } else {
-            log.info("API 호출 오류 : {}", response.getHeader().getResultCode());
+            if (response != null) {
+                log.info("API 호출 오류 : {}", response.getHeader().getResultCode());
+            }
         }
     }
 
@@ -102,16 +137,21 @@ public class TraceService {
                     default:
                         break;
                 }
-                TraceResponse response = TraceApi.apiRequest(trace_code).getResponse();
-                String resultCode = response.getHeader().getResultCode();
-                if (resultCode.equals("00")) {
-                    TraceResponseBody body = response.getBody();
-                    if (body.getItems() != null && body.getItems().getItem() != null && !body.getItems().getItem().isEmpty()) {
-                        Trace trace = getTraceInfo(body.getItems().getItem());
-                        traceList.add(trace);
+                try {
+                    TraceResponse response = TraceApi.apiRequest(trace_code).getResponse();
+                    log.info("{}", response);
+                    String resultCode = response.getHeader().getResultCode();
+                    if (resultCode.equals("00")) {
+                        TraceResponseBody body = response.getBody();
+                        if (body.getItems() != null && body.getItems().getItem() != null && !body.getItems().getItem().isEmpty()) {
+                            Trace trace = getTraceInfo(body.getItems().getItem());
+                            traceList.add(trace);
+                        }
+                    } else {
+                        System.out.println("API 통신 오류 : " + resultCode);
                     }
-                } else {
-                    System.out.println("API 통신 오류 : " + resultCode);
+                } catch (JsonSyntaxException e) {
+                    log.info("Match 데이터 없음");
                 }
             }
         }
@@ -293,7 +333,6 @@ public class TraceService {
         }
         return traceType;
     }
-
 
 
     /**
