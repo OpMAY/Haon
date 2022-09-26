@@ -1041,3 +1041,49 @@ async function createTrace(trace) {
         console.log(error);
     }
 }
+
+async function deleteTrace(no) {
+    function apiDeleteTrace(no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`${host}/api/delete/trace/${no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiDeleteTrace(no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function getTraceModalData(no) {
+    function apiGetTraceModalData(no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+        };
+        const response = fetch(`${host}/api/get/trace/modal/${no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiGetTraceModalData(no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}

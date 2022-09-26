@@ -130,19 +130,30 @@
                                 <div class="_traces">
                                     <c:if test="${traces.size() > 0}">
                                         <c:forEach var="trace" items="${traces}">
-                                            <div class="_trace mt-32">
+                                            <div class="_trace mt-32" data-no="${trace.no}">
                                                 <div class="_bundle-header">
                                                     <span class="bold-h2" data-code="${trace.trace_code}">${trace.trace_code}</span>
-                                                    <button type="button"
-                                                            class="_qr btn btn-brand-opacity btn-block bold-h5">
-                                                        QR 코드 다운로드
-                                                    </button>
+                                                    <div class="_bundle-button" data-no="${trace.no}">
+                                                        <button type="button"
+                                                                class="_delete btn btn-brand-opacity bold-h5">
+                                                            삭제
+                                                        </button>
+                                                        <c:if test="${farmType.manual_available eq true}">
+                                                            <button type="button" class="_edit btn btn-brand-opacity btn-icon">
+                                                                <span class="bold-h5 my-auto">수정</span>
+                                                            </button>
+                                                        </c:if>
+                                                        <button type="button"
+                                                                class="_qr btn btn-brand-opacity btn-block bold-h5">
+                                                            QR
+                                                        </button>
+                                                    </div>
                                                 </div>
                                                 <div class="_bundle-body d-flex">
                                                     <span class="_livestock regular-h5 p-2">${trace.entity.entity_type.typeName}</span>
                                                     <span class="regular-h5 p-2">${trace.entity.rate}</span>
                                                     <span class="regular-h5 p-2">${trace.entity.gender}</span>
-                                                    <span class="regular-h5 p-2">${trace.entity.birth} 출생</span>
+                                                    <span class="regular-h5 p-2"><c:if test="${trace.entity.birth ne null}">${trace.entity.birth} 출생</c:if></span>
                                                     <span class="regular-h5 _date ml-auto p-2"><custom:formatDatetime value="${trace.reg_datetime}" pattern="yyyy-MM-dd"/></span>
                                                 </div>
                                             </div>

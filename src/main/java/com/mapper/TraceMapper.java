@@ -10,4 +10,8 @@ public interface TraceMapper {
     boolean isCodeExists(String code);
 
     void registerTrace(Trace trace);
+
+    void deleteTrace(int no);
+
+    Trace getTraceByNo(int no);
 }

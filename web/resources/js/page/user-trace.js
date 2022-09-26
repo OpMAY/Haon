@@ -2,13 +2,49 @@ const MODAL_ALERT_ZINDEX = 1060;
 
 $(document).ready(function () {
     $('._trace').on('click', function () {
-        viewAlert({content: '이력 상세로 이동'})
+        viewAlert({content: '이력 상세로 이동 ' + $(this).data().no})
         window.open('/trace/single', '_blank');
     })
 
-    $('._trace button').on('click', function (e) {
+    $('._trace button._qr').on('click', function (e) {
         e.stopPropagation();
-        viewAlert({content: 'QR 생성'})
+        viewAlert({content: 'QR 생성 ' + $(this).parent().data().no})
+    })
+
+    $('._trace button._edit').on('click', function (e) {
+        e.stopPropagation();
+        getTraceModalData($(this).parent().data().no).then((result) => {
+            console.log(result);
+            if(result.status === 'OK') {
+                let tData = result.data.trace;
+            }
+        })
+        viewAlert({content: '수정 '  + $(this).parent().data().no})
+    })
+
+    $('._trace button._delete').on('click', function (e) {
+        e.stopPropagation();
+        let $thisElem = $(this).parent().parent().parent();
+        let no = $(this).parent().data().no;
+        viewModal({
+            btnCount: 2,
+            backDrop: true,
+            title: '이력 삭제',
+            desc: '해당 이력을 삭제하시겠어요?',
+            onConfirm: () => {
+                deleteTrace(no).then((result) => {
+                    if(result.status === 'OK') {
+                        viewAlert({content: '삭제되었습니다.'})
+                        $thisElem.remove();
+                        if($('._traces').find('._trace').length <= 0) {
+                            $('._traces').append(`<div class="bold-h2 c-gray-light" style="text-align: center">
+                                            <span>등록된 이력이 없어요.</span>
+                                        </div>`);
+                        }
+                    }
+                })
+            }
+        });
     })
 
     $('#trace-created').on('show.bs.modal', function () {
@@ -57,16 +93,19 @@ $(document).ready(function () {
                                     }
                                 }
                             })
-
-                            if (result.data.type === 0) {
-                                viewAlert({content: '묶음 이력 번호는 묶음 이력 생성에서 조회해주세요.', zIndex: 2000})
-                            } else if (result.data.type === 1) {
-                                viewAlert({content: '이미 하온에 등록되어 있는 이력 번호입니다.', zIndex: 2000})
-                            } else {
-                                viewAlert({content: '존재하지 않거나 개체 종류와 맞지 않는 이력 번호 입니다.', zIndex: 2000})
-                            }
                         }
                     })
+                } else {
+                    if (result.data.type === 0) {
+                        viewAlert({content: '묶음 이력 번호는 묶음 이력 생성에서 조회해주세요.', zIndex: 2000})
+                        return false;
+                    } else if (result.data.type === 1) {
+                        viewAlert({content: '이미 하온에 등록되어 있는 이력 번호입니다.', zIndex: 2000})
+                        return false;
+                    } else {
+                        viewAlert({content: '존재하지 않거나 개체 종류와 맞지 않는 이력 번호 입니다.', zIndex: 2000})
+                        return false;
+                    }
                 }
             }
         })

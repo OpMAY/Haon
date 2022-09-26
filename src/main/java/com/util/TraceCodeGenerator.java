@@ -38,7 +38,6 @@ public class TraceCodeGenerator {
              *    2) 토끼 6, 말 7, 양 & 염소 8 로 지정
              *    3) 등록 일자 기준으로 선정
              * **/
-
             String time = Time.TimeFormatCurrent("yymmdd"); // 6
             int farmNo = trace.getFarm_no();
             String workCode = Integer.toString(trace.getFarm_no()); // 3

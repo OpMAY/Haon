@@ -1346,12 +1346,34 @@ input.form-control.input-box {
     justify-content: space-between;
 }
 
+._trace ._bundle-header ._bundle-button{
+    display: flex;
+}
+
 ._trace ._bundle-header ._qr {
     cursor: pointer;
     align-self: center;
     height: 32px;
-    width: 132px;
+    width: 40px;
     padding: 4px 8px 4px 8px;
+}
+
+._trace ._bundle-header ._edit {
+    cursor: pointer;
+    align-self: center;
+    height: 32px;
+    width: 45px;
+    padding: 4px 8px 4px 8px;
+    margin-right: 8px;
+}
+
+._trace ._bundle-header ._delete {
+    cursor: pointer;
+    align-self: center;
+    height: 32px;
+    width: 52px;
+    padding: 4px 8px 4px 8px;
+    margin-right: 8px;
 }
 
 ._trace ._bundle-body ._livestock {

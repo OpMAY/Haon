@@ -26,4 +26,12 @@ public class TraceDao {
     public void registerTrace(Trace trace) {
         mapper.registerTrace(trace);
     }
+
+    public void deleteTrace(int no) {
+        mapper.deleteTrace(no);
+    }
+
+    public Trace getTraceByNo(int no) {
+        return mapper.getTraceByNo(no);
+    }
 }
