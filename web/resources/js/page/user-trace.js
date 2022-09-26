@@ -1,6 +1,9 @@
+const MODAL_ALERT_ZINDEX = 1060;
+
 $(document).ready(function () {
     $('._trace').on('click', function () {
         viewAlert({content: '이력 상세로 이동'})
+        window.open('/trace/single', '_blank');
     })
 
     $('._trace button').on('click', function (e) {
@@ -213,6 +216,7 @@ $(document).ready(function () {
                                             </div>
                                             <div class="row mt-32">
                                                 <div class="col-12 d-flex justify-content-end">
+                                                    <button class="btn btn-gray-high-light medium-h4 mr-8 _cancel">취소</button>
                                                     <button class="btn btn-brand medium-h4 _confirm">추가하기</button>
                                                 </div>
                                             </div>
@@ -226,7 +230,7 @@ $(document).ready(function () {
                 autoclose: true
             }).datepicker('setDate', 'now');
         } else {
-            viewAlert({content: '작성하시던 사육정보를 먼저 등록해주세요.', zIndex: 1060})
+            viewAlert({content: '작성하시던 사육정보를 먼저 등록해주세요.', zIndex: MODAL_ALERT_ZINDEX})
         }
     }).on('click', '._breed-make ._confirm', function () {
         let makeField = $(this).parent().parent().parent();
@@ -247,7 +251,7 @@ $(document).ready(function () {
             if (type.data().value === 'breed-register') {
                 // 표에 이미 등록이 존재하는지 체크
                 if (tableBody.find('[data-type=breed-register]').length > 0) {
-                    viewAlert({content: '전산 등록은 한 번만 가능합니다.', zIndex: 1060});
+                    viewAlert({content: '전산 등록은 한 번만 가능합니다.', zIndex: MODAL_ALERT_ZINDEX});
                     return false;
                 } else {
                     b = true;
@@ -255,7 +259,7 @@ $(document).ready(function () {
             } else if (type.data().value === 'breed-amniotic') {
                 // 표에 등록이 존재하는지 체크
                 if (tableBody.find('[data-type=breed-register]').length <= 0) {
-                    viewAlert({content: '먼저 전산 등록부터 하셔야합니다.', zIndex: 1060});
+                    viewAlert({content: '먼저 전산 등록부터 하셔야합니다.', zIndex: MODAL_ALERT_ZINDEX});
                     return false;
                 } else {
                     if (tableBody.find('[data-type=breed-slaughter]').length > 0) {
@@ -268,45 +272,45 @@ $(document).ready(function () {
                     b = true;
                 }
             } else if (type.data().value === 'breed-slaughter') {
-                // 표에 등록, 양도가 존재하는지 체크
+                // 표에 등록이 존재하는지 체크, 양도는 필수 X
                 if (tableBody.find('[data-type=breed-register]').length <= 0) {
-                    viewAlert({content: '먼저 전산 등록부터 하셔야합니다.', zIndex: 1060});
+                    viewAlert({content: '먼저 전산 등록부터 하셔야합니다.', zIndex: MODAL_ALERT_ZINDEX});
                     return false;
                 } else {
                     b = true;
                 }
             }
         } else {
-            viewAlert({content: '신고 유형을 먼저 선택해주세요.', zIndex: 1060});
+            viewAlert({content: '신고 유형을 먼저 선택해주세요.', zIndex: MODAL_ALERT_ZINDEX});
             return false;
         }
 
         // 농장 경영자 명
         if (farmer.val().trim().length <= 0) {
-            viewAlert({content: '농장 경영자 명을 입력해주세요.', zIndex: 1060});
+            viewAlert({content: '농장 경영자 명을 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
             return false;
         }
 
         // 농장 명
         if (farm.val().trim().length <= 0) {
-            viewAlert({content: '농장 명을 입력해주세요.', zIndex: 1060});
+            viewAlert({content: '농장 명을 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
             return false;
         }
         // 농장 링크
 
         // 소재 일자
         if (date.val().trim().length <= 0) {
-            viewAlert({content: '소재 일자를 입력해주세요.', zIndex: 1060});
+            viewAlert({content: '소재 일자를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
             return false;
         }
         // 소재지
         if (addr.val().trim().length <= 0) {
-            viewAlert({content: '소재지를 입력해주세요.', zIndex: 1060});
+            viewAlert({content: '소재지를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
             return false;
         }
         // 상세 주소
         if (addr_specifc.val().trim().length <= 0) {
-            viewAlert({content: '상세 주소를 입력해주세요.', zIndex: 1060});
+            viewAlert({content: '상세 주소를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
             return false;
         }
 
@@ -341,6 +345,8 @@ $(document).ready(function () {
             }
             makeField.remove();
         }
+    }).on('click', '._breed-make ._cancel', function () {
+        $('._breed-make').remove();
     })
 
     $('#pills-processing').on('click', '._add-new', function () {
@@ -352,7 +358,7 @@ $(document).ready(function () {
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">농장 명</label>
                                                         <input type="text"
-                                                               placeholder="농장 명 입력"
+                                                               placeholder="농장 명 입력" name="slaughter-farm"
                                                                class="form-control input-underline input-brand-green medium-h4">
                                                     </div>
                                                 </div>
@@ -363,7 +369,7 @@ $(document).ready(function () {
                                                         <input type="text"
                                                                data-provide="datepicker"
                                                                readonly
-                                                               placeholder="날짜를 입력해주세요."
+                                                               placeholder="날짜를 입력해주세요." name="slaughter-date"
                                                                class="form-control input-box medium-h5 dropdown-input">
                                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                                              xmlns="http://www.w3.org/2000/svg">
@@ -386,7 +392,7 @@ $(document).ready(function () {
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">농장 링크</label>
                                                         <input type="text"
-                                                               placeholder="농장 링크 입력"
+                                                               placeholder="농장 링크 입력" name="slaughter-url"
                                                                class="form-control input-underline input-brand-green medium-h4">
                                                     </div>
                                                 </div>
@@ -395,7 +401,7 @@ $(document).ready(function () {
                                                 <div class="col-6">
                                                     <label class="medium-h6 c-gray-dark-low">소재지</label>
                                                     <div class="form-group form-inner-button">
-                                                        <input type="text" placeholder="주소를 입력해주세요."
+                                                        <input type="text" placeholder="주소를 입력해주세요." name="slaughter-addr"
                                                                class="form-control input-box medium-h5 cursor-pointer" data-type="postcode" readonly
                                                                id="input22">
                                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -410,13 +416,14 @@ $(document).ready(function () {
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">상세 주소</label>
                                                         <input type="text"
-                                                               placeholder="상세주소 입력"
+                                                               placeholder="상세주소 입력" name="slaughter-addr-spec"
                                                                class="form-control input-underline input-brand-green medium-h4">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row mt-32">
                                                 <div class="col-12 d-flex justify-content-end">
+                                                    <button class="btn btn-gray-high-light medium-h4 mr-8 _cancel">취소</button>
                                                     <button class="btn btn-brand medium-h4 _confirm">추가하기</button>
                                                 </div>
                                             </div>
@@ -430,9 +437,58 @@ $(document).ready(function () {
                 autoclose: true
             }).datepicker('setDate', 'now');
         } else {
-            viewAlert({content: '작성하시던 가공 정보를 먼저 등록해주세요.', zIndex: 1060})
-
+            viewAlert({content: '작성하시던 가공 정보를 먼저 등록해주세요.', zIndex: MODAL_ALERT_ZINDEX})
         }
+    }).on('click', '._slaughter-make ._confirm', function () {
+        let makeField = $(this).parent().parent().parent();
+        let tableBody = $('._slaughter-table').find('tbody');
+        let farm = makeField.find('input[name="slaughter-farm"');
+        let date = makeField.find('input[name="slaughter-date"');
+        let url = makeField.find('input[name="slaughter-url"');
+        let addr = makeField.find('input[name="slaughter-addr"');
+        let addr_spec = makeField.find('input[name="slaughter-addr-spec"');
+
+        if(farm.val().trim().length <= 0) {
+            viewAlert({content: '농장 명을 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+            return false;
+        }
+        if(date.val().trim().length <= 0) {
+            viewAlert({content: '가공 일자를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+            return false;
+        }
+        if(addr.val().trim().length <= 0) {
+            viewAlert({content: '가공 소재지를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+            return false;
+        }
+        if(addr_spec.val().trim().length <= 0) {
+            viewAlert({content: '가공 소재지 상세 주소를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+            return false;
+        }
+
+        let element = `<tr>
+                            <td data-link="${url.val()}">${farm.val()}</td>
+                            <td data-date="${date.val()}">${date.val()}</td>
+                            <td>${addr.val()} ${addr_spec.val()}</td>
+                            <td scope="row">
+                                <svg class="_trace-table-delete cursor-pointer" width="24"
+                                     height="24" viewBox="0 0 24 24"
+                                     fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                          clip-rule="evenodd"
+                                          d="M12 1C5.925 1 1 5.925 1 12C1 18.075 5.925 23 12 23C18.075 23 23 18.075 23 12C23 5.925 18.075 1 12 1ZM15.707 9.707C15.8892 9.5184 15.99 9.2658 15.9877 9.0036C15.9854 8.7414 15.8802 8.49059 15.6948 8.30518C15.5094 8.11977 15.2586 8.0146 14.9964 8.01233C14.7342 8.01005 14.4816 8.11084 14.293 8.293L12 10.586L9.707 8.293C9.61475 8.19749 9.50441 8.12131 9.3824 8.0689C9.2604 8.01649 9.12918 7.9889 8.9964 7.98775C8.86362 7.9866 8.73194 8.0119 8.60905 8.06218C8.48615 8.11246 8.3745 8.18671 8.28061 8.28061C8.18671 8.3745 8.11246 8.48615 8.06218 8.60905C8.0119 8.73194 7.9866 8.86362 7.98775 8.9964C7.9889 9.12918 8.01649 9.2604 8.0689 9.3824C8.12131 9.50441 8.19749 9.61475 8.293 9.707L10.586 12L8.293 14.293C8.19749 14.3852 8.12131 14.4956 8.0689 14.6176C8.01649 14.7396 7.9889 14.8708 7.98775 15.0036C7.9866 15.1364 8.0119 15.2681 8.06218 15.391C8.11246 15.5139 8.18671 15.6255 8.28061 15.7194C8.3745 15.8133 8.48615 15.8875 8.60905 15.9378C8.73194 15.9881 8.86362 16.0134 8.9964 16.0123C9.12918 16.0111 9.2604 15.9835 9.3824 15.9311C9.50441 15.8787 9.61475 15.8025 9.707 15.707L12 13.414L14.293 15.707C14.4816 15.8892 14.7342 15.99 14.9964 15.9877C15.2586 15.9854 15.5094 15.8802 15.6948 15.6948C15.8802 15.5094 15.9854 15.2586 15.9877 14.9964C15.99 14.7342 15.8892 14.4816 15.707 14.293L13.414 12L15.707 9.707Z"
+                                          fill="#A9CC52"/>
+                                </svg>
+                            </td>
+                        </tr>`
+        if(tableBody.find('tr').length === 1) {
+            tableBody.find('tr[data-type="empty"]').addClass('d-none');
+        }
+        tableBody.append(element);
+        makeField.remove();
+
+    }).on('click', '._slaughter-make ._cancel', function () {
+        $('._slaughter-make').remove();
     })
 
     $('.tab-pane').on('click', '[data-type=postcode]', function () {
@@ -456,38 +512,147 @@ $(document).ready(function () {
             // 등급
         let rate = $('[data-category=rate]').val();
         if (rate.trim().length === 0) {
-            viewAlert({content: '등급을 선택해주세요.', zIndex: 1060});
+            viewAlert({content: '등급을 선택해주세요.', zIndex: MODAL_ALERT_ZINDEX});
             return false;
         }
         // 출생 일자
         let birth = $('input[name=trace-birth]').val();
         if (birth.trim().length === 0) {
-            viewAlert({content: '출생 일자를 선택해주세요.', zIndex: 1060});
+            viewAlert({content: '출생 일자를 선택해주세요.', zIndex: MODAL_ALERT_ZINDEX});
             return false;
         }
         // 성별
         let gender = $('input[name=gender]:checked');
         if (gender.length === 0) {
-            viewAlert({content: '성별을 선택해주세요.', zIndex: 1060});
+            viewAlert({content: '성별을 선택해주세요.', zIndex: MODAL_ALERT_ZINDEX});
             return false;
         }
+        const entity = {};
+        entity.entity_type = $('input[name=animal]').data().category;
+        entity.birth = birth;
+        entity.gender = gender.data().value;
+        entity.rate = rate;
         // 사육정보
         /**
          * 사육 정보에 최소 breed-register 하나 이상 존재 필수
          * 사육 정보에 앞 단계 정보 없이 그 뒷 단계 정보가 존재할 시
          * */
+        const breeds = [];
+        let has_slaughter = false;
+        let breed_table = $('#pills-breed').find('tbody');
+        if (breed_table.find('tr').length === 1) {
+            // Empty Type만 있을 경우
+            viewAlert({content: '사육 정보는 필수입니다.', zIndex: MODAL_ALERT_ZINDEX});
+            return false;
+        } else {
+            let datas = breed_table.find('tr:not([data-type=empty])');
+            datas.each((index, element) => {
+                const breed = {};
+                breed.type = $(element).data().type.split('breed-')[1].toUpperCase();
+                breed.breed_farmer_name = $(element).find('td:nth-child(2)').html();
+                breed.breed_farm_name = $(element).find('td:nth-child(3)').html();
+                breed.breed_farm_url = $(element).find('td:nth-child(3)').data().link;
+                breed.breed_issue_date = $(element).find('td:nth-child(4)').data().date;
+                breed.breed_farm_addr = $(element).find('td:nth-child(5)').html();
+                breeds.push(breed);
+                if (breed.type === 'SLAUGHTER') {
+                    has_slaughter = true;
+                }
+            })
+            console.log(breeds);
+        }
         // 도축 정보
         /**
          * 사육 정보에 출하 정보 없을 시
          * */
+        let slaughter_tab = $('#pills-slaughter');
+        let result = slaughter_tab.find('input[name=amniotic-success]');
+        const butcheries = [];
+        if (result.length > 0) {
+            // 도축 정보가 입력 되었을 때
+            if (breeds.length <= 0) {
+                viewAlert({content: '도축 정보를 등록하기 위해선 사육 정보는 필수입니다.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            } else if (!has_slaughter) {
+                viewAlert({content: '도축 정보를 등록하기 위해선 출하 정보는 필수입니다.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            } else {
+                let butchery = {};
+                let result = slaughter_tab.find('input[name=amniotic-success]');
+                let farm = slaughter_tab.find('input[name=amniotic-farm]').val();
+                let date = slaughter_tab.find('input[name=amniotic-date]').val();
+                let addr = slaughter_tab.find('input[name=amniotic-addr]').val();
+                let addr_spec = slaughter_tab.find('input[name=amniotic-addr-spec]').val();
+                if (result.length <= 0) {
+                    viewAlert({content: '도축 합격 여부를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                    return false;
+                }
+                if (farm.trim().length <= 0) {
+                    viewAlert({content: '도축장 명을 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                    return false;
+                }
+                if (date.trim().length <= 0) {
+                    viewAlert({content: '도축 일자를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                    return false;
+                }
+                if (addr.trim().length <= 0) {
+                    viewAlert({content: '도축 소재지를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                    return false;
+                }
+                if (addr_spec.trim().length <= 0) {
+                    viewAlert({content: '도축 소재지 상세 주소를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                    return false;
+                }
+                butchery.butchery_result = result.data().value;
+                butchery.butchery_corp = farm.trim();
+                butchery.butchery_date = date.trim();
+                butchery.butchery_addr = `${addr.trim()} ${addr_spec.trim()}`;
+                butcheries.push(butchery);
+            }
+        }
+        console.log(butcheries);
         // 가공 정보
         /**
          * 도축 정보 없을 시
          * */
-
+        const processes = [];
+        let process_table = $('#pills-processing').find('tbody');
+        let process_datas = process_table.find('tr:not([data-type=empty])')
+        if (process_datas.length > 0) {
+            if (butcheries.length <= 0) {
+                viewAlert({content: '가공 정보를 위해서 도축 정보를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            } else {
+                process_datas.each((i, e) => {
+                    console.log(e);
+                    let process = {};
+                    process.process_corp = $(e).find('td:first-child').html();
+                    process.process_url = $(e).find('td:first-child').data().link;
+                    process.process_date = $(e).find('td:nth-child(2)').data().date;
+                    process.process_addr = $(e).find('td:nth-child(3)').html();
+                    processes.push(process);
+                })
+            }
+        }
         // TRACE DATA FORMAT
+        const sendData = {};
+        sendData.entity = entity;
+        sendData.breed = breeds;
+        sendData.butchery = butcheries;
+        sendData.process = processes;
 
+        console.log('result data : ', sendData);
         // MAKE
+        createTrace(sendData).then((result) => {
+            console.log(result);
+            if(result.status === 'OK') {
+                if(result.data.status) {
+
+                } else {
+
+                }
+            }
+        })
     })
 });
 

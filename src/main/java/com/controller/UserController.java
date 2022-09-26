@@ -199,6 +199,7 @@ public class UserController {
         ModelAndView VIEW = new ModelAndView("user/trace");
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         VIEW.addObject("traces", traceService.getFarmTraces(user_no));
+        VIEW.addObject("bundles", traceService.getFarmBundles(user_no));
         VIEW.addObject("farmType", farmService.getFarmByUserNo(user_no).getType());
         return VIEW;
     }

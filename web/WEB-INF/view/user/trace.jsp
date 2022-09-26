@@ -129,7 +129,6 @@
                                 </div>
                                 <div class="_traces">
                                     <c:if test="${traces.size() > 0}">
-<<<<<<< HEAD
                                         <c:forEach var="trace" items="${traces}">
                                             <div class="_trace mt-32">
                                                 <div class="_bundle-header">
@@ -141,31 +140,13 @@
                                                 </div>
                                                 <div class="_bundle-body d-flex">
                                                     <span class="_livestock regular-h5 p-2">${trace.entity.entity_type.typeName}</span>
-                                                    <span class="regular-h5 p-2">1++</span>
-                                                    <span class="regular-h5 p-2">수컷</span>
-                                                    <span class="regular-h5 p-2">2022.12.22 출생</span>
+                                                    <span class="regular-h5 p-2">${trace.entity.rate}</span>
+                                                    <span class="regular-h5 p-2">${trace.entity.gender}</span>
+                                                    <span class="regular-h5 p-2">${trace.entity.birth} 출생</span>
                                                     <span class="regular-h5 _date ml-auto p-2"><custom:formatDatetime value="${trace.reg_datetime}" pattern="yyyy-MM-dd"/></span>
                                                 </div>
                                             </div>
                                         </c:forEach>
-=======
-                                        <div class="_trace mt-32">
-                                            <div class="_bundle-header">
-                                                <span class="bold-h2" data-code="L-0-220819-9763-101">L-0-220819-9763-101</span>
-                                                <button type="button"
-                                                        class="_qr btn btn-brand-opacity btn-block bold-h5">
-                                                    QR 코드 다운로드
-                                                </button>
-                                            </div>
-                                            <div class="_bundle-body d-flex">
-                                                <span class="_livestock regular-h5 p-2">양 & 염소</span>
-                                                <span class="regular-h5 p-2">1++</span>
-                                                <span class="regular-h5 p-2">수컷</span>
-                                                <span class="regular-h5 p-2">2022.12.22 출생</span>
-                                                <span class="regular-h5 _date ml-auto p-2">2023.12.12</span>
-                                            </div>
-                                        </div>
->>>>>>> 368c577a7e6d986e8dbb5321e2d6c8798f26b1f8
                                     </c:if>
                                     <c:if test="${traces.size() <= 0}">
                                         <div class="bold-h2 c-gray-light" style="text-align: center">
@@ -195,18 +176,20 @@
 
                                 </div>
                                 <div class="_bundles d-none">
-                                    <div class="_bundle mt-32">
-                                        <div class="_bundle-header">
+                                    <c:if test="${bundles.size() > 0}">
+                                        <c:forEach var="bundle" items="${bundles}">
+                                            <div class="_bundle mt-32">
+                                                <div class="_bundle-header">
                                             <span class="bold-h2"
                                                   data-code="L-0-220819-9763-101">L-0-220819-9763-101</span>
-                                            <button type="button" class="_qr btn btn-brand-opacity btn-block bold-h5">
-                                                QR 코드 다운로드
-                                            </button>
-                                        </div>
-                                        <div class="_bundle-body">
-                                            <span class="regular-h5" data-count="12">12개의 이력</span>
-                                        </div>
-                                        <div class="_bundle-bottom">
+                                                    <button type="button" class="_qr btn btn-brand-opacity btn-block bold-h5">
+                                                        QR 코드 다운로드
+                                                    </button>
+                                                </div>
+                                                <div class="_bundle-body">
+                                                    <span class="regular-h5" data-count="12">12개의 이력</span>
+                                                </div>
+                                                <div class="_bundle-bottom">
                                         <span class="medium-h5 c-brand-green cursor-pointer">이력 추가하기<svg
                                                 style="padding-bottom: 1px;" width="20" height="20" viewBox="0 0 20 20"
                                                 fill="none" xmlns="http://www.w3.org/2000/svg"><g
@@ -215,12 +198,16 @@
                                                 fill="#A9CC52"/></g><defs><clipPath id="clip0_249_9083"><rect width="20"
                                                                                                               height="20"
                                                                                                               fill="white"/></clipPath></defs></svg></span>
-                                            <span class="regular-h5 _date">2023.12.12</span>
+                                                    <span class="regular-h5 _date">2023.12.12</span>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </c:if>
+                                    <c:if test="${bundles.size() <= 0}">
+                                        <div class="bold-h2 c-gray-light" style="text-align: center">
+                                            <span>등록된 묶음 이력이 없어요.</span>
                                         </div>
-                                    </div>
-                                    <div class="bold-h2 c-gray-light" style="text-align: center">
-                                        <span>등록된 묶음 이력이 없어요.</span>
-                                    </div>
+                                    </c:if>
                                 </div>
                             </div>
                         </div>
@@ -533,6 +520,7 @@
                                                 <div class="form-group form-inner-button">
                                                     <input type="text" placeholder="주소를 입력해주세요." data-type="postcode"
                                                            class="form-control input-box medium-h5 cursor-pointer" readonly
+                                                           name="amniotic-addr"
                                                            id="input21">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                          xmlns="http://www.w3.org/2000/svg">
@@ -546,7 +534,7 @@
                                                 <div class="form-group">
                                                     <label class="medium-h6 c-gray-dark-low">상세 주소</label>
                                                     <input type="text"
-                                                           placeholder="상세주소 입력"
+                                                           placeholder="상세주소 입력" name="amniotic-addr-spec"
                                                            class="form-control input-underline input-brand-green medium-h4">
                                                 </div>
                                             </div>
@@ -843,10 +831,6 @@
             autoclose: true
         }).datepicker('setDate', 'now');
     });
-</script>
-
-<script>
-
 </script>
 </body>
 

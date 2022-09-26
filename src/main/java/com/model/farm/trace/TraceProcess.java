@@ -7,4 +7,5 @@ public class TraceProcess {
     private String process_corp;
     private String process_addr;
     private String process_date;
+    private String process_url;
 }

@@ -2,6 +2,8 @@ package com.service;
 
 import com.api.trace.TraceApi;
 import com.api.trace.response.*;
+import com.dao.BundleDao;
+import com.dao.BundleTracesDao;
 import com.dao.FarmDao;
 import com.dao.TraceDao;
 import com.google.gson.Gson;
@@ -9,6 +11,7 @@ import com.google.gson.JsonSyntaxException;
 import com.model.farm.Farm;
 import com.model.farm.trace.*;
 import com.response.Message;
+import com.util.TraceCodeGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.XML;
@@ -25,6 +28,8 @@ import java.util.Objects;
 public class TraceService {
     private final FarmDao farmDao;
     private final TraceDao traceDao;
+    private final BundleDao bundleDao;
+    private final BundleTracesDao bundleTracesDao;
 
     /**
      * CATTLE/CATTLE_NO : 소 개체
@@ -47,13 +52,27 @@ public class TraceService {
     public Message registerTrace(Trace trace, int user_no) {
         Message message = new Message();
         Farm farm = farmDao.getFarmByUserNo(user_no);
-        if(farm != null) {
-            if(traceDao.isCodeExists(trace.getTrace_code())) {
-                message.put("status", false);
+        if (farm != null) {
+            if (trace.getTrace_code() != null) {
+                if (traceDao.isCodeExists(trace.getTrace_code())) {
+                    message.put("status", false);
+                } else {
+                    message.put("status", true);
+                    trace.setFarm_no(farm.getNo());
+                    traceDao.registerTrace(trace);
+                }
             } else {
-                message.put("status", true);
+                // TODO Trace Code Generate
+                // VALID ONLY FOR RABBIT, HORSE, SHEEP, GOAT
                 trace.setFarm_no(farm.getNo());
-                traceDao.registerTrace(trace);
+                String code = TraceCodeGenerator.makeTraceCode(trace);
+                if (code != null) {
+                    trace.setTrace_code(code);
+                    traceDao.registerTrace(trace);
+                    message.put("status", true);
+                } else {
+                    message.put("status", false);
+                }
             }
         }
         return message;
@@ -61,7 +80,7 @@ public class TraceService {
 
     public Message isCodeValid(String code) {
         Message message = new Message();
-        if(traceDao.isCodeExists(code)) {
+        if (traceDao.isCodeExists(code)) {
             // 코드 이미 존재?
             message.put("status", false);
             message.put("type", 1);
@@ -367,6 +386,16 @@ public class TraceService {
                 break;
         }
         return traceType;
+    }
+
+    public List<Bundle> getFarmBundles(int user_no) {
+        Farm farm = farmDao.getFarmByUserNo(user_no);
+        List<Bundle> bundles = bundleDao.getFarmBundles(farm.getNo());
+        for(Bundle bundle : bundles) {
+            List<Trace> traces = bundleTracesDao.getBundleTraces(bundle.getNo());
+            bundle.setTraceList(traces);
+        }
+        return bundles;
     }
 
 
