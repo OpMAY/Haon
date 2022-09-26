@@ -1,5 +1,26 @@
+<%@ page import="com.model.content.board.Board" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.model.content.tips.Tips" %>
+<%@ page import="com.model.content.manual.Manual" %>
+<%@ page import="com.model.content.question.Question" %>
+<%@ page import="com.model.content.common.COMMENT_TYPE" %>
+<%@ page import="com.model.content.common.Comment" %>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    ArrayList<Board> boards = (ArrayList<Board>) request.getAttribute("boards");
+    request.setAttribute("boards", boards);
+    ArrayList<Tips> tips = (ArrayList<Tips>) request.getAttribute("tips");
+    request.setAttribute("tips", tips);
+    ArrayList<Manual> manuals = (ArrayList<Manual>) request.getAttribute("manuals");
+    request.setAttribute("manuals", manuals);
+    ArrayList<Question> questions = (ArrayList<Question>) request.getAttribute("questions");
+    request.setAttribute("questions", questions);
+    ArrayList<Comment> commentsMadeMe = (ArrayList<Comment>) request.getAttribute("commentsMadeMe");
+    request.setAttribute("commentsMadeMe", commentsMadeMe);
+%>
 <html lang="ko">
 <jsp:include page="../common/head.jsp"/>
 <body>
@@ -19,616 +40,557 @@
                             <div class="_section _writer-board pt-0">
                                 <div class="_title-container">
                                     <span class="bold-h3">내가 작성한 게시글</span>
-                                    <button type="button" class="btn btn-md btn-brand bold-h5">
+                                    <button type="button" data-href="/user/board/write?type=BOARD"
+                                            class="btn btn-md btn-brand bold-h5">
                                         게시글 작성
                                     </button>
                                     <div class="dropdown input-dropdown">
-                                        <div data-toggle="dropdown" aria-expanded="false" class="form-group form-inner-button form-sm">
+                                        <div data-toggle="dropdown" aria-expanded="false"
+                                             class="form-group form-inner-button form-sm">
                                             <input type="text"
                                                    class="form-control input-box medium-h5 dropdown-input"
                                                    disabled="disabled"
-                                                   value="자유게시판"
+                                                   data-type="BOARD"
+                                                   value="자유 게시판"
                                                    id="board-filter1">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_278_13355)">
                                                     <path d="M12 13.1727L16.95 8.22266L18.364 9.63666L12 16.0007L5.636 9.63666L7.05 8.22266L12 13.1727Z"
                                                           fill="#222222"></path>
                                                 </g>
                                                 <defs>
                                                     <clipPath id="clip0_278_13355">
-                                                        <rect width="24" height="24" fill="white" transform="translate(24) rotate(90)"></rect>
+                                                        <rect width="24" height="24" fill="white"
+                                                              transform="translate(24) rotate(90)"></rect>
                                                     </clipPath>
                                                 </defs>
                                             </svg>
                                         </div>
                                         <div class="dropdown-menu dropdown-sm">
-                                            <a data-type="boards" class="dropdown-item">
+                                            <a data-type="BOARD" class="dropdown-item">
                                                 <div>자유 게시판</div>
                                             </a>
-                                            <a data-type="tips" class="dropdown-item">
+                                            <a data-type="TIP" class="dropdown-item">
                                                 <div>팁과 노하우</div>
                                             </a>
-                                            <a data-type="manuals" class="dropdown-item">
+                                            <a data-type="MANUAL" class="dropdown-item">
                                                 <div>축산 메뉴얼</div>
                                             </a>
-                                            <a data-type="questions" class="dropdown-item">
+                                            <a data-type="QUESTION" class="dropdown-item">
                                                 <div>질문과 답변</div>
-                                            </a>
-                                            <a data-type="magazines" class="dropdown-item">
-                                                <div>최신 매거진</div>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="boards" role="tabpanel" aria-labelledby="boards">
-                                        <div class="_board-list _comment-board-list">
-                                            <div class="_comment_board-item">
-                                                <div class="_board-container" data-no="1" data-type="board">
-                                                    <div class="_content ellipsis-one-line">
-                                                        <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                                                    </div>
-                                                    <div class="_info d-flex">
-                                                        <div data-href="#">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <circle cx="16" cy="16" r="16" fill="#6CBE03" fill-opacity="0.1"/>
-                                                                <g clip-path="url(#clip0_388_9621)">
-                                                                    <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
-                                                                          fill="#A9CC52"/>
-                                                                </g>
-                                                                <defs>
-                                                                    <clipPath id="clip0_388_9621">
-                                                                        <rect width="20" height="20" fill="white" transform="translate(6 6)"/>
-                                                                    </clipPath>
-                                                                </defs>
-                                                            </svg>
-                                                        </div>
-                                                        <div data-href="#" class="ml-8">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd"
-                                                                      clip-rule="evenodd"
-                                                                      d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
-                                                                      fill="#A9CC52"/>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
+                                    <div class="tab-pane fade show active" id="BOARD" role="tabpanel"
+                                         aria-labelledby="BOARD">
+                                        <c:choose>
+                                            <c:when test="${boards.size() ne 0}">
+                                                <div class="_board-list _comment-board-list">
+                                                    <c:forEach items="${boards}" var="board" varStatus="status">
+                                                        <c:choose>
+                                                            <c:when test="${status.count <= 4}">
+                                                                <div class="_comment_board-item">
+                                                                    <div class="_board-container" data-no="${board.no}"
+                                                                         data-type="BOARD">
+                                                                        <div class="_content ellipsis-one-line">
+                                                                            <span class="medium-h4">[자유 게시판] ${board.title}</span>
+                                                                        </div>
+                                                                        <div class="_info d-flex">
+                                                                            <div data-href="/user/board/update/BOARD/${board.no}">
+                                                                                <svg width="32"
+                                                                                     height="32"
+                                                                                     viewBox="0 0 32 32"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <circle cx="16" cy="16" r="16"
+                                                                                            fill="#6CBE03"
+                                                                                            fill-opacity="0.1"/>
+                                                                                    <g clip-path="url(#clip0_388_9621)">
+                                                                                        <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
+                                                                                              fill="#A9CC52"/>
+                                                                                    </g>
+                                                                                    <defs>
+                                                                                        <clipPath id="clip0_388_9621">
+                                                                                            <rect width="20" height="20"
+                                                                                                  fill="white"
+                                                                                                  transform="translate(6 6)"/>
+                                                                                        </clipPath>
+                                                                                    </defs>
+                                                                                </svg>
+                                                                            </div>
+                                                                            <div class="ml-8 _delete" data-type="BOARD"
+                                                                                 data-no="${board.no}">
+                                                                                <svg width="32"
+                                                                                     height="32"
+                                                                                     viewBox="0 0 32 32"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path fill-rule="evenodd"
+                                                                                          clip-rule="evenodd"
+                                                                                          d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
+                                                                                          fill="#A9CC52"/>
+                                                                                </svg>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <c:if test="${board._new_comment eq true}">
+                                                                        <div class="_paragraph regular-h5 c-brand-green">
+                                                                            새로운 댓글이 달렸어요!
+                                                                        </div>
+                                                                    </c:if>
+                                                                </div>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <div class="_comment_board-item" style="display: none;">
+                                                                    <div class="_board-container" data-no="${board.no}"
+                                                                         data-type="BOARD">
+                                                                        <div class="_content ellipsis-one-line">
+                                                                            <span class="medium-h4">[자유 게시판] ${board.title}</span>
+                                                                        </div>
+                                                                        <div class="_info d-flex">
+                                                                            <div data-href="/user/board/update/BOARD/${board.no}">
+                                                                                <svg width="32"
+                                                                                     height="32"
+                                                                                     viewBox="0 0 32 32"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <circle cx="16" cy="16" r="16"
+                                                                                            fill="#6CBE03"
+                                                                                            fill-opacity="0.1"/>
+                                                                                    <g clip-path="url(#clip0_388_9621)">
+                                                                                        <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
+                                                                                              fill="#A9CC52"/>
+                                                                                    </g>
+                                                                                    <defs>
+                                                                                        <clipPath id="clip0_388_9621">
+                                                                                            <rect width="20" height="20"
+                                                                                                  fill="white"
+                                                                                                  transform="translate(6 6)"/>
+                                                                                        </clipPath>
+                                                                                    </defs>
+                                                                                </svg>
+                                                                            </div>
+                                                                            <div class="ml-8 _delete" data-type="BOARD"
+                                                                                 data-no="${board.no}">
+                                                                                <svg width="32"
+                                                                                     height="32"
+                                                                                     viewBox="0 0 32 32"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path fill-rule="evenodd"
+                                                                                          clip-rule="evenodd"
+                                                                                          d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
+                                                                                          fill="#A9CC52"/>
+                                                                                </svg>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <c:if test="${board._new_comment eq true}">
+                                                                        <div class="_paragraph regular-h5 c-brand-green">
+                                                                            새로운 댓글이 달렸어요!
+                                                                        </div>
+                                                                    </c:if>
+                                                                </div>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:forEach>
                                                 </div>
-                                                <div class="_paragraph regular-h5 c-brand-green">
-                                                    새로운 댓글이 달렸어요!
+                                                <c:if test="${boards.size() > 4}">
+                                                    <div class="_more medium-h4 c-brand-green">
+                                                        더보기
+                                                    </div>
+                                                </c:if>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="regular-h5 mt-48" style="text-align: center">
+                                                    <span>등록된 ${COMMENT_TYPE.BOARD.korName}이 없습니다.</span>
                                                 </div>
-                                            </div>
-                                            <div class="_comment_board-item">
-                                                <div class="_board-container" data-no="1" data-type="board">
-                                                    <div class="_content ellipsis-one-line">
-                                                        <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                                                    </div>
-                                                    <div class="_info d-flex">
-                                                        <div data-href="#">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <circle cx="16" cy="16" r="16" fill="#6CBE03" fill-opacity="0.1"/>
-                                                                <g clip-path="url(#clip0_388_9621)">
-                                                                    <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
-                                                                          fill="#A9CC52"/>
-                                                                </g>
-                                                                <defs>
-                                                                    <clipPath id="clip0_388_9621">
-                                                                        <rect width="20" height="20" fill="white" transform="translate(6 6)"/>
-                                                                    </clipPath>
-                                                                </defs>
-                                                            </svg>
-                                                        </div>
-                                                        <div data-href="#" class="ml-8">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd"
-                                                                      clip-rule="evenodd"
-                                                                      d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
-                                                                      fill="#A9CC52"/>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="_paragraph regular-h5 c-brand-green">
-                                                    새로운 댓글이 달렸어요!
-                                                </div>
-                                            </div>
-                                            <div class="_comment_board-item">
-                                                <div class="_board-container" data-no="1" data-type="board">
-                                                    <div class="_content ellipsis-one-line">
-                                                        <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                                                    </div>
-                                                    <div class="_info d-flex">
-                                                        <div data-href="#">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <circle cx="16" cy="16" r="16" fill="#6CBE03" fill-opacity="0.1"/>
-                                                                <g clip-path="url(#clip0_388_9621)">
-                                                                    <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
-                                                                          fill="#A9CC52"/>
-                                                                </g>
-                                                                <defs>
-                                                                    <clipPath id="clip0_388_9621">
-                                                                        <rect width="20" height="20" fill="white" transform="translate(6 6)"/>
-                                                                    </clipPath>
-                                                                </defs>
-                                                            </svg>
-                                                        </div>
-                                                        <div data-href="#" class="ml-8">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd"
-                                                                      clip-rule="evenodd"
-                                                                      d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
-                                                                      fill="#A9CC52"/>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="_comment_board-item">
-                                                <div class="_board-container" data-no="1" data-type="board">
-                                                    <div class="_content ellipsis-one-line">
-                                                        <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                                                    </div>
-                                                    <div class="_info d-flex">
-                                                        <div data-href="#">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <circle cx="16" cy="16" r="16" fill="#6CBE03" fill-opacity="0.1"/>
-                                                                <g clip-path="url(#clip0_388_9621)">
-                                                                    <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
-                                                                          fill="#A9CC52"/>
-                                                                </g>
-                                                                <defs>
-                                                                    <clipPath id="clip0_388_9621">
-                                                                        <rect width="20" height="20" fill="white" transform="translate(6 6)"/>
-                                                                    </clipPath>
-                                                                </defs>
-                                                            </svg>
-                                                        </div>
-                                                        <div data-href="#" class="ml-8">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd"
-                                                                      clip-rule="evenodd"
-                                                                      d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
-                                                                      fill="#A9CC52"/>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="_comment_board-item">
-                                                <div class="_board-container" data-no="1" data-type="board">
-                                                    <div class="_content ellipsis-one-line">
-                                                        <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                                                    </div>
-                                                    <div class="_info d-flex">
-                                                        <div data-href="#">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <circle cx="16" cy="16" r="16" fill="#6CBE03" fill-opacity="0.1"/>
-                                                                <g clip-path="url(#clip0_388_9621)">
-                                                                    <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
-                                                                          fill="#A9CC52"/>
-                                                                </g>
-                                                                <defs>
-                                                                    <clipPath id="clip0_388_9621">
-                                                                        <rect width="20" height="20" fill="white" transform="translate(6 6)"/>
-                                                                    </clipPath>
-                                                                </defs>
-                                                            </svg>
-                                                        </div>
-                                                        <div data-href="#" class="ml-8">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd"
-                                                                      clip-rule="evenodd"
-                                                                      d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
-                                                                      fill="#A9CC52"/>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="_comment_board-item">
-                                                <div class="_board-container" data-no="1" data-type="board">
-                                                    <div class="_content ellipsis-one-line">
-                                                        <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                                                    </div>
-                                                    <div class="_info d-flex">
-                                                        <div data-href="#">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <circle cx="16" cy="16" r="16" fill="#6CBE03" fill-opacity="0.1"/>
-                                                                <g clip-path="url(#clip0_388_9621)">
-                                                                    <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
-                                                                          fill="#A9CC52"/>
-                                                                </g>
-                                                                <defs>
-                                                                    <clipPath id="clip0_388_9621">
-                                                                        <rect width="20" height="20" fill="white" transform="translate(6 6)"/>
-                                                                    </clipPath>
-                                                                </defs>
-                                                            </svg>
-                                                        </div>
-                                                        <div data-href="#" class="ml-8">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd"
-                                                                      clip-rule="evenodd"
-                                                                      d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
-                                                                      fill="#A9CC52"/>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="_comment_board-item">
-                                                <div class="_board-container" data-no="1" data-type="board">
-                                                    <div class="_content ellipsis-one-line">
-                                                        <span class="medium-h4">양 &amp; 염소는 풀을 너무 많이 먹이면 안된다고 하네요.</span>
-                                                    </div>
-                                                    <div class="_info d-flex">
-                                                        <div data-href="#">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <circle cx="16" cy="16" r="16" fill="#6CBE03" fill-opacity="0.1"/>
-                                                                <g clip-path="url(#clip0_388_9621)">
-                                                                    <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
-                                                                          fill="#A9CC52"/>
-                                                                </g>
-                                                                <defs>
-                                                                    <clipPath id="clip0_388_9621">
-                                                                        <rect width="20" height="20" fill="white" transform="translate(6 6)"/>
-                                                                    </clipPath>
-                                                                </defs>
-                                                            </svg>
-                                                        </div>
-                                                        <div data-href="#" class="ml-8">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd"
-                                                                      clip-rule="evenodd"
-                                                                      d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
-                                                                      fill="#A9CC52"/>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="_more medium-h4 c-brand-green">
-                                            더보기
-                                        </div>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
-                                    <div class="tab-pane fade" id="tips" role="tabpanel" aria-labelledby="tips">
-                                        <div class="row row-cols-3 community-container-deck">
-                                            <div class="col p-8 d-flex align-items-stretch">
-                                                <div class="card community-card">
-                                                    <div class="_close">
-                                                        <svg width="32"
-                                                             height="32"
-                                                             viewBox="0 0 32 32"
-                                                             fill="none"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <circle cx="16" cy="16" r="14" fill="white"/>
-                                                            <path fill-rule="evenodd"
-                                                                  clip-rule="evenodd"
-                                                                  d="M16.0002 1.33398C7.90016 1.33398 1.3335 7.90065 1.3335 16.0007C1.3335 24.1007 7.90016 30.6673 16.0002 30.6673C24.1002 30.6673 30.6668 24.1007 30.6668 16.0007C30.6668 7.90065 24.1002 1.33398 16.0002 1.33398ZM20.9428 12.9433C21.1857 12.6918 21.3201 12.355 21.3171 12.0055C21.314 11.6559 21.1738 11.3214 20.9266 11.0742C20.6794 10.827 20.345 10.6868 19.9954 10.6838C19.6458 10.6807 19.309 10.8151 19.0575 11.058L16.0002 14.1153L12.9428 11.058C12.8198 10.9306 12.6727 10.8291 12.51 10.7592C12.3474 10.6893 12.1724 10.6525 11.9954 10.651C11.8183 10.6494 11.6428 10.6832 11.4789 10.7502C11.315 10.8173 11.1662 10.9163 11.041 11.0415C10.9158 11.1666 10.8168 11.3155 10.7497 11.4794C10.6827 11.6432 10.649 11.8188 10.6505 11.9959C10.652 12.1729 10.6888 12.3479 10.7587 12.5105C10.8286 12.6732 10.9302 12.8203 11.0575 12.9433L14.1148 16.0007L11.0575 19.058C10.9302 19.181 10.8286 19.3281 10.7587 19.4908C10.6888 19.6535 10.652 19.8284 10.6505 20.0055C10.649 20.1825 10.6827 20.3581 10.7497 20.5219C10.8168 20.6858 10.9158 20.8347 11.041 20.9598C11.1662 21.085 11.315 21.184 11.4789 21.2511C11.6428 21.3181 11.8183 21.3519 11.9954 21.3503C12.1724 21.3488 12.3474 21.312 12.51 21.2421C12.6727 21.1722 12.8198 21.0707 12.9428 20.9433L16.0002 17.886L19.0575 20.9433C19.309 21.1862 19.6458 21.3206 19.9954 21.3176C20.345 21.3145 20.6794 21.1743 20.9266 20.9271C21.1738 20.6799 21.314 20.3454 21.3171 19.9959C21.3201 19.6463 21.1857 19.3095 20.9428 19.058L17.8855 16.0007L20.9428 12.9433Z"
-                                                                  fill="#A9CC52"/>
-                                                        </svg>
-                                                    </div>
-                                                    <div class="background-image _thumbnail"
-                                                         style="background-image:url('../../resources/assets/images/sample/card-background-image.png')">
-                                                        <div class="background-image _profile"
-                                                             style="background-image:url('../../resources/assets/images/sample/card-profile-image.png')"></div>
-                                                    </div>
-                                                    <div class="card-body _body">
-                                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                                                        <div class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을
-                                                            공유했어요!</div>
-                                                    </div>
-                                                    <div class="_footer">
-                            <span class="_views medium-p1 c-gray-light">
-                              <span class="_count">32</span>Views
-                            </span>
-                                                    </div>
+                                    <div class="tab-pane fade" id="TIP" role="tabpanel" aria-labelledby="TIP">
+                                        <c:choose>
+                                            <c:when test="${tips.size() ne 0}">
+                                                <div class="_board-list _comment-board-list">
+                                                    <c:forEach items="${tips}" var="tip" varStatus="status">
+                                                        <c:choose>
+                                                            <c:when test="${status.count <= 4}">
+                                                                <div class="_comment_board-item">
+                                                                    <div class="_board-container" data-no="${tip.no}"
+                                                                         data-type="TIP">
+                                                                        <div class="_content ellipsis-one-line">
+                                                                            <span class="medium-h4">[팁과 노하우] ${tip.title}</span>
+                                                                        </div>
+                                                                        <div class="_info d-flex">
+                                                                            <div data-href="/user/board/update/TIP/${tip.no}">
+                                                                                <svg width="32"
+                                                                                     height="32"
+                                                                                     viewBox="0 0 32 32"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <circle cx="16" cy="16" r="16"
+                                                                                            fill="#6CBE03"
+                                                                                            fill-opacity="0.1"/>
+                                                                                    <g clip-path="url(#clip0_388_9621)">
+                                                                                        <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
+                                                                                              fill="#A9CC52"/>
+                                                                                    </g>
+                                                                                    <defs>
+                                                                                        <clipPath id="clip0_388_9621">
+                                                                                            <rect width="20" height="20"
+                                                                                                  fill="white"
+                                                                                                  transform="translate(6 6)"/>
+                                                                                        </clipPath>
+                                                                                    </defs>
+                                                                                </svg>
+                                                                            </div>
+                                                                            <div class="ml-8 _delete" data-type="TIP"
+                                                                                 data-no="${tip.no}">
+                                                                                <svg width="32"
+                                                                                     height="32"
+                                                                                     viewBox="0 0 32 32"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path fill-rule="evenodd"
+                                                                                          clip-rule="evenodd"
+                                                                                          d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
+                                                                                          fill="#A9CC52"/>
+                                                                                </svg>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <c:if test="${tip._new_comment eq true}">
+                                                                        <div class="_paragraph regular-h5 c-brand-green">
+                                                                            새로운 댓글이 달렸어요!
+                                                                        </div>
+                                                                    </c:if>
+                                                                </div>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <div class="_comment_board-item" style="display: none;">
+                                                                    <div class="_board-container" data-no="${tip.no}"
+                                                                         data-type="TIP">
+                                                                        <div class="_content ellipsis-one-line">
+                                                                            <span class="medium-h4">[팁과 노하우] ${tip.title}</span>
+                                                                        </div>
+                                                                        <div class="_info d-flex">
+                                                                            <div data-href="/user/board/update/TIP/${tip.no}">
+                                                                                <svg width="32"
+                                                                                     height="32"
+                                                                                     viewBox="0 0 32 32"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <circle cx="16" cy="16" r="16"
+                                                                                            fill="#6CBE03"
+                                                                                            fill-opacity="0.1"/>
+                                                                                    <g clip-path="url(#clip0_388_9621)">
+                                                                                        <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
+                                                                                              fill="#A9CC52"/>
+                                                                                    </g>
+                                                                                    <defs>
+                                                                                        <clipPath id="clip0_388_9621">
+                                                                                            <rect width="20" height="20"
+                                                                                                  fill="white"
+                                                                                                  transform="translate(6 6)"/>
+                                                                                        </clipPath>
+                                                                                    </defs>
+                                                                                </svg>
+                                                                            </div>
+                                                                            <div class="ml-8 _delete" data-type="TIP"
+                                                                                 data-no="${tip.no}">
+                                                                                <svg width="32"
+                                                                                     height="32"
+                                                                                     viewBox="0 0 32 32"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path fill-rule="evenodd"
+                                                                                          clip-rule="evenodd"
+                                                                                          d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
+                                                                                          fill="#A9CC52"/>
+                                                                                </svg>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <c:if test="${tip._new_comment eq true}">
+                                                                        <div class="_paragraph regular-h5 c-brand-green">
+                                                                            새로운 댓글이 달렸어요!
+                                                                        </div>
+                                                                    </c:if>
+                                                                </div>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:forEach>
                                                 </div>
-                                            </div>
-                                            <div class="col p-8 d-flex align-items-stretch">
-                                                <div class="card community-card is-empty">
-                                                    <div class="_close">
-                                                        <svg width="32"
-                                                             height="32"
-                                                             viewBox="0 0 32 32"
-                                                             fill="none"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <circle cx="16" cy="16" r="14" fill="white"></circle>
-                                                            <path fill-rule="evenodd"
-                                                                  clip-rule="evenodd"
-                                                                  d="M16.0002 1.33398C7.90016 1.33398 1.3335 7.90065 1.3335 16.0007C1.3335 24.1007 7.90016 30.6673 16.0002 30.6673C24.1002 30.6673 30.6668 24.1007 30.6668 16.0007C30.6668 7.90065 24.1002 1.33398 16.0002 1.33398ZM20.9428 12.9433C21.1857 12.6918 21.3201 12.355 21.3171 12.0055C21.314 11.6559 21.1738 11.3214 20.9266 11.0742C20.6794 10.827 20.345 10.6868 19.9954 10.6838C19.6458 10.6807 19.309 10.8151 19.0575 11.058L16.0002 14.1153L12.9428 11.058C12.8198 10.9306 12.6727 10.8291 12.51 10.7592C12.3474 10.6893 12.1724 10.6525 11.9954 10.651C11.8183 10.6494 11.6428 10.6832 11.4789 10.7502C11.315 10.8173 11.1662 10.9163 11.041 11.0415C10.9158 11.1666 10.8168 11.3155 10.7497 11.4794C10.6827 11.6432 10.649 11.8188 10.6505 11.9959C10.652 12.1729 10.6888 12.3479 10.7587 12.5105C10.8286 12.6732 10.9302 12.8203 11.0575 12.9433L14.1148 16.0007L11.0575 19.058C10.9302 19.181 10.8286 19.3281 10.7587 19.4908C10.6888 19.6535 10.652 19.8284 10.6505 20.0055C10.649 20.1825 10.6827 20.3581 10.7497 20.5219C10.8168 20.6858 10.9158 20.8347 11.041 20.9598C11.1662 21.085 11.315 21.184 11.4789 21.2511C11.6428 21.3181 11.8183 21.3519 11.9954 21.3503C12.1724 21.3488 12.3474 21.312 12.51 21.2421C12.6727 21.1722 12.8198 21.0707 12.9428 20.9433L16.0002 17.886L19.0575 20.9433C19.309 21.1862 19.6458 21.3206 19.9954 21.3176C20.345 21.3145 20.6794 21.1743 20.9266 20.9271C21.1738 20.6799 21.314 20.3454 21.3171 19.9959C21.3201 19.6463 21.1857 19.3095 20.9428 19.058L17.8855 16.0007L20.9428 12.9433Z"
-                                                                  fill="#A9CC52"></path>
-                                                        </svg>
+                                                <c:if test="${tips.size() > 4}">
+                                                    <div class="_more medium-h4 c-brand-green">
+                                                        더보기
                                                     </div>
-                                                    <div class="card-body _body">
-                                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                                                        <div class="card-text _description medium-h5 c-gray-medium">Lorem ipsum dolor sit amet,
-                                                            consectetur adipisicing elit. Adipisci aliquid aperiam at doloremque exercitationem
-                                                            explicabo fugit, laudantium minus nam pariatur quibusdam quidem quod recusandae reiciendis
-                                                            sunt voluptate voluptatum. Aut, cum.</div>
-                                                    </div>
-                                                    <div class="_footer">
-                            <span class="_views medium-p1 c-gray-light">
-                              <span class="_count">32</span>Views
-                            </span>
-                                                    </div>
+                                                </c:if>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="regular-h5 mt-48" style="text-align: center">
+                                                    <span>등록된 ${COMMENT_TYPE.TIP.korName}가 없습니다.</span>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="_more medium-h4 c-brand-green">
-                                            더보기
-                                        </div>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
-                                    <div class="tab-pane fade" id="manuals" role="tabpanel" aria-labelledby="manuals">
-                                        <div class="row row-cols-3 community-container-deck">
-                                            <div class="col p-8 d-flex align-items-stretch">
-                                                <div class="card community-card">
-                                                    <div class="_close">
-                                                        <svg width="32"
-                                                             height="32"
-                                                             viewBox="0 0 32 32"
-                                                             fill="none"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <circle cx="16" cy="16" r="14" fill="white"/>
-                                                            <path fill-rule="evenodd"
-                                                                  clip-rule="evenodd"
-                                                                  d="M16.0002 1.33398C7.90016 1.33398 1.3335 7.90065 1.3335 16.0007C1.3335 24.1007 7.90016 30.6673 16.0002 30.6673C24.1002 30.6673 30.6668 24.1007 30.6668 16.0007C30.6668 7.90065 24.1002 1.33398 16.0002 1.33398ZM20.9428 12.9433C21.1857 12.6918 21.3201 12.355 21.3171 12.0055C21.314 11.6559 21.1738 11.3214 20.9266 11.0742C20.6794 10.827 20.345 10.6868 19.9954 10.6838C19.6458 10.6807 19.309 10.8151 19.0575 11.058L16.0002 14.1153L12.9428 11.058C12.8198 10.9306 12.6727 10.8291 12.51 10.7592C12.3474 10.6893 12.1724 10.6525 11.9954 10.651C11.8183 10.6494 11.6428 10.6832 11.4789 10.7502C11.315 10.8173 11.1662 10.9163 11.041 11.0415C10.9158 11.1666 10.8168 11.3155 10.7497 11.4794C10.6827 11.6432 10.649 11.8188 10.6505 11.9959C10.652 12.1729 10.6888 12.3479 10.7587 12.5105C10.8286 12.6732 10.9302 12.8203 11.0575 12.9433L14.1148 16.0007L11.0575 19.058C10.9302 19.181 10.8286 19.3281 10.7587 19.4908C10.6888 19.6535 10.652 19.8284 10.6505 20.0055C10.649 20.1825 10.6827 20.3581 10.7497 20.5219C10.8168 20.6858 10.9158 20.8347 11.041 20.9598C11.1662 21.085 11.315 21.184 11.4789 21.2511C11.6428 21.3181 11.8183 21.3519 11.9954 21.3503C12.1724 21.3488 12.3474 21.312 12.51 21.2421C12.6727 21.1722 12.8198 21.0707 12.9428 20.9433L16.0002 17.886L19.0575 20.9433C19.309 21.1862 19.6458 21.3206 19.9954 21.3176C20.345 21.3145 20.6794 21.1743 20.9266 20.9271C21.1738 20.6799 21.314 20.3454 21.3171 19.9959C21.3201 19.6463 21.1857 19.3095 20.9428 19.058L17.8855 16.0007L20.9428 12.9433Z"
-                                                                  fill="#A9CC52"/>
-                                                        </svg>
-                                                    </div>
-                                                    <div class="background-image _thumbnail"
-                                                         style="background-image:url('../../resources/assets/images/sample/card-background-image.png')">
-                                                        <div class="background-image _profile"
-                                                             style="background-image:url('../../resources/assets/images/sample/card-profile-image.png')"></div>
-                                                    </div>
-                                                    <div class="card-body _body">
-                                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                                                        <div class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을
-                                                            공유했어요!</div>
-                                                    </div>
-                                                    <div class="_footer">
-                            <span class="_views medium-p1 c-gray-light">
-                              <span class="_count">32</span>Views
-                            </span>
-                                                    </div>
+                                    <div class="tab-pane fade" id="MANUAL" role="tabpanel" aria-labelledby="MANUAL">
+                                        <c:choose>
+                                            <c:when test="${manuals.size() ne 0}">
+                                                <div class="_board-list _comment-board-list">
+                                                    <c:forEach items="${manuals}" var="manual" varStatus="status">
+                                                        <c:choose>
+                                                            <c:when test="${status.count <= 4}">
+                                                                <div class="_comment_board-item">
+                                                                    <div class="_board-container" data-no="${manual.no}"
+                                                                         data-type="MANUAL">
+                                                                        <div class="_content ellipsis-one-line">
+                                                                            <span class="medium-h4">[축산 매뉴얼] ${manual.title}</span>
+                                                                        </div>
+                                                                        <div class="_info d-flex">
+                                                                            <div data-href="/user/board/update/MANUAL/${manual.no}">
+                                                                                <svg width="32"
+                                                                                     height="32"
+                                                                                     viewBox="0 0 32 32"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <circle cx="16" cy="16" r="16"
+                                                                                            fill="#6CBE03"
+                                                                                            fill-opacity="0.1"/>
+                                                                                    <g clip-path="url(#clip0_388_9621)">
+                                                                                        <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
+                                                                                              fill="#A9CC52"/>
+                                                                                    </g>
+                                                                                    <defs>
+                                                                                        <clipPath id="clip0_388_9621">
+                                                                                            <rect width="20" height="20"
+                                                                                                  fill="white"
+                                                                                                  transform="translate(6 6)"/>
+                                                                                        </clipPath>
+                                                                                    </defs>
+                                                                                </svg>
+                                                                            </div>
+                                                                            <div class="ml-8 _delete" data-type="MANUAL"
+                                                                                 data-no="${manual.no}">
+                                                                                <svg width="32"
+                                                                                     height="32"
+                                                                                     viewBox="0 0 32 32"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path fill-rule="evenodd"
+                                                                                          clip-rule="evenodd"
+                                                                                          d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
+                                                                                          fill="#A9CC52"/>
+                                                                                </svg>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <c:if test="${manual._new_comment eq true}">
+                                                                        <div class="_paragraph regular-h5 c-brand-green">
+                                                                            새로운 댓글이 달렸어요!
+                                                                        </div>
+                                                                    </c:if>
+                                                                </div>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <div class="_comment_board-item" style="display: none;">
+                                                                    <div class="_board-container" data-no="${manual.no}"
+                                                                         data-type="MANUAL">
+                                                                        <div class="_content ellipsis-one-line">
+                                                                            <span class="medium-h4">[축산 메뉴얼] ${manual.title}</span>
+                                                                        </div>
+                                                                        <div class="_info d-flex">
+                                                                            <div data-href="/user/board/update/MANUAL/${manual.no}">
+                                                                                <svg width="32"
+                                                                                     height="32"
+                                                                                     viewBox="0 0 32 32"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <circle cx="16" cy="16" r="16"
+                                                                                            fill="#6CBE03"
+                                                                                            fill-opacity="0.1"/>
+                                                                                    <g clip-path="url(#clip0_388_9621)">
+                                                                                        <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
+                                                                                              fill="#A9CC52"/>
+                                                                                    </g>
+                                                                                    <defs>
+                                                                                        <clipPath id="clip0_388_9621">
+                                                                                            <rect width="20" height="20"
+                                                                                                  fill="white"
+                                                                                                  transform="translate(6 6)"/>
+                                                                                        </clipPath>
+                                                                                    </defs>
+                                                                                </svg>
+                                                                            </div>
+                                                                            <div class="ml-8 _delete" data-type="MANUAL"
+                                                                                 data-no="${manual.no}">
+                                                                                <svg width="32"
+                                                                                     height="32"
+                                                                                     viewBox="0 0 32 32"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path fill-rule="evenodd"
+                                                                                          clip-rule="evenodd"
+                                                                                          d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
+                                                                                          fill="#A9CC52"/>
+                                                                                </svg>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <c:if test="${manual._new_comment eq true}">
+                                                                        <div class="_paragraph regular-h5 c-brand-green">
+                                                                            새로운 댓글이 달렸어요!
+                                                                        </div>
+                                                                    </c:if>
+                                                                </div>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:forEach>
                                                 </div>
-                                            </div>
-                                            <div class="col p-8 d-flex align-items-stretch">
-                                                <div class="card community-card is-empty">
-                                                    <div class="_close">
-                                                        <svg width="32"
-                                                             height="32"
-                                                             viewBox="0 0 32 32"
-                                                             fill="none"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <circle cx="16" cy="16" r="14" fill="white"></circle>
-                                                            <path fill-rule="evenodd"
-                                                                  clip-rule="evenodd"
-                                                                  d="M16.0002 1.33398C7.90016 1.33398 1.3335 7.90065 1.3335 16.0007C1.3335 24.1007 7.90016 30.6673 16.0002 30.6673C24.1002 30.6673 30.6668 24.1007 30.6668 16.0007C30.6668 7.90065 24.1002 1.33398 16.0002 1.33398ZM20.9428 12.9433C21.1857 12.6918 21.3201 12.355 21.3171 12.0055C21.314 11.6559 21.1738 11.3214 20.9266 11.0742C20.6794 10.827 20.345 10.6868 19.9954 10.6838C19.6458 10.6807 19.309 10.8151 19.0575 11.058L16.0002 14.1153L12.9428 11.058C12.8198 10.9306 12.6727 10.8291 12.51 10.7592C12.3474 10.6893 12.1724 10.6525 11.9954 10.651C11.8183 10.6494 11.6428 10.6832 11.4789 10.7502C11.315 10.8173 11.1662 10.9163 11.041 11.0415C10.9158 11.1666 10.8168 11.3155 10.7497 11.4794C10.6827 11.6432 10.649 11.8188 10.6505 11.9959C10.652 12.1729 10.6888 12.3479 10.7587 12.5105C10.8286 12.6732 10.9302 12.8203 11.0575 12.9433L14.1148 16.0007L11.0575 19.058C10.9302 19.181 10.8286 19.3281 10.7587 19.4908C10.6888 19.6535 10.652 19.8284 10.6505 20.0055C10.649 20.1825 10.6827 20.3581 10.7497 20.5219C10.8168 20.6858 10.9158 20.8347 11.041 20.9598C11.1662 21.085 11.315 21.184 11.4789 21.2511C11.6428 21.3181 11.8183 21.3519 11.9954 21.3503C12.1724 21.3488 12.3474 21.312 12.51 21.2421C12.6727 21.1722 12.8198 21.0707 12.9428 20.9433L16.0002 17.886L19.0575 20.9433C19.309 21.1862 19.6458 21.3206 19.9954 21.3176C20.345 21.3145 20.6794 21.1743 20.9266 20.9271C21.1738 20.6799 21.314 20.3454 21.3171 19.9959C21.3201 19.6463 21.1857 19.3095 20.9428 19.058L17.8855 16.0007L20.9428 12.9433Z"
-                                                                  fill="#A9CC52"></path>
-                                                        </svg>
+                                                <c:if test="${manuals.size() > 4}">
+                                                    <div class="_more medium-h4 c-brand-green">
+                                                        더보기
                                                     </div>
-                                                    <div class="card-body _body">
-                                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                                                        <div class="card-text _description medium-h5 c-gray-medium">Lorem ipsum dolor sit amet,
-                                                            consectetur adipisicing elit. Adipisci aliquid aperiam at doloremque exercitationem
-                                                            explicabo fugit, laudantium minus nam pariatur quibusdam quidem quod recusandae reiciendis
-                                                            sunt voluptate voluptatum. Aut, cum.</div>
-                                                    </div>
-                                                    <div class="_footer">
-                            <span class="_views medium-p1 c-gray-light">
-                              <span class="_count">32</span>Views
-                            </span>
-                                                    </div>
+                                                </c:if>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="regular-h5 mt-48" style="text-align: center">
+                                                    <span>등록된 ${COMMENT_TYPE.MANUAL.korName}이 없습니다.</span>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="_more medium-h4 c-brand-green">
-                                            더보기
-                                        </div>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
-                                    <div class="tab-pane fade" id="questions" role="tabpanel" aria-labelledby="questions">
-                                        <div class="_board-list _comment-board-list">
-                                            <div class="_comment_board-item">
-                                                <div class="_board-container" data-no="1" data-type="board">
-                                                    <div class="_content ellipsis-one-line">
-                                                        <span class="medium-h4">[질문과 답변] Q. 양 & 염소는 풀을 너무 많이 먹이고 하네요.</span>
-                                                    </div>
-                                                    <div class="_info d-flex">
-                                                        <div data-href="#">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd"
-                                                                      clip-rule="evenodd"
-                                                                      d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
-                                                                      fill="#A9CC52"/>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
+                                    <div class="tab-pane fade" id="QUESTION" role="tabpanel"
+                                         aria-labelledby="QUESTION">
+                                        <c:choose>
+                                            <c:when test="${questions.size() ne 0}">
+                                                <div class="_board-list _comment-board-list">
+                                                    <c:forEach items="${questions}" var="question" varStatus="status">
+                                                        <c:choose>
+                                                            <c:when test="${status.count <= 4}">
+                                                                <div class="_comment_board-item">
+                                                                    <div class="_board-container"
+                                                                         data-no="${question.no}" data-type="QUESTION">
+                                                                        <div class="_content ellipsis-one-line">
+                                                                            <span class="medium-h4">[질문과 답변] ${question.title}</span>
+                                                                        </div>
+                                                                        <div class="_info d-flex">
+                                                                            <div data-href="/user/board/update/QUESTION/${question.no}">
+                                                                                <svg width="32"
+                                                                                     height="32"
+                                                                                     viewBox="0 0 32 32"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <circle cx="16" cy="16" r="16"
+                                                                                            fill="#6CBE03"
+                                                                                            fill-opacity="0.1"/>
+                                                                                    <g clip-path="url(#clip0_388_9621)">
+                                                                                        <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
+                                                                                              fill="#A9CC52"/>
+                                                                                    </g>
+                                                                                    <defs>
+                                                                                        <clipPath id="clip0_388_9621">
+                                                                                            <rect width="20" height="20"
+                                                                                                  fill="white"
+                                                                                                  transform="translate(6 6)"/>
+                                                                                        </clipPath>
+                                                                                    </defs>
+                                                                                </svg>
+                                                                            </div>
+                                                                            <div class="ml-8 _delete"
+                                                                                 data-type="QUESTION"
+                                                                                 data-no="${question.no}">
+                                                                                <svg width="32"
+                                                                                     height="32"
+                                                                                     viewBox="0 0 32 32"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path fill-rule="evenodd"
+                                                                                          clip-rule="evenodd"
+                                                                                          d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
+                                                                                          fill="#A9CC52"/>
+                                                                                </svg>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <c:if test="${question._new_comment eq true}">
+                                                                        <div class="_paragraph regular-h5 c-brand-green">
+                                                                            새로운 댓글이 달렸어요!
+                                                                        </div>
+                                                                    </c:if>
+                                                                </div>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <div class="_comment_board-item" style="display: none;">
+                                                                    <div class="_board-container"
+                                                                         data-no="${question.no}" data-type="QUESTION">
+                                                                        <div class="_content ellipsis-one-line">
+                                                                            <span class="medium-h4">[질문과 답변] ${question.title}</span>
+                                                                        </div>
+                                                                        <div class="_info d-flex">
+                                                                            <div data-href="/user/board/update/QUESTION/${question.no}">
+                                                                                <svg width="32"
+                                                                                     height="32"
+                                                                                     viewBox="0 0 32 32"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <circle cx="16" cy="16" r="16"
+                                                                                            fill="#6CBE03"
+                                                                                            fill-opacity="0.1"/>
+                                                                                    <g clip-path="url(#clip0_388_9621)">
+                                                                                        <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
+                                                                                              fill="#A9CC52"/>
+                                                                                    </g>
+                                                                                    <defs>
+                                                                                        <clipPath id="clip0_388_9621">
+                                                                                            <rect width="20" height="20"
+                                                                                                  fill="white"
+                                                                                                  transform="translate(6 6)"/>
+                                                                                        </clipPath>
+                                                                                    </defs>
+                                                                                </svg>
+                                                                            </div>
+                                                                            <div class="ml-8 _delete"
+                                                                                 data-type="QUESTION"
+                                                                                 data-no="${question.no}">
+                                                                                <svg width="32"
+                                                                                     height="32"
+                                                                                     viewBox="0 0 32 32"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path fill-rule="evenodd"
+                                                                                          clip-rule="evenodd"
+                                                                                          d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
+                                                                                          fill="#A9CC52"/>
+                                                                                </svg>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <c:if test="${question._new_comment eq true}">
+                                                                        <div class="_paragraph regular-h5 c-brand-green">
+                                                                            새로운 댓글이 달렸어요!
+                                                                        </div>
+                                                                    </c:if>
+                                                                </div>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:forEach>
                                                 </div>
-                                                <div class="_paragraph regular-h5 c-brand-green">
-                                                    새로운 댓글이 달렸어요!
+                                                <c:if test="${manuals.size() > 4}">
+                                                    <div class="_more medium-h4 c-brand-green">
+                                                        더보기
+                                                    </div>
+                                                </c:if>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="regular-h5 mt-48" style="text-align: center">
+                                                    <span>등록된 ${COMMENT_TYPE.QUESTION.korName}이 없습니다.</span>
                                                 </div>
-                                            </div>
-                                            <div class="_comment_board-item">
-                                                <div class="_board-container" data-no="1" data-type="board">
-                                                    <div class="_content ellipsis-one-line">
-                                                        <span class="medium-h4">[축산 메뉴얼] 양 & 염소는 풀을 너무 많이 먹이고 하네요.</span>
-                                                    </div>
-                                                    <div class="_info d-flex">
-                                                        <div data-href="#">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd"
-                                                                      clip-rule="evenodd"
-                                                                      d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
-                                                                      fill="#A9CC52"/>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="_paragraph regular-h5 c-brand-green">
-                                                    새로운 댓글이 달렸어요!
-                                                </div>
-                                            </div>
-                                            <div class="_comment_board-item">
-                                                <div class="_board-container" data-no="1" data-type="board">
-                                                    <div class="_content ellipsis-one-line">
-                                                        <span class="medium-h4">[축산 메뉴얼] 양 & 염소는 풀을 너무 많이 먹이고 하네요.</span>
-                                                    </div>
-                                                    <div class="_info d-flex">
-                                                        <div data-href="#">
-                                                            <svg width="32"
-                                                                 height="32"
-                                                                 viewBox="0 0 32 32"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd"
-                                                                      clip-rule="evenodd"
-                                                                      d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
-                                                                      fill="#A9CC52"/>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="_paragraph regular-h5 c-brand-green">
-                                                    새로운 댓글이 달렸어요!
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="_more medium-h4 c-brand-green">
-                                            더보기
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="magazines" role="tabpanel" aria-labelledby="magazines">
-                                        <div class="row row-cols-3 community-container-deck">
-                                            <div class="col p-8 d-flex align-items-stretch">
-                                                <div class="card community-card">
-                                                    <div class="_close">
-                                                        <svg width="32"
-                                                             height="32"
-                                                             viewBox="0 0 32 32"
-                                                             fill="none"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <circle cx="16" cy="16" r="14" fill="white"/>
-                                                            <path fill-rule="evenodd"
-                                                                  clip-rule="evenodd"
-                                                                  d="M16.0002 1.33398C7.90016 1.33398 1.3335 7.90065 1.3335 16.0007C1.3335 24.1007 7.90016 30.6673 16.0002 30.6673C24.1002 30.6673 30.6668 24.1007 30.6668 16.0007C30.6668 7.90065 24.1002 1.33398 16.0002 1.33398ZM20.9428 12.9433C21.1857 12.6918 21.3201 12.355 21.3171 12.0055C21.314 11.6559 21.1738 11.3214 20.9266 11.0742C20.6794 10.827 20.345 10.6868 19.9954 10.6838C19.6458 10.6807 19.309 10.8151 19.0575 11.058L16.0002 14.1153L12.9428 11.058C12.8198 10.9306 12.6727 10.8291 12.51 10.7592C12.3474 10.6893 12.1724 10.6525 11.9954 10.651C11.8183 10.6494 11.6428 10.6832 11.4789 10.7502C11.315 10.8173 11.1662 10.9163 11.041 11.0415C10.9158 11.1666 10.8168 11.3155 10.7497 11.4794C10.6827 11.6432 10.649 11.8188 10.6505 11.9959C10.652 12.1729 10.6888 12.3479 10.7587 12.5105C10.8286 12.6732 10.9302 12.8203 11.0575 12.9433L14.1148 16.0007L11.0575 19.058C10.9302 19.181 10.8286 19.3281 10.7587 19.4908C10.6888 19.6535 10.652 19.8284 10.6505 20.0055C10.649 20.1825 10.6827 20.3581 10.7497 20.5219C10.8168 20.6858 10.9158 20.8347 11.041 20.9598C11.1662 21.085 11.315 21.184 11.4789 21.2511C11.6428 21.3181 11.8183 21.3519 11.9954 21.3503C12.1724 21.3488 12.3474 21.312 12.51 21.2421C12.6727 21.1722 12.8198 21.0707 12.9428 20.9433L16.0002 17.886L19.0575 20.9433C19.309 21.1862 19.6458 21.3206 19.9954 21.3176C20.345 21.3145 20.6794 21.1743 20.9266 20.9271C21.1738 20.6799 21.314 20.3454 21.3171 19.9959C21.3201 19.6463 21.1857 19.3095 20.9428 19.058L17.8855 16.0007L20.9428 12.9433Z"
-                                                                  fill="#A9CC52"/>
-                                                        </svg>
-                                                    </div>
-                                                    <div class="background-image _thumbnail _thumbnail-lg"
-                                                         style="background-image:url('../../resources/assets/images/sample/card-background-image.png')">
-                                                        <div class="background-image _profile"
-                                                             style="background-image:url('../../resources/assets/images/sample/card-profile-image.png')"></div>
-                                                    </div>
-                                                    <div class="card-body _body">
-                                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                                                        <div class="card-text _description medium-h5 c-gray-medium">숙력된 농가분들이 갖고 있는 노하우와 메뉴얼을
-                                                            공유했어요!</div>
-                                                    </div>
-                                                    <div class="_footer">
-                            <span class="_views medium-p1 c-gray-light">
-                              <span class="_count">32</span>Views
-                            </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col p-8 d-flex align-items-stretch">
-                                                <div class="card community-card is-empty">
-                                                    <div class="_close">
-                                                        <svg width="32"
-                                                             height="32"
-                                                             viewBox="0 0 32 32"
-                                                             fill="none"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <circle cx="16" cy="16" r="14" fill="white"></circle>
-                                                            <path fill-rule="evenodd"
-                                                                  clip-rule="evenodd"
-                                                                  d="M16.0002 1.33398C7.90016 1.33398 1.3335 7.90065 1.3335 16.0007C1.3335 24.1007 7.90016 30.6673 16.0002 30.6673C24.1002 30.6673 30.6668 24.1007 30.6668 16.0007C30.6668 7.90065 24.1002 1.33398 16.0002 1.33398ZM20.9428 12.9433C21.1857 12.6918 21.3201 12.355 21.3171 12.0055C21.314 11.6559 21.1738 11.3214 20.9266 11.0742C20.6794 10.827 20.345 10.6868 19.9954 10.6838C19.6458 10.6807 19.309 10.8151 19.0575 11.058L16.0002 14.1153L12.9428 11.058C12.8198 10.9306 12.6727 10.8291 12.51 10.7592C12.3474 10.6893 12.1724 10.6525 11.9954 10.651C11.8183 10.6494 11.6428 10.6832 11.4789 10.7502C11.315 10.8173 11.1662 10.9163 11.041 11.0415C10.9158 11.1666 10.8168 11.3155 10.7497 11.4794C10.6827 11.6432 10.649 11.8188 10.6505 11.9959C10.652 12.1729 10.6888 12.3479 10.7587 12.5105C10.8286 12.6732 10.9302 12.8203 11.0575 12.9433L14.1148 16.0007L11.0575 19.058C10.9302 19.181 10.8286 19.3281 10.7587 19.4908C10.6888 19.6535 10.652 19.8284 10.6505 20.0055C10.649 20.1825 10.6827 20.3581 10.7497 20.5219C10.8168 20.6858 10.9158 20.8347 11.041 20.9598C11.1662 21.085 11.315 21.184 11.4789 21.2511C11.6428 21.3181 11.8183 21.3519 11.9954 21.3503C12.1724 21.3488 12.3474 21.312 12.51 21.2421C12.6727 21.1722 12.8198 21.0707 12.9428 20.9433L16.0002 17.886L19.0575 20.9433C19.309 21.1862 19.6458 21.3206 19.9954 21.3176C20.345 21.3145 20.6794 21.1743 20.9266 20.9271C21.1738 20.6799 21.314 20.3454 21.3171 19.9959C21.3201 19.6463 21.1857 19.3095 20.9428 19.058L17.8855 16.0007L20.9428 12.9433Z"
-                                                                  fill="#A9CC52"></path>
-                                                        </svg>
-                                                    </div>
-                                                    <div class="card-body _body">
-                                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">양소 잘 키우는 법</h5>
-                                                        <div class="card-text _description medium-h5 c-gray-medium">Lorem ipsum dolor sit amet,
-                                                            consectetur adipisicing elit. Adipisci aliquid aperiam at doloremque exercitationem
-                                                            explicabo fugit, laudantium minus nam pariatur quibusdam quidem quod recusandae reiciendis
-                                                            sunt voluptate voluptatum. Aut, cum.</div>
-                                                    </div>
-                                                    <div class="_footer">
-                            <span class="_views medium-p1 c-gray-light">
-                              <span class="_count">32</span>Views
-                            </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="_more medium-h4 c-brand-green">
-                                            더보기
-                                        </div>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                 </div>
                             </div>
@@ -638,39 +600,145 @@
                                 <div class="_title-container">
                                     <span class="bold-h3">내가 작성한 댓글</span>
                                 </div>
-                                <div class="_board-list _comment-board-list">
-                                    <div class="_comment_board-item">
-                                        <div class="_board-container" data-no="1" data-type="board">
-                                            <div class="_content ellipsis-one-line">
-                                                <span class="medium-h4">[질문과 답변] 양 & 염소는 풀을 너무 많이 먹이고 하네요.</span>
-                                                <div class="_view-comment">
-                                                    <svg class="mr-1" width="24"
-                                                         height="24"
-                                                         viewBox="0 0 24 24"
-                                                         fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M19 15L13 21L11.58 19.58L15.17 16H4V4H6V14H15.17L11.58 10.42L13 9L19 15Z"
-                                                              fill="#222222"/>
-                                                    </svg>
-                                                    <div class="medium-h5 c-gray-dark-low ellipsis-one-line mr-auto">열심히 하는 모습에 응원합니다.</div>
-                                                    <div class="ml-8 regular-h5 c-gray-dark-low">2022.12.22</div>
+                                <div class="comment-made-me-container">
+                                    <c:choose>
+                                        <c:when test="${commentsMadeMe.size() ne 0}">
+                                            <div class="_board-list _comment-board-list">
+                                                <c:forEach items="${commentsMadeMe}" var="comment" varStatus="status">
+                                                    <c:choose>
+                                                        <c:when test="${status.count <= 4}">
+                                                            <c:choose>
+                                                                <c:when test="${comment.farm ne null}">
+                                                                    <div class="_comment_board-item">
+                                                                        <div class="_board-container"
+                                                                             data-no="${comment.farm.no}"
+                                                                             data-type="FARM">
+                                                                            <div class="_content ellipsis-one-line">
+                                                                                <span class="medium-h4">[농장] ${comment.farm.name}님의 농장</span>
+                                                                                <div class="_view-comment">
+                                                                                    <svg class="mr-1" width="24"
+                                                                                         height="24"
+                                                                                         viewBox="0 0 24 24"
+                                                                                         fill="none"
+                                                                                         xmlns="http://www.w3.org/2000/svg">
+                                                                                        <path d="M19 15L13 21L11.58 19.58L15.17 16H4V4H6V14H15.17L11.58 10.42L13 9L19 15Z"
+                                                                                              fill="#222222"/>
+                                                                                    </svg>
+                                                                                    <div class="medium-h5 c-gray-dark-low ellipsis-one-line mr-auto">${comment.content}</div>
+                                                                                    <div class="ml-8 regular-h5 c-gray-dark-low">
+                                                                                        <custom:formatDatetime
+                                                                                                value="${comment.reg_datetime}"
+                                                                                                pattern="yyyy.MM.dd"/>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <div class="_comment_board-item">
+                                                                        <div class="_board-container"
+                                                                             data-no="${comment.community_no}"
+                                                                             data-type="${comment.type}">
+                                                                            <div class="_content ellipsis-one-line">
+                                                                                <span class="medium-h4">[${comment.type.korName}] ${comment.contentForm.title}</span>
+                                                                                <div class="_view-comment">
+                                                                                    <svg class="mr-1" width="24"
+                                                                                         height="24"
+                                                                                         viewBox="0 0 24 24"
+                                                                                         fill="none"
+                                                                                         xmlns="http://www.w3.org/2000/svg">
+                                                                                        <path d="M19 15L13 21L11.58 19.58L15.17 16H4V4H6V14H15.17L11.58 10.42L13 9L19 15Z"
+                                                                                              fill="#222222"/>
+                                                                                    </svg>
+                                                                                    <div class="medium-h5 c-gray-dark-low ellipsis-one-line mr-auto">${comment.content}</div>
+                                                                                    <div class="ml-8 regular-h5 c-gray-dark-low">
+                                                                                        <custom:formatDatetime
+                                                                                                value="${comment.reg_datetime}"
+                                                                                                pattern="yyyy.MM.dd"/>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <c:choose>
+                                                                <c:when test="${comment.farm ne null}">
+                                                                    <div class="_comment_board-item"
+                                                                         style="display: none;">
+                                                                        <div class="_board-container"
+                                                                             data-no="${comment.farm.no}"
+                                                                             data-type="FARM">
+                                                                            <div class="_content ellipsis-one-line">
+                                                                                <span class="medium-h4">[농장] ${comment.farm.name}님의 농장</span>
+                                                                                <div class="_view-comment">
+                                                                                    <svg class="mr-1" width="24"
+                                                                                         height="24"
+                                                                                         viewBox="0 0 24 24"
+                                                                                         fill="none"
+                                                                                         xmlns="http://www.w3.org/2000/svg">
+                                                                                        <path d="M19 15L13 21L11.58 19.58L15.17 16H4V4H6V14H15.17L11.58 10.42L13 9L19 15Z"
+                                                                                              fill="#222222"/>
+                                                                                    </svg>
+                                                                                    <div class="medium-h5 c-gray-dark-low ellipsis-one-line mr-auto">${comment.content}</div>
+                                                                                    <div class="ml-8 regular-h5 c-gray-dark-low">
+                                                                                        <custom:formatDatetime
+                                                                                                value="${comment.reg_datetime}"
+                                                                                                pattern="yyyy.MM.dd"/>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <div class="_comment_board-item"
+                                                                         style="display: none;">
+                                                                        <div class="_board-container"
+                                                                             data-no="${comment.community_no}"
+                                                                             data-type="${comment.type}">
+                                                                            <div class="_content ellipsis-one-line">
+                                                                                <span class="medium-h4">[${comment.type.korName}] ${comment.contentForm.title}</span>
+                                                                                <div class="_view-comment">
+                                                                                    <svg class="mr-1" width="24"
+                                                                                         height="24"
+                                                                                         viewBox="0 0 24 24"
+                                                                                         fill="none"
+                                                                                         xmlns="http://www.w3.org/2000/svg">
+                                                                                        <path d="M19 15L13 21L11.58 19.58L15.17 16H4V4H6V14H15.17L11.58 10.42L13 9L19 15Z"
+                                                                                              fill="#222222"/>
+                                                                                    </svg>
+                                                                                    <div class="medium-h5 c-gray-dark-low ellipsis-one-line mr-auto">${comment.content}</div>
+                                                                                    <div class="ml-8 regular-h5 c-gray-dark-low">
+                                                                                        <custom:formatDatetime
+                                                                                                value="${comment.reg_datetime}"
+                                                                                                pattern="yyyy.MM.dd"/>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
+                                            </div>
+                                            <c:if test="${commentsMadeMe.size() > 4}">
+                                                <div class="_more medium-h4 c-brand-green">
+                                                    더보기
                                                 </div>
+                                            </c:if>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="regular-h5 mt-48" style="text-align: center">
+                                                <span>작성한 댓글이 없습니다.</span>
                                             </div>
-                                        </div>
-                                        <div class="_paragraph regular-h5 c-brand-green">
-                                            새로운 댓글이 달렸어요!
-                                        </div>
-                                    </div>
-                                    <div class="_comment_board-item">
-                                        <div class="_board-container" data-no="1" data-type="board">
-                                            <div class="_content ellipsis-one-line">
-                                                <span class="medium-h4">[질문과 답변] 양 & 염소는 풀을 너무 많이 먹이고 하네요.</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="_more medium-h4 c-brand-green">
-                                    더보기
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                             </div>
                         </div>
@@ -679,20 +747,23 @@
                                 <div class="_title-container">
                                     <span class="bold-h3">나에게 온 댓글</span>
                                     <div class="dropdown input-dropdown">
-                                        <div data-toggle="dropdown" aria-expanded="false" class="form-group form-inner-button form-sm">
+                                        <div data-toggle="dropdown" aria-expanded="false"
+                                             class="form-group form-inner-button form-sm">
                                             <input type="text"
                                                    class="form-control input-box medium-h5 dropdown-input"
                                                    disabled="disabled"
                                                    value="전체"
                                                    id="secret-filter">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_278_13355)">
                                                     <path d="M12 13.1727L16.95 8.22266L18.364 9.63666L12 16.0007L5.636 9.63666L7.05 8.22266L12 13.1727Z"
                                                           fill="#222222"></path>
                                                 </g>
                                                 <defs>
                                                     <clipPath id="clip0_278_13355">
-                                                        <rect width="24" height="24" fill="white" transform="translate(24) rotate(90)"></rect>
+                                                        <rect width="24" height="24" fill="white"
+                                                              transform="translate(24) rotate(90)"></rect>
                                                     </clipPath>
                                                 </defs>
                                             </svg>
@@ -714,7 +785,8 @@
                                     <div class="comment-container">
                                         <div class="_comment">
                                             <div class="_profile-img">
-                                                <img alt="" src="../../resources/assets/images/sample/background-wallpaper1.png">
+                                                <img alt=""
+                                                     src="../../resources/assets/images/sample/background-wallpaper1.png">
                                             </div>
                                             <div class="_media">
                                                 <div class="_comment-text">
@@ -760,7 +832,8 @@
                                         <div class="reply-comment-container">
                                             <div class="_comment">
                                                 <div class="_profile-img">
-                                                    <img alt="" src="../../resources/assets/images/sample/background-wallpaper1.png">
+                                                    <img alt=""
+                                                         src="../../resources/assets/images/sample/background-wallpaper1.png">
                                                 </div>
                                                 <div class="_media">
                                                     <div class="_comment-text">
@@ -775,7 +848,8 @@
                                             </div>
                                             <div class="_comment">
                                                 <div class="_profile-img">
-                                                    <img alt="" src="../../resources/assets/images/sample/background-wallpaper1.png">
+                                                    <img alt=""
+                                                         src="../../resources/assets/images/sample/background-wallpaper1.png">
                                                 </div>
                                                 <div class="_media">
                                                     <div class="_comment-text">
@@ -793,7 +867,8 @@
                                     <div class="comment-container">
                                         <div class="_comment">
                                             <div class="_profile-img">
-                                                <img alt="" src="../../resources/assets/images/sample/background-wallpaper1.png">
+                                                <img alt=""
+                                                     src="../../resources/assets/images/sample/background-wallpaper1.png">
                                             </div>
                                             <div class="_media">
                                                 <div class="_comment-text">
@@ -877,59 +952,12 @@
      * */
     $(document).ready(function () {
         console.log('Static JS is ready');
-        /** Comment reply */
-        $('._reply').on('click', '._do', function () {
-            let t = this;
-            let $t = $(this);
-            $t.parent().append('<span class="medium-h5 c-basic-black _cancel">취소</span>');
-            $(t.closest('.comment-container')).append('<div class="form-group form-inner-button">\n' +
-                '                        <input type="text" placeholder="답글을 입력하세요." class="form-control input-box medium-h5"\n' +
-                '                               id="input7">\n' +
-                '                        <button type="button" class="btn btn-sm btn-brand bold-h5">\n' +
-                '                            작성\n' +
-                '                        </button>\n' +
-                '                    </div>');
-            $t.remove();
-            // input show
-
-        }).on('click', '._cancel', function () {
-            let t = this;
-            let $t = $(this);
-            $t.parent().append('<span class="medium-h5 c-basic-black _do">답글</span>');
-            $(t.closest('.comment-container')).find('.form-group.form-inner-button').remove();
-            $t.remove();
-            // input remove
-        }).on('click', '._delete', function () {
-            alert('삭제 버튼');
-        });
-
-        $('._comment ._transactions ._responds ._like').on('click', function () {
-            let $number_span = $(this).find('span');
-            if ($(this).hasClass('is-active')) {
-                $(this).removeClass('is-active');
-                $number_span.html(($number_span.html() * 1 - 1));
-            } else {
-                $(this).addClass('is-active');
-                $number_span.html(($number_span.html() * 1 + 1));
-            }
-        });
-
-        $('._comment ._transactions ._responds ._dislike').on('click', function () {
-            let $number_span = $(this).find('span');
-            if ($(this).hasClass('is-active')) {
-                $(this).removeClass('is-active');
-                $number_span.html(($number_span.html() * 1 - 1));
-            } else {
-                $(this).addClass('is-active');
-                $number_span.html(($number_span.html() * 1 + 1));
-            }
-        });
-
         /** Dropdown */
         $('._writer-board .dropdown-menu').on('click', 'a.dropdown-item', function (event) {
             let dropdown_item = this;
+            let input = dropdown_item.closest('.dropdown').querySelector('input');
+            let write_button = this.closest('._writer-board').querySelector('._title-container > button[data-href]');
             let type = dropdown_item.dataset.type;
-
             let tabs = $('#myTabContent .tab-pane');
             tabs.each(function (index, tab) {
                 if (tab.id !== type) {
@@ -944,12 +972,169 @@
                     }
                 }
             });
+
+            switch (type) {
+                case'BOARD':
+                    input.value = '자유 게시판';
+                    write_button.setAttribute('data-href', '/user/board/write?type=BOARD');
+                    break;
+                case'TIP':
+                    input.value = '팁과 노하우';
+                    write_button.setAttribute('data-href', '/user/board/write?type=TIP');
+                    break;
+                case'MANUAL':
+                    input.value = '축산 메뉴얼';
+                    write_button.setAttribute('data-href', '/user/board/write?type=MANUAL');
+                    break;
+                case'QUESTION':
+                    input.value = '질문과 답변';
+                    write_button.setAttribute('data-href', '/user/board/write?type=QUESTION');
+                    break;
+            }
+            input.setAttribute('data-type', type);
         });
 
+        /*
+        * Dropdown Logic
+        * */
         $('._my-comment .dropdown-menu').on('click', 'a.dropdown-item', function (event) {
             let dropdown_item = this;
             let type = dropdown_item.dataset.type;
             console.log(dropdown_item, type);
+        });
+
+        /*
+        * More Logic
+        * */
+        $('#myTabContent .tab-pane ._more').click(function () {
+            let container = this.closest('.tab-pane');
+            let board_comments = container.querySelectorAll('._comment-board-list ._comment_board-item');
+            let count = 4;
+            board_comments.forEach(function (board_comment) {
+                if (count === 0) {
+                    return;
+                }
+                if (board_comment.style.display === 'none') {
+                    board_comment.style.display = 'block';
+                    count--;
+                }
+            });
+            let check = false;
+            board_comments.forEach(function (board_comment) {
+                if (board_comment.style.display === 'none') {
+                    check = true;
+                }
+            });
+            if (!check) {
+                this.remove();
+            }
+        });
+        $('.comment-made-me-container ._more').click(function () {
+            let container = this.closest('.comment-made-me-container');
+            let board_comments = container.querySelectorAll('._comment-board-list ._comment_board-item');
+            let count = 4;
+            board_comments.forEach(function (board_comment) {
+                if (count === 0) {
+                    return;
+                }
+                if (board_comment.style.display === 'none') {
+                    board_comment.style.display = 'block';
+                    count--;
+                }
+            });
+            let check = false;
+            board_comments.forEach(function (board_comment) {
+                if (board_comment.style.display === 'none') {
+                    check = true;
+                }
+            });
+            if (!check) {
+                this.remove();
+            }
+        });
+
+        /*
+        * Delete Logic
+        * */
+        $('#myTabContent .tab-pane ._comment-board-list ._comment_board-item ._delete').click(function () {
+            let container = this.closest('.tab-pane');
+            let button = document.querySelector('._writer-board').querySelector('._title-container .dropdown input[data-type]');
+            let item = this.closest('._comment_board-item');
+            item.remove();
+            let board_comments = container.querySelectorAll('._comment-board-list ._comment_board-item');
+            let type_text = '';
+            switch (button.dataset.type) {
+                case'BOARD':
+                    type_text = '자유 게시판이';
+                    break;
+                case'TIP':
+                    type_text = '팁과 노하우가';
+                    break;
+                case'MANUAL':
+                    type_text = '축산 메뉴얼이';
+                    break;
+                case'QUESTION':
+                    type_text = '질문과 답변이';
+                    break;
+            }
+            if (board_comments.length === 0) {
+                deleteChild(container);
+                $(container).append(`<div class="regular-h5 mt-48" style="text-align: center">
+                                         <span>등록된 \${type_text} 없습니다.</span>
+                                     </div>`);
+            }
+        });
+
+        /*
+        * Click Logic
+        * */
+        $('#myTabContent ._comment-board-list ._comment_board-item').click(function () {
+            let type = this.querySelector('._board-container').dataset.type;
+            let no = this.querySelector('._board-container').dataset.no;
+            switch (type) {
+                case'BOARD':
+                    location.href = '/community/board/detail/' + no;
+                    break;
+                case'TIP':
+                    location.href = '/community/tip/detail/' + no;
+                    break;
+                case'MANUAL':
+                    location.href = '/community/manual/detail/' + no;
+                    break;
+                case'QUESTION':
+                    location.href = '/community/question/detail/' + no;
+                    break;
+                case 'FARM':
+                    location.href = '/community/farm/detail/' + no;
+                    break;
+                case 'MAGAZINE':
+                    location.href = '/community/magazine/detail/' + no;
+                    break;
+            }
+        });
+        $('.comment-made-me-container ._comment-board-list ._comment_board-item').click(function () {
+            let type = this.querySelector('._board-container').dataset.type;
+            let no = this.querySelector('._board-container').dataset.no;
+            switch (type) {
+                case'BOARD':
+                    location.href = '/community/board/detail/' + no;
+                    break;
+                case'TIP':
+                    location.href = '/community/tip/detail/' + no;
+                    break;
+                case'MANUAL':
+                    location.href = '/community/manual/detail/' + no;
+                    break;
+                case'QUESTION':
+                    location.href = '/community/question/detail/' + no;
+                    break;
+                case 'FARM':
+                    location.href = '/community/farm/detail/' + no;
+                    break;
+                case 'MAGAZINE':
+                    location.href = '/community/magazine/detail/' + no;
+                    break;
+            }
         });
     });
 </script>

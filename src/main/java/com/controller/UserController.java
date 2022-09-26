@@ -3,18 +3,14 @@ package com.controller;
 import com.aws.file.FileUploadUtility;
 import com.model.common.MFile;
 import com.model.content.board.Board;
-import com.model.content.common.BOOKMARK_TYPE;
-import com.model.content.common.COMMENT_TYPE;
-import com.model.content.common.ContentForm;
+import com.model.content.board.BoardTransaction;
+import com.model.content.common.*;
 import com.model.content.magazine.Magazine;
 import com.model.content.manual.Manual;
 import com.model.content.question.Question;
 import com.model.content.tips.Tips;
 import com.model.farm.Farm;
-import com.service.ContentService;
-import com.service.FarmService;
-import com.service.UserService;
-import com.service.TraceService;
+import com.service.*;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
 import com.util.Format;
@@ -40,6 +36,8 @@ public class UserController {
     private final EncryptionService encryptionService;
     private final UserService userService;
     private final FarmService farmService;
+    private final ReadService readService;
+    private final CommentService commentService;
 
     private final TraceService traceService;
 
@@ -50,7 +48,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/board/write", method = RequestMethod.GET)
-    public ModelAndView getBoardWrite() {
+    public ModelAndView getBoardWrite(COMMENT_TYPE type) {
         ModelAndView VIEW = new ModelAndView("user/board-write");
         return VIEW;
     }
@@ -189,8 +187,86 @@ public class UserController {
     }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public ModelAndView userHomePage() {
+    public ModelAndView getUserHome(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("user/home");
+        /*
+         * 내가 작성한 게시글
+         * 자유게시판
+         * 팁과 노하우
+         * 축산 메뉴얼
+         * 질문과 답변
+         * 최신 매거진(필요 없음)
+         * */
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Farm farm = farmService.getFarmByUserNo(user_no);
+
+        ArrayList<Board> boards = contentService.getBoards(farm.getNo());
+        for (Board board : boards) {
+            board.set_new_comment(readService.ownerCheck(COMMENT_TYPE.BOARD, board.getNo()));
+        }
+
+        ArrayList<Tips> tips = contentService.getTips(farm.getNo());
+        for (Tips tip : tips) {
+            tip.set_new_comment(readService.ownerCheck(COMMENT_TYPE.BOARD, tip.getNo()));
+        }
+
+        ArrayList<Manual> manuals = contentService.getManuals(farm.getNo());
+        for (Manual manual : manuals) {
+            manual.set_new_comment(readService.ownerCheck(COMMENT_TYPE.BOARD, manual.getNo()));
+        }
+
+        ArrayList<Question> questions = contentService.getQuestions(farm.getNo());
+        for (Question question : questions) {
+            question.set_new_comment(readService.ownerCheck(COMMENT_TYPE.BOARD, question.getNo()));
+        }
+        /*
+         * 내가 작성한 댓글
+         * */
+        ArrayList<Comment> commentsMadeMe = commentService.getCommentsMadeMe(user_no);
+        ContentForm contentForm = null;
+        for (Comment comment : commentsMadeMe) {
+            switch (comment.getType()) {
+                case BOARD:
+                    contentForm = contentService.getContentFormByBoardNo(comment.getCommunity_no());
+                    contentForm.setContent(null);
+                    comment.setContentForm(contentForm);
+                    break;
+                case QUESTION:
+                    contentForm = contentService.getContentFormByQuestionNo(comment.getCommunity_no());
+                    contentForm.setContent(null);
+                    comment.setContentForm(contentForm);
+                    break;
+                case MANUAL:
+                    contentForm = contentService.getContentFormByManualNo(comment.getCommunity_no());
+                    contentForm.setContent(null);
+                    comment.setContentForm(contentForm);
+                    break;
+                case TIP:
+                    contentForm = contentService.getContentFormByTipNo(comment.getCommunity_no());
+                    contentForm.setContent(null);
+                    comment.setContentForm(contentForm);
+                    break;
+                case MAGAZINE:
+                    contentForm = contentService.getContentFormByMagazineNo(comment.getCommunity_no());
+                    contentForm.setContent(null);
+                    comment.setContentForm(contentForm);
+                    break;
+                case FARM:
+                    comment.setFarm(farmService.getFarmByUserNo(user_no));
+                    break;
+            }
+            log.info(comment.toString());
+        }
+        /*
+         * 나에게 온 댓글
+         * */
+
+        VIEW.addObject("boards", boards);
+        VIEW.addObject("tips", tips);
+        VIEW.addObject("manuals", manuals);
+        VIEW.addObject("questions", questions);
+        log.info(commentsMadeMe.toString());
+        VIEW.addObject("commentsMadeMe", commentsMadeMe);
         return VIEW;
     }
 

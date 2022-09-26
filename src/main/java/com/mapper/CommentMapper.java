@@ -2,6 +2,8 @@ package com.mapper;
 
 import com.model.FarmComment;
 import com.model.content.board.BoardComment;
+import com.model.content.common.Comment;
+import com.model.content.common.UserContentTransaction;
 import com.model.content.magazine.MagazineComment;
 import com.model.content.manual.ManualComment;
 import com.model.content.question.QuestionComment;
@@ -99,4 +101,14 @@ public interface CommentMapper {
     ArrayList<FarmComment> getFarmRecommentByCommentNo(@Param("comment_no") int comment_no);
 
     FarmComment getBestFarmComment(@Param("farm_no") int farm_no);
+
+    boolean boardOwnerCheck(@Param("board_no") int board_no);
+
+    boolean tipOwnerCheck(@Param("tips_no") int tips_no);
+
+    boolean manualOwnerCheck(@Param("manual_no") int manual_no);
+
+    boolean questionOwnerCheck(@Param("question_no") int question_no);
+
+    ArrayList<Comment> getCommentsMadeMe(@Param("user_no") int user_no);
 }

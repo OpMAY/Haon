@@ -4,6 +4,8 @@ import com.dao.CommentDao;
 import com.dao.ContentDao;
 import com.model.FarmComment;
 import com.model.content.board.BoardComment;
+import com.model.content.common.Comment;
+import com.model.content.common.UserContentTransaction;
 import com.model.content.magazine.MagazineComment;
 import com.model.content.manual.ManualComment;
 import com.model.content.question.QuestionComment;
@@ -261,5 +263,9 @@ public class CommentService {
             return farmComment.getNo() == comment_no;
         }
         return false;
+    }
+
+    public ArrayList<Comment> getCommentsMadeMe(int user_no) {
+        return commentDao.getCommentsMadeMe(user_no);
     }
 }

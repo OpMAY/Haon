@@ -315,4 +315,63 @@
         order by like_count DESC, qc.no
         LIMIT 5;
     </select>
+    <select id="boardOwnerCheck" parameterType="int" resultType="boolean">
+        select IF(EXISTS(
+                          select *
+                          from board_comment
+                          WHERE board_no = #{board_no}
+                            AND owner_checked = false),
+                  true, false);
+    </select>
+    <select id="tipOwnerCheck" parameterType="int" resultType="boolean">
+        select IF(EXISTS(
+                          select *
+                          from tips_comment
+                          WHERE tips_no = #{tips_no}
+                            AND owner_checked = false),
+                  true, false);
+    </select>
+    <select id="manualOwnerCheck" parameterType="int" resultType="boolean">
+        select IF(EXISTS(
+                          select *
+                          from manual_comment
+                          WHERE manual_no = #{manual_no}
+                            AND owner_checked = false),
+                  true, false);
+    </select>
+    <select id="questionOwnerCheck" parameterType="int" resultType="boolean">
+        select IF(EXISTS(
+                          select *
+                          from question_comment
+                          WHERE question_no = #{question_no}
+                            AND owner_checked = false),
+                  true, false);
+    </select>
+    <select id="getCommentsMadeMe" parameterType="int" resultType="Comment">
+        select *
+        from (select no, content, 'BOARD' as type, board_no as community_no, reg_datetime
+              from board_comment
+              WHERE user_no = #{user_no}
+              UNION
+              select no, content, 'QUESTION' as type, question_no as community_no, reg_datetime
+              from question_comment
+              WHERE user_no = #{user_no}
+              UNION
+              select no, content, 'FARM' as type, farm_no as community_no, reg_datetime
+              from farm_comment
+              WHERE user_no = #{user_no}
+              UNION
+              select no, content, 'MAGAZINE' as type, magazine_no as community_no, reg_datetime
+              from magazine_comment
+              WHERE user_no = #{user_no}
+              UNION
+              select no, content, 'MANUAL' as type, manual_no as community_no, reg_datetime
+              from manual_comment
+              WHERE user_no = #{user_no}
+              UNION
+              select no, content, 'TIP' as type, tips_no as community_no, reg_datetime
+              from tips_comment
+              WHERE user_no = #{user_no}) as bcqc
+        ORDER BY reg_datetime desc;
+    </select>
 </mapper>
