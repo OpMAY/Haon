@@ -19,7 +19,6 @@ public class TraceDao {
     public List<Trace> getFarmTraces(int farmNo) {
         return mapper.getFarmTraces(farmNo);
     }
-
     public boolean isCodeExists(String code) {
         return mapper.isCodeExists(code);
     }

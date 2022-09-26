@@ -129,6 +129,7 @@
                                 </div>
                                 <div class="_traces">
                                     <c:if test="${traces.size() > 0}">
+<<<<<<< HEAD
                                         <c:forEach var="trace" items="${traces}">
                                             <div class="_trace mt-32">
                                                 <div class="_bundle-header">
@@ -147,6 +148,24 @@
                                                 </div>
                                             </div>
                                         </c:forEach>
+=======
+                                        <div class="_trace mt-32">
+                                            <div class="_bundle-header">
+                                                <span class="bold-h2" data-code="L-0-220819-9763-101">L-0-220819-9763-101</span>
+                                                <button type="button"
+                                                        class="_qr btn btn-brand-opacity btn-block bold-h5">
+                                                    QR 코드 다운로드
+                                                </button>
+                                            </div>
+                                            <div class="_bundle-body d-flex">
+                                                <span class="_livestock regular-h5 p-2">양 & 염소</span>
+                                                <span class="regular-h5 p-2">1++</span>
+                                                <span class="regular-h5 p-2">수컷</span>
+                                                <span class="regular-h5 p-2">2022.12.22 출생</span>
+                                                <span class="regular-h5 _date ml-auto p-2">2023.12.12</span>
+                                            </div>
+                                        </div>
+>>>>>>> 368c577a7e6d986e8dbb5321e2d6c8798f26b1f8
                                     </c:if>
                                     <c:if test="${traces.size() <= 0}">
                                         <div class="bold-h2 c-gray-light" style="text-align: center">
@@ -460,7 +479,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="row mt-32">
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -824,7 +842,6 @@
             defaultViewDate: 'today',
             autoclose: true
         }).datepicker('setDate', 'now');
-
     });
 </script>
 

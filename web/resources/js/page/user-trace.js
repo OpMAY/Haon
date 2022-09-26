@@ -19,7 +19,6 @@ $(document).ready(function () {
         findTrace($input.val()).then((result) => {
             console.log(result);
             if (result.status === 'OK') {
-                console.log(result.data);
                 if (result.data.status) {
                     // TODO 해당 번호로 데이터 가져오기
                     viewModal({
@@ -55,28 +54,20 @@ $(document).ready(function () {
                                     }
                                 }
                             })
-                        },
-                        onShow: () => {
-                            $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
-                        },
-                        onShown: () => {
-                            $('body .modal-backdrop._second').removeClass('_second').css('z-index', 1040);
-                            $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
-                        },
+
+                            if (result.data.type === 0) {
+                                viewAlert({content: '묶음 이력 번호는 묶음 이력 생성에서 조회해주세요.', zIndex: 2000})
+                            } else if (result.data.type === 1) {
+                                viewAlert({content: '이미 하온에 등록되어 있는 이력 번호입니다.', zIndex: 2000})
+                            } else {
+                                viewAlert({content: '존재하지 않거나 개체 종류와 맞지 않는 이력 번호 입니다.', zIndex: 2000})
+                            }
+                        }
                     })
-                } else {
-                    if (result.data.type === 0) {
-                        viewAlert({content: '묶음 이력 번호는 묶음 이력 생성에서 조회해주세요.', zIndex: 2000})
-                    } else if (result.data.type === 1) {
-                        viewAlert({content: '이미 하온에 등록되어 있는 이력 번호입니다.', zIndex: 2000})
-                    } else {
-                        viewAlert({content: '존재하지 않거나 개체 종류와 맞지 않는 이력 번호 입니다.', zIndex: 2000})
-                    }
                 }
             }
         })
     })
-
 
     $('.modal').on('click', '._trace-table-delete', function () {
         let $this = $(this);
@@ -498,7 +489,6 @@ $(document).ready(function () {
 
         // MAKE
     })
-
 });
 
 

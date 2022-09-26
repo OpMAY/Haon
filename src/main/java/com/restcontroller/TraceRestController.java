@@ -4,8 +4,11 @@ import com.model.farm.trace.Trace;
 import com.response.DefaultRes;
 import com.response.Message;
 import com.service.TraceService;
+<<<<<<< HEAD
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
+=======
+>>>>>>> 368c577a7e6d986e8dbb5321e2d6c8798f26b1f8
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,7 +23,10 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/api")
 public class TraceRestController {
     private final TraceService traceService;
+<<<<<<< HEAD
     private final EncryptionService encryptionService;
+=======
+>>>>>>> 368c577a7e6d986e8dbb5321e2d6c8798f26b1f8
 
     @RequestMapping(value = "/trace/{type}/{value}", method = RequestMethod.POST)
     public ResponseEntity<String> selectTrace(HttpServletRequest request, @PathVariable("type") String type, @PathVariable("value") String value) throws Exception {
@@ -37,6 +43,7 @@ public class TraceRestController {
          * - Required Methods
          *      1. 번호 조회
          *          1) 농장 종류와 대응하는 번호인지
+<<<<<<< HEAD
          *              -> 회원 가입 시 농장 번호 입력 추가 필요
          *          2) 해당 정보가 맞다면 farm과 connect
          *              -> 당장 여기서 X
@@ -44,6 +51,11 @@ public class TraceRestController {
          *              -> O
          *          4) 이미 DB에 등록되어 있는 이력인지
          *              -> O
+=======
+         *          2) 해당 정보가 맞다면 farm과 connect
+         *          3) 번호의 유무
+         *          4) 이미 DB에 등록되어 있는 이력인지
+>>>>>>> 368c577a7e6d986e8dbb5321e2d6c8798f26b1f8
          *      2. 새로운 이력 등록
          *          1) 소, 닭, 돼지, 오리가 아닌지 확인
          *          2) data format set
@@ -51,6 +63,7 @@ public class TraceRestController {
          *      3. 이력 묶음
          *          1) 다른 묶음에 중복해서 묶음 X
          *          2) 묶을 이력끼리 같은 종류인지
+<<<<<<< HEAD
          *      4. 묶음 이력, 이력 모두 조회 후 데이터 전달 뒤 확인을 누르면 데이터 저장 후 농장과 연결하는 방식
          * **/
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
@@ -62,6 +75,12 @@ public class TraceRestController {
         Message message = traceService.registerTrace(trace, user_no);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
+=======
+         *      4.
+         * **/
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+>>>>>>> 368c577a7e6d986e8dbb5321e2d6c8798f26b1f8
 
 
 }
