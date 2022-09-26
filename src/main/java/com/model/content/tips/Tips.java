@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class Tips extends ContentForm {
-    private int farm_no;
-    private MFile thumbnail;
     private MFile profile_image;
+    private boolean is_new_comment;
 }

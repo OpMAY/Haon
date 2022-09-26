@@ -10,8 +10,6 @@ import java.util.ArrayList;
 @Data
 public class MagazineComment extends Comment {
     private int magazine_no;
-    private boolean owner_checked;
     /*Recomment*/
     private ArrayList<MagazineComment> comments;
-    private User user;
 }

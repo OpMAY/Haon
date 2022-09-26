@@ -317,4 +317,42 @@
         insert into farm_comment_dislike(comment_no, user_no)
         VALUES (#{comment_no}, #{user_no});
     </insert>
+    <select id="getLikesByComment" parameterType="Comment" resultType="int">
+        <choose>
+            <when test='type.name().equals("BOARD")'>
+                select COUNT(*) from board_comment_like where comment_no=#{no}
+            </when>
+            <when test='type.name().equals("QUESTION")'>
+                select COUNT(*) from question_comment_like where comment_no=#{no}
+            </when>
+            <when test='type.name().equals("TIP")'>
+                select COUNT(*) from tips_comment_like where comment_no=#{no}
+            </when>
+            <when test='type.name().equals("MANUAL")'>
+                select COUNT(*) from manual_comment_like where comment_no=#{no}
+            </when>
+            <when test='type.name().equals("FARM")'>
+                select COUNT(*) from farm_comment_like where comment_no=#{no}
+            </when>
+        </choose>
+    </select>
+    <select id="getDislikesByComment" parameterType="Comment" resultType="int">
+        <choose>
+            <when test='type.name().equals("BOARD")'>
+                select COUNT(*) from board_comment_dislike where comment_no=#{no}
+            </when>
+            <when test='type.name().equals("QUESTION")'>
+                select COUNT(*) from question_comment_dislike where comment_no=#{no}
+            </when>
+            <when test='type.name().equals("TIP")'>
+                select COUNT(*) from tips_comment_dislike where comment_no=#{no}
+            </when>
+            <when test='type.name().equals("MANUAL")'>
+                select COUNT(*) from manual_comment_dislike where comment_no=#{no}
+            </when>
+            <when test='type.name().equals("FARM")'>
+                select COUNT(*) from farm_comment_dislike where comment_no=#{no}
+            </when>
+        </choose>
+    </select>
 </mapper>

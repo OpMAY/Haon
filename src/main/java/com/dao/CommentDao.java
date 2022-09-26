@@ -3,6 +3,8 @@ package com.dao;
 import com.mapper.CommentMapper;
 import com.model.FarmComment;
 import com.model.content.board.BoardComment;
+import com.model.content.common.Comment;
+import com.model.content.common.UserContentTransaction;
 import com.model.content.magazine.MagazineComment;
 import com.model.content.manual.ManualComment;
 import com.model.content.question.QuestionComment;
@@ -197,5 +199,33 @@ public class CommentDao {
 
     public FarmComment getBestFarmComment(int farm_no) {
         return mapper.getBestFarmComment(farm_no);
+    }
+
+    public boolean boardOwnerCheck(int board_no) {
+        return mapper.boardOwnerCheck(board_no);
+    }
+
+    public boolean tipOwnerCheck(int tips_no) {
+        return mapper.tipOwnerCheck(tips_no);
+    }
+
+    public boolean manualOwnerCheck(int manual_no) {
+        return mapper.manualOwnerCheck(manual_no);
+    }
+
+    public boolean questionOwnerCheck(int question_no) {
+        return mapper.questionOwnerCheck(question_no);
+    }
+
+    public ArrayList<Comment> getCommentsMadeMe(int user_no) {
+        return mapper.getCommentsMadeMe(user_no);
+    }
+
+    public ArrayList<Comment> getCommentsByMe(int farm_no) {
+        return mapper.getCommentsByMe(farm_no);
+    }
+
+    public ArrayList<Comment> getRecommentByCommentNo(Comment comment) {
+        return mapper.getRecommentByCommentNo(comment);
     }
 }

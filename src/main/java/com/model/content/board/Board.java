@@ -5,4 +5,5 @@ import lombok.Data;
 
 @Data
 public class Board extends ContentForm {
+    private boolean is_new_comment;
 }

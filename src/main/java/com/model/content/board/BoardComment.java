@@ -9,8 +9,6 @@ import java.util.ArrayList;
 @Data
 public class BoardComment extends Comment {
     private int board_no;
-    private boolean owner_checked;
     /*Recomment*/
     private ArrayList<BoardComment> comments;
-    private User user;
 }

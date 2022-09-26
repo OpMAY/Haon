@@ -4,6 +4,8 @@ import com.dao.CommentDao;
 import com.dao.ContentDao;
 import com.model.FarmComment;
 import com.model.content.board.BoardComment;
+import com.model.content.common.Comment;
+import com.model.content.common.UserContentTransaction;
 import com.model.content.magazine.MagazineComment;
 import com.model.content.manual.ManualComment;
 import com.model.content.question.QuestionComment;
@@ -261,5 +263,54 @@ public class CommentService {
             return farmComment.getNo() == comment_no;
         }
         return false;
+    }
+
+    public ArrayList<Comment> getCommentsMadeMe(int user_no) {
+        return commentDao.getCommentsMadeMe(user_no);
+    }
+
+    public ArrayList<Comment> getCommentsByMe(int farm_no) {
+        return commentDao.getCommentsByMe(farm_no);
+    }
+
+    public ArrayList<Comment> getRecommentByCommentNo(Comment comment) {
+        return commentDao.getRecommentByCommentNo(comment);
+    }
+
+    public boolean isBestComment(Comment comment) {
+        switch (comment.getType()) {
+            case BOARD:
+                BoardComment boardComment = commentDao.getBestBoardComment(comment.getCommunity_no());
+                if (boardComment.getCount() != null && boardComment.getCount().intValue() != 0) {
+                    return boardComment.getNo() == comment.getCommunity_no();
+                }
+                return false;
+            case QUESTION:
+                QuestionComment questionComment = commentDao.getBestQuestionComment(comment.getCommunity_no());
+                if (questionComment.getCount() != null && questionComment.getCount().intValue() != 0) {
+                    return questionComment.getNo() == comment.getCommunity_no();
+                }
+                return false;
+            case MANUAL:
+                ManualComment manualComment = commentDao.getBestManualComment(comment.getCommunity_no());
+                if (manualComment.getCount() != null && manualComment.getCount().intValue() != 0) {
+                    return manualComment.getNo() == comment.getCommunity_no();
+                }
+                return false;
+            case TIP:
+                TipsComment tipsComment = commentDao.getBestTipsComment(comment.getCommunity_no());
+                if (tipsComment.getCount() != null && tipsComment.getCount().intValue() != 0) {
+                    return tipsComment.getNo() == comment.getCommunity_no();
+                }
+                return false;
+            case FARM:
+                FarmComment farmComment = commentDao.getBestFarmComment(comment.getCommunity_no());
+                if (farmComment.getCount() != null && farmComment.getCount().intValue() != 0) {
+                    return farmComment.getNo() == comment.getCommunity_no();
+                }
+                return false;
+            default:
+                return false;
+        }
     }
 }

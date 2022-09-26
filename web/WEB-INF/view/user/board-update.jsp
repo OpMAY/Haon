@@ -325,7 +325,7 @@
         if (origin_thumbnail_input !== null && origin_thumbnail_input !== undefined) {
             let origin_thumbnail = {
                 name: origin_thumbnail_input.dataset.name,
-                size: origin_thumbnail_input.dataset.size,
+                size: origin_thumbnail_input.dataset.size * 1,
                 url: origin_thumbnail_input.dataset.url,
                 type: origin_thumbnail_input.dataset.type,
             }

@@ -275,6 +275,13 @@
                 }
             });
         });
+
+        //자동 Dropdown 클릭
+        let type = getParameter('type');
+        $('[name="community_type"]').closest('.dropdown').find('.dropdown-menu a[data-type="' + type + '"]').click();
+
+        //URL 변경
+        history.pushState(null, null, '/user/board/write');
     });
 
     let loadFile = function (event, target) {
