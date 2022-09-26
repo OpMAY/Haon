@@ -44,7 +44,7 @@ public class Message {
             Iterator<String> keys = map.keySet().iterator();
             while (keys.hasNext()) {
                 String key = keys.next();
-                String value = map.get(key).toString();
+                String value = map.get(key) == null ? null : map.get(key).toString();
                 log.info("Message Map Value -> {},{}", key, value);
             }
         }

@@ -218,3 +218,8 @@ input.form-control.input-box.is-focus {
 svg.bookmark.is-active path{
     fill: var(--brand-green);
 }
+
+/* Trace */
+._trace:hover {
+    background-color: var(--gray-high-light);
+}

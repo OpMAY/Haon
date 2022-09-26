@@ -1,11 +1,12 @@
 package com.model.farm.trace;
 
+import com.model.common.Time;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class Trace {
+public class Trace extends Time {
     private int no;
     private int farm_no;
     private String trace_code;

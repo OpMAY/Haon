@@ -2,20 +2,35 @@ package com.service;
 
 import com.api.trace.TraceApi;
 import com.api.trace.response.*;
+import com.dao.BundleDao;
+import com.dao.BundleTracesDao;
+import com.dao.FarmDao;
+import com.dao.TraceDao;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.model.farm.Farm;
 import com.model.farm.trace.*;
+import com.response.Message;
+import com.util.TraceCodeGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.XML;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class TraceService {
+    private final FarmDao farmDao;
+    private final TraceDao traceDao;
+    private final BundleDao bundleDao;
+    private final BundleTracesDao bundleTracesDao;
+
     /**
      * CATTLE/CATTLE_NO : 소 개체
      * CATTLE/LOT_NO : 소 묶음
@@ -28,15 +43,87 @@ public class TraceService {
      * DUCK/LOT_NO : 오리 묶음
      **/
 
-    public static void main(String[] args) {
-        int a = 9;
-        System.out.println(a / 4);
-        System.out.println((a / 4) * 4);
-        System.out.println(a - ((a/4) * 4));
+    public List<Trace> getFarmTraces(int user_no) {
+        Farm farm = farmDao.getFarmByUserNo(user_no);
+        return traceDao.getFarmTraces(farm.getNo());
     }
+
+    @Transactional
+    public Message registerTrace(Trace trace, int user_no) {
+        Message message = new Message();
+        Farm farm = farmDao.getFarmByUserNo(user_no);
+        if (farm != null) {
+            if (trace.getTrace_code() != null) {
+                if (traceDao.isCodeExists(trace.getTrace_code())) {
+                    message.put("status", false);
+                } else {
+                    message.put("status", true);
+                    trace.setFarm_no(farm.getNo());
+                    traceDao.registerTrace(trace);
+                }
+            } else {
+                // TODO Trace Code Generate
+                // VALID ONLY FOR RABBIT, HORSE, SHEEP, GOAT
+                trace.setFarm_no(farm.getNo());
+                String code = TraceCodeGenerator.makeTraceCode(trace);
+                if (code != null) {
+                    trace.setTrace_code(code);
+                    traceDao.registerTrace(trace);
+                    message.put("status", true);
+                } else {
+                    message.put("status", false);
+                }
+            }
+        }
+        return message;
+    }
+
+    public Message isCodeValid(String code) {
+        Message message = new Message();
+        if (traceDao.isCodeExists(code)) {
+            // 코드 이미 존재?
+            message.put("status", false);
+            message.put("type", 1);
+        } else {
+            if (Character.isDigit(code.charAt(0))) {
+                // 묶음인지 아닌지?
+                TraceResponse response;
+                try {
+                    response = TraceApi.apiRequest(code).getResponse();
+                } catch (JsonSyntaxException e) {
+                    message.put("status", false);
+                    message.put("type", -1);
+                    response = null;
+                }
+                if (response != null) {
+                    if (response.getHeader().getResultCode().equals("00")) {
+                        message.put("status", true);
+                        message.put("data", getTraceInfo(response.getBody().getItems().getItem()));
+                        message.put("address", response.getBody().getItems().getItem().get(0).getFarmAddr());
+                        // return status false, type = bundle
+//                    message.put("data", getBundleInfo(response.getBody().getItems().getItem()));
+//                    message.put("address", response.getBody().getItems().getItem().get(1).getButcheryPlaceAddr());
+                    } else {
+                        message.put("status", false);
+                        message.put("type", -1);
+                    }
+                }
+            } else {
+                message.put("status", false);
+                message.put("type", 0);
+            }
+        }
+        return message;
+    }
+
     public void requestInfo(String code) {
-        TraceResponse response = TraceApi.apiRequest(code).getResponse();
-        if (response.getHeader().getResultCode().equals("00")) {
+        TraceResponse response = null;
+        try {
+            response = TraceApi.apiRequest(code).getResponse();
+        } catch (JsonSyntaxException e) {
+            log.info("해당 번호 없음");
+        }
+        if (response != null && response.getHeader().getResultCode().equals("00")) {
             TraceResponseBody body = response.getBody();
             if (body.getItems() != null && body.getItems().getItem() != null && !body.getItems().getItem().isEmpty()) {
                 List<TraceData> dataList = body.getItems().getItem();
@@ -45,11 +132,11 @@ public class TraceService {
                 if (type.isBundle()) {
                     // 묶음 이력
                     Bundle bundle = getBundleInfo(dataList);
-                    System.out.println("bundle : " + bundle);
+                    log.info("bundle : " + bundle);
                 } else {
                     // 일반 이력
                     Trace trace = getTraceInfo(dataList);
-                    System.out.println("trace : " + trace);
+                    log.info("trace : " + trace);
                 }
 
                 /**
@@ -71,7 +158,9 @@ public class TraceService {
                  * **/
             }
         } else {
-            log.info("API 호출 오류 : {}", response.getHeader().getResultCode());
+            if (response != null) {
+                log.info("API 호출 오류 : {}", response.getHeader().getResultCode());
+            }
         }
     }
 
@@ -102,16 +191,21 @@ public class TraceService {
                     default:
                         break;
                 }
-                TraceResponse response = TraceApi.apiRequest(trace_code).getResponse();
-                String resultCode = response.getHeader().getResultCode();
-                if (resultCode.equals("00")) {
-                    TraceResponseBody body = response.getBody();
-                    if (body.getItems() != null && body.getItems().getItem() != null && !body.getItems().getItem().isEmpty()) {
-                        Trace trace = getTraceInfo(body.getItems().getItem());
-                        traceList.add(trace);
+                try {
+                    TraceResponse response = TraceApi.apiRequest(trace_code).getResponse();
+                    log.info("{}", response);
+                    String resultCode = response.getHeader().getResultCode();
+                    if (resultCode.equals("00")) {
+                        TraceResponseBody body = response.getBody();
+                        if (body.getItems() != null && body.getItems().getItem() != null && !body.getItems().getItem().isEmpty()) {
+                            Trace trace = getTraceInfo(body.getItems().getItem());
+                            traceList.add(trace);
+                        }
+                    } else {
+                        System.out.println("API 통신 오류 : " + resultCode);
                     }
-                } else {
-                    System.out.println("API 통신 오류 : " + resultCode);
+                } catch (JsonSyntaxException e) {
+                    log.info("Match 데이터 없음");
                 }
             }
         }
@@ -294,6 +388,15 @@ public class TraceService {
         return traceType;
     }
 
+    public List<Bundle> getFarmBundles(int user_no) {
+        Farm farm = farmDao.getFarmByUserNo(user_no);
+        List<Bundle> bundles = bundleDao.getFarmBundles(farm.getNo());
+        for(Bundle bundle : bundles) {
+            List<Trace> traces = bundleTracesDao.getBundleTraces(bundle.getNo());
+            bundle.setTraceList(traces);
+        }
+        return bundles;
+    }
 
 
     /**

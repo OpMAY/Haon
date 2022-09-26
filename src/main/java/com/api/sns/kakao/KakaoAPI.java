@@ -55,8 +55,11 @@ public class KakaoAPI {
             params.put("grant_type", "authorization_code");
             params.put("client_id", KAKAO_CLIENT_ID);
             params.put("client_secret", KAKAO_CLIENT_SECRET);
+            // Only For Deployed Version
             params.put("redirect_uri", req.getRequestURL());
+//            params.put("redirect_uri", "https://farmingdata.co.kr/auth/oauth/callback");
             params.put("code", authorize_code);
+            log.info("KAKAO redirect request url : {}", req.getRequestURL());
 
             protocolBuilder.openWriter(params);
             kakaoAccess = protocolBuilder.openReader("UTF-8", KakaoAccess.class, true);

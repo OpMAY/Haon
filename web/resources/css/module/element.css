@@ -1338,6 +1338,7 @@ input.form-control.input-box {
     padding: 16px;
     border: var(--border-1px) var(--gray-high-light);
     border-radius: var(--radius-5);
+    cursor: pointer;
 }
 
 ._trace ._bundle-header {
