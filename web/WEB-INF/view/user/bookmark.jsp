@@ -23,7 +23,10 @@
 <body>
 <jsp:include page="../common/header.jsp"/>
 <jsp:include page="../common/header-desc.jsp"/>
+<jsp:include page="../common/left-sidebar.jsp"/>
+<jsp:include page="../common/right-sidebar.jsp"/>
 <jsp:include page="../common/tab-overlay.jsp"/>
+<jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
     <div class="container">
@@ -439,6 +442,7 @@
     </div>
 </div>
 <jsp:include page="../common/footer.jsp"/>
+<jsp:include page="../common/bottom.jsp"/>
 <jsp:include page="../common/script.jsp"/>
 <script>
     /**

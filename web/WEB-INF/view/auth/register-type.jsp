@@ -1,15 +1,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
-
 <jsp:include page="../common/head.jsp"/>
-
 <body>
-
 <jsp:include page="../common/header.jsp"/>
-
+<jsp:include page="../common/mobile-header.jsp"/>
 <jsp:include page="../common/header-desc.jsp"/>
-
+<jsp:include page="../common/left-sidebar.jsp"/>
+<jsp:include page="../common/right-sidebar.jsp"/>
+<jsp:include page="../common/tab-overlay.jsp"/>
+<jsp:include page="../common/tab-trace.jsp"/>
+<jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper" style="min-height: 100vh; display: flex;">
     <div class="container mt-16 mb-auto">
         <div class="row section">
@@ -98,11 +99,8 @@
         </div>
     </div>
 </div>
-
 <jsp:include page="../common/footer.jsp"/>
-
 <jsp:include page="../common/script.jsp"/>
-
 <script>
     /**
      * Static JS
