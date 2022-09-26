@@ -1,9 +1,10 @@
 package com.controller;
 
 import com.aws.file.FileUploadUtility;
+import com.model.User;
 import com.model.common.MFile;
 import com.model.content.board.Board;
-import com.model.content.board.BoardTransaction;
+import com.model.content.board.BoardComment;
 import com.model.content.common.*;
 import com.model.content.magazine.Magazine;
 import com.model.content.manual.Manual;
@@ -16,11 +17,11 @@ import com.util.Encryption.JWTEnum;
 import com.util.Format;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,14 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
+    @Value("${DEFAULT.PROFILE.IMAGE.URL}")
+    private String SAMPLE_PROFILE_URL;
+    @Value("${DEFAULT.PROFILE.IMAGE.NAME}")
+    private String SAMPLE_PROFILE_NAME;
+    @Value("${DEFAULT.PROFILE.IMAGE.SIZE}")
+    private long SAMPLE_PROFILE_SIZE;
+    @Value("${DEFAULT.PROFILE.IMAGE.TYPE}")
+    private String SAMPLE_PROFILE_TYPE;
     private final ContentService contentService;
     private final FileUploadUtility fileUploadUtility;
     private final EncryptionService encryptionService;
@@ -38,6 +47,8 @@ public class UserController {
     private final FarmService farmService;
     private final ReadService readService;
     private final CommentService commentService;
+    private final GlobalService globalService;
+    private final LikeService likeService;
 
     private final TraceService traceService;
 
@@ -121,7 +132,6 @@ public class UserController {
         Farm farm = farmService.getFarmByUserNo(user_no);
         contentForm.setFarm_no(farm.getNo());
         contentForm.setContent(Format.summernoteReplaceCharacter(contentForm.getContent()));
-        log.info("contentForm -> {}", contentForm);
         switch (contentForm.getCommunity_type()) {
             case BOARD:
             case QUESTION:
@@ -255,18 +265,137 @@ public class UserController {
                     comment.setFarm(farmService.getFarmByUserNo(user_no));
                     break;
             }
-            log.info(comment.toString());
         }
         /*
          * 나에게 온 댓글
          * */
-
+        ArrayList<Comment> comments = commentService.getCommentsByMe(farm.getNo());
+        User commented_user = null;
+        ArrayList<Comment> recomments = null;
+        for (Comment comment : comments) {
+            commented_user = null;
+            User recommented_user = null;
+            setComment(comment, commented_user);
+            switch (comment.getType()) {
+                case BOARD:
+                    comment.setLike_count(likeService.getLikesByComment(comment));
+                    comment.setDislike_count(likeService.getDislikesByComment(comment));
+                    comment.set_like(likeService.isCommentBoardLikeByUserNo(comment.getNo(), user_no));
+                    comment.set_dislike(likeService.isCommentBoardDislikeByUserNo(comment.getNo(), user_no));
+                    recomments = commentService.getRecommentByCommentNo(comment);
+                    for (Comment recomment : recomments) {
+                        setComment(recomment, recommented_user);
+                        if (user_no != null && recommented_user != null && (user_no.intValue() == recommented_user.getNo())) {
+                            recomment.setOwner_checked(true);
+                        } else {
+                            recomment.setOwner_checked(false);
+                        }
+                    }
+                    comment.setRecomments(recomments);
+                    if (user_no != null && commented_user != null && user_no.intValue() == commented_user.getNo()) {
+                        comment.setOwner_checked(true);
+                    } else {
+                        comment.setOwner_checked(false);
+                    }
+                    comment.set_best(commentService.isBestComment(comment));
+                    break;
+                case QUESTION:
+                    comment.setLike_count(likeService.getLikesByComment(comment));
+                    comment.setDislike_count(likeService.getDislikesByComment(comment));
+                    comment.set_like(likeService.isCommentQuestionLikeByUserNo(comment.getNo(), user_no));
+                    comment.set_dislike(likeService.isCommentQuestionDislikeByUserNo(comment.getNo(), user_no));
+                    recomments = commentService.getRecommentByCommentNo(comment);
+                    for (Comment recomment : recomments) {
+                        setComment(recomment, recommented_user);
+                        if (user_no != null && recommented_user != null && (user_no.intValue() == recommented_user.getNo())) {
+                            recomment.setOwner_checked(true);
+                        } else {
+                            recomment.setOwner_checked(false);
+                        }
+                    }
+                    comment.setRecomments(recomments);
+                    if (user_no != null && commented_user != null && user_no.intValue() == commented_user.getNo()) {
+                        comment.setOwner_checked(true);
+                    } else {
+                        comment.setOwner_checked(false);
+                    }
+                    comment.set_best(commentService.isBestComment(comment));
+                    break;
+                case TIP:
+                    comment.setLike_count(likeService.getLikesByComment(comment));
+                    comment.setDislike_count(likeService.getDislikesByComment(comment));
+                    comment.set_like(likeService.isCommentTipsLikeByUserNo(comment.getNo(), user_no));
+                    comment.set_dislike(likeService.isCommentTipsDislikeByUserNo(comment.getNo(), user_no));
+                    recomments = commentService.getRecommentByCommentNo(comment);
+                    for (Comment recomment : recomments) {
+                        setComment(recomment, recommented_user);
+                        if (user_no != null && recommented_user != null && (user_no.intValue() == recommented_user.getNo())) {
+                            recomment.setOwner_checked(true);
+                        } else {
+                            recomment.setOwner_checked(false);
+                        }
+                    }
+                    comment.setRecomments(recomments);
+                    if (user_no != null && commented_user != null && user_no.intValue() == commented_user.getNo()) {
+                        comment.setOwner_checked(true);
+                    } else {
+                        comment.setOwner_checked(false);
+                    }
+                    comment.set_best(commentService.isBestComment(comment));
+                    break;
+                case MANUAL:
+                    comment.setLike_count(likeService.getLikesByComment(comment));
+                    comment.setDislike_count(likeService.getDislikesByComment(comment));
+                    comment.set_like(likeService.isCommentManualLikeByUserNo(comment.getNo(), user_no));
+                    comment.set_dislike(likeService.isCommentManualDislikeByUserNo(comment.getNo(), user_no));
+                    recomments = commentService.getRecommentByCommentNo(comment);
+                    for (Comment recomment : recomments) {
+                        setComment(recomment, recommented_user);
+                        if (user_no != null && recommented_user != null && (user_no.intValue() == recommented_user.getNo())) {
+                            recomment.setOwner_checked(true);
+                        } else {
+                            recomment.setOwner_checked(false);
+                        }
+                    }
+                    comment.setRecomments(recomments);
+                    if (user_no != null && commented_user != null && user_no.intValue() == commented_user.getNo()) {
+                        comment.setOwner_checked(true);
+                    } else {
+                        comment.setOwner_checked(false);
+                    }
+                    comment.set_best(commentService.isBestComment(comment));
+                    break;
+                case FARM:
+                    comment.setLike_count(likeService.getLikesByComment(comment));
+                    comment.setDislike_count(likeService.getDislikesByComment(comment));
+                    comment.set_like(likeService.isCommentFarmLikeByUserNo(comment.getNo(), user_no));
+                    comment.set_dislike(likeService.isCommentFarmDislikeByUserNo(comment.getNo(), user_no));
+                    recomments = commentService.getRecommentByCommentNo(comment);
+                    for (Comment recomment : recomments) {
+                        setComment(recomment, recommented_user);
+                        if (user_no != null && recommented_user != null && (user_no.intValue() == recommented_user.getNo())) {
+                            recomment.setOwner_checked(true);
+                        } else {
+                            recomment.setOwner_checked(false);
+                        }
+                    }
+                    comment.setRecomments(recomments);
+                    if (user_no != null && commented_user != null && user_no.intValue() == commented_user.getNo()) {
+                        comment.setOwner_checked(true);
+                    } else {
+                        comment.setOwner_checked(false);
+                    }
+                    comment.set_best(commentService.isBestComment(comment));
+                    break;
+            }
+        }
         VIEW.addObject("boards", boards);
         VIEW.addObject("tips", tips);
         VIEW.addObject("manuals", manuals);
         VIEW.addObject("questions", questions);
-        log.info(commentsMadeMe.toString());
         VIEW.addObject("commentsMadeMe", commentsMadeMe);
+        log.info(comments.toString());
+        VIEW.addObject("comments", comments);
         return VIEW;
     }
 
@@ -284,5 +413,39 @@ public class UserController {
     public ModelAndView userUnregisterPage() {
         ModelAndView VIEW = new ModelAndView("user/unregister");
         return VIEW;
+    }
+
+    public void setComment(Comment comment, User user) {
+        if (comment.getUser_no() != null) {
+            user = userService.getUserByNo(comment.getUser_no());
+            if (globalService.checkFarm(user.getNo())) {
+                Farm commented_user_farm = farmService.getFarmByUserNo(user.getNo());
+                user.setProfile_img(commented_user_farm.getProfile_image());
+                user.setName(commented_user_farm.getName());
+                comment.setUser(user);
+            } else {
+                log.info("SAMPLE_PROFILE_URL {}", SAMPLE_PROFILE_URL);
+                MFile profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+
+                user.setProfile_img(profile);
+                comment.setUser(user);
+            }
+        } else {
+            user = new User();
+            log.info("SAMPLE_PROFILE_URL {}", SAMPLE_PROFILE_URL);
+            MFile profile = new MFile();
+            profile.setUrl(SAMPLE_PROFILE_URL);
+            profile.setName(SAMPLE_PROFILE_NAME);
+            profile.setSize(SAMPLE_PROFILE_SIZE);
+            profile.setType(SAMPLE_PROFILE_TYPE);
+            user.setName("관리자");
+            user.setProfile_img(profile);
+            comment.setContent("삭제된 메세지입니다.");
+            comment.setUser(user);
+        }
     }
 }

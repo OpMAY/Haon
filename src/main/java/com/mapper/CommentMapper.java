@@ -111,4 +111,8 @@ public interface CommentMapper {
     boolean questionOwnerCheck(@Param("question_no") int question_no);
 
     ArrayList<Comment> getCommentsMadeMe(@Param("user_no") int user_no);
+
+    ArrayList<Comment> getCommentsByMe(@Param("farm_no") int farm_no);
+
+    ArrayList<Comment> getRecommentByCommentNo(Comment comment);
 }

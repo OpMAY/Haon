@@ -2,6 +2,7 @@ package com.service;
 
 import com.dao.LikeDao;
 import com.model.content.board.BoardTransaction;
+import com.model.content.common.Comment;
 import com.model.content.magazine.Magazine;
 import com.model.content.magazine.MagazineTransaction;
 import com.model.content.manual.ManualTransaction;
@@ -229,5 +230,13 @@ public class LikeService {
 
     public void insertFarmCommentDislike(int comment_no, int user_no) {
         likeDao.insertFarmCommentDislike(comment_no, user_no);
+    }
+
+    public int getLikesByComment(Comment comment) {
+        return likeDao.getLikesByComment(comment);
+    }
+
+    public int getDislikesByComment(Comment comment) {
+        return likeDao.getDislikesByComment(comment);
     }
 }

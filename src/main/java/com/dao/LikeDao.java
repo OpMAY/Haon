@@ -3,6 +3,7 @@ package com.dao;
 import com.mapper.LikeMapper;
 import com.mapper.TestMapper;
 import com.model.content.board.BoardTransaction;
+import com.model.content.common.Comment;
 import com.model.content.magazine.MagazineTransaction;
 import com.model.content.manual.ManualTransaction;
 import com.model.content.question.QuestionTransaction;
@@ -12,6 +13,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 @Slf4j
 @Repository
@@ -232,5 +234,13 @@ public class LikeDao {
 
     public void insertFarmCommentDislike(int comment_no, int user_no) {
         mapper.insertFarmCommentDislike(comment_no, user_no);
+    }
+
+    public int getLikesByComment(Comment comment) {
+        return mapper.getLikesByComment(comment);
+    }
+
+    public int getDislikesByComment(Comment comment) {
+        return mapper.getDislikesByComment(comment);
     }
 }

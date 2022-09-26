@@ -753,6 +753,7 @@
                                                    class="form-control input-box medium-h5 dropdown-input"
                                                    disabled="disabled"
                                                    value="전체"
+                                                   data-type="ALL"
                                                    id="secret-filter">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -769,167 +770,488 @@
                                             </svg>
                                         </div>
                                         <div class="dropdown-menu dropdown-sm">
-                                            <a data-type="all" class="dropdown-item">
+                                            <a data-type="ALL" class="dropdown-item">
                                                 <div>전체</div>
                                             </a>
-                                            <a data-type="public" class="dropdown-item">
+                                            <a data-type="PUBLIC" class="dropdown-item">
                                                 <div>공개</div>
                                             </a>
-                                            <a data-type="secret" class="dropdown-item">
+                                            <a data-type="SECRET" class="dropdown-item">
                                                 <div>비공개</div>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="_comments">
-                                    <div class="comment-container">
-                                        <div class="_comment">
-                                            <div class="_profile-img">
-                                                <img alt=""
-                                                     src="../../resources/assets/images/sample/background-wallpaper1.png">
-                                            </div>
-                                            <div class="_media">
-                                                <div class="_comment-text">
-                                                    <span class="bold-h5 c-brand-green _best">BEST</span>
-                                                    <span class="medium-h5 _content ellipsis-one-line">열심히 하는 모습에 응원합니다아아아아아앙아.</span>
-                                                    <span class="bold-h5 c-brand-green _new">New!</span>
-                                                </div>
-                                                <div class="_info">
-                                                    <span class="regular-h5 c-gray-medium _name">유*준</span>
-                                                    <span class="regular-h6 c-gray-light ml-8">2021.12.22</span>
-                                                </div>
-                                            </div>
-                                            <div class="_transactions">
-                                                <div class="_responds">
-                                                    <div class="_like">
-                                                        <svg width="16"
-                                                             height="14"
-                                                             viewBox="0 0 16 14"
-                                                             fill="none"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M9.73301 5.33333H13.9997C14.3533 5.33333 14.6924 5.47381 14.9425 5.72386C15.1925 5.97391 15.333 6.31304 15.333 6.66667V8.06933C15.3332 8.24357 15.2992 8.41616 15.233 8.57733L13.169 13.5867C13.1188 13.7088 13.0335 13.8133 12.9238 13.8869C12.8141 13.9605 12.6851 13.9999 12.553 14L1.33301 14C1.1562 14 0.986625 13.9298 0.861601 13.8047C0.736577 13.6797 0.666339 13.5101 0.666339 13.3333L0.666339 6.66667C0.666339 6.48986 0.736577 6.32029 0.861601 6.19526C0.986625 6.07024 1.1562 6 1.33301 6H3.65434C3.76107 6.00003 3.86625 5.97443 3.96103 5.92536C4.05581 5.87628 4.13742 5.80517 4.19901 5.718L7.83434 0.567333C7.8803 0.502208 7.94807 0.455707 8.02536 0.43626C8.10266 0.416813 8.18437 0.425708 8.25567 0.461333L9.46501 1.06667C9.80534 1.23677 10.0772 1.51821 10.2355 1.86421C10.3938 2.21021 10.4289 2.59995 10.335 2.96867L9.73301 5.33333ZM4.66634 7.05867V12.6667L12.1063 12.6667L13.9997 8.06933V6.66667L9.73301 6.66667C9.52994 6.66664 9.32956 6.62023 9.14716 6.53097C8.96476 6.44172 8.80515 6.31198 8.68052 6.15166C8.55589 5.99133 8.46953 5.80466 8.42802 5.60588C8.38651 5.4071 8.39095 5.20147 8.44101 5.00467L9.04301 2.63933C9.06185 2.56555 9.05486 2.48754 9.0232 2.41829C8.99154 2.34903 8.93713 2.2927 8.86901 2.25867L8.42834 2.03867L5.28834 6.48667C5.12167 6.72267 4.90834 6.916 4.66634 7.05867V7.05867ZM3.33301 7.33333H1.99967V12.6667H3.33301V7.33333Z"
-                                                                  fill="#969696"></path>
-                                                        </svg>
-                                                        <span class="regular-h5">12</span>
+                                    <c:forEach items="${comments}" var="comment" varStatus="status">
+                                        <c:choose>
+                                            <c:when test="${status.count <= 4}">
+                                                <div class="comment-container" data-more="showing"
+                                                     data-blocked="${comment._blocked}">
+                                                    <div class="_comment">
+                                                        <div class="_profile-img">
+                                                            <img alt=""
+                                                                 src="${comment.user.profile_img.url}">
+                                                        </div>
+                                                        <div class="_media">
+                                                            <div class="_comment-text">
+                                                                <c:if test="${comment._best}">
+                                                                    <span class="bold-h5 c-brand-green _best">BEST</span>
+                                                                </c:if>
+                                                                <c:choose>
+                                                                    <c:when test="${comment._blocked eq true}">
+                                                                        <span class="medium-h5 _content ellipsis-one-line">비공개된 댓글입니다.</span>
+                                                                        <svg width="16" height="16" viewBox="0 0 24 24"
+                                                                             fill="none"
+                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                            <g clip-path="url(#clip0_249_10580)">
+                                                                                <path d="M18 8H20C20.2652 8 20.5196 8.10536 20.7071 8.29289C20.8946 8.48043 21 8.73478 21 9V21C21 21.2652 20.8946 21.5196 20.7071 21.7071C20.5196 21.8946 20.2652 22 20 22H4C3.73478 22 3.48043 21.8946 3.29289 21.7071C3.10536 21.5196 3 21.2652 3 21V9C3 8.73478 3.10536 8.48043 3.29289 8.29289C3.48043 8.10536 3.73478 8 4 8H6V7C6 5.4087 6.63214 3.88258 7.75736 2.75736C8.88258 1.63214 10.4087 1 12 1C13.5913 1 15.1174 1.63214 16.2426 2.75736C17.3679 3.88258 18 5.4087 18 7V8ZM11 15.732V18H13V15.732C13.3813 15.5119 13.6793 15.1721 13.8478 14.7653C14.0162 14.3586 14.0458 13.9076 13.9319 13.4823C13.8179 13.057 13.5668 12.6813 13.2175 12.4132C12.8682 12.1452 12.4403 11.9999 12 11.9999C11.5597 11.9999 11.1318 12.1452 10.7825 12.4132C10.4332 12.6813 10.1821 13.057 10.0681 13.4823C9.9542 13.9076 9.98376 14.3586 10.1522 14.7653C10.3207 15.1721 10.6187 15.5119 11 15.732ZM16 8V7C16 5.93913 15.5786 4.92172 14.8284 4.17157C14.0783 3.42143 13.0609 3 12 3C10.9391 3 9.92172 3.42143 9.17157 4.17157C8.42143 4.92172 8 5.93913 8 7V8H16Z"
+                                                                                      fill="#F2F2F2"></path>
+                                                                            </g>
+                                                                            <defs>
+                                                                                <clipPath id="clip0_249_10580">
+                                                                                    <rect width="24" height="24"
+                                                                                          fill="white"></rect>
+                                                                                </clipPath>
+                                                                            </defs>
+                                                                        </svg>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <span class="medium-h5 _content ellipsis-one-line">${comment.content}</span>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                                <c:set var="newDiff" scope="application">
+                                                                    <custom:localDateTimeDiffer
+                                                                            value="${recomment.reg_datetime}"/>
+                                                                </c:set>
+                                                                <c:if test="${newDiff eq false}">
+                                                                    <span class="bold-p1 c-brand-green _new">New!</span>
+                                                                </c:if>
+                                                            </div>
+                                                            <div class="_info">
+                                                                <span class="regular-h5 c-gray-medium _name">${comment.user.name}</span>
+                                                                <span class="regular-h6 c-gray-light ml-8"><custom:formatDatetime
+                                                                        value="${comment.reg_datetime}"
+                                                                        pattern="yyyy-MM-dd"/></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="_transactions">
+                                                            <div class="_responds">
+                                                                <c:choose>
+                                                                    <c:when test="${comment._like eq true}">
+                                                                        <div class="_like is-active"
+                                                                             data-comment-like="${comment.type.name()}"
+                                                                             data-no="${comment.no}">
+                                                                            <svg width="16"
+                                                                                 height="14"
+                                                                                 viewBox="0 0 16 14"
+                                                                                 fill="none"
+                                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M9.73301 5.33333H13.9997C14.3533 5.33333 14.6924 5.47381 14.9425 5.72386C15.1925 5.97391 15.333 6.31304 15.333 6.66667V8.06933C15.3332 8.24357 15.2992 8.41616 15.233 8.57733L13.169 13.5867C13.1188 13.7088 13.0335 13.8133 12.9238 13.8869C12.8141 13.9605 12.6851 13.9999 12.553 14L1.33301 14C1.1562 14 0.986625 13.9298 0.861601 13.8047C0.736577 13.6797 0.666339 13.5101 0.666339 13.3333L0.666339 6.66667C0.666339 6.48986 0.736577 6.32029 0.861601 6.19526C0.986625 6.07024 1.1562 6 1.33301 6H3.65434C3.76107 6.00003 3.86625 5.97443 3.96103 5.92536C4.05581 5.87628 4.13742 5.80517 4.19901 5.718L7.83434 0.567333C7.8803 0.502208 7.94807 0.455707 8.02536 0.43626C8.10266 0.416813 8.18437 0.425708 8.25567 0.461333L9.46501 1.06667C9.80534 1.23677 10.0772 1.51821 10.2355 1.86421C10.3938 2.21021 10.4289 2.59995 10.335 2.96867L9.73301 5.33333ZM4.66634 7.05867V12.6667L12.1063 12.6667L13.9997 8.06933V6.66667L9.73301 6.66667C9.52994 6.66664 9.32956 6.62023 9.14716 6.53097C8.96476 6.44172 8.80515 6.31198 8.68052 6.15166C8.55589 5.99133 8.46953 5.80466 8.42802 5.60588C8.38651 5.4071 8.39095 5.20147 8.44101 5.00467L9.04301 2.63933C9.06185 2.56555 9.05486 2.48754 9.0232 2.41829C8.99154 2.34903 8.93713 2.2927 8.86901 2.25867L8.42834 2.03867L5.28834 6.48667C5.12167 6.72267 4.90834 6.916 4.66634 7.05867V7.05867ZM3.33301 7.33333H1.99967V12.6667H3.33301V7.33333Z"
+                                                                                      fill="#969696"></path>
+                                                                            </svg>
+                                                                            <span class="regular-h5">${comment.like_count}</span>
+                                                                        </div>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <div class="_like"
+                                                                             data-comment-like="${comment.type.name()}"
+                                                                             data-no="${comment.no}">
+                                                                            <svg width="16"
+                                                                                 height="14"
+                                                                                 viewBox="0 0 16 14"
+                                                                                 fill="none"
+                                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M9.73301 5.33333H13.9997C14.3533 5.33333 14.6924 5.47381 14.9425 5.72386C15.1925 5.97391 15.333 6.31304 15.333 6.66667V8.06933C15.3332 8.24357 15.2992 8.41616 15.233 8.57733L13.169 13.5867C13.1188 13.7088 13.0335 13.8133 12.9238 13.8869C12.8141 13.9605 12.6851 13.9999 12.553 14L1.33301 14C1.1562 14 0.986625 13.9298 0.861601 13.8047C0.736577 13.6797 0.666339 13.5101 0.666339 13.3333L0.666339 6.66667C0.666339 6.48986 0.736577 6.32029 0.861601 6.19526C0.986625 6.07024 1.1562 6 1.33301 6H3.65434C3.76107 6.00003 3.86625 5.97443 3.96103 5.92536C4.05581 5.87628 4.13742 5.80517 4.19901 5.718L7.83434 0.567333C7.8803 0.502208 7.94807 0.455707 8.02536 0.43626C8.10266 0.416813 8.18437 0.425708 8.25567 0.461333L9.46501 1.06667C9.80534 1.23677 10.0772 1.51821 10.2355 1.86421C10.3938 2.21021 10.4289 2.59995 10.335 2.96867L9.73301 5.33333ZM4.66634 7.05867V12.6667L12.1063 12.6667L13.9997 8.06933V6.66667L9.73301 6.66667C9.52994 6.66664 9.32956 6.62023 9.14716 6.53097C8.96476 6.44172 8.80515 6.31198 8.68052 6.15166C8.55589 5.99133 8.46953 5.80466 8.42802 5.60588C8.38651 5.4071 8.39095 5.20147 8.44101 5.00467L9.04301 2.63933C9.06185 2.56555 9.05486 2.48754 9.0232 2.41829C8.99154 2.34903 8.93713 2.2927 8.86901 2.25867L8.42834 2.03867L5.28834 6.48667C5.12167 6.72267 4.90834 6.916 4.66634 7.05867V7.05867ZM3.33301 7.33333H1.99967V12.6667H3.33301V7.33333Z"
+                                                                                      fill="#969696"></path>
+                                                                            </svg>
+                                                                            <span class="regular-h5">${comment.like_count}</span>
+                                                                        </div>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                                <c:choose>
+                                                                    <c:when test="${comment._dislike eq true}">
+                                                                        <div class="_dislike is-active"
+                                                                             data-comment-dislike="${comment.type.name()}"
+                                                                             data-no="${comment.no}">
+                                                                            <svg width="16"
+                                                                                 height="14"
+                                                                                 viewBox="0 0 16 14"
+                                                                                 fill="none"
+                                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M6.26699 8.66667H2.00033C1.6467 8.66667 1.30757 8.52619 1.05752 8.27614C0.807469 8.02609 0.666993 7.68696 0.666993 7.33333V5.93067C0.666813 5.75643 0.700787 5.58384 0.766993 5.42267L2.83099 0.413333C2.88118 0.291169 2.96652 0.186663 3.07619 0.113075C3.18586 0.0394861 3.31492 0.000130314 3.44699 0H14.667C14.8438 0 15.0134 0.0702379 15.1384 0.195262C15.2634 0.320286 15.3337 0.489856 15.3337 0.666667V7.33333C15.3337 7.51014 15.2634 7.67971 15.1384 7.80474C15.0134 7.92976 14.8438 8 14.667 8H12.3457C12.2389 7.99997 12.1338 8.02557 12.039 8.07464C11.9442 8.12372 11.8626 8.19483 11.801 8.282L8.16566 13.4327C8.1197 13.4978 8.05193 13.5443 7.97464 13.5637C7.89734 13.5832 7.81563 13.5743 7.74433 13.5387L6.53499 12.9333C6.19466 12.7632 5.92277 12.4818 5.76451 12.1358C5.60624 11.7898 5.57112 11.4001 5.66499 11.0313L6.26699 8.66667ZM11.3337 6.94133V1.33333H3.89366L2.00033 5.93067V7.33333H6.26699C6.47006 7.33336 6.67044 7.37977 6.85284 7.46903C7.03524 7.55828 7.19485 7.68802 7.31948 7.84834C7.44411 8.00867 7.53047 8.19534 7.57198 8.39412C7.61349 8.5929 7.60905 8.79853 7.55899 8.99533L6.95699 11.3607C6.93815 11.4344 6.94514 11.5125 6.9768 11.5817C7.00846 11.651 7.06287 11.7073 7.13099 11.7413L7.57166 11.9613L10.7117 7.51333C10.8783 7.27733 11.0917 7.084 11.3337 6.94133V6.94133ZM12.667 6.66667H14.0003V1.33333H12.667V6.66667Z"
+                                                                                      fill="#969696"></path>
+                                                                            </svg>
+                                                                            <span class="regular-h5 c-gray-medium">${comment.dislike_count}</span>
+                                                                        </div>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <div class="_dislike"
+                                                                             data-comment-dislike="${comment.type.name()}"
+                                                                             data-no="${comment.no}">
+                                                                            <svg width="16"
+                                                                                 height="14"
+                                                                                 viewBox="0 0 16 14"
+                                                                                 fill="none"
+                                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M6.26699 8.66667H2.00033C1.6467 8.66667 1.30757 8.52619 1.05752 8.27614C0.807469 8.02609 0.666993 7.68696 0.666993 7.33333V5.93067C0.666813 5.75643 0.700787 5.58384 0.766993 5.42267L2.83099 0.413333C2.88118 0.291169 2.96652 0.186663 3.07619 0.113075C3.18586 0.0394861 3.31492 0.000130314 3.44699 0H14.667C14.8438 0 15.0134 0.0702379 15.1384 0.195262C15.2634 0.320286 15.3337 0.489856 15.3337 0.666667V7.33333C15.3337 7.51014 15.2634 7.67971 15.1384 7.80474C15.0134 7.92976 14.8438 8 14.667 8H12.3457C12.2389 7.99997 12.1338 8.02557 12.039 8.07464C11.9442 8.12372 11.8626 8.19483 11.801 8.282L8.16566 13.4327C8.1197 13.4978 8.05193 13.5443 7.97464 13.5637C7.89734 13.5832 7.81563 13.5743 7.74433 13.5387L6.53499 12.9333C6.19466 12.7632 5.92277 12.4818 5.76451 12.1358C5.60624 11.7898 5.57112 11.4001 5.66499 11.0313L6.26699 8.66667ZM11.3337 6.94133V1.33333H3.89366L2.00033 5.93067V7.33333H6.26699C6.47006 7.33336 6.67044 7.37977 6.85284 7.46903C7.03524 7.55828 7.19485 7.68802 7.31948 7.84834C7.44411 8.00867 7.53047 8.19534 7.57198 8.39412C7.61349 8.5929 7.60905 8.79853 7.55899 8.99533L6.95699 11.3607C6.93815 11.4344 6.94514 11.5125 6.9768 11.5817C7.00846 11.651 7.06287 11.7073 7.13099 11.7413L7.57166 11.9613L10.7117 7.51333C10.8783 7.27733 11.0917 7.084 11.3337 6.94133V6.94133ZM12.667 6.66667H14.0003V1.33333H12.667V6.66667Z"
+                                                                                      fill="#969696"></path>
+                                                                            </svg>
+                                                                            <span class="regular-h5 c-gray-medium">${comment.dislike_count}</span>
+                                                                        </div>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </div>
+                                                            <div class="_reply">
+                                                                <c:if test="${comment.owner_checked eq true}">
+                                                                    <span class="medium-h5 c-gray-dark-low _delete"
+                                                                          data-no="${comment.no}"
+                                                                          data-type="${comment.type.name()}"
+                                                                          data-parent="parent">삭제</span>
+                                                                </c:if>
+                                                                <span class="medium-h5 c-gray-dark-low _do"
+                                                                      data-comment-no="${comment.no}"
+                                                                      data-type="${comment.type.name()}"
+                                                                      data-no="${comment.community_no}">답글</span>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="_dislike">
-                                                        <svg width="16"
-                                                             height="14"
-                                                             viewBox="0 0 16 14"
-                                                             fill="none"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M6.26699 8.66667H2.00033C1.6467 8.66667 1.30757 8.52619 1.05752 8.27614C0.807469 8.02609 0.666993 7.68696 0.666993 7.33333V5.93067C0.666813 5.75643 0.700787 5.58384 0.766993 5.42267L2.83099 0.413333C2.88118 0.291169 2.96652 0.186663 3.07619 0.113075C3.18586 0.0394861 3.31492 0.000130314 3.44699 0H14.667C14.8438 0 15.0134 0.0702379 15.1384 0.195262C15.2634 0.320286 15.3337 0.489856 15.3337 0.666667V7.33333C15.3337 7.51014 15.2634 7.67971 15.1384 7.80474C15.0134 7.92976 14.8438 8 14.667 8H12.3457C12.2389 7.99997 12.1338 8.02557 12.039 8.07464C11.9442 8.12372 11.8626 8.19483 11.801 8.282L8.16566 13.4327C8.1197 13.4978 8.05193 13.5443 7.97464 13.5637C7.89734 13.5832 7.81563 13.5743 7.74433 13.5387L6.53499 12.9333C6.19466 12.7632 5.92277 12.4818 5.76451 12.1358C5.60624 11.7898 5.57112 11.4001 5.66499 11.0313L6.26699 8.66667ZM11.3337 6.94133V1.33333H3.89366L2.00033 5.93067V7.33333H6.26699C6.47006 7.33336 6.67044 7.37977 6.85284 7.46903C7.03524 7.55828 7.19485 7.68802 7.31948 7.84834C7.44411 8.00867 7.53047 8.19534 7.57198 8.39412C7.61349 8.5929 7.60905 8.79853 7.55899 8.99533L6.95699 11.3607C6.93815 11.4344 6.94514 11.5125 6.9768 11.5817C7.00846 11.651 7.06287 11.7073 7.13099 11.7413L7.57166 11.9613L10.7117 7.51333C10.8783 7.27733 11.0917 7.084 11.3337 6.94133V6.94133ZM12.667 6.66667H14.0003V1.33333H12.667V6.66667Z"
-                                                                  fill="#969696"></path>
-                                                        </svg>
-                                                        <span class="regular-h5 c-gray-medium">1</span>
+                                                    <div class="reply-comment-container">
+                                                        <c:forEach items="${comment.recomments}" var="recomment"
+                                                                   varStatus="reStatus">
+                                                            <c:set var="reply_new" value="false"/>
+                                                            <c:choose>
+                                                                <c:when test="${recomment._blocked eq true}">
+                                                                    <div class="_comment"
+                                                                         data-blocked="${recomment._blocked}">
+                                                                        <div class="_profile-img">
+                                                                            <img alt=""
+                                                                                 src="${recomment.user.profile_img.url}">
+                                                                        </div>
+                                                                        <div class="_media">
+                                                                            <div class="_comment-text">
+                                                                                <span class="medium-p1 _content ellipsis-one-line">비공개된 댓글입니다.</span>
+                                                                                <svg width="16" height="16"
+                                                                                     viewBox="0 0 24 24"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <g clip-path="url(#clip0_249_10580)">
+                                                                                        <path d="M18 8H20C20.2652 8 20.5196 8.10536 20.7071 8.29289C20.8946 8.48043 21 8.73478 21 9V21C21 21.2652 20.8946 21.5196 20.7071 21.7071C20.5196 21.8946 20.2652 22 20 22H4C3.73478 22 3.48043 21.8946 3.29289 21.7071C3.10536 21.5196 3 21.2652 3 21V9C3 8.73478 3.10536 8.48043 3.29289 8.29289C3.48043 8.10536 3.73478 8 4 8H6V7C6 5.4087 6.63214 3.88258 7.75736 2.75736C8.88258 1.63214 10.4087 1 12 1C13.5913 1 15.1174 1.63214 16.2426 2.75736C17.3679 3.88258 18 5.4087 18 7V8ZM11 15.732V18H13V15.732C13.3813 15.5119 13.6793 15.1721 13.8478 14.7653C14.0162 14.3586 14.0458 13.9076 13.9319 13.4823C13.8179 13.057 13.5668 12.6813 13.2175 12.4132C12.8682 12.1452 12.4403 11.9999 12 11.9999C11.5597 11.9999 11.1318 12.1452 10.7825 12.4132C10.4332 12.6813 10.1821 13.057 10.0681 13.4823C9.9542 13.9076 9.98376 14.3586 10.1522 14.7653C10.3207 15.1721 10.6187 15.5119 11 15.732ZM16 8V7C16 5.93913 15.5786 4.92172 14.8284 4.17157C14.0783 3.42143 13.0609 3 12 3C10.9391 3 9.92172 3.42143 9.17157 4.17157C8.42143 4.92172 8 5.93913 8 7V8H16Z"
+                                                                                              fill="#F2F2F2"></path>
+                                                                                    </g>
+                                                                                    <defs>
+                                                                                        <clipPath id="clip0_249_10580">
+                                                                                            <rect width="24" height="24"
+                                                                                                  fill="white"></rect>
+                                                                                        </clipPath>
+                                                                                    </defs>
+                                                                                </svg>
+                                                                                <c:set var="newDiff"
+                                                                                       scope="application">
+                                                                                    <custom:localDateTimeDiffer
+                                                                                            value="${recomment.reg_datetime}"/>
+                                                                                </c:set>
+                                                                                <c:if test="${newDiff eq false}">
+                                                                                    <span class="bold-p1 c-brand-green _new">New!</span>
+                                                                                </c:if>
+                                                                            </div>
+                                                                            <div class="_info">
+                                                                                <span class="regular-p1 c-gray-medium _name">${recomment.user.name}</span>
+                                                                                <span class="regular-p1 c-gray-light ml-8"><custom:formatDatetime
+                                                                                        value="${recomment.reg_datetime}"
+                                                                                        pattern="yyyy-MM-dd"/></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="_transactions">
+                                                                            <div class="_reply">
+                                                                                <c:if test="${recomment.owner_checked eq true}">
+                                                                    <span class="medium-h5 c-gray-dark-low _delete mr-0"
+                                                                          data-no="${recomment.no}"
+                                                                          data-type="${recomment.type.name()}"
+                                                                          data-parent="self">삭제</span>
+                                                                                </c:if>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <div class="_comment"
+                                                                         data-blocked="${recomment._blocked}">
+                                                                        <div class="_profile-img">
+                                                                            <img alt=""
+                                                                                 src="${recomment.user.profile_img.url}">
+                                                                        </div>
+                                                                        <div class="_media">
+                                                                            <div class="_comment-text">
+                                                                                <span class="medium-p1 _content ellipsis-one-line">${recomment.content}</span>
+                                                                                <c:set var="newDiff"
+                                                                                       scope="application">
+                                                                                    <custom:localDateTimeDiffer
+                                                                                            value="${recomment.reg_datetime}"/>
+                                                                                </c:set>
+                                                                                <c:if test="${newDiff eq false}">
+                                                                                    <span class="bold-p1 c-brand-green _new">New!</span>
+                                                                                </c:if>
+                                                                            </div>
+                                                                            <div class="_info">
+                                                                                <span class="regular-p1 c-gray-medium _name">${recomment.user.name}</span>
+                                                                                <span class="regular-p1 c-gray-light ml-8"><custom:formatDatetime
+                                                                                        value="${recomment.reg_datetime}"
+                                                                                        pattern="yyyy-MM-dd"/></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="_transactions">
+                                                                            <div class="_reply">
+                                                                                <c:if test="${recomment.owner_checked eq true}">
+                                                                                    <span class="medium-h5 c-gray-dark-low _delete mr-0"
+                                                                                          data-no="${recomment.no}"
+                                                                                          data-type="${recomment.type.name()}"
+                                                                                          data-parent="self">삭제</span>
+                                                                                </c:if>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:forEach>
                                                     </div>
                                                 </div>
-                                                <div class="_reply">
-                                                    <span class="medium-h5 c-gray-dark-low _do">답글</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="reply-comment-container">
-                                            <div class="_comment">
-                                                <div class="_profile-img">
-                                                    <img alt=""
-                                                         src="../../resources/assets/images/sample/background-wallpaper1.png">
-                                                </div>
-                                                <div class="_media">
-                                                    <div class="_comment-text">
-                                                        <span class="medium-p1 _content ellipsis-one-line">열심히 하는 모습에 응원합니다아아아아아앙아.</span>
-                                                        <span class="bold-p1 c-brand-green _new">New!</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="comment-container" data-more="hiding"
+                                                     data-blocked="${comment._blocked}"
+                                                     style="display: none;">
+                                                    <div class="_comment">
+                                                        <div class="_profile-img">
+                                                            <img alt=""
+                                                                 src="${comment.user.profile_img.url}">
+                                                        </div>
+                                                        <div class="_media">
+                                                            <div class="_comment-text">
+                                                                <c:if test="${comment._best}">
+                                                                    <span class="bold-h5 c-brand-green _best">BEST</span>
+                                                                </c:if>
+                                                                <c:choose>
+                                                                    <c:when test="${comment._blocked eq true}">
+                                                                        <span class="medium-h5 _content ellipsis-one-line">비공개된 댓글입니다.</span>
+                                                                        <svg width="16" height="16" viewBox="0 0 24 24"
+                                                                             fill="none"
+                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                            <g clip-path="url(#clip0_249_10580)">
+                                                                                <path d="M18 8H20C20.2652 8 20.5196 8.10536 20.7071 8.29289C20.8946 8.48043 21 8.73478 21 9V21C21 21.2652 20.8946 21.5196 20.7071 21.7071C20.5196 21.8946 20.2652 22 20 22H4C3.73478 22 3.48043 21.8946 3.29289 21.7071C3.10536 21.5196 3 21.2652 3 21V9C3 8.73478 3.10536 8.48043 3.29289 8.29289C3.48043 8.10536 3.73478 8 4 8H6V7C6 5.4087 6.63214 3.88258 7.75736 2.75736C8.88258 1.63214 10.4087 1 12 1C13.5913 1 15.1174 1.63214 16.2426 2.75736C17.3679 3.88258 18 5.4087 18 7V8ZM11 15.732V18H13V15.732C13.3813 15.5119 13.6793 15.1721 13.8478 14.7653C14.0162 14.3586 14.0458 13.9076 13.9319 13.4823C13.8179 13.057 13.5668 12.6813 13.2175 12.4132C12.8682 12.1452 12.4403 11.9999 12 11.9999C11.5597 11.9999 11.1318 12.1452 10.7825 12.4132C10.4332 12.6813 10.1821 13.057 10.0681 13.4823C9.9542 13.9076 9.98376 14.3586 10.1522 14.7653C10.3207 15.1721 10.6187 15.5119 11 15.732ZM16 8V7C16 5.93913 15.5786 4.92172 14.8284 4.17157C14.0783 3.42143 13.0609 3 12 3C10.9391 3 9.92172 3.42143 9.17157 4.17157C8.42143 4.92172 8 5.93913 8 7V8H16Z"
+                                                                                      fill="#F2F2F2"></path>
+                                                                            </g>
+                                                                            <defs>
+                                                                                <clipPath id="clip0_249_10580">
+                                                                                    <rect width="24" height="24"
+                                                                                          fill="white"></rect>
+                                                                                </clipPath>
+                                                                            </defs>
+                                                                        </svg>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <span class="medium-h5 _content ellipsis-one-line">${comment.content}</span>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                                <c:set var="newDiff" scope="application">
+                                                                    <custom:localDateTimeDiffer
+                                                                            value="${recomment.reg_datetime}"/>
+                                                                </c:set>
+                                                                <c:if test="${newDiff eq false}">
+                                                                    <span class="bold-p1 c-brand-green _new">New!</span>
+                                                                </c:if>
+                                                            </div>
+                                                            <div class="_info">
+                                                                <span class="regular-h5 c-gray-medium _name">${comment.user.name}</span>
+                                                                <span class="regular-h6 c-gray-light ml-8"><custom:formatDatetime
+                                                                        value="${comment.reg_datetime}"
+                                                                        pattern="yyyy-MM-dd"/></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="_transactions">
+                                                            <div class="_responds">
+                                                                <c:choose>
+                                                                    <c:when test="${comment._like eq true}">
+                                                                        <div class="_like is-active"
+                                                                             data-comment-like="${comment.type.name()}"
+                                                                             data-no="${comment.no}">
+                                                                            <svg width="16"
+                                                                                 height="14"
+                                                                                 viewBox="0 0 16 14"
+                                                                                 fill="none"
+                                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M9.73301 5.33333H13.9997C14.3533 5.33333 14.6924 5.47381 14.9425 5.72386C15.1925 5.97391 15.333 6.31304 15.333 6.66667V8.06933C15.3332 8.24357 15.2992 8.41616 15.233 8.57733L13.169 13.5867C13.1188 13.7088 13.0335 13.8133 12.9238 13.8869C12.8141 13.9605 12.6851 13.9999 12.553 14L1.33301 14C1.1562 14 0.986625 13.9298 0.861601 13.8047C0.736577 13.6797 0.666339 13.5101 0.666339 13.3333L0.666339 6.66667C0.666339 6.48986 0.736577 6.32029 0.861601 6.19526C0.986625 6.07024 1.1562 6 1.33301 6H3.65434C3.76107 6.00003 3.86625 5.97443 3.96103 5.92536C4.05581 5.87628 4.13742 5.80517 4.19901 5.718L7.83434 0.567333C7.8803 0.502208 7.94807 0.455707 8.02536 0.43626C8.10266 0.416813 8.18437 0.425708 8.25567 0.461333L9.46501 1.06667C9.80534 1.23677 10.0772 1.51821 10.2355 1.86421C10.3938 2.21021 10.4289 2.59995 10.335 2.96867L9.73301 5.33333ZM4.66634 7.05867V12.6667L12.1063 12.6667L13.9997 8.06933V6.66667L9.73301 6.66667C9.52994 6.66664 9.32956 6.62023 9.14716 6.53097C8.96476 6.44172 8.80515 6.31198 8.68052 6.15166C8.55589 5.99133 8.46953 5.80466 8.42802 5.60588C8.38651 5.4071 8.39095 5.20147 8.44101 5.00467L9.04301 2.63933C9.06185 2.56555 9.05486 2.48754 9.0232 2.41829C8.99154 2.34903 8.93713 2.2927 8.86901 2.25867L8.42834 2.03867L5.28834 6.48667C5.12167 6.72267 4.90834 6.916 4.66634 7.05867V7.05867ZM3.33301 7.33333H1.99967V12.6667H3.33301V7.33333Z"
+                                                                                      fill="#969696"></path>
+                                                                            </svg>
+                                                                            <span class="regular-h5">${comment.like_count}</span>
+                                                                        </div>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <div class="_like"
+                                                                             data-comment-like="${comment.type.name()}"
+                                                                             data-no="${comment.no}">
+                                                                            <svg width="16"
+                                                                                 height="14"
+                                                                                 viewBox="0 0 16 14"
+                                                                                 fill="none"
+                                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M9.73301 5.33333H13.9997C14.3533 5.33333 14.6924 5.47381 14.9425 5.72386C15.1925 5.97391 15.333 6.31304 15.333 6.66667V8.06933C15.3332 8.24357 15.2992 8.41616 15.233 8.57733L13.169 13.5867C13.1188 13.7088 13.0335 13.8133 12.9238 13.8869C12.8141 13.9605 12.6851 13.9999 12.553 14L1.33301 14C1.1562 14 0.986625 13.9298 0.861601 13.8047C0.736577 13.6797 0.666339 13.5101 0.666339 13.3333L0.666339 6.66667C0.666339 6.48986 0.736577 6.32029 0.861601 6.19526C0.986625 6.07024 1.1562 6 1.33301 6H3.65434C3.76107 6.00003 3.86625 5.97443 3.96103 5.92536C4.05581 5.87628 4.13742 5.80517 4.19901 5.718L7.83434 0.567333C7.8803 0.502208 7.94807 0.455707 8.02536 0.43626C8.10266 0.416813 8.18437 0.425708 8.25567 0.461333L9.46501 1.06667C9.80534 1.23677 10.0772 1.51821 10.2355 1.86421C10.3938 2.21021 10.4289 2.59995 10.335 2.96867L9.73301 5.33333ZM4.66634 7.05867V12.6667L12.1063 12.6667L13.9997 8.06933V6.66667L9.73301 6.66667C9.52994 6.66664 9.32956 6.62023 9.14716 6.53097C8.96476 6.44172 8.80515 6.31198 8.68052 6.15166C8.55589 5.99133 8.46953 5.80466 8.42802 5.60588C8.38651 5.4071 8.39095 5.20147 8.44101 5.00467L9.04301 2.63933C9.06185 2.56555 9.05486 2.48754 9.0232 2.41829C8.99154 2.34903 8.93713 2.2927 8.86901 2.25867L8.42834 2.03867L5.28834 6.48667C5.12167 6.72267 4.90834 6.916 4.66634 7.05867V7.05867ZM3.33301 7.33333H1.99967V12.6667H3.33301V7.33333Z"
+                                                                                      fill="#969696"></path>
+                                                                            </svg>
+                                                                            <span class="regular-h5">${comment.like_count}</span>
+                                                                        </div>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                                <c:choose>
+                                                                    <c:when test="${comment._dislike eq true}">
+                                                                        <div class="_dislike is-active"
+                                                                             data-comment-dislike="${comment.type.name()}"
+                                                                             data-no="${comment.no}">
+                                                                            <svg width="16"
+                                                                                 height="14"
+                                                                                 viewBox="0 0 16 14"
+                                                                                 fill="none"
+                                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M6.26699 8.66667H2.00033C1.6467 8.66667 1.30757 8.52619 1.05752 8.27614C0.807469 8.02609 0.666993 7.68696 0.666993 7.33333V5.93067C0.666813 5.75643 0.700787 5.58384 0.766993 5.42267L2.83099 0.413333C2.88118 0.291169 2.96652 0.186663 3.07619 0.113075C3.18586 0.0394861 3.31492 0.000130314 3.44699 0H14.667C14.8438 0 15.0134 0.0702379 15.1384 0.195262C15.2634 0.320286 15.3337 0.489856 15.3337 0.666667V7.33333C15.3337 7.51014 15.2634 7.67971 15.1384 7.80474C15.0134 7.92976 14.8438 8 14.667 8H12.3457C12.2389 7.99997 12.1338 8.02557 12.039 8.07464C11.9442 8.12372 11.8626 8.19483 11.801 8.282L8.16566 13.4327C8.1197 13.4978 8.05193 13.5443 7.97464 13.5637C7.89734 13.5832 7.81563 13.5743 7.74433 13.5387L6.53499 12.9333C6.19466 12.7632 5.92277 12.4818 5.76451 12.1358C5.60624 11.7898 5.57112 11.4001 5.66499 11.0313L6.26699 8.66667ZM11.3337 6.94133V1.33333H3.89366L2.00033 5.93067V7.33333H6.26699C6.47006 7.33336 6.67044 7.37977 6.85284 7.46903C7.03524 7.55828 7.19485 7.68802 7.31948 7.84834C7.44411 8.00867 7.53047 8.19534 7.57198 8.39412C7.61349 8.5929 7.60905 8.79853 7.55899 8.99533L6.95699 11.3607C6.93815 11.4344 6.94514 11.5125 6.9768 11.5817C7.00846 11.651 7.06287 11.7073 7.13099 11.7413L7.57166 11.9613L10.7117 7.51333C10.8783 7.27733 11.0917 7.084 11.3337 6.94133V6.94133ZM12.667 6.66667H14.0003V1.33333H12.667V6.66667Z"
+                                                                                      fill="#969696"></path>
+                                                                            </svg>
+                                                                            <span class="regular-h5 c-gray-medium">${comment.dislike_count}</span>
+                                                                        </div>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <div class="_dislike"
+                                                                             data-comment-dislike="${comment.type.name()}"
+                                                                             data-no="${comment.no}">
+                                                                            <svg width="16"
+                                                                                 height="14"
+                                                                                 viewBox="0 0 16 14"
+                                                                                 fill="none"
+                                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M6.26699 8.66667H2.00033C1.6467 8.66667 1.30757 8.52619 1.05752 8.27614C0.807469 8.02609 0.666993 7.68696 0.666993 7.33333V5.93067C0.666813 5.75643 0.700787 5.58384 0.766993 5.42267L2.83099 0.413333C2.88118 0.291169 2.96652 0.186663 3.07619 0.113075C3.18586 0.0394861 3.31492 0.000130314 3.44699 0H14.667C14.8438 0 15.0134 0.0702379 15.1384 0.195262C15.2634 0.320286 15.3337 0.489856 15.3337 0.666667V7.33333C15.3337 7.51014 15.2634 7.67971 15.1384 7.80474C15.0134 7.92976 14.8438 8 14.667 8H12.3457C12.2389 7.99997 12.1338 8.02557 12.039 8.07464C11.9442 8.12372 11.8626 8.19483 11.801 8.282L8.16566 13.4327C8.1197 13.4978 8.05193 13.5443 7.97464 13.5637C7.89734 13.5832 7.81563 13.5743 7.74433 13.5387L6.53499 12.9333C6.19466 12.7632 5.92277 12.4818 5.76451 12.1358C5.60624 11.7898 5.57112 11.4001 5.66499 11.0313L6.26699 8.66667ZM11.3337 6.94133V1.33333H3.89366L2.00033 5.93067V7.33333H6.26699C6.47006 7.33336 6.67044 7.37977 6.85284 7.46903C7.03524 7.55828 7.19485 7.68802 7.31948 7.84834C7.44411 8.00867 7.53047 8.19534 7.57198 8.39412C7.61349 8.5929 7.60905 8.79853 7.55899 8.99533L6.95699 11.3607C6.93815 11.4344 6.94514 11.5125 6.9768 11.5817C7.00846 11.651 7.06287 11.7073 7.13099 11.7413L7.57166 11.9613L10.7117 7.51333C10.8783 7.27733 11.0917 7.084 11.3337 6.94133V6.94133ZM12.667 6.66667H14.0003V1.33333H12.667V6.66667Z"
+                                                                                      fill="#969696"></path>
+                                                                            </svg>
+                                                                            <span class="regular-h5 c-gray-medium">${comment.dislike_count}</span>
+                                                                        </div>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </div>
+                                                            <div class="_reply">
+                                                                <c:if test="${comment.owner_checked eq true}">
+                                                                    <span class="medium-h5 c-gray-dark-low _delete"
+                                                                          data-no="${comment.no}"
+                                                                          data-type="${comment.type.name()}"
+                                                                          data-parent="parent">삭제</span>
+                                                                </c:if>
+                                                                <span class="medium-h5 c-gray-dark-low _do"
+                                                                      data-comment-no="${comment.no}"
+                                                                      data-type="${comment.type.name()}"
+                                                                      data-no="${comment.community_no}">답글</span>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="_info">
-                                                        <span class="regular-p1 c-gray-medium _name">유*준</span>
-                                                        <span class="regular-p1 c-gray-light ml-8">2021.12.22</span>
+                                                    <div class="reply-comment-container">
+                                                        <c:forEach items="${comment.recomments}" var="recomment"
+                                                                   varStatus="reStatus">
+                                                            <c:set var="reply_new" value="false"/>
+                                                            <c:choose>
+                                                                <c:when test="${recomment._blocked eq true}">
+                                                                    <div class="_comment"
+                                                                         data-blocked="${recomment._blocked}">
+                                                                        <div class="_profile-img">
+                                                                            <img alt=""
+                                                                                 src="${recomment.user.profile_img.url}">
+                                                                        </div>
+                                                                        <div class="_media">
+                                                                            <div class="_comment-text">
+                                                                                <span class="medium-p1 _content ellipsis-one-line">비공개된 댓글입니다.</span>
+                                                                                <svg width="16" height="16"
+                                                                                     viewBox="0 0 24 24"
+                                                                                     fill="none"
+                                                                                     xmlns="http://www.w3.org/2000/svg">
+                                                                                    <g clip-path="url(#clip0_249_10580)">
+                                                                                        <path d="M18 8H20C20.2652 8 20.5196 8.10536 20.7071 8.29289C20.8946 8.48043 21 8.73478 21 9V21C21 21.2652 20.8946 21.5196 20.7071 21.7071C20.5196 21.8946 20.2652 22 20 22H4C3.73478 22 3.48043 21.8946 3.29289 21.7071C3.10536 21.5196 3 21.2652 3 21V9C3 8.73478 3.10536 8.48043 3.29289 8.29289C3.48043 8.10536 3.73478 8 4 8H6V7C6 5.4087 6.63214 3.88258 7.75736 2.75736C8.88258 1.63214 10.4087 1 12 1C13.5913 1 15.1174 1.63214 16.2426 2.75736C17.3679 3.88258 18 5.4087 18 7V8ZM11 15.732V18H13V15.732C13.3813 15.5119 13.6793 15.1721 13.8478 14.7653C14.0162 14.3586 14.0458 13.9076 13.9319 13.4823C13.8179 13.057 13.5668 12.6813 13.2175 12.4132C12.8682 12.1452 12.4403 11.9999 12 11.9999C11.5597 11.9999 11.1318 12.1452 10.7825 12.4132C10.4332 12.6813 10.1821 13.057 10.0681 13.4823C9.9542 13.9076 9.98376 14.3586 10.1522 14.7653C10.3207 15.1721 10.6187 15.5119 11 15.732ZM16 8V7C16 5.93913 15.5786 4.92172 14.8284 4.17157C14.0783 3.42143 13.0609 3 12 3C10.9391 3 9.92172 3.42143 9.17157 4.17157C8.42143 4.92172 8 5.93913 8 7V8H16Z"
+                                                                                              fill="#F2F2F2"></path>
+                                                                                    </g>
+                                                                                    <defs>
+                                                                                        <clipPath id="clip0_249_10580">
+                                                                                            <rect width="24" height="24"
+                                                                                                  fill="white"></rect>
+                                                                                        </clipPath>
+                                                                                    </defs>
+                                                                                </svg>
+                                                                                <c:set var="newDiff"
+                                                                                       scope="application">
+                                                                                    <custom:localDateTimeDiffer
+                                                                                            value="${recomment.reg_datetime}"/>
+                                                                                </c:set>
+                                                                                <c:if test="${newDiff eq false}">
+                                                                                    <span class="bold-p1 c-brand-green _new">New!</span>
+                                                                                </c:if>
+                                                                            </div>
+                                                                            <div class="_info">
+                                                                                <span class="regular-p1 c-gray-medium _name">${recomment.user.name}</span>
+                                                                                <span class="regular-p1 c-gray-light ml-8"><custom:formatDatetime
+                                                                                        value="${recomment.reg_datetime}"
+                                                                                        pattern="yyyy-MM-dd"/></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="_transactions">
+                                                                            <div class="_reply">
+                                                                                <c:if test="${recomment.owner_checked eq true}">
+                                                                    <span class="medium-h5 c-gray-dark-low _delete mr-0"
+                                                                          data-no="${recomment.no}"
+                                                                          data-type="${recomment.type.name()}"
+                                                                          data-parent="self">삭제</span>
+                                                                                </c:if>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <div class="_comment"
+                                                                         data-blocked="${recomment._blocked}">
+                                                                        <div class="_profile-img">
+                                                                            <img alt=""
+                                                                                 src="${recomment.user.profile_img.url}">
+                                                                        </div>
+                                                                        <div class="_media">
+                                                                            <div class="_comment-text">
+                                                                                <span class="medium-p1 _content ellipsis-one-line">${recomment.content}</span>
+                                                                                <c:set var="newDiff"
+                                                                                       scope="application">
+                                                                                    <custom:localDateTimeDiffer
+                                                                                            value="${recomment.reg_datetime}"/>
+                                                                                </c:set>
+                                                                                <c:if test="${newDiff eq false}">
+                                                                                    <span class="bold-p1 c-brand-green _new">New!</span>
+                                                                                </c:if>
+                                                                            </div>
+                                                                            <div class="_info">
+                                                                                <span class="regular-p1 c-gray-medium _name">${recomment.user.name}</span>
+                                                                                <span class="regular-p1 c-gray-light ml-8"><custom:formatDatetime
+                                                                                        value="${recomment.reg_datetime}"
+                                                                                        pattern="yyyy-MM-dd"/></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="_transactions">
+                                                                            <div class="_reply">
+                                                                                <c:if test="${recomment.owner_checked eq true}">
+                                                                    <span class="medium-h5 c-gray-dark-low _delete mr-0"
+                                                                          data-no="${recomment.no}"
+                                                                          data-type="${recomment.type.name()}"
+                                                                          data-parent="self">삭제</span>
+                                                                                </c:if>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:forEach>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="_comment">
-                                                <div class="_profile-img">
-                                                    <img alt=""
-                                                         src="../../resources/assets/images/sample/background-wallpaper1.png">
-                                                </div>
-                                                <div class="_media">
-                                                    <div class="_comment-text">
-                                                        <span class="medium-p1 _content ellipsis-one-line">비공개된 댓글입니다.</span>
-                                                        <span class="bold-p1 c-brand-green _new">New!</span>
-                                                    </div>
-                                                    <div class="_info">
-                                                        <span class="regular-p1 c-gray-medium _name">유*준</span>
-                                                        <span class="regular-p1 c-gray-light ml-8">2021.12.22</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="comment-container">
-                                        <div class="_comment">
-                                            <div class="_profile-img">
-                                                <img alt=""
-                                                     src="../../resources/assets/images/sample/background-wallpaper1.png">
-                                            </div>
-                                            <div class="_media">
-                                                <div class="_comment-text">
-                                                    <span class="medium-h5 _content ellipsis-one-line">열심히 하는 모습에 응원합니다아아아아아앙아.</span>
-                                                    <svg width="24"
-                                                         height="24"
-                                                         viewBox="0 0 24 24"
-                                                         fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_249_10580)">
-                                                            <path d="M18 8H20C20.2652 8 20.5196 8.10536 20.7071 8.29289C20.8946 8.48043 21 8.73478 21 9V21C21 21.2652 20.8946 21.5196 20.7071 21.7071C20.5196 21.8946 20.2652 22 20 22H4C3.73478 22 3.48043 21.8946 3.29289 21.7071C3.10536 21.5196 3 21.2652 3 21V9C3 8.73478 3.10536 8.48043 3.29289 8.29289C3.48043 8.10536 3.73478 8 4 8H6V7C6 5.4087 6.63214 3.88258 7.75736 2.75736C8.88258 1.63214 10.4087 1 12 1C13.5913 1 15.1174 1.63214 16.2426 2.75736C17.3679 3.88258 18 5.4087 18 7V8ZM11 15.732V18H13V15.732C13.3813 15.5119 13.6793 15.1721 13.8478 14.7653C14.0162 14.3586 14.0458 13.9076 13.9319 13.4823C13.8179 13.057 13.5668 12.6813 13.2175 12.4132C12.8682 12.1452 12.4403 11.9999 12 11.9999C11.5597 11.9999 11.1318 12.1452 10.7825 12.4132C10.4332 12.6813 10.1821 13.057 10.0681 13.4823C9.9542 13.9076 9.98376 14.3586 10.1522 14.7653C10.3207 15.1721 10.6187 15.5119 11 15.732ZM16 8V7C16 5.93913 15.5786 4.92172 14.8284 4.17157C14.0783 3.42143 13.0609 3 12 3C10.9391 3 9.92172 3.42143 9.17157 4.17157C8.42143 4.92172 8 5.93913 8 7V8H16Z"
-                                                                  fill="#F2F2F2"></path>
-                                                        </g>
-                                                        <defs>
-                                                            <clipPath id="clip0_249_10580">
-                                                                <rect width="24" height="24" fill="white"></rect>
-                                                            </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                    <span class="bold-h5 c-brand-green _new d-none">New!</span>
-                                                </div>
-                                                <div class="_info">
-                                                    <span class="regular-h5 c-gray-medium _name">유*준</span>
-                                                    <span class="regular-h6 c-gray-light ml-8">2021.12.22</span>
-                                                </div>
-                                            </div>
-                                            <div class="_transactions">
-                                                <div class="_responds">
-                                                    <div class="_like">
-                                                        <svg width="16"
-                                                             height="14"
-                                                             viewBox="0 0 16 14"
-                                                             fill="none"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M9.73301 5.33333H13.9997C14.3533 5.33333 14.6924 5.47381 14.9425 5.72386C15.1925 5.97391 15.333 6.31304 15.333 6.66667V8.06933C15.3332 8.24357 15.2992 8.41616 15.233 8.57733L13.169 13.5867C13.1188 13.7088 13.0335 13.8133 12.9238 13.8869C12.8141 13.9605 12.6851 13.9999 12.553 14L1.33301 14C1.1562 14 0.986625 13.9298 0.861601 13.8047C0.736577 13.6797 0.666339 13.5101 0.666339 13.3333L0.666339 6.66667C0.666339 6.48986 0.736577 6.32029 0.861601 6.19526C0.986625 6.07024 1.1562 6 1.33301 6H3.65434C3.76107 6.00003 3.86625 5.97443 3.96103 5.92536C4.05581 5.87628 4.13742 5.80517 4.19901 5.718L7.83434 0.567333C7.8803 0.502208 7.94807 0.455707 8.02536 0.43626C8.10266 0.416813 8.18437 0.425708 8.25567 0.461333L9.46501 1.06667C9.80534 1.23677 10.0772 1.51821 10.2355 1.86421C10.3938 2.21021 10.4289 2.59995 10.335 2.96867L9.73301 5.33333ZM4.66634 7.05867V12.6667L12.1063 12.6667L13.9997 8.06933V6.66667L9.73301 6.66667C9.52994 6.66664 9.32956 6.62023 9.14716 6.53097C8.96476 6.44172 8.80515 6.31198 8.68052 6.15166C8.55589 5.99133 8.46953 5.80466 8.42802 5.60588C8.38651 5.4071 8.39095 5.20147 8.44101 5.00467L9.04301 2.63933C9.06185 2.56555 9.05486 2.48754 9.0232 2.41829C8.99154 2.34903 8.93713 2.2927 8.86901 2.25867L8.42834 2.03867L5.28834 6.48667C5.12167 6.72267 4.90834 6.916 4.66634 7.05867V7.05867ZM3.33301 7.33333H1.99967V12.6667H3.33301V7.33333Z"
-                                                                  fill="#969696"></path>
-                                                        </svg>
-                                                        <span class="regular-h5">8</span>
-                                                    </div>
-                                                    <div class="_dislike">
-                                                        <svg width="16"
-                                                             height="14"
-                                                             viewBox="0 0 16 14"
-                                                             fill="none"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M6.26699 8.66667H2.00033C1.6467 8.66667 1.30757 8.52619 1.05752 8.27614C0.807469 8.02609 0.666993 7.68696 0.666993 7.33333V5.93067C0.666813 5.75643 0.700787 5.58384 0.766993 5.42267L2.83099 0.413333C2.88118 0.291169 2.96652 0.186663 3.07619 0.113075C3.18586 0.0394861 3.31492 0.000130314 3.44699 0H14.667C14.8438 0 15.0134 0.0702379 15.1384 0.195262C15.2634 0.320286 15.3337 0.489856 15.3337 0.666667V7.33333C15.3337 7.51014 15.2634 7.67971 15.1384 7.80474C15.0134 7.92976 14.8438 8 14.667 8H12.3457C12.2389 7.99997 12.1338 8.02557 12.039 8.07464C11.9442 8.12372 11.8626 8.19483 11.801 8.282L8.16566 13.4327C8.1197 13.4978 8.05193 13.5443 7.97464 13.5637C7.89734 13.5832 7.81563 13.5743 7.74433 13.5387L6.53499 12.9333C6.19466 12.7632 5.92277 12.4818 5.76451 12.1358C5.60624 11.7898 5.57112 11.4001 5.66499 11.0313L6.26699 8.66667ZM11.3337 6.94133V1.33333H3.89366L2.00033 5.93067V7.33333H6.26699C6.47006 7.33336 6.67044 7.37977 6.85284 7.46903C7.03524 7.55828 7.19485 7.68802 7.31948 7.84834C7.44411 8.00867 7.53047 8.19534 7.57198 8.39412C7.61349 8.5929 7.60905 8.79853 7.55899 8.99533L6.95699 11.3607C6.93815 11.4344 6.94514 11.5125 6.9768 11.5817C7.00846 11.651 7.06287 11.7073 7.13099 11.7413L7.57166 11.9613L10.7117 7.51333C10.8783 7.27733 11.0917 7.084 11.3337 6.94133V6.94133ZM12.667 6.66667H14.0003V1.33333H12.667V6.66667Z"
-                                                                  fill="#969696"></path>
-                                                        </svg>
-                                                        <span class="regular-h5 c-gray-medium">1</span>
-                                                    </div>
-                                                </div>
-                                                <div class="_reply">
-                                                    <span class="medium-h5 c-gray-dark-low _delete">삭제</span>
-                                                    <span class="medium-h5 c-gray-dark-low _do">답글</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="reply-comment-container">
-
-                                        </div>
-                                    </div>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
                                 </div>
                                 <div class="_more medium-h4 c-brand-green">
                                     더보기
@@ -944,6 +1266,7 @@
 </div>
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/script.jsp"/>
+<script src="/resources/js/module/comment.js"></script>
 <script>
     /**
      * Static JS
@@ -953,6 +1276,9 @@
     $(document).ready(function () {
         console.log('Static JS is ready');
         /** Dropdown */
+        /*
+        * Dropdown Logic
+        * */
         $('._writer-board .dropdown-menu').on('click', 'a.dropdown-item', function (event) {
             let dropdown_item = this;
             let input = dropdown_item.closest('.dropdown').querySelector('input');
@@ -993,14 +1319,75 @@
             }
             input.setAttribute('data-type', type);
         });
-
-        /*
-        * Dropdown Logic
-        * */
         $('._my-comment .dropdown-menu').on('click', 'a.dropdown-item', function (event) {
             let dropdown_item = this;
             let type = dropdown_item.dataset.type;
-            console.log(dropdown_item, type);
+            let container = dropdown_item.closest('._my-comment');
+            container.querySelector('.dropdown input').setAttribute('data-type', type);
+            let comments = container.querySelectorAll('.comment-container[data-blocked]');
+            let recomments = container.querySelectorAll('.reply-comment-container ._comment[data-blocked]');
+            switch (type) {
+                case'ALL':
+                    comments.forEach(function (comment) {
+                        if (!comment.dataset.blocked) {
+                            if (comment.dataset.more === 'showing') {
+                                $(comment).show();
+                            }
+                        } else {
+                            if (comment.dataset.more === 'showing') {
+                                $(comment).show();
+                            }
+                        }
+                    });
+                    recomments.forEach(function (comment) {
+                        if (!comment.dataset.blocked) {
+                            $(comment).show();
+                        } else {
+                            $(comment).show();
+                        }
+                    });
+                    break;
+                case'PUBLIC':
+                    comments.forEach(function (comment) {
+                        if (!comment.dataset.blocked) {
+                            if (comment.dataset.more === 'showing') {
+                                $(comment).hide();
+                            }
+                        } else {
+                            if (comment.dataset.more === 'showing') {
+                                $(comment).show();
+                            }
+                        }
+                    });
+                    recomments.forEach(function (comment) {
+                        if (!comment.dataset.blocked) {
+                            $(comment).hide();
+                        } else {
+                            $(comment).show();
+                        }
+                    });
+                    break;
+                case'SECRET':
+                    comments.forEach(function (comment) {
+                        if (!comment.dataset.blocked) {
+                            if (comment.dataset.more === 'showing') {
+                                $(comment).show();
+                            }
+                        } else {
+                            if (comment.dataset.more === 'showing') {
+                                $(comment).hide();
+                            }
+                        }
+                    });
+                    recomments.forEach(function (comment) {
+                        if (!comment.dataset.blocked) {
+                            $(comment).show();
+                        } else {
+                            $(comment).hide();
+                        }
+                    });
+                    break;
+            }
         });
 
         /*
@@ -1052,7 +1439,50 @@
                 this.remove();
             }
         });
-
+        $('._my-comment ._more').click(function () {
+            let container = this.closest('._my-comment');
+            let comments = container.querySelectorAll('._comments .comment-container');
+            let type = container.querySelector('.dropdown input').dataset.type;
+            let count = 4;
+            comments.forEach(function (comment) {
+                if (count === 0) {
+                    return;
+                }
+                if (comment.style.display === 'none') {
+                    console.log(type);
+                    switch (type) {
+                        case'ALL':
+                            comment.style.display = 'block';
+                            comment.setAttribute('data-more', 'showing');
+                            count--;
+                            break;
+                        case'PUBLIC':
+                            if (!comment.dataset.blocked) {
+                                comment.style.display = 'block';
+                                comment.setAttribute('data-more', 'showing');
+                                count--;
+                            }
+                            break;
+                        case'SECRET':
+                            if (comment.dataset.blocked) {
+                                comment.style.display = 'block';
+                                comment.setAttribute('data-more', 'showing');
+                                count--;
+                            }
+                            break;
+                    }
+                }
+            });
+            let check = false;
+            comments.forEach(function (comment) {
+                if (comment.style.display === 'none') {
+                    check = true;
+                }
+            });
+            if (!check) {
+                this.remove();
+            }
+        });
         /*
         * Delete Logic
         * */
@@ -1135,6 +1565,79 @@
                     location.href = '/community/magazine/detail/' + no;
                     break;
             }
+        });
+
+        /*
+        * Comment Logic
+        * */
+
+        $('[data-comment-like]').on('click', function () {
+            let no = this.dataset.no;
+            let type = this.dataset.commentLike;
+            loginCheck().then((result) => {
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        updateCommentLike(type, no).then((result) => {
+                            console.log(result);
+                            if (result.status === 'OK') {
+                                if (result.data.status) {
+                                    let count = this.querySelector('span').textContent * 1;
+                                    if (result.data.type === 'insert') {
+                                        if (!this.classList.contains('is-active')) {
+                                            this.classList.add('is-active');
+                                        }
+                                        console.log(this);
+                                        this.querySelector('span').innerHTML = ++count;
+                                        viewAlert({content: '좋아요를 표시했습니다.'});
+                                    } else {
+                                        if (this.classList.contains('is-active')) {
+                                            this.classList.remove('is-active');
+                                        }
+                                        this.querySelector('span').innerHTML = --count;
+                                        viewAlert({content: '좋아요 표시를 해제했습니다.'});
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        viewAlert({content: '로그인이 필요한 기능입니다.'});
+                    }
+                }
+            });
+        });
+        $('[data-comment-dislike]').on('click', function () {
+            let no = this.dataset.no;
+            let type = this.dataset.commentDislike;
+            loginCheck().then((result) => {
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        updateCommentDislike(type, no).then((result) => {
+                            console.log(result);
+                            if (result.status === 'OK') {
+                                if (result.data.status) {
+                                    let count = this.querySelector('span').textContent * 1;
+                                    if (result.data.type === 'insert') {
+                                        if (!this.classList.contains('is-active')) {
+                                            this.classList.add('is-active');
+                                        }
+                                        console.log(this);
+                                        this.querySelector('span').innerHTML = ++count;
+                                        viewAlert({content: '싫어요를 표시했습니다.'});
+                                    } else {
+                                        if (this.classList.contains('is-active')) {
+                                            this.classList.remove('is-active');
+                                        }
+                                        this.querySelector('span').innerHTML = --count;
+                                        viewAlert({content: '싫어요 표시를 해제했습니다.'});
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        viewAlert({content: '로그인이 필요한 기능입니다.'});
+                    }
+                }
+            });
         });
     });
 </script>

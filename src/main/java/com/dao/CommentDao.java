@@ -220,4 +220,12 @@ public class CommentDao {
     public ArrayList<Comment> getCommentsMadeMe(int user_no) {
         return mapper.getCommentsMadeMe(user_no);
     }
+
+    public ArrayList<Comment> getCommentsByMe(int farm_no) {
+        return mapper.getCommentsByMe(farm_no);
+    }
+
+    public ArrayList<Comment> getRecommentByCommentNo(Comment comment) {
+        return mapper.getRecommentByCommentNo(comment);
+    }
 }
