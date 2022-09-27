@@ -1,6 +1,7 @@
 package com.mapper;
 
 import com.model.content.board.BoardTransaction;
+import com.model.content.common.Comment;
 import com.model.content.magazine.MagazineTransaction;
 import com.model.content.manual.ManualTransaction;
 import com.model.content.question.QuestionTransaction;
@@ -115,4 +116,8 @@ public interface LikeMapper {
     void deleteFarmCommentDislike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
 
     void insertFarmCommentDislike(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
+
+    int getLikesByComment(Comment comment);
+
+    int getDislikesByComment(Comment comment);
 }

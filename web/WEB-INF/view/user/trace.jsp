@@ -2,16 +2,15 @@
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
-
 <jsp:include page="../common/head.jsp"/>
-
 <body>
 <jsp:include page="../common/header.jsp"/>
-
 <jsp:include page="../common/header-desc.jsp"/>
+<jsp:include page="../common/left-sidebar.jsp"/>
+<jsp:include page="../common/right-sidebar.jsp"/>
 <jsp:include page="../common/tab-overlay.jsp"/>
+<jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
-
 <div id="content-wrapper">
     <div class="container">
         <!--테마별 키워드-->
@@ -233,9 +232,8 @@
         </section>
     </div>
 </div>
-
 <jsp:include page="../common/footer.jsp"/>
-
+<jsp:include page="../common/bottom.jsp"/>
 <!-- Modal -->
 <div class="modal fade" id="trace-created" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-md-max">
@@ -754,7 +752,7 @@
 
 <jsp:include page="../common/script.jsp"/>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="/resources/js/page/user-trace.js"></script>
+<script src="/resources/js/page/user-trace.js?vc=${RESOURCES_VERSION}"></script>
 <script>
     /**
      * Static JS

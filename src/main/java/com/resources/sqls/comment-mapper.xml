@@ -309,10 +309,137 @@
         WHERE question_no = #{content_no}
           AND qc.is_blocked = false
           AND recomment is null
-          AND ((select COUNT(*) from question_comment_like WHERE comment_no = qc.no) <![CDATA[<]]> @LAST_COMMENT_LIKES_COUNT OR
+          AND ((select COUNT(*) from question_comment_like WHERE comment_no = qc.no) <![CDATA[<]]>
+               @LAST_COMMENT_LIKES_COUNT OR
                ((select COUNT(*) from question_comment_like WHERE comment_no = qc.no) = @LAST_COMMENT_LIKES_COUNT AND
                 qc.no <![CDATA[>]]> #{last_comment_no}))
         order by like_count DESC, qc.no
         LIMIT 5;
+    </select>
+    <select id="boardOwnerCheck" parameterType="int" resultType="boolean">
+        select IF(EXISTS(
+                          select *
+                          from board_comment
+                          WHERE board_no = #{board_no}
+                            AND owner_checked = false),
+                  true, false);
+    </select>
+    <select id="tipOwnerCheck" parameterType="int" resultType="boolean">
+        select IF(EXISTS(
+                          select *
+                          from tips_comment
+                          WHERE tips_no = #{tips_no}
+                            AND owner_checked = false),
+                  true, false);
+    </select>
+    <select id="manualOwnerCheck" parameterType="int" resultType="boolean">
+        select IF(EXISTS(
+                          select *
+                          from manual_comment
+                          WHERE manual_no = #{manual_no}
+                            AND owner_checked = false),
+                  true, false);
+    </select>
+    <select id="questionOwnerCheck" parameterType="int" resultType="boolean">
+        select IF(EXISTS(
+                          select *
+                          from question_comment
+                          WHERE question_no = #{question_no}
+                            AND owner_checked = false),
+                  true, false);
+    </select>
+    <select id="getCommentsMadeMe" parameterType="int" resultType="Comment">
+        select *
+        from (select no, content, 'BOARD' as type, board_no as community_no, reg_datetime
+              from board_comment
+              WHERE user_no = #{user_no}
+              UNION
+              select no, content, 'QUESTION' as type, question_no as community_no, reg_datetime
+              from question_comment
+              WHERE user_no = #{user_no}
+              UNION
+              select no, content, 'FARM' as type, farm_no as community_no, reg_datetime
+              from farm_comment
+              WHERE user_no = #{user_no}
+              UNION
+              select no, content, 'MAGAZINE' as type, magazine_no as community_no, reg_datetime
+              from magazine_comment
+              WHERE user_no = #{user_no}
+              UNION
+              select no, content, 'MANUAL' as type, manual_no as community_no, reg_datetime
+              from manual_comment
+              WHERE user_no = #{user_no}
+              UNION
+              select no, content, 'TIP' as type, tips_no as community_no, reg_datetime
+              from tips_comment
+              WHERE user_no = #{user_no}) as bcqc
+        ORDER BY reg_datetime desc;
+    </select>
+    <select id="getCommentsByMe" parameterType="int" resultType="Comment">
+        select *
+        from (select board_comment.no,
+                     board_comment.content,
+                     'BOARD'                as type,
+                     board_comment.board_no as community_no,
+                     board_comment.reg_datetime
+              from board_comment
+                       inner join board as b on b.no = board_comment.board_no and b.farm_no = #{farm_no}
+              where board_comment.recomment is null
+              UNION
+              select question_comment.no,
+                     question_comment.content,
+                     'QUESTION'                   as type,
+                     question_comment.question_no as community_no,
+                     question_comment.reg_datetime
+              from question_comment
+                       inner join question as q on q.no = question_comment.question_no and q.farm_no = #{farm_no}
+              where question_comment.recomment is null
+              UNION
+              select farm_comment.no,
+                     farm_comment.content,
+                     'FARM'               as type,
+                     farm_comment.farm_no as community_no,
+                     farm_comment.reg_datetime
+              from farm_comment
+                       inner join farm as f on f.no = farm_comment.farm_no and f.no = #{farm_no}
+              where farm_comment.recomment is null
+              UNION
+              select manual_comment.no,
+                     manual_comment.content,
+                     'MANUAL'                 as type,
+                     manual_comment.manual_no as community_no,
+                     manual_comment.reg_datetime
+              from manual_comment
+                       inner join manual as m on m.no = manual_comment.manual_no and m.farm_no = #{farm_no}
+              where manual_comment.recomment is null
+              UNION
+              select tips_comment.no,
+                     tips_comment.content,
+                     'TIP'                as type,
+                     tips_comment.tips_no as community_no,
+                     tips_comment.reg_datetime
+              from tips_comment
+                       inner join tips as t on t.no = tips_comment.tips_no and t.farm_no = #{farm_no}
+              where tips_comment.recomment is null) as bcqc
+        ORDER BY reg_datetime desc;
+    </select>
+    <select id="getRecommentByCommentNo" parameterType="Comment" resultType="Comment">
+        <choose>
+            <when test='type.name().equals("BOARD")'>
+                select * from board_comment where recomment=#{no}
+            </when>
+            <when test='type.name().equals("QUESTION")'>
+                select * from question_comment where recomment=#{no}
+            </when>
+            <when test='type.name().equals("TIP")'>
+                select * from tips_comment where recomment=#{no}
+            </when>
+            <when test='type.name().equals("MANUAL")'>
+                select * from manual_comment where recomment=#{no}
+            </when>
+            <when test='type.name().equals("FARM")'>
+                select * from farm_comment where recomment=#{no}
+            </when>
+        </choose>
     </select>
 </mapper>

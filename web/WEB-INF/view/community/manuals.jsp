@@ -1,20 +1,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
-
 <jsp:include page="../common/head.jsp"/>
-
 <body>
 <jsp:include page="../common/header.jsp"/>
-
 <jsp:include page="../common/header-desc.jsp"/>
+<jsp:include page="../common/left-sidebar.jsp"/>
+<jsp:include page="../common/right-sidebar.jsp"/>
 <jsp:include page="../common/tab-overlay.jsp"/>
+<jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
-
 <div id="content-wrapper">
     <div class="container">
         <!--테마별 키워드-->
-        <section class="section sm-section mt-40" style="min-height: calc(80vh);">
+        <section class="section sm-section mt-40 mb-40"
+                 <c:if test="${manuals.size() eq 0}">style="min-height:calc(100vh - 40px - 40px);"</c:if>>
             <div class="section-title">
                 <div class="_desc medium-h5 c-gray-medium">
                     숙력된 농가분들이 경험하고 직접 겪은 메뉴얼을 공유했어요!
@@ -26,8 +26,10 @@
             <div class="filter-dropdown-container">
                 <!--TODO Filter -->
                 <div class="dropdown input-dropdown">
-                    <div data-toggle="dropdown" aria-expanded="false" class="form-group form-inner-button form-md form-green">
-                        <input type="text" class="form-control input-box medium-h5 dropdown-input input-sm" disabled="disabled"
+                    <div data-toggle="dropdown" aria-expanded="false"
+                         class="form-group form-inner-button form-md form-green">
+                        <input type="text" class="form-control input-box medium-h5 dropdown-input input-sm"
+                               disabled="disabled"
                                value="축산 메뉴얼"
                                id="manuals-filter1">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -37,7 +39,8 @@
                             </g>
                             <defs>
                                 <clipPath id="clip0_278_13355">
-                                    <rect width="24" height="24" fill="white" transform="translate(24) rotate(90)"></rect>
+                                    <rect width="24" height="24" fill="white"
+                                          transform="translate(24) rotate(90)"></rect>
                                 </clipPath>
                             </defs>
                         </svg>
@@ -61,7 +64,8 @@
                     </div>
                 </div>
                 <div class="dropdown input-dropdown">
-                    <div data-toggle="dropdown" aria-expanded="false" class="form-group form-inner-button form-md form-gray">
+                    <div data-toggle="dropdown" aria-expanded="false"
+                         class="form-group form-inner-button form-md form-gray">
                         <input type="text"
                                class="form-control input-box medium-h5 dropdown-input input-sm"
                                disabled="disabled"
@@ -75,7 +79,8 @@
                             </g>
                             <defs>
                                 <clipPath id="clip0_278_13355">
-                                    <rect width="24" height="24" fill="white" transform="translate(24) rotate(90)"></rect>
+                                    <rect width="24" height="24" fill="white"
+                                          transform="translate(24) rotate(90)"></rect>
                                 </clipPath>
                             </defs>
                         </svg>
@@ -102,14 +107,16 @@
                                    data-type="RECENT"
                                    value="최신 등록 순"
                                    id="manuals-filter3">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
                                 <g clip-path="url(#clip0_278_13355)">
                                     <path d="M12 13.1727L16.95 8.22266L18.364 9.63666L12 16.0007L5.636 9.63666L7.05 8.22266L12 13.1727Z"
                                           fill="#222222"></path>
                                 </g>
                                 <defs>
                                     <clipPath id="clip0_278_13355">
-                                        <rect width="24" height="24" fill="white" transform="translate(24) rotate(90)"></rect>
+                                        <rect width="24" height="24" fill="white"
+                                              transform="translate(24) rotate(90)"></rect>
                                     </clipPath>
                                 </defs>
                             </svg>
@@ -243,12 +250,10 @@
         </section>
     </div>
 </div>
-
 <jsp:include page="../common/footer.jsp"/>
-
-
+<jsp:include page="../common/bottom.jsp"/>
 <jsp:include page="../common/script.jsp"/>
-<script src="/resources/js/filter.js"></script>
+<script src="/resources/js/filter.js?vc=${RESOURCES_VERSION}"></script>
 <script>
     /**
      * Static JS
@@ -257,8 +262,10 @@
      * */
     $(document).ready(function () {
         console.log('Static JS is ready');
+        $('._content-list').on('click', '.col', function () {
+            window.location.href = '/community/manual/detail/' + $(this).data().no;
+        });
     });
 </script>
 </body>
-
 </html>

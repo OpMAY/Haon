@@ -5,8 +5,8 @@
             <div class="col-xl-4 col-12 logo-container">
                 <div class="d-flex">
           <span class="footer-sub-logo">
-            <a href="#" class="c-gray-dark-low">
-              Haun
+            <a href="/" class="c-gray-dark-low">
+                <img width="60" height="28" src="/resources/assets/images/icon/logo-black-theme.png"/>
             </a>
           </span>
                 </div>
@@ -28,12 +28,12 @@
                     <div class="ml-xl-auto col-2">
                         <span class="menu-title c-basic-white bold-h3">농장</span>
                         <ul class="list-unstyled menu-list">
-                            <li class="medium-h6"><a href="#">염소</a></li>
-                            <li class="medium-h6"><a href="#">소</a></li>
-                            <li class="medium-h6"><a href="#">양</a></li>
-                            <li class="medium-h6"><a href="#">닭</a></li>
-                            <li class="medium-h6"><a href="#">오리</a></li>
-                            <li class="medium-h6"><a href="#">돼지</a></li>
+                            <li class="medium-h6"><a href="/community/farms">염소</a></li>
+                            <li class="medium-h6"><a href="/community/farms">소</a></li>
+                            <li class="medium-h6"><a href="/community/farms">양</a></li>
+                            <li class="medium-h6"><a href="/community/farms">닭</a></li>
+                            <li class="medium-h6"><a href="/community/farms">오리</a></li>
+                            <li class="medium-h6"><a href="/community/farms">돼지</a></li>
                         </ul>
                     </div>
                     <div class="col-2">
@@ -44,19 +44,21 @@
                         </ul>
                     </div>
                     <div class="col-2">
-                        <span class="menu-title c-basic-white bold-h3">셰프</span>
+                        <span class="menu-title c-basic-white bold-h3">커뮤니티</span>
                         <ul class="list-unstyled menu-list">
-                            <li class="medium-h6"><a href="#">카테고리</a></li>
-                            <li class="medium-h6"><a href="#">카테고리</a></li>
+                            <li class="medium-h6"><a href="/community/boards">자유 게시판</a></li>
+                            <li class="medium-h6"><a href="/community/tips">팁과 노하우</a></li>
+                            <li class="medium-h6"><a href="/community/manuals">축산 메뉴얼</a></li>
+                            <li class="medium-h6"><a href="/community/magazines">최신 매거진</a></li>
+                            <li class="medium-h6"><a href="/community/questions">질문과 답변</a></li>
                         </ul>
                     </div>
                     <div class="col-2">
-                        <span class="menu-title c-basic-white bold-h3">이력제</span>
+                        <span class="menu-title c-basic-white bold-h3">QR이력제</span>
                         <ul class="list-unstyled menu-list">
-                            <li class="medium-h6"><a href="#">카테고리</a></li>
-                            <li class="medium-h6"><a href="#">카테고리</a></li>
-                            <li class="medium-h6"><a href="#">카테고리</a></li>
-                            <li class="medium-h6"><a href="#">카테고리</a></li>
+                            <li class="medium-h6"><a class="_trace-search" href="javascript:void(0);">이력 안내</a></li>
+                            <li class="medium-h6"><a class="_trace-search" href="javascript:void(0);">이력 조회</a></li>
+                            <li class="medium-h6"><a class="_trace-register" href="javascript:void(0);">이력 등록</a></li>
                         </ul>
                     </div>
                     <div class="col-4">

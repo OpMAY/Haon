@@ -442,7 +442,7 @@ function mobilePlaceHolderChanger(name) {
  * */
 const isResponseSize = (size) => {
   const s = (size !== undefined && size != null) ? size : 1200;
-  const w = screen.width;
+  const w = window.innerWidth;
   if (w <= s) {
     return true;
   }

@@ -36,19 +36,13 @@
 <jsp:include page="../common/head.jsp"/>
 <body>
 <jsp:include page="../common/header.jsp"/>
-
+<jsp:include page="../common/mobile-header.jsp"/>
 <jsp:include page="../common/header-desc.jsp"/>
-
 <jsp:include page="../common/left-sidebar.jsp"/>
-
 <jsp:include page="../common/right-sidebar.jsp"/>
-
 <jsp:include page="../common/tab-overlay.jsp"/>
-
 <jsp:include page="../common/tab-trace.jsp"/>
-
 <jsp:include page="../common/tab-search.jsp"/>
-
 <div id="content-wrapper">
     <div class="container">
         <!--테마별 키워드-->
@@ -237,7 +231,7 @@
                 </div>
             </c:if>
             <c:if test="${boards.size() <= 0}">
-                <div class="bold-h2 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
@@ -364,7 +358,7 @@
                 </div>
             </c:if>
             <c:if test="${tips.size() <= 0}">
-                <div class="bold-h2 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
@@ -492,7 +486,7 @@
                 </div>
             </c:if>
             <c:if test="${manuals.size() <= 0}">
-                <div class="bold-h2 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
@@ -620,7 +614,7 @@
                 </div>
             </c:if>
             <c:if test="${magazines.size() <= 0}">
-                <div class="bold-h2 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
@@ -916,7 +910,7 @@
                 </div>
             </c:if>
             <c:if test="${questions.size() <= 0}">
-                <div class="bold-h2 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
@@ -1009,20 +1003,15 @@
                 </div>
             </c:if>
             <c:if test="${farms.size() <= 0}">
-                <div class="bold-h2 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
         </section>
     </div>
 </div>
-
 <jsp:include page="../common/footer.jsp"/>
-
-<jsp:include page="../common/bottom.jsp"/>
-
 <jsp:include page="../common/script.jsp"/>
-
 <script>
     /**
      * Static JS
@@ -1146,10 +1135,7 @@
             let display_comment_list = comments_Div.find('span');
             let last_idx = display_comment_list.length - 1;
             let last_comment = display_comment_list[last_idx];
-            console.log(question_no);
-            console.log(last_comment);
             let last_comment_no = last_comment.dataset.commentNo * 1;
-            console.log(last_comment_no);
             loadMoreComments('question', question_no, last_comment_no).then((result) => {
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -1165,8 +1151,6 @@
         });
 
         $('._board-list ._board-container').on('click', function (e) {
-            console.log(e);
-            console.log($(this).closest('.owl-carousel'));
             if (!free_board_dragging) {
                 let no = $(this).data().no;
                 window.location.href = `/community/board/detail/` + no;
@@ -1176,16 +1160,14 @@
         $('#tips-section').find('.card').on('click', function (e) {
             let path = e.originalEvent.path;
             if (!path.includes($(this).find('._bookmark')[0])) {
-                alert('home.jsp 1207 줄 수정');
-                window.open('/community/tips/detail/' + $(this).data().no, '_blank');
-                // window.location.href = '/community/tips/detail/' + $(this).data().no;
+                window.open('/community/tip/detail/' + $(this).data().no, '_blank');
+                // window.location.href = '/community/tip/detail/' + $(this).data().no;
             }
         })
 
         $('#manual-section').find('.card').on('click', function (e) {
             let path = e.originalEvent.path;
             if (!path.includes($(this).find('._bookmark')[0])) {
-                alert('home.jsp 1216 줄 수정');
                 window.open('/community/manual/detail/' + $(this).data().no, '_blank');
                 // window.location.href = '/community/tips/detail/' + $(this).data().no;
             }
@@ -1194,20 +1176,17 @@
         $('#magazine-section').find('.card').on('click', function (e) {
             let path = e.originalEvent.path;
             if (!path.includes($(this).find('._bookmark')[0])) {
-                alert('home.jsp 1225 줄 수정');
                 window.open('/community/magazine/detail/' + $(this).data().no, '_blank');
                 // window.location.href = '/community/tips/detail/' + $(this).data().no;
             }
         })
 
         $('.farm-card').find('._footer button').on('click', function () {
-            alert('home.jsp 1232 줄 수정');
             window.open('/community/farm/detail/' + $(this).data().no, '_blank');
             // window.location.href = '/community/farm/detail/' + $(this).data().no;
         })
 
         $('#question-section ._accordion-content > span').on('click', function () {
-            alert('home.jsp 1238 줄 수정');
             window.open('/community/question/detail/' + $(this).parent().parent().parent().data().no, '_blank');
             // window.location.href = '/community/question/detail/' + $(this).parent().parent().parent().data().no;
         })
@@ -1216,7 +1195,7 @@
             loginCheck().then((result) => {
                 if (result.status === 'OK') {
                     if (result.data.status) {
-                        viewAlert({content: '질문하기 화면으로 넘어가기'});
+                        location.href='/user/board/write?type=QUESTION';
                     } else {
                         viewAlert({content: '로그인이 필요한 기능입니다.'});
                     }

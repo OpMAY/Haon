@@ -33,8 +33,12 @@
 <jsp:include page="../common/head.jsp"/>
 <body style="background-color: var(--gray-bg);">
 <jsp:include page="../common/header.jsp"/>
+<jsp:include page="../common/mobile-header.jsp"/>
 <jsp:include page="../common/header-desc.jsp"/>
+<jsp:include page="../common/left-sidebar.jsp"/>
+<jsp:include page="../common/right-sidebar.jsp"/>
 <jsp:include page="../common/tab-overlay.jsp"/>
+<jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
     <div class="container">
@@ -418,7 +422,7 @@
                                             </c:choose>
                                         </div>
                                         <div class="_footer">
-                                            <button data-href="/farm/detail/${farm.no}" type="button"
+                                            <button data-href="/community/farm/detail/${farm.no}" type="button"
                                                     class="btn btn-brand-opacity btn-block bold-h5">
                                                 농장 자세히 보기
                                             </button>
@@ -473,7 +477,7 @@
 </div>
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/script.jsp"/>
-<script src="/resources/js/module/comment.js"></script>
+<script src="/resources/js/module/comment.js?vc=${RESOURCES_VERSION}"></script>
 <script>
     /**
      * Static JS

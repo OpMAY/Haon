@@ -435,7 +435,9 @@ public class CommunityController {
 
         //Get Farm Data
         Farm farm = farmService.getFarmByFarmNo(0);
-        farm.set_bookmark(farmService.isFarmBookmark(farm.getNo(), user_no));
+        if (user_no != null) {
+            farm.set_bookmark(farmService.isFarmBookmark(farm.getNo(), user_no));
+        }
         //Get Favorite Magazines
         ArrayList<Magazine> fame_magazines = contentService.getFameMagazines();
 
@@ -569,7 +571,9 @@ public class CommunityController {
 
         //Get Farm Data
         Farm farm = farmService.getFarmByFarmNo(question.getFarm_no());
-        farm.set_bookmark(farmService.isFarmBookmark(farm.getNo(), user_no));
+        if (user_no != null) {
+            farm.set_bookmark(farmService.isFarmBookmark(farm.getNo(), user_no));
+        }
         //Get Other Questions
         ArrayList<Question> other_questions = contentService.getQuestions(farm.getNo());
         //Get Fame Questions
@@ -588,7 +592,7 @@ public class CommunityController {
 
     @RequestMapping(value = "/questions", method = RequestMethod.GET)
     public ModelAndView communityQuestionsPage() {
-        ModelAndView VIEW = new ModelAndView("community/qeustions");
+        ModelAndView VIEW = new ModelAndView("community/questions");
         List<QuestionSummary> questions = contentService.getCommunityQuestionsPage(null, ORDER_TYPE.RECENT);
         VIEW.addObject("questions", questions);
         return VIEW;
@@ -850,7 +854,9 @@ public class CommunityController {
 
         //Get Farm Data
         Farm farm = farmService.getFarmByFarmNo(manual.getFarm_no());
-        farm.set_bookmark(farmService.isFarmBookmark(farm.getNo(), user_no));
+        if (user_no != null) {
+            farm.set_bookmark(farmService.isFarmBookmark(farm.getNo(), user_no));
+        }
         //Get Other Questions
         ArrayList<Manual> other_manuals = contentService.getManuals(farm.getNo());
 

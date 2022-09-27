@@ -10,7 +10,13 @@
 <jsp:include page="../common/head.jsp"/>
 <body>
 <jsp:include page="../common/header.jsp"/>
+<jsp:include page="../common/mobile-header.jsp"/>
 <jsp:include page="../common/header-desc.jsp"/>
+<jsp:include page="../common/left-sidebar.jsp"/>
+<jsp:include page="../common/right-sidebar.jsp"/>
+<jsp:include page="../common/tab-overlay.jsp"/>
+<jsp:include page="../common/tab-trace.jsp"/>
+<jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
     <div class="_detail-banner background-image"
          style="background-image: url('${farm.farm_image.url}')">
@@ -331,7 +337,7 @@
                                     </span>
                                                 <c:choose>
                                                     <c:when test="${item._bookmark eq true}">
-                                            <span class="_bookmark is-active" data-bookmark="TIPS"
+                                            <span class="_bookmark is-active" data-bookmark="TIP"
                                                   data-no="${item.no}">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                          xmlns="http://www.w3.org/2000/svg">
@@ -349,7 +355,7 @@
                                             </span>
                                                     </c:when>
                                                     <c:otherwise>
-                                            <span class="_bookmark" data-bookmark="TIPS" data-no="${item.no}">
+                                            <span class="_bookmark" data-bookmark="TIP" data-no="${item.no}">
                                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg"><g
                                                            clip-path="url(#clip0_204_2957)"><path
@@ -378,7 +384,7 @@
                                     </span>
                                                 <c:choose>
                                                     <c:when test="${item._bookmark eq true}">
-                                            <span class="_bookmark is-active" data-bookmark="TIPS"
+                                            <span class="_bookmark is-active" data-bookmark="TIP"
                                                   data-no="${item.no}">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                          xmlns="http://www.w3.org/2000/svg">
@@ -396,7 +402,7 @@
                                             </span>
                                                     </c:when>
                                                     <c:otherwise>
-                                            <span class="_bookmark" data-bookmark="TIPS" data-no="${item.no}">
+                                            <span class="_bookmark" data-bookmark="TIP" data-no="${item.no}">
                                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg"><g
                                                            clip-path="url(#clip0_204_2957)"><path
@@ -649,8 +655,8 @@
 </div>
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/script.jsp"/>
-<script src="/resources/js/module/comment.js"></script>
-<script src="/resources/js/page/farm-detail.js"></script>
+<script src="/resources/js/module/comment.js?vc=${RESOURCES_VERSION}"></script>
+<script src="/resources/js/page/farm-detail.js?vc=${RESOURCES_VERSION}"></script>
 <script>
     /**
      * Static JS
@@ -739,9 +745,6 @@
                 }
             });
         });
-
-
-
     });
 </script>
 </body>

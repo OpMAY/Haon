@@ -4,8 +4,12 @@
 <jsp:include page="../common/head.jsp"/>
 <body>
 <jsp:include page="../common/header.jsp"/>
+<jsp:include page="../common/mobile-header.jsp"/>
 <jsp:include page="../common/header-desc.jsp"/>
+<jsp:include page="../common/left-sidebar.jsp"/>
+<jsp:include page="../common/right-sidebar.jsp"/>
 <jsp:include page="../common/tab-overlay.jsp"/>
+<jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
     <div class="container">
@@ -196,8 +200,8 @@
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/script.jsp"/>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-<script src="/resources/js/plugin/summernote/custom_summernote-bs4.js"></script>
-<script src="/resources/js/plugin/summernote/summernote-ko-KR.js"></script>
+<script src="/resources/js/plugin/summernote/custom_summernote-bs4.js?vc=${RESOURCES_VERSION}"></script>
+<script src="/resources/js/plugin/summernote/summernote-ko-KR.js?vc=${RESOURCES_VERSION}"></script>
 <script>
     /**
      * Static JS
@@ -275,6 +279,13 @@
                 }
             });
         });
+
+        //자동 Dropdown 클릭
+        let type = getParameter('type');
+        $('[name="community_type"]').closest('.dropdown').find('.dropdown-menu a[data-type="' + type + '"]').click();
+
+        //URL 변경
+        history.pushState(null, null, '/user/board/write');
     });
 
     let loadFile = function (event, target) {

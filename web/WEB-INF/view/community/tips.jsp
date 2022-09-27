@@ -1,21 +1,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
-
 <jsp:include page="../common/head.jsp"/>
-
 <body>
-
 <jsp:include page="../common/header.jsp"/>
-
 <jsp:include page="../common/header-desc.jsp"/>
+<jsp:include page="../common/left-sidebar.jsp"/>
+<jsp:include page="../common/right-sidebar.jsp"/>
 <jsp:include page="../common/tab-overlay.jsp"/>
+<jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
-
 <div id="content-wrapper">
     <div class="container">
         <!--테마별 키워드-->
-        <section class="section sm-section mt-40" style="min-height: calc(80vh);">
+        <section class="section sm-section mt-40 mb-40"
+                 <c:if test="${tips.size() eq 0}">style="min-height:calc(100vh - 40px - 40px);"</c:if>>
             <div class="section-title">
                 <div class="_desc medium-h5 c-gray-medium">
                     숙력된 농가분들이 갖고 있는 팁과 노하우를 공유했어요!
@@ -250,11 +249,10 @@
         </section>
     </div>
 </div>
-
 <jsp:include page="../common/footer.jsp"/>
-
+<jsp:include page="../common/bottom.jsp"/>
 <jsp:include page="../common/script.jsp"/>
-<script src="/resources/js/filter.js"></script>
+<script src="/resources/js/filter.js?vc=${RESOURCES_VERSION}"></script>
 <script>
     /**
      * Static JS
@@ -265,8 +263,8 @@
         console.log('Static JS is ready');
 
         $('._content-list').on('click', '.col', function () {
-            window.location.href = '/community/tips/detail/' + $(this).data().no;
-        })
+            window.location.href = '/community/tip/detail/' + $(this).data().no;
+        });
     });
 </script>
 </body>
