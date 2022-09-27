@@ -30,8 +30,9 @@ public class TraceRestController {
     }
 
     @RequestMapping(value = "/get/public/trace/{trace_code}", method = RequestMethod.GET)
-    public ResponseEntity<String> getPublicTraceCode(@PathVariable("trace_code") String trace_code) {
-        Message message = traceService.isCodeValid(trace_code);
+    public ResponseEntity<String> getPublicTraceCode(@PathVariable("trace_code") String trace_code, HttpServletRequest request) {
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Message message = traceService.isCodeValid(trace_code, user_no);
         /**
          * TraceRestController
          * - Required Methods
@@ -63,5 +64,16 @@ public class TraceRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/delete/trace/{no}", method = RequestMethod.POST)
+    public ResponseEntity<String> deleteTrace(@PathVariable Integer no) {
+        traceService.deleteTrace(no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/get/trace/modal/{no}", method = RequestMethod.GET)
+    public ResponseEntity<String> getTraceModalData(@PathVariable Integer no) {
+        Message message = traceService.getTraceModalData(no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
 
 }

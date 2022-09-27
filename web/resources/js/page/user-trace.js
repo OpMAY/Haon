@@ -2,13 +2,49 @@ const MODAL_ALERT_ZINDEX = 1060;
 
 $(document).ready(function () {
     $('._trace').on('click', function () {
-        viewAlert({content: '이력 상세로 이동'})
+        viewAlert({content: '이력 상세로 이동 ' + $(this).data().no})
         window.open('/trace/single', '_blank');
     })
 
-    $('._trace button').on('click', function (e) {
+    $('._trace button._qr').on('click', function (e) {
         e.stopPropagation();
-        viewAlert({content: 'QR 생성'})
+        viewAlert({content: 'QR 생성 ' + $(this).parent().data().no})
+    })
+
+    $('._trace button._edit').on('click', function (e) {
+        e.stopPropagation();
+        getTraceModalData($(this).parent().data().no).then((result) => {
+            console.log(result);
+            if(result.status === 'OK') {
+                let tData = result.data.trace;
+            }
+        })
+        viewAlert({content: '수정 '  + $(this).parent().data().no})
+    })
+
+    $('._trace button._delete').on('click', function (e) {
+        e.stopPropagation();
+        let $thisElem = $(this).parent().parent().parent();
+        let no = $(this).parent().data().no;
+        viewModal({
+            btnCount: 2,
+            backDrop: true,
+            title: '이력 삭제',
+            desc: '해당 이력을 삭제하시겠어요?',
+            onConfirm: () => {
+                deleteTrace(no).then((result) => {
+                    if(result.status === 'OK') {
+                        viewAlert({content: '삭제되었습니다.'})
+                        $thisElem.remove();
+                        if($('._traces').find('._trace').length <= 0) {
+                            $('._traces').append(`<div class="bold-h2 c-gray-light" style="text-align: center">
+                                            <span>등록된 이력이 없어요.</span>
+                                        </div>`);
+                        }
+                    }
+                })
+            }
+        });
     })
 
     $('#trace-created').on('show.bs.modal', function () {
@@ -57,19 +93,38 @@ $(document).ready(function () {
                                     }
                                 }
                             })
-
-                            if (result.data.type === 0) {
-                                viewAlert({content: '묶음 이력 번호는 묶음 이력 생성에서 조회해주세요.', zIndex: 2000})
-                            } else if (result.data.type === 1) {
-                                viewAlert({content: '이미 하온에 등록되어 있는 이력 번호입니다.', zIndex: 2000})
-                            } else {
-                                viewAlert({content: '존재하지 않거나 개체 종류와 맞지 않는 이력 번호 입니다.', zIndex: 2000})
-                            }
                         }
                     })
+                } else {
+                    if (result.data.type === 0) {
+                        viewAlert({content: '묶음 이력 번호는 묶음 이력 생성에서 조회해주세요.', zIndex: 2000})
+                        return false;
+                    } else if (result.data.type === 1) {
+                        viewAlert({content: '이미 하온에 등록되어 있는 이력 번호입니다.', zIndex: 2000})
+                        return false;
+                    } else {
+                        viewAlert({content: '존재하지 않거나 개체 종류와 맞지 않는 이력 번호 입니다.', zIndex: 2000})
+                        return false;
+                    }
                 }
             }
         })
+    })
+
+    $('#package-trace-created').find('input#package-trace-search').next().on('click', function () {
+        let code = $('#package-trace-search').val();
+        if(code.trim().length <= 0) {
+            viewAlert({content: '조회할 이력번호를 입력하세요.', zIndex: MODAL_ALERT_ZINDEX});
+        } else {
+            // TODO Search Registered Trace
+        }
+    }).find('input#public-bundle-search').next().on('click', function () {
+        let code = $('#public-bundle-search').val();
+        if(code.trim().length <= 0) {
+            viewAlert({content: '조회할 묶음 번호를 입력하세요.', zIndex: MODAL_ALERT_ZINDEX});
+        } else {
+            // TODO Search public bundle
+        }
     })
 
     $('.modal').on('click', '._trace-table-delete', function () {
@@ -232,7 +287,8 @@ $(document).ready(function () {
         } else {
             viewAlert({content: '작성하시던 사육정보를 먼저 등록해주세요.', zIndex: MODAL_ALERT_ZINDEX})
         }
-    }).on('click', '._breed-make ._confirm', function () {
+    })
+        .on('click', '._breed-make ._confirm', function () {
         let makeField = $(this).parent().parent().parent();
         let type = makeField.find('input[name="breed-type"]:checked');
         let farmer = makeField.find('input[name="breed-farmer"]');
@@ -345,7 +401,8 @@ $(document).ready(function () {
             }
             makeField.remove();
         }
-    }).on('click', '._breed-make ._cancel', function () {
+    })
+        .on('click', '._breed-make ._cancel', function () {
         $('._breed-make').remove();
     })
 
@@ -439,7 +496,8 @@ $(document).ready(function () {
         } else {
             viewAlert({content: '작성하시던 가공 정보를 먼저 등록해주세요.', zIndex: MODAL_ALERT_ZINDEX})
         }
-    }).on('click', '._slaughter-make ._confirm', function () {
+    })
+        .on('click', '._slaughter-make ._confirm', function () {
         let makeField = $(this).parent().parent().parent();
         let tableBody = $('._slaughter-table').find('tbody');
         let farm = makeField.find('input[name="slaughter-farm"');
@@ -487,7 +545,8 @@ $(document).ready(function () {
         tableBody.append(element);
         makeField.remove();
 
-    }).on('click', '._slaughter-make ._cancel', function () {
+    })
+        .on('click', '._slaughter-make ._cancel', function () {
         $('._slaughter-make').remove();
     })
 
@@ -566,7 +625,7 @@ $(document).ready(function () {
          * 사육 정보에 출하 정보 없을 시
          * */
         let slaughter_tab = $('#pills-slaughter');
-        let result = slaughter_tab.find('input[name=amniotic-success]');
+        let result = slaughter_tab.find('input[name=amniotic-success]:checked');
         const butcheries = [];
         if (result.length > 0) {
             // 도축 정보가 입력 되었을 때
@@ -647,7 +706,22 @@ $(document).ready(function () {
             console.log(result);
             if(result.status === 'OK') {
                 if(result.data.status) {
-
+                    viewModal({
+                        btnCount: 1,
+                        title: '이력 제작 성공',
+                        desc: '이력이 성공적으로 제작되었습니다.',
+                        zIndex: 2500,
+                        onConfirm: function () {
+                            window.location.reload();
+                        },
+                        onShow: () => {
+                            $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
+                        },
+                        onShown: () => {
+                            $('body .modal-backdrop._second').removeClass('_second').css('z-index', 1040);
+                            $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
+                        },
+                    })
                 } else {
 
                 }

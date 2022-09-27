@@ -129,20 +129,35 @@
                                 <div class="_traces">
                                     <c:if test="${traces.size() > 0}">
                                         <c:forEach var="trace" items="${traces}">
-                                            <div class="_trace mt-32">
+                                            <div class="_trace mt-32" data-no="${trace.no}">
                                                 <div class="_bundle-header">
-                                                    <span class="bold-h2" data-code="${trace.trace_code}">${trace.trace_code}</span>
-                                                    <button type="button"
-                                                            class="_qr btn btn-brand-opacity btn-block bold-h5">
-                                                        QR 코드 다운로드
-                                                    </button>
+                                                    <span class="bold-h2"
+                                                          data-code="${trace.trace_code}">${trace.trace_code}</span>
+                                                    <div class="_bundle-button" data-no="${trace.no}">
+                                                        <button type="button"
+                                                                class="_delete btn btn-brand-opacity bold-h5">
+                                                            삭제
+                                                        </button>
+                                                        <c:if test="${farmType.manual_available eq true}">
+                                                            <button type="button"
+                                                                    class="_edit btn btn-brand-opacity btn-icon">
+                                                                <span class="bold-h5 my-auto">수정</span>
+                                                            </button>
+                                                        </c:if>
+                                                        <button type="button"
+                                                                class="_qr btn btn-brand-opacity btn-block bold-h5">
+                                                            QR
+                                                        </button>
+                                                    </div>
                                                 </div>
                                                 <div class="_bundle-body d-flex">
                                                     <span class="_livestock regular-h5 p-2">${trace.entity.entity_type.typeName}</span>
                                                     <span class="regular-h5 p-2">${trace.entity.rate}</span>
                                                     <span class="regular-h5 p-2">${trace.entity.gender}</span>
-                                                    <span class="regular-h5 p-2">${trace.entity.birth} 출생</span>
-                                                    <span class="regular-h5 _date ml-auto p-2"><custom:formatDatetime value="${trace.reg_datetime}" pattern="yyyy-MM-dd"/></span>
+                                                    <span class="regular-h5 p-2"><c:if
+                                                            test="${trace.entity.birth ne null}">${trace.entity.birth} 출생</c:if></span>
+                                                    <span class="regular-h5 _date ml-auto p-2"><custom:formatDatetime
+                                                            value="${trace.reg_datetime}" pattern="yyyy-MM-dd"/></span>
                                                 </div>
                                             </div>
                                         </c:forEach>
@@ -181,7 +196,8 @@
                                                 <div class="_bundle-header">
                                             <span class="bold-h2"
                                                   data-code="L-0-220819-9763-101">L-0-220819-9763-101</span>
-                                                    <button type="button" class="_qr btn btn-brand-opacity btn-block bold-h5">
+                                                    <button type="button"
+                                                            class="_qr btn btn-brand-opacity btn-block bold-h5">
                                                         QR 코드 다운로드
                                                     </button>
                                                 </div>
@@ -449,7 +465,8 @@
                                             <div class="col-12 d-flex flex-row">
                                                 <div class="mt-16">
                                                     <label data-label="checkbox" class="radio-item">
-                                                        <input data-type="radio" data-value="true" type="radio" name="amniotic-success">
+                                                        <input data-type="radio" data-value="true" type="radio"
+                                                               name="amniotic-success">
                                                         <span class="design"></span>
                                                         <span class="ml-16">합격</span>
                                                     </label>
@@ -457,7 +474,8 @@
 
                                                 <div class="mt-16 ml-24">
                                                     <label data-label="checkbox" class="radio-item">
-                                                        <input data-type="radio" data-value="false" type="radio" name="amniotic-success">
+                                                        <input data-type="radio" data-value="false" type="radio"
+                                                               name="amniotic-success">
                                                         <span class="design"></span>
                                                         <span class="ml-16">불합격</span>
                                                     </label>
@@ -517,7 +535,8 @@
                                                 <label class="medium-h6 c-gray-dark-low">소재지</label>
                                                 <div class="form-group form-inner-button">
                                                     <input type="text" placeholder="주소를 입력해주세요." data-type="postcode"
-                                                           class="form-control input-box medium-h5 cursor-pointer" readonly
+                                                           class="form-control input-box medium-h5 cursor-pointer"
+                                                           readonly
                                                            name="amniotic-addr"
                                                            id="input21">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -617,37 +636,64 @@
                     <div class="col-12 d-flex _animals">
                         <div class="_animal">
                             <label data-label="checkbox" class="radio-item">
-                                <input data-type="radio" data-category="${farmType}" type="radio" name="bundle-animal" checked>
+                                <input data-type="radio" data-category="${farmType}" type="radio" name="bundle-animal"
+                                       checked>
                                 <span class="design"></span>
                                 <span class="ml-16">${farmType.korName}</span>
                             </label>
                         </div>
                     </div>
                 </div>
-
-                <div class="row mt-32">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="medium-h6 c-gray-dark-low">묶음 번호 조회</label>
-                            <div class="form-group form-inner-button">
-                                <input type="text" placeholder="묶음 번호 또는 이력번호 입력"
-                                       class="form-control input-box medium-h5">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <g clip-path="url(#clip0_225_6124)">
-                                        <path d="M18.031 16.617L22.314 20.899L20.899 22.314L16.617 18.031C15.0237 19.3082 13.042 20.0029 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20.0029 13.042 19.3082 15.0237 18.031 16.617ZM16.025 15.875C17.2941 14.5699 18.0029 12.8204 18 11C18 7.132 14.867 4 11 4C7.132 4 4 7.132 4 11C4 14.867 7.132 18 11 18C12.8204 18.0029 14.5699 17.2941 15.875 16.025L16.025 15.875Z"
-                                              fill="#A9CC52"/>
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_225_6124">
-                                            <rect width="24" height="24" fill="white"/>
-                                        </clipPath>
-                                    </defs>
-                                </svg>
+                <c:if test="${farmType.manual_available eq false}">
+                    <div class="row mt-32">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="medium-h6 c-gray-dark-low">묶음 번호 조회</label>
+                                <div class="form-group form-inner-button">
+                                    <input type="text" placeholder="묶음 번호를 입력하세요." id="public-bundle-search"
+                                           class="form-control input-box medium-h5">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_225_6124)">
+                                            <path d="M18.031 16.617L22.314 20.899L20.899 22.314L16.617 18.031C15.0237 19.3082 13.042 20.0029 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20.0029 13.042 19.3082 15.0237 18.031 16.617ZM16.025 15.875C17.2941 14.5699 18.0029 12.8204 18 11C18 7.132 14.867 4 11 4C7.132 4 4 7.132 4 11C4 14.867 7.132 18 11 18C12.8204 18.0029 14.5699 17.2941 15.875 16.025L16.025 15.875Z"
+                                                  fill="#A9CC52"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_225_6124">
+                                                <rect width="24" height="24" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </c:if>
+                <c:if test="${farmType.manual_available}">
+                    <div class="row mt-32">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="medium-h6 c-gray-dark-low">추가할 이력 조회</label>
+                                <div class="form-group form-inner-button">
+                                    <input type="text" placeholder="이력번호를 입력하세요." id="bundle-trace-search"
+                                           class="form-control input-box medium-h5">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_225_6124)">
+                                            <path d="M18.031 16.617L22.314 20.899L20.899 22.314L16.617 18.031C15.0237 19.3082 13.042 20.0029 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20.0029 13.042 19.3082 15.0237 18.031 16.617ZM16.025 15.875C17.2941 14.5699 18.0029 12.8204 18 11C18 7.132 14.867 4 11 4C7.132 4 4 7.132 4 11C4 14.867 7.132 18 11 18C12.8204 18.0029 14.5699 17.2941 15.875 16.025L16.025 15.875Z"
+                                                  fill="#A9CC52"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_225_6124">
+                                                <rect width="24" height="24" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
 
                 <div class="row mt-24">
                     <div class="col-12">
@@ -679,36 +725,9 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>01332323214</td>
-                                <td>1++</td>
-                                <td>오키위 축산</td>
-                                <td>서울특별시 남부순환로 1892</td>
-                                <td scope="row">
-                                    <svg width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                              clip-rule="evenodd"
-                                              d="M12 1C5.925 1 1 5.925 1 12C1 18.075 5.925 23 12 23C18.075 23 23 18.075 23 12C23 5.925 18.075 1 12 1ZM15.707 9.707C15.8892 9.5184 15.99 9.2658 15.9877 9.0036C15.9854 8.7414 15.8802 8.49059 15.6948 8.30518C15.5094 8.11977 15.2586 8.0146 14.9964 8.01233C14.7342 8.01005 14.4816 8.11084 14.293 8.293L12 10.586L9.707 8.293C9.61475 8.19749 9.50441 8.12131 9.3824 8.0689C9.2604 8.01649 9.12918 7.9889 8.9964 7.98775C8.86362 7.9866 8.73194 8.0119 8.60905 8.06218C8.48615 8.11246 8.3745 8.18671 8.28061 8.28061C8.18671 8.3745 8.11246 8.48615 8.06218 8.60905C8.0119 8.73194 7.9866 8.86362 7.98775 8.9964C7.9889 9.12918 8.01649 9.2604 8.0689 9.3824C8.12131 9.50441 8.19749 9.61475 8.293 9.707L10.586 12L8.293 14.293C8.19749 14.3852 8.12131 14.4956 8.0689 14.6176C8.01649 14.7396 7.9889 14.8708 7.98775 15.0036C7.9866 15.1364 8.0119 15.2681 8.06218 15.391C8.11246 15.5139 8.18671 15.6255 8.28061 15.7194C8.3745 15.8133 8.48615 15.8875 8.60905 15.9378C8.73194 15.9881 8.86362 16.0134 8.9964 16.0123C9.12918 16.0111 9.2604 15.9835 9.3824 15.9311C9.50441 15.8787 9.61475 15.8025 9.707 15.707L12 13.414L14.293 15.707C14.4816 15.8892 14.7342 15.99 14.9964 15.9877C15.2586 15.9854 15.5094 15.8802 15.6948 15.6948C15.8802 15.5094 15.9854 15.2586 15.9877 14.9964C15.99 14.7342 15.8892 14.4816 15.707 14.293L13.414 12L15.707 9.707Z"
-                                              fill="#A9CC52"/>
-                                    </svg>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>01332323214</td>
-                                <td>1++</td>
-                                <td>오키위 축산</td>
-                                <td>서울특별시 남부순환로 1892</td>
-                                <td scope="row">
-                                    <svg width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                              clip-rule="evenodd"
-                                              d="M12 1C5.925 1 1 5.925 1 12C1 18.075 5.925 23 12 23C18.075 23 23 18.075 23 12C23 5.925 18.075 1 12 1ZM15.707 9.707C15.8892 9.5184 15.99 9.2658 15.9877 9.0036C15.9854 8.7414 15.8802 8.49059 15.6948 8.30518C15.5094 8.11977 15.2586 8.0146 14.9964 8.01233C14.7342 8.01005 14.4816 8.11084 14.293 8.293L12 10.586L9.707 8.293C9.61475 8.19749 9.50441 8.12131 9.3824 8.0689C9.2604 8.01649 9.12918 7.9889 8.9964 7.98775C8.86362 7.9866 8.73194 8.0119 8.60905 8.06218C8.48615 8.11246 8.3745 8.18671 8.28061 8.28061C8.18671 8.3745 8.11246 8.48615 8.06218 8.60905C8.0119 8.73194 7.9866 8.86362 7.98775 8.9964C7.9889 9.12918 8.01649 9.2604 8.0689 9.3824C8.12131 9.50441 8.19749 9.61475 8.293 9.707L10.586 12L8.293 14.293C8.19749 14.3852 8.12131 14.4956 8.0689 14.6176C8.01649 14.7396 7.9889 14.8708 7.98775 15.0036C7.9866 15.1364 8.0119 15.2681 8.06218 15.391C8.11246 15.5139 8.18671 15.6255 8.28061 15.7194C8.3745 15.8133 8.48615 15.8875 8.60905 15.9378C8.73194 15.9881 8.86362 16.0134 8.9964 16.0123C9.12918 16.0111 9.2604 15.9835 9.3824 15.9311C9.50441 15.8787 9.61475 15.8025 9.707 15.707L12 13.414L14.293 15.707C14.4816 15.8892 14.7342 15.99 14.9964 15.9877C15.2586 15.9854 15.5094 15.8802 15.6948 15.6948C15.8802 15.5094 15.9854 15.2586 15.9877 14.9964C15.99 14.7342 15.8892 14.4816 15.707 14.293L13.414 12L15.707 9.707Z"
-                                              fill="#A9CC52"/>
-                                    </svg>
+                            <tr data-type="empty">
+                                <td colspan="6">
+                                    <span class="c-gray-light">묶을 이력을 추가하세요.</span>
                                 </td>
                             </tr>
                             </tbody>

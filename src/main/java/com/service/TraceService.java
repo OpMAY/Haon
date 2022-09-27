@@ -78,7 +78,8 @@ public class TraceService {
         return message;
     }
 
-    public Message isCodeValid(String code) {
+    public Message isCodeValid(String code, int user_no) {
+        Farm farm = farmDao.getFarmByUserNo(user_no);
         Message message = new Message();
         if (traceDao.isCodeExists(code)) {
             // 코드 이미 존재?
@@ -97,9 +98,37 @@ public class TraceService {
                 }
                 if (response != null) {
                     if (response.getHeader().getResultCode().equals("00")) {
-                        message.put("status", true);
-                        message.put("data", getTraceInfo(response.getBody().getItems().getItem()));
-                        message.put("address", response.getBody().getItems().getItem().get(0).getFarmAddr());
+                        // CHECK SAME TYPE
+                        Trace trace = getTraceInfo(response.getBody().getItems().getItem(), code);
+                        if(trace.getEntity().getEntity_type().name().equals(farm.getType().getCode())) {
+                            if(trace.getEntity().getEntity_type().equals(EntityType.PIG)) {
+                                message.put("address", response.getBody().getItems().getItem().get(0).getFarmAddr());
+                            } else if (trace.getEntity().getEntity_type().equals(EntityType.CATTLE)) {
+                                String address = "";
+                                String farmNo = response.getBody().getItems().getItem().get(0).getFarmNo();
+                                for(TraceData traceData : response.getBody().getItems().getItem()) {
+                                    if(traceData.getInfoType() == 2 && traceData.getFarmNo().equals(farmNo)) {
+                                        address = traceData.getFarmAddr();
+                                        break;
+                                    }
+                                }
+                                message.put("address", address);
+                            } else if (trace.getEntity().getEntity_type().equals(EntityType.FOWL) || trace.getEntity().getEntity_type().equals(EntityType.DUCK)) {
+                                String address = "";
+                                for(TraceData traceData : response.getBody().getItems().getItem()) {
+                                    if(traceData.getInfoType() == 1 && traceData.getFarmAddr() != null) {
+                                        address = traceData.getFarmAddr();
+                                        break;
+                                    }
+                                }
+                                message.put("address", address);
+                            }
+                            message.put("status", true);
+                            message.put("data", trace);
+                        } else {
+                            message.put("status", false);
+                            message.put("type", 2);
+                        }
                         // return status false, type = bundle
 //                    message.put("data", getBundleInfo(response.getBody().getItems().getItem()));
 //                    message.put("address", response.getBody().getItems().getItem().get(1).getButcheryPlaceAddr());
@@ -131,11 +160,11 @@ public class TraceService {
                 TraceType type = getTraceType(id_data);
                 if (type.isBundle()) {
                     // 묶음 이력
-                    Bundle bundle = getBundleInfo(dataList);
+                    Bundle bundle = getBundleInfo(dataList, code);
                     log.info("bundle : " + bundle);
                 } else {
                     // 일반 이력
-                    Trace trace = getTraceInfo(dataList);
+                    Trace trace = getTraceInfo(dataList, code);
                     log.info("trace : " + trace);
                 }
 
@@ -164,7 +193,7 @@ public class TraceService {
         }
     }
 
-    private Bundle getBundleInfo(List<TraceData> traceDataList) {
+    private Bundle getBundleInfo(List<TraceData> traceDataList, String code) {
         Bundle bundle = new Bundle();
         List<Trace> traceList = new ArrayList<>();
         TraceType type = getTraceType(traceDataList.get(0));
@@ -176,29 +205,28 @@ public class TraceService {
                 bundle.setBundle_owner_name(traceData.getProcessPlaceNm());
             } else if ((type.getTarget().equals("CATTLE") || type.getTarget().equals("PIG")) && traceData.getInfoType() == 9
                     || (type.getTarget().equals("FOWL") || type.getTarget().equals("DUCK")) && traceData.getInfoType() == 3) {
-                String trace_code = "";
-                switch (type.getTarget()) {
-                    case "CATTLE":
-                        trace_code = traceData.getCattleNo();
-                        break;
-                    case "PIG":
-                        trace_code = traceData.getPigNo();
-                        break;
-                    case "FOWL":
-                    case "DUCK":
-                        trace_code = traceData.getHistNo();
-                        break;
-                    default:
-                        break;
-                }
+                //                switch (type.getTarget()) {
+//                    case "CATTLE":
+//                        trace_code = traceData.getCattleNo();
+//                        break;
+//                    case "PIG":
+//                        trace_code = traceData.getPigNo();
+//                        break;
+//                    case "FOWL":
+//                    case "DUCK":
+//                        trace_code = traceData.getHistNo();
+//                        break;
+//                    default:
+//                        break;
+//                }
                 try {
-                    TraceResponse response = TraceApi.apiRequest(trace_code).getResponse();
+                    TraceResponse response = TraceApi.apiRequest(code).getResponse();
                     log.info("{}", response);
                     String resultCode = response.getHeader().getResultCode();
                     if (resultCode.equals("00")) {
                         TraceResponseBody body = response.getBody();
                         if (body.getItems() != null && body.getItems().getItem() != null && !body.getItems().getItem().isEmpty()) {
-                            Trace trace = getTraceInfo(body.getItems().getItem());
+                            Trace trace = getTraceInfo(body.getItems().getItem(), code);
                             traceList.add(trace);
                         }
                     } else {
@@ -214,7 +242,7 @@ public class TraceService {
         return bundle;
     }
 
-    private Trace getTraceInfo(List<TraceData> traceDataList) {
+    private Trace getTraceInfo(List<TraceData> traceDataList, String code) {
         Trace trace = new Trace();
         TraceEntity entity = new TraceEntity();
         List<TraceBreed> breeds = new ArrayList<>();
@@ -231,13 +259,7 @@ public class TraceService {
                 break;
             }
         }
-        if (target_trace_type.getTarget().equals("CATTLE")) {
-            trace.setTrace_code(entityData.getCattleNo());
-        } else if (target_trace_type.getTarget().equals("PIG")) {
-            trace.setTrace_code(entityData.getPigNo());
-        } else {
-            trace.setTrace_code(entityData.getHistNo());
-        }
+        trace.setTrace_code(code);
         entity.setBirth(entityData.getBirthYmd());
         entity.setGender(entityData.getSexNm());
         entity.setRate(entityData.getGradeNm());
@@ -288,28 +310,31 @@ public class TraceService {
             }
         } else if (target_trace_type.getTarget().equals("FOWL") || target_trace_type.getTarget().equals("DUCK")) {
             // 닭 or 오리 => info_type => 1 : 사육 정보, 2 : 도축 정보, 3 : 식육포장처리정보 => process
+            List<String> processCompanyNames = new ArrayList<>();
             for (TraceData traceData : traceDataList) {
                 int info_type = traceData.getInfoType();
                 if (info_type == 1) {
                     TraceBreed breed = new TraceBreed();
-                    breed.setBreed_farmer_name(traceData.getMngrNm());
+                    breed.setBreed_farmer_name(traceData.getFarmerNm());
                     breed.setType(BreedType.REGISTER);
                     breed.setBreed_farm_addr(traceData.getFarmAddr());
-                    breed.setBreed_farm_name("");
                     breeds.add(breed);
                 } else if (info_type == 2) {
                     TraceButchery butchery = new TraceButchery();
                     butchery.setButchery_result(traceData.getPsexmYn());
-                    butchery.setButchery_addr(traceData.getAdd0R());
-                    butchery.setButchery_corp(traceData.getAbattNm());
-                    butchery.setButchery_date(traceData.getRceptDt());
+                    butchery.setButchery_addr(traceData.getButcheryPlaceAddr());
+                    butchery.setButchery_corp(traceData.getButcheryPlaceNm());
+                    butchery.setButchery_date(traceData.getButcheryYmd());
                     butcheries.add(butchery);
                 } else if (info_type == 3) {
-                    TraceProcess process = new TraceProcess();
-                    process.setProcess_corp(traceData.getEntrpNm());
-                    process.setProcess_addr(traceData.getAdd0R());
-                    // PROCESS DATE 없음
-                    processes.add(process);
+                    if(!processCompanyNames.contains(traceData.getEntrpNm()) && processCompanyNames.size() <= 10) {
+                        TraceProcess process = new TraceProcess();
+                        process.setProcess_corp(traceData.getEntrpNm());
+                        process.setProcess_addr(traceData.getEntrpAddr());
+                        // PROCESS DATE 없음
+                        processes.add(process);
+                        processCompanyNames.add(traceData.getEntrpNm());
+                    }
                 }
             }
         } else {
@@ -347,7 +372,6 @@ public class TraceService {
         trace.setBreed(breeds);
         trace.setButchery(butcheries);
         trace.setProcess(processes);
-        System.out.println(new Gson().toJson(trace));
         return trace;
     }
 
@@ -396,6 +420,18 @@ public class TraceService {
             bundle.setTraceList(traces);
         }
         return bundles;
+    }
+
+    @Transactional
+    public void deleteTrace(int no) {
+        traceDao.deleteTrace(no);
+    }
+
+    public Message getTraceModalData(int no) {
+        Message message = new Message();
+        Trace trace = traceDao.getTraceByNo(no);
+        message.put("trace", trace);
+        return message;
     }
 
 
