@@ -13,7 +13,8 @@
 <div id="content-wrapper">
     <div class="container">
         <!--테마별 키워드-->
-        <section class="section sm-section mt-40" style="min-height: calc(80vh);">
+        <section class="section sm-section mt-40 mb-40"
+                 <c:if test="${questions.size() eq 0}">style="min-height:calc(100vh - 40px - 40px);"</c:if>>
             <div class="section-title">
                 <div class="_desc medium-h5 c-gray-medium">
                     궁금한 사항을 무엇이든 편하게 물어보세요!

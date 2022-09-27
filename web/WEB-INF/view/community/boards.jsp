@@ -14,7 +14,8 @@
 <div id="content-wrapper">
     <div class="container">
         <!--테마별 키워드-->
-        <section class="section sm-section mt-40" style="min-height: calc(80vh);">
+        <section class="section sm-section mt-40 mb-40"
+                 <c:if test="${boards.size() eq 0}">style="min-height:calc(100vh - 40px - 40px);"</c:if>>
             <div class="section-title">
                 <div class="_desc medium-h5 c-gray-medium">
                     다양하고 많은 농가들과 정보를 공유하고 대화를 진행할 수 있어요!

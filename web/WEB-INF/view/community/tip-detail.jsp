@@ -426,7 +426,7 @@
                                             </c:choose>
                                         </div>
                                         <div class="_footer">
-                                            <button data-href="/farm/detail/${farm.no}" type="button"
+                                            <button data-href="/community/farm/detail/${farm.no}" type="button"
                                                     class="btn btn-brand-opacity btn-block bold-h5">
                                                 농장 자세히 보기
                                             </button>

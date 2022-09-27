@@ -162,6 +162,7 @@ body {
 
 #header-right-sidebar ul.list-group li.list-group-item {
     padding: 24px;
+    cursor: pointer;
 }
 
 #header-right-sidebar {

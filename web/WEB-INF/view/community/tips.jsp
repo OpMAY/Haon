@@ -13,7 +13,8 @@
 <div id="content-wrapper">
     <div class="container">
         <!--테마별 키워드-->
-        <section class="section sm-section mt-40" style="min-height: calc(80vh);">
+        <section class="section sm-section mt-40 mb-40"
+                 <c:if test="${tips.size() eq 0}">style="min-height:calc(100vh - 40px - 40px);"</c:if>>
             <div class="section-title">
                 <div class="_desc medium-h5 c-gray-medium">
                     숙력된 농가분들이 갖고 있는 팁과 노하우를 공유했어요!
@@ -262,8 +263,8 @@
         console.log('Static JS is ready');
 
         $('._content-list').on('click', '.col', function () {
-            window.location.href = '/community/tips/detail/' + $(this).data().no;
-        })
+            window.location.href = '/community/tip/detail/' + $(this).data().no;
+        });
     });
 </script>
 </body>

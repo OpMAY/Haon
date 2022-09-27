@@ -6,6 +6,25 @@ window.onload = function () {
     zoomOutMobile();
 };
 
+function headerResponseControl() {
+    let header = document.querySelector('#header');
+    let mobile_header = document.querySelector('#header-back-theme');
+    if (!isResponseSize(993)) {
+        header.style.display = 'block';
+        if (mobile_header !== null && mobile_header !== undefined) {
+            mobile_header.style.display = 'none';
+        }
+    } else {
+        header.style.display = 'none';
+        if (mobile_header !== null && mobile_header !== undefined) {
+            mobile_header.style.display = 'block';
+        }
+    }
+    if (mobile_header === null || mobile_header === undefined) {
+        header.style.display = 'block';
+    }
+}
+
 function zoomOutMobile() {
     let viewport = document.querySelector('meta[name="viewport"]');
     if (isResponseSize(769)) {
@@ -17,6 +36,7 @@ function zoomOutMobile() {
         viewport.content = "initial-scale=0.1";
         viewport.content = "width=device-width, shrink-to-fit=no";
     }
+    headerResponseControl();
 }
 
 /*(function () {
@@ -217,8 +237,10 @@ $(document).ready(function () {
         }
     });
 
-    $('[data-href]').on('click', function () {
+    $('[data-href]').on('click', function (event) {
         location.href = this.dataset.href;
+        event.preventDefault();
+        event.stopPropagation();
     });
 
     $('._load').on('click', function () {

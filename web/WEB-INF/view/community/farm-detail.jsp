@@ -337,7 +337,7 @@
                                     </span>
                                                 <c:choose>
                                                     <c:when test="${item._bookmark eq true}">
-                                            <span class="_bookmark is-active" data-bookmark="TIPS"
+                                            <span class="_bookmark is-active" data-bookmark="TIP"
                                                   data-no="${item.no}">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                          xmlns="http://www.w3.org/2000/svg">
@@ -355,7 +355,7 @@
                                             </span>
                                                     </c:when>
                                                     <c:otherwise>
-                                            <span class="_bookmark" data-bookmark="TIPS" data-no="${item.no}">
+                                            <span class="_bookmark" data-bookmark="TIP" data-no="${item.no}">
                                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg"><g
                                                            clip-path="url(#clip0_204_2957)"><path
@@ -384,7 +384,7 @@
                                     </span>
                                                 <c:choose>
                                                     <c:when test="${item._bookmark eq true}">
-                                            <span class="_bookmark is-active" data-bookmark="TIPS"
+                                            <span class="_bookmark is-active" data-bookmark="TIP"
                                                   data-no="${item.no}">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                          xmlns="http://www.w3.org/2000/svg">
@@ -402,7 +402,7 @@
                                             </span>
                                                     </c:when>
                                                     <c:otherwise>
-                                            <span class="_bookmark" data-bookmark="TIPS" data-no="${item.no}">
+                                            <span class="_bookmark" data-bookmark="TIP" data-no="${item.no}">
                                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg"><g
                                                            clip-path="url(#clip0_204_2957)"><path
@@ -745,9 +745,6 @@
                 }
             });
         });
-
-
-
     });
 </script>
 </body>

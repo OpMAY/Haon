@@ -116,7 +116,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <div class="row row-cols-1 community-container-deck">
-                                                    <div class="bold-h2 c-gray-light mt-32" style="text-align: center">
+                                                    <div class="bold-h4 c-gray-light mt-32" style="text-align: center">
                                                         <span>북마크한 게시물이 없습니다.</span>
                                                     </div>
                                                 </div>
@@ -204,7 +204,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <div class="row row-cols-1 community-container-deck">
-                                                    <div class="bold-h2 c-gray-light mt-32" style="text-align: center">
+                                                    <div class="bold-h4 c-gray-light mt-32" style="text-align: center">
                                                         <span>북마크한 게시물이 없습니다.</span>
                                                     </div>
                                                 </div>
@@ -293,7 +293,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <div class="row row-cols-1 community-container-deck">
-                                                    <div class="bold-h2 c-gray-light mt-32" style="text-align: center">
+                                                    <div class="bold-h4 c-gray-light mt-32" style="text-align: center">
                                                         <span>북마크한 게시물이 없습니다.</span>
                                                     </div>
                                                 </div>
@@ -334,7 +334,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <div class="row row-cols-1 community-container-deck">
-                                                    <div class="bold-h2 c-gray-light mt-32" style="text-align: center">
+                                                    <div class="bold-h4 c-gray-light mt-32" style="text-align: center">
                                                         <span>북마크한 게시물이 없습니다.</span>
                                                     </div>
                                                 </div>
@@ -424,7 +424,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <div class="row row-cols-1 community-container-deck">
-                                                    <div class="col bold-h2 c-gray-light mt-32"
+                                                    <div class="col bold-h4 c-gray-light mt-32"
                                                          style="text-align: center">
                                                         <span>북마크한 게시물이 없습니다.</span>
                                                     </div>
@@ -506,7 +506,7 @@
 
     const createEmptyTextElement = () => {
         return `<div class="row row-cols-1 community-container-deck">
-                    <div class="bold-h2 c-gray-light mt-32" style="text-align: center">
+                    <div class="bold-h4 c-gray-light mt-32" style="text-align: center">
                         <span>북마크한 게시물이 없습니다.</span>
                     </div>
                 </div>`;

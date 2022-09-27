@@ -24,3 +24,21 @@
         </div>
     </nav>
 </header>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        // Handler when the DOM is fully loaded
+        let header = document.querySelector('#header');
+
+        if (isMobileCheck()) {
+            header.style.display = 'none';
+        } else {
+            header.style.display = 'block';
+        }
+
+        if (isResponseSize(993)) {
+            header.style.display = 'none';
+        } else {
+            header.style.display = 'block';
+        }
+    });
+</script>

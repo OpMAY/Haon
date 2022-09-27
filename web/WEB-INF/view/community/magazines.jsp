@@ -13,7 +13,8 @@
 <div id="content-wrapper">
     <div class="container">
         <!--테마별 키워드-->
-        <section class="section sm-section mt-40" style="min-height: calc(80vh);">
+        <section class="section sm-section mt-40 mb-40"
+                 <c:if test="${magazines.size() eq 0}">style="min-height:calc(100vh - 40px - 40px);"</c:if>>
             <div class="section-title">
                 <div class="_desc medium-h5 c-gray-medium">
                     축산에 대한 최신 정보 및 정책 등 다양한 소식을 준비했어요!
@@ -253,8 +254,10 @@
      * */
     $(document).ready(function () {
         console.log('Static JS is ready');
+        $('._content-list').on('click', '.col', function () {
+            window.location.href = '/community/magazine/detail/' + $(this).data().no;
+        });
     });
 </script>
 </body>
-
 </html>

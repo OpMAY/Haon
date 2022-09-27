@@ -11,8 +11,8 @@
 <jsp:include page="../common/tab-overlay.jsp"/>
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
-<div id="content-wrapper" style="min-height: 100vh; display: flex;">
-    <div class="container mt-16 mb-auto">
+<div id="content-wrapper" style="display: flex;">
+    <div class="container mt-16 mb-16 mb-auto">
         <div class="row section">
             <div class="col-xl-5 col-lg-8 col-8 ml-auto mr-auto">
                 <div class="bold-subtitle c-gray-dark-low">어떤 농장를 운영하시나요?</div>

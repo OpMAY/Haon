@@ -72,7 +72,7 @@ function listFormatOnResult(result, item, is_new) {
                 case 'tip':
                     data.forEach((elem, idx) => {
                         let component;
-                        if (elem.thumbnail.url === null) {
+                        if (elem.thumbnail?.url === null) {
                             component =
                                 `<div class="col p-8 d-flex align-items-stretch" data-no="${elem.no}">
                                         <div class="card community-card is-empty">
@@ -161,7 +161,7 @@ function listFormatOnResult(result, item, is_new) {
                 case 'magazine':
                     data.forEach((elem, idx) => {
                         let component;
-                        if (elem.thumbnail.url === null) {
+                        if (elem.thumbnail?.url === null) {
                             component =
                                 `<div class="col p-8 d-flex align-items-stretch" data-no="${elem.no}">
                                         <div class="card community-card is-empty">
@@ -250,7 +250,7 @@ function listFormatOnResult(result, item, is_new) {
                 case 'manual':
                     data.forEach((elem, idx) => {
                         let component;
-                        if (elem.thumbnail.url === null) {
+                        if (elem.thumbnail?.url === null) {
                             component =
                                 `<div class="col p-8 d-flex align-items-stretch" data-no="${elem.no}">
                                         <div class="card community-card is-empty">
