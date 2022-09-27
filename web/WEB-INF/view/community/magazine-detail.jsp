@@ -364,7 +364,7 @@
                 <div class="col-xl-3 col-12">
                     <div class="community-sub-container">
                         <div class="row">
-                            <div class="col-xl-12 col-6 mb-32">
+                            <div class="col-xl-12 col-lg-6 col-sm-6 col-12 mb-32" style="height: fit-content;">
                                 <div class="_community-module">
                                     <div class="card farm-card">
                                         <div class="background-image _thumbnail"
@@ -433,7 +433,7 @@
                             </div>
                             <c:choose>
                                 <c:when test="${fame_magazines.size() ne 0}">
-                                    <div class="col-xl-12 col-6">
+                                    <div class="col-xl-12 col-lg-6 col-sm-6 col-12">
                                         <div class="_community-module">
                                             <div class="_title bold-h5 c-gray-dark-low">
                                                 하은 축산이 제공하는 최신 매거진
