@@ -33,4 +33,8 @@ public class BundleDao {
     public void deleteBundle(int bundle_no) {
         mapper.deleteBundle(bundle_no);
     }
+
+    public Bundle getTracePackagePage(int bundle_no) {
+        return mapper.getTracePackagePage(bundle_no);
+    }
 }

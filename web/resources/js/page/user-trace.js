@@ -3,7 +3,7 @@ const MODAL_ALERT_ZINDEX = 1060;
 $(document).ready(function () {
     $('._trace').on('click', function () {
         viewAlert({content: '이력 상세로 이동 ' + $(this).data().no})
-        window.open('/trace/single', '_blank');
+        window.open('/trace/single/' + $(this).data().no, '_blank');
     })
 
     $('._trace button._qr').on('click', function (e) {
@@ -49,7 +49,7 @@ $(document).ready(function () {
 
     $('._bundle').on('click', function () {
         viewAlert({content: '이력 상세로 이동 ' + $(this).data().no});
-        window.open('/trace/package', '_blank');
+        window.open('/trace/package/' + $(this).data().no, '_blank');
     })
 
     $('._bundle button._qr').on('click', function (e) {

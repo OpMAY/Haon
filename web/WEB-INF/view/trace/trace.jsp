@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="col-12 bold-h2 c-brand-green mt-16">
-                        1001 2645 4888
+                        ${trace.trace_code}
                     </div>
                 </div>
 
@@ -71,10 +71,10 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>양 & 염소</td>
-                                    <td>2023.12.12</td>
-                                    <td>수컷</td>
-                                    <td>1++</td>
+                                    <td>${trace.entity.entity_type.typeName}</td>
+                                    <td>${trace.entity.birth eq null ? '-' : trace.entity.birth}</td>
+                                    <td>${trace.entity.gender eq null ? '-' : trace.entity.gender}</td>
+                                    <td>${trace.entity.rate eq null ? '-' : trace.entity.rate}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -102,69 +102,38 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>전산 등록</td>
-                                    <td>유병준</td>
-                                    <td>하은축산
-                                        <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_375_14409)">
-                                                <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                      fill="#222222"/>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_375_14409">
-                                                    <rect width="20" height="20" fill="white"/>
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </td>
-                                    <td>2021.12.22</td>
-                                    <td>서울특별시 남부순환로 1892</td>
-                                </tr>
-                                <tr>
-                                    <td>전산 등록</td>
-                                    <td>유병준</td>
-                                    <td>하은축산
-                                        <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_375_14409)">
-                                                <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                      fill="#222222"/>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_375_14409">
-                                                    <rect width="20" height="20" fill="white"/>
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </td>
-                                    <td>2021.12.22</td>
-                                    <td>서울특별시 남부순환로 1892</td>
-                                </tr>
-                                <tr>
-                                    <td>전산 등록</td>
-                                    <td>유병준</td>
-                                    <td>하은축산
-                                        <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_375_14409)">
-                                                <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                      fill="#222222"/>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_375_14409">
-                                                    <rect width="20" height="20" fill="white"/>
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </td>
-                                    <td>2021.12.22</td>
-                                    <td>서울특별시 남부순환로 1892</td>
-                                </tr>
+                                <c:if test="${trace.breed.size() > 0}">
+                                    <c:forEach var="breed" items="${trace.breed}">
+                                        <tr>
+                                            <td>${breed.type.keyword}</td>
+                                            <td>${breed.breed_farmer_name}</td>
+                                            <td>${breed.breed_farm_name}
+                                                <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
+                                                     fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <g clip-path="url(#clip0_375_14409)">
+                                                        <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
+                                                              fill="#222222"/>
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_375_14409">
+                                                            <rect width="20" height="20" fill="white"/>
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                            </td>
+                                            <td>${breed.breed_issue_date}</td>
+                                            <td>${breed.breed_farm_addr}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </c:if>
+                                <c:if test="${trace.breed.size() <= 0}">
+                                    <tr data-type="empty">
+                                        <td colspan="5">
+                                            <span class="c-gray-light">사육 정보가 등록되지 않았습니다.</span>
+                                        </td>
+                                    </tr>
+                                </c:if>
                                 </tbody>
                             </table>
                         </div>
@@ -189,26 +158,37 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>합격</td>
-                                <td>하은축산
-                                    <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
-                                         fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <g clip-path="url(#clip0_375_14409)">
-                                            <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                  fill="#222222"/>
-                                        </g>
-                                        <defs>
-                                            <clipPath id="clip0_375_14409">
-                                                <rect width="20" height="20" fill="white"/>
-                                            </clipPath>
-                                        </defs>
-                                    </svg>
-                                </td>
-                                <td>2021.12.22</td>
-                                <td>서울특별시 남부순환로 1892</td>
-                            </tr>
+                            <c:if test="${trace.butchery.size() > 0}">
+                                <c:forEach var="butchery" items="${trace.butchery}">
+                                    <tr>
+                                        <td>${butchery.butchery_result}</td>
+                                        <td>${butchery.butchery_corp}
+                                            <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
+                                                 fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_375_14409)">
+                                                    <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
+                                                          fill="#222222"/>
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_375_14409">
+                                                        <rect width="20" height="20" fill="white"/>
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </td>
+                                        <td>${butchery.butchery_date}</td>
+                                        <td>${butchery.butchery_addr}</td>
+                                    </tr>
+                                </c:forEach>
+                            </c:if>
+                            <c:if test="${trace.butchery.size() <= 0}">
+                                <tr data-type="empty">
+                                    <td colspan="4">
+                                        <span class="c-gray-light">도축 정보가 등록되지 않았습니다.</span>
+                                    </td>
+                                </tr>
+                            </c:if>
                             </tbody>
                         </table>
                     </div>
@@ -230,60 +210,35 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>하은축산
-                                    <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
-                                         fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <g clip-path="url(#clip0_375_14409)">
-                                            <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                  fill="#222222"/>
-                                        </g>
-                                        <defs>
-                                            <clipPath id="clip0_375_14409">
-                                                <rect width="20" height="20" fill="white"/>
-                                            </clipPath>
-                                        </defs>
-                                    </svg>
-                                </td>
-                                <td>서울특별시 남부순환로 1892</td>
-                            </tr>
-                            <tr>
-                                <td>하은축산
-                                    <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
-                                         fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <g clip-path="url(#clip0_375_14409)">
-                                            <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                  fill="#222222"/>
-                                        </g>
-                                        <defs>
-                                            <clipPath id="clip0_375_14409">
-                                                <rect width="20" height="20" fill="white"/>
-                                            </clipPath>
-                                        </defs>
-                                    </svg>
-                                </td>
-                                <td>서울특별시 남부순환로 1892</td>
-                            </tr>
-                            <tr>
-                                <td>하은축산
-                                    <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
-                                         fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <g clip-path="url(#clip0_375_14409)">
-                                            <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                  fill="#222222"/>
-                                        </g>
-                                        <defs>
-                                            <clipPath id="clip0_375_14409">
-                                                <rect width="20" height="20" fill="white"/>
-                                            </clipPath>
-                                        </defs>
-                                    </svg>
-                                </td>
-                                <td>서울특별시 남부순환로 1892</td>
-                            </tr>
+                            <c:if test="${trace.process.size() > 0}">
+                                <c:forEach var="process" items="${trace.process}">
+                                    <tr>
+                                        <td>${process.process_corp}
+                                            <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
+                                                 fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_375_14409)">
+                                                    <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
+                                                          fill="#222222"/>
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_375_14409">
+                                                        <rect width="20" height="20" fill="white"/>
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </td>
+                                        <td>${process.process_addr}</td>
+                                    </tr>
+                                </c:forEach>
+                            </c:if>
+                            <c:if test="${trace.process.size() <= 0}">
+                                <tr data-type="empty">
+                                    <td colspan="2">
+                                        <span class="c-gray-light">도축 정보가 등록되지 않았습니다.</span>
+                                    </td>
+                                </tr>
+                            </c:if>
                             </tbody>
                         </table>
                     </div>

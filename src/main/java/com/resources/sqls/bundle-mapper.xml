@@ -20,4 +20,9 @@
         from bundle
         where no = #{bundle_no};
     </delete>
+    <select id="getTracePackagePage" resultType="Bundle">
+        select *
+        from bundle
+        WHERE no = #{bundle_no}
+    </select>
 </mapper>

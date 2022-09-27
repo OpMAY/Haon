@@ -16,4 +16,6 @@ public interface TraceMapper {
     Trace getTraceByNo(int no);
 
     Trace getTraceByCode(String code);
+
+    Trace getTracePage(int trace_no);
 }

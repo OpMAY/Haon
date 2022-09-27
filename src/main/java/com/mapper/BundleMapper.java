@@ -13,4 +13,6 @@ public interface BundleMapper {
     boolean isCodeExists(String bundle_code);
 
     void deleteBundle(int bundle_no);
+
+    Bundle getTracePackagePage(int bundle_no);
 }

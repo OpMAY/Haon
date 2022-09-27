@@ -38,4 +38,8 @@ public class TraceDao {
     public Trace getTraceByCode(String code) {
         return mapper.getTraceByCode(code);
     }
+
+    public Trace getTracePage(int trace_no) {
+        return mapper.getTracePage(trace_no);
+    }
 }

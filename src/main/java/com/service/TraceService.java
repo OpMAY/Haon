@@ -576,6 +576,17 @@ public class TraceService {
         bundleDao.deleteBundle(bundle_no);
     }
 
+    public Bundle getTracePackagePage(int bundle_no) {
+        Bundle bundle = bundleDao.getTracePackagePage(bundle_no);
+        List<Trace> traces = bundleTracesDao.getBundleTraces(bundle.getNo());
+        bundle.setTraceList(traces);
+        return bundle;
+    }
+
+    public Trace getTracePage(int trace_no) {
+        return traceDao.getTracePage(trace_no);
+    }
+
 
     /**
      * 1. 이력번호

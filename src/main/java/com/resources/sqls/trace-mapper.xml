@@ -39,6 +39,13 @@
         WHERE no = #{no}
     </select>
     <select id="getTraceByCode" resultType="Trace" resultMap="Trace">
-        select * from trace WHERE trace_code = #{code}
+        select *
+        from trace
+        WHERE trace_code = #{code}
+    </select>
+    <select id="getTracePage" resultType="Trace" resultMap="Trace">
+        select *
+        from trace
+        WHERE no = #{trace_no}
     </select>
 </mapper>
