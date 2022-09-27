@@ -23,4 +23,8 @@ public class BundleTracesDao {
     public boolean checkTraceHasBundle(int trace_no) {
         return mapper.checkTraceHasBundle(trace_no);
     }
+
+    public void connectBundleTrace(int bundle_no, int trace_no) {
+        mapper.connectBundleTrace(bundle_no, trace_no);
+    }
 }

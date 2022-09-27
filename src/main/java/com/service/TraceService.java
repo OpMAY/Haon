@@ -2,10 +2,7 @@ package com.service;
 
 import com.api.trace.TraceApi;
 import com.api.trace.response.*;
-import com.dao.BundleDao;
-import com.dao.BundleTracesDao;
-import com.dao.FarmDao;
-import com.dao.TraceDao;
+import com.dao.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.model.farm.Farm;
@@ -27,6 +24,7 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class TraceService {
+    private final UserDao userDao;
     private final FarmDao farmDao;
     private final TraceDao traceDao;
     private final BundleDao bundleDao;
@@ -63,8 +61,6 @@ public class TraceService {
                     traceDao.registerTrace(trace);
                 }
             } else {
-                // TODO Trace Code Generate
-                // VALID ONLY FOR RABBIT, HORSE, SHEEP, GOAT
                 trace.setFarm_no(farm.getNo());
                 String code = TraceCodeGenerator.makeTraceCode(trace);
                 if (code != null) {
@@ -78,6 +74,7 @@ public class TraceService {
         }
         return message;
     }
+
 
     public Message isCodeValid(String code, int user_no) {
         Farm farm = farmDao.getFarmByUserNo(user_no);
@@ -101,14 +98,14 @@ public class TraceService {
                     if (response.getHeader().getResultCode().equals("00")) {
                         // CHECK SAME TYPE
                         Trace trace = getTraceInfo(response.getBody().getItems().getItem(), code);
-                        if(trace.getEntity().getEntity_type().name().equals(farm.getType().getCode())) {
-                            if(trace.getEntity().getEntity_type().equals(EntityType.PIG)) {
+                        if (trace.getEntity().getEntity_type().name().equals(farm.getType().getCode())) {
+                            if (trace.getEntity().getEntity_type().equals(EntityType.PIG)) {
                                 message.put("address", response.getBody().getItems().getItem().get(0).getFarmAddr());
                             } else if (trace.getEntity().getEntity_type().equals(EntityType.CATTLE)) {
                                 String address = "";
                                 String farmNo = response.getBody().getItems().getItem().get(0).getFarmNo();
-                                for(TraceData traceData : response.getBody().getItems().getItem()) {
-                                    if(traceData.getInfoType() == 2 && traceData.getFarmNo().equals(farmNo)) {
+                                for (TraceData traceData : response.getBody().getItems().getItem()) {
+                                    if (traceData.getInfoType() == 2 && traceData.getFarmNo().equals(farmNo)) {
                                         address = traceData.getFarmAddr();
                                         break;
                                     }
@@ -116,8 +113,8 @@ public class TraceService {
                                 message.put("address", address);
                             } else if (trace.getEntity().getEntity_type().equals(EntityType.FOWL) || trace.getEntity().getEntity_type().equals(EntityType.DUCK)) {
                                 String address = "";
-                                for(TraceData traceData : response.getBody().getItems().getItem()) {
-                                    if(traceData.getInfoType() == 1 && traceData.getFarmAddr() != null) {
+                                for (TraceData traceData : response.getBody().getItems().getItem()) {
+                                    if (traceData.getInfoType() == 1 && traceData.getFarmAddr() != null) {
                                         address = traceData.getFarmAddr();
                                         break;
                                     }
@@ -227,7 +224,15 @@ public class TraceService {
                     if (resultCode.equals("00")) {
                         TraceResponseBody body = response.getBody();
                         if (body.getItems() != null && body.getItems().getItem() != null && !body.getItems().getItem().isEmpty()) {
-                            Trace trace = getTraceInfo(body.getItems().getItem(), code);
+                            String traceCode;
+                            if(type.getTarget().equals("CATTLE")) {
+                                traceCode = traceData.getCattleNo();
+                            } else if (type.getTarget().equals("PIG")) {
+                                traceCode = traceData.getPigNo();
+                            } else {
+                                traceCode = traceData.getLotNo();
+                            }
+                            Trace trace = getTraceInfo(body.getItems().getItem(), traceCode);
                             traceList.add(trace);
                         }
                     } else {
@@ -328,7 +333,7 @@ public class TraceService {
                     butchery.setButchery_date(traceData.getButcheryYmd());
                     butcheries.add(butchery);
                 } else if (info_type == 3) {
-                    if(!processCompanyNames.contains(traceData.getEntrpNm()) && processCompanyNames.size() <= 10) {
+                    if (!processCompanyNames.contains(traceData.getEntrpNm()) && processCompanyNames.size() <= 10) {
                         TraceProcess process = new TraceProcess();
                         process.setProcess_corp(traceData.getEntrpNm());
                         process.setProcess_addr(traceData.getEntrpAddr());
@@ -416,7 +421,7 @@ public class TraceService {
     public List<Bundle> getFarmBundles(int user_no) {
         Farm farm = farmDao.getFarmByUserNo(user_no);
         List<Bundle> bundles = bundleDao.getFarmBundles(farm.getNo());
-        for(Bundle bundle : bundles) {
+        for (Bundle bundle : bundles) {
             List<Trace> traces = bundleTracesDao.getBundleTraces(bundle.getNo());
             bundle.setTraceList(traces);
         }
@@ -439,8 +444,8 @@ public class TraceService {
         Message message = new Message();
         Trace trace = traceDao.getTraceByCode(code);
         Farm farm = farmDao.getFarmByUserNo(user_no);
-        if(trace != null) {
-            if(trace.getFarm_no() != farm.getNo()) {
+        if (trace != null) {
+            if (trace.getFarm_no() != farm.getNo()) {
                 message.put("status", -1);
             } else if (bundleTracesDao.checkTraceHasBundle(trace.getNo())) {
                 message.put("status", -2);
@@ -452,6 +457,123 @@ public class TraceService {
             message.put("status", -3);
         }
         return message;
+    }
+
+    public Message getPublicBundleCode(String bundle_code, int user_no) {
+        Farm farm = farmDao.getFarmByUserNo(user_no);
+        Message message = new Message();
+        if (bundleDao.isCodeExists(bundle_code)) {
+            // 코드 이미 존재?
+            message.put("status", false);
+            message.put("type", 1);
+        } else {
+            if (bundle_code.startsWith("L")) {
+                TraceResponse response;
+                try {
+                    response = TraceApi.apiRequest(bundle_code).getResponse();
+                } catch (JsonSyntaxException e) {
+                    message.put("status", false);
+                    message.put("type", -1);
+                    response = null;
+                }
+                if (response != null) {
+                    if (response.getHeader().getResultCode().equals("00")) {
+                        // CHECK SAME TYPE
+                        Bundle bundle = getBundleInfo(response.getBody().getItems().getItem(), bundle_code);
+                        TraceType type = getTraceType(response.getBody().getItems().getItem().get(0));
+                        if(type.getTarget().equals(farm.getType().getCode())) {
+                            message.put("name", bundle.getBundle_owner_name());
+                            message.put("address", bundle.getBundle_owner_addr());
+                            message.put("status", true);
+                            message.put("data", bundle);
+                        } else {
+                            message.put("status", false);
+                            message.put("type", 2);
+                        }
+                    } else {
+                        message.put("status", false);
+                        message.put("type", -1);
+                    }
+                }
+            } else {
+                message.put("status", false);
+                message.put("type", 0);
+            }
+        }
+        return message;
+    }
+
+    @Transactional
+    public Message createManualBundle(List<Integer> traceList, int user_no) {
+        Message message = new Message();
+        Farm farm = farmDao.getFarmByUserNo(user_no);
+        Bundle bundle = new Bundle();
+        List<Trace> traces = new ArrayList<>();
+        boolean duplicate = false;
+        for (int trace_no : traceList) {
+            traces.add(traceDao.getTraceByNo(trace_no));
+            if ((bundleTracesDao.checkTraceHasBundle(trace_no))) {
+                message.put("status", false);
+                duplicate = true;
+                break;
+            }
+        }
+        bundle.setTraceList(traces);
+        Trace firstTrace = traceDao.getTraceByNo(traceList.get(0));
+        if (!duplicate) {
+            bundle.setFarm_no(farm.getNo());
+            bundle.setBundle_owner_name(userDao.getUserByNo(farm.getUser_no()).getName());
+            bundle.setBundle_owner_addr(firstTrace.getBreed().get(0).getBreed_farm_addr());
+            bundle.setBundle_code(TraceCodeGenerator.makeBundleCode(bundle));
+            bundleDao.createNewFarmBundle(bundle);
+            for (Trace trace : bundle.getTraceList()) {
+                bundleTracesDao.connectBundleTrace(bundle.getNo(), trace.getNo());
+            }
+            message.put("status", true);
+        }
+        return message;
+    }
+
+    @Transactional
+    public Message createPublicBundle(Bundle bundle, int user_no) {
+        Message message = new Message();
+        Farm farm = farmDao.getFarmByUserNo(user_no);
+        if (farm != null) {
+            if (bundle.getBundle_code() != null) {
+                if (bundleDao.isCodeExists(bundle.getBundle_code())) {
+                    message.put("status", false);
+                } else {
+                    message.put("status", true);
+                    bundle.setFarm_no(farm.getNo());
+                    boolean duplicate = false;
+                    for (Trace trace : bundle.getTraceList()) {
+                        if (traceDao.isCodeExists(trace.getTrace_code())) {
+                            message.put("status", false);
+                            duplicate = true;
+                            break;
+                        }
+                    }
+                    if (!duplicate) {
+                        bundleDao.createNewFarmBundle(bundle);
+                        for (Trace trace : bundle.getTraceList()) {
+                            trace.setFarm_no(farm.getNo());
+                            traceDao.registerTrace(trace);
+                            bundleTracesDao.connectBundleTrace(bundle.getNo(), trace.getNo());
+                        }
+                    }
+                }
+            } else {
+                message.put("status", false);
+            }
+        } else {
+            message.put("status", false);
+        }
+        return message;
+    }
+
+    @Transactional
+    public void deleteBundle(int bundle_no) {
+        bundleDao.deleteBundle(bundle_no);
     }
 
 
@@ -903,18 +1025,18 @@ public class TraceService {
 //            "  </response>\n";
 //    String fowl_bundle_result_xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?> \n" +
 //            "- <response>\n" +
-//            "- <header>\n" +
-//            "  <resultCode>00</resultCode>\n" +
-//            "  <resultMsg>NORMAL SERVICE.</resultMsg>\n" +
-//            "  </header>\n" +
-//            "  <notice /> \n" +
-//            "- <body>\n" +
-//            "- <items>\n" +
-//            "- <item>\n" +
-//            "<add0R>충청북도 음성군 금왕읍</add0R>\n" +
-//            "<entrpNm>농협목우촌</entrpNm>\n" +
-//            "<infoType>1</infoType>\n" +
-//            "<lotNo>L22004152182001</lotNo>\n" +
+////            "- <header>\n" +
+////            "  <resultCode>00</resultCode>\n" +
+////            "  <resultMsg>NORMAL SERVICE.</resultMsg>\n" +
+////            "  </header>\n" +
+////            "  <notice /> \n" +
+////            "- <body>\n" +
+////            "- <items>\n" +
+////            "- <item>\n" +
+////            "<add0R>충청북도 음성군 금왕읍</add0R>\n" +
+////            "<entrpNm>농협목우촌</entrpNm>\n" +
+////            "<infoType>1</infoType>\n" +
+////            "<lotNo>L22004152182001</lotNo>\n" +
 //            "<traceNoType>FOWL|LOT_NO</traceNoType>\n" +
 //            "</item>\n" +
 //            "- <item>\n" +

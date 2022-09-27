@@ -223,3 +223,7 @@ svg.bookmark.is-active path{
 ._trace:hover {
     background-color: var(--gray-high-light);
 }
+
+._bundle:hover {
+    background-color: var(--gray-high-light);
+}

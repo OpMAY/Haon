@@ -1,5 +1,6 @@
 package com.restcontroller;
 
+import com.model.farm.trace.Bundle;
 import com.model.farm.trace.Trace;
 import com.response.DefaultRes;
 import com.response.Message;
@@ -13,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -81,6 +84,34 @@ public class TraceRestController {
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         Message message = traceService.getTraceByCode(code, user_no);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/create/bundle/manual", method = RequestMethod.POST)
+    public ResponseEntity<String> createManualBundle(HttpServletRequest request, @RequestBody Map<String, Object> map) {
+        List<Integer> traceList = (List<Integer>) map.get("list");
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Message message = traceService.createManualBundle(traceList, user_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/get/public/bundle/{bundle_code}", method = RequestMethod.GET)
+    public ResponseEntity<String> getPublicBundleCode(@PathVariable("bundle_code") String bundle_code, HttpServletRequest request) {
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Message message = traceService.getPublicBundleCode(bundle_code, user_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/create/bundle/public", method = RequestMethod.POST)
+    public ResponseEntity<String> createPublicBundle(HttpServletRequest request, @RequestBody Bundle bundle) {
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Message message = traceService.createPublicBundle(bundle, user_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/delete/bundle/{no}", method = RequestMethod.POST)
+    public ResponseEntity<String> deleteBundle(@PathVariable int no) {
+        traceService.deleteBundle(no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK), HttpStatus.OK);
     }
 
 }

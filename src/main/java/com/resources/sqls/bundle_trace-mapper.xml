@@ -14,4 +14,10 @@
         from trace
         WHERE no in (select trace_no from bundle_traces WHERE bundle_no = #{bundle_no})
     </select>
+    <select id="checkTraceHasBundle" resultType="_boolean">
+        select EXISTS(select * from bundle_traces WHERE trace_no = #{trace_no})
+    </select>
+    <insert id="connectBundleTrace">
+        insert into bundle_traces(bundle_no, trace_no) VALUES (#{bundle_no}, #{trace_no})
+    </insert>
 </mapper>

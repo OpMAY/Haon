@@ -28,7 +28,7 @@
                 <div class="_bundle-header">
                     <span class="bold-h2" data-code="L-0-220819-9763-101">L-0-220819-9763-101</span>
                     <button type="button" class="_qr btn btn-brand-opacity btn-block bold-h5">
-                        QR 코드 다운로드
+                        QR
                     </button>
                 </div>
                 <div class="_bundle-body d-flex">
@@ -43,7 +43,7 @@
                 <div class="_bundle-header">
                     <span class="bold-h2" data-code="L-0-220819-9763-101">L-0-220819-9763-101</span>
                     <button type="button" class="_qr btn btn-brand-opacity btn-block bold-h5">
-                        QR 코드 다운로드
+                        QR
                     </button>
                 </div>
                 <div class="_bundle-body d-flex">

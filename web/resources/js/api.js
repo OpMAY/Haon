@@ -1110,3 +1110,101 @@ async function getTraceByCode(code) {
         console.log(error);
     }
 }
+
+async function createManualBundle(list) {
+    function apiCreateManualBundle(list) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        let raw = {'list' : list};
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify(raw),
+        };
+        const response = fetch(`${host}/api/create/bundle/manual`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiCreateManualBundle(list);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function getPublicBundle(code) {
+    function apiGetPublicBundle(code) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+        };
+
+        const response = fetch(`${host}/api/get/public/bundle/${code}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiGetPublicBundle(code);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function createPublicBundle(bundle) {
+    function apiCreatePublicBundle(bundle) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify(bundle),
+        };
+
+        const response = fetch(`${host}/api/create/bundle/public`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiCreatePublicBundle(bundle);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function deleteBundle(no) {
+    function apiDeleteBundle(no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`${host}/api/delete/bundle/${no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiDeleteBundle(no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
