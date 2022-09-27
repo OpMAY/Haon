@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface BundleTracesMapper {
     List<Trace> getBundleTraces(int bundle_no);
+
+    boolean checkTraceHasBundle(int trace_no);
 }

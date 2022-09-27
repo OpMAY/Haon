@@ -76,4 +76,11 @@ public class TraceRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/get/trace/code/{code}", method = RequestMethod.GET)
+    public ResponseEntity<String> getTraceByCode(HttpServletRequest request, @PathVariable String code) {
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Message message = traceService.getTraceByCode(code, user_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
 }

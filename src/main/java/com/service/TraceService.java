@@ -18,6 +18,7 @@ import org.json.XML;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -431,6 +432,25 @@ public class TraceService {
         Message message = new Message();
         Trace trace = traceDao.getTraceByNo(no);
         message.put("trace", trace);
+        return message;
+    }
+
+    public Message getTraceByCode(String code, int user_no) {
+        Message message = new Message();
+        Trace trace = traceDao.getTraceByCode(code);
+        Farm farm = farmDao.getFarmByUserNo(user_no);
+        if(trace != null) {
+            if(trace.getFarm_no() != farm.getNo()) {
+                message.put("status", -1);
+            } else if (bundleTracesDao.checkTraceHasBundle(trace.getNo())) {
+                message.put("status", -2);
+            } else {
+                message.put("data", trace);
+                message.put("status", 0);
+            }
+        } else {
+            message.put("status", -3);
+        }
         return message;
     }
 

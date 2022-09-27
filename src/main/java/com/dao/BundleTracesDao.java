@@ -19,4 +19,8 @@ public class BundleTracesDao {
     public List<Trace> getBundleTraces(int bundle_no) {
         return mapper.getBundleTraces(bundle_no);
     }
+
+    public boolean checkTraceHasBundle(int trace_no) {
+        return mapper.checkTraceHasBundle(trace_no);
+    }
 }

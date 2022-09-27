@@ -1087,3 +1087,26 @@ async function getTraceModalData(no) {
         console.log(error);
     }
 }
+
+async function getTraceByCode(code) {
+    function apiGetTraceByCode(code) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+        };
+        const response = fetch(`${host}/api/get/trace/code/${code}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiGetTraceByCode(code);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}

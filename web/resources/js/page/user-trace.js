@@ -117,6 +117,9 @@ $(document).ready(function () {
             viewAlert({content: '조회할 이력번호를 입력하세요.', zIndex: MODAL_ALERT_ZINDEX});
         } else {
             // TODO Search Registered Trace
+            getTraceByCode(code).then((result) => {
+                console.log(result);
+            })
         }
     }).find('input#public-bundle-search').next().on('click', function () {
         let code = $('#public-bundle-search').val();
