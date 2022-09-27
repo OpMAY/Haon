@@ -733,7 +733,7 @@
 
 <jsp:include page="../common/script.jsp"/>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="/resources/js/page/user-trace.js"></script>
+<script src="/resources/js/page/user-trace.js?vc=${RESOURCES_VERSION}"></script>
 <script>
     /**
      * Static JS

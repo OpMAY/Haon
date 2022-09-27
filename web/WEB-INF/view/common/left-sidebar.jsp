@@ -110,16 +110,18 @@
 </div>
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
-        let register_button = document.querySelector('._trace-register');
-        register_button.addEventListener('click', function (event) {
-            loginCheck().then((result) => {
-                if (result.status === 'OK') {
-                    if (result.data.status) {
-                        location.href = '/user/trace';
-                    } else {
-                        viewAlert({content: '로그인이 필요한 기능입니다.'});
+        let register_buttons = document.querySelectorAll('._trace-register');
+        register_buttons.forEach(function (register_button) {
+            register_button.addEventListener('click', function (event) {
+                loginCheck().then((result) => {
+                    if (result.status === 'OK') {
+                        if (result.data.status) {
+                            location.href = '/user/trace';
+                        } else {
+                            viewAlert({content: '로그인이 필요한 기능입니다.'});
+                        }
                     }
-                }
+                });
             });
         });
     });

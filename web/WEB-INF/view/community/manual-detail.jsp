@@ -499,7 +499,7 @@
 </div>
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/script.jsp"/>
-<script src="/resources/js/module/comment.js"></script>
+<script src="/resources/js/module/comment.js?vc=${RESOURCES_VERSION}"></script>
 <script>
     /**
      * Static JS

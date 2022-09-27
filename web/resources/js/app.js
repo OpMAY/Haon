@@ -191,8 +191,24 @@ $(document).ready(function () {
         event.stopPropagation();
         event.preventDefault();
     });
-
     $('#header-left-sidebar ._trace-search').click(function (event) {
+        let search_tab = $('#tab-search');
+        search_tab.slideUp(200);
+
+        $('#tab-overlay').show();
+
+        $('#tab-trace').slideDown(200);
+
+        let left_sidebar = $('#header-left-sidebar');
+        $(left_sidebar).hide();
+
+        let right_sidebar = $('#header-right-sidebar');
+        $(right_sidebar).hide();
+
+        event.stopPropagation();
+        event.preventDefault();
+    });
+    $('#footer ._trace-search').click(function (event) {
         let search_tab = $('#tab-search');
         search_tab.slideUp(200);
 

@@ -6,10 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String MOBILE_HEADER_TITLE = (String) request.getAttribute("MOBILE_HEADER_TITLE");
+    request.setAttribute("MOBILE_HEADER_TITLE", MOBILE_HEADER_TITLE);
+%>
 <!-- Back Button Include Header-->
 <header id="header-back-theme">
     <nav class="navbar navbar-expand navbar-light">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand _history-back" href="javascript:void(0);">
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M20.7149 4.68656L9.40156 15.9999L20.7149 27.3132L22.6016 25.4279L13.1722 15.9999L22.6016 6.5719L20.7149 4.68656V4.68656Z"
                       fill="#222222"/>
@@ -18,7 +22,7 @@
         <div class="collapse navbar-collapse justify-content-center">
             <ul class="navbar-nav">
                 <li class="nav-item active _title">
-                    <a class="nav-link bold-h2" href="#">농장 페이지 관리</a>
+                    <a class="nav-link bold-h2" href="#">${MOBILE_HEADER_TITLE}</a>
                 </li>
             </ul>
         </div>
@@ -40,5 +44,10 @@
         } else {
             header.style.display = 'block';
         }
+
+        let back_button = document.querySelector('#header-back-theme ._history-back');
+        back_button.addEventListener('click', function (event) {
+            history.back();
+        });
     });
 </script>

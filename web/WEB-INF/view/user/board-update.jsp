@@ -203,8 +203,8 @@
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/script.jsp"/>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-<script src="/resources/js/plugin/summernote/custom_summernote-bs4.js"></script>
-<script src="/resources/js/plugin/summernote/summernote-ko-KR.js"></script>
+<script src="/resources/js/plugin/summernote/custom_summernote-bs4.js?vc=${RESOURCES_VERSION}"></script>
+<script src="/resources/js/plugin/summernote/summernote-ko-KR.js?vc=${RESOURCES_VERSION}"></script>
 <script>
     /**
      * Static JS

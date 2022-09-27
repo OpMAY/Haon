@@ -170,7 +170,7 @@
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/bottom.jsp"/>
 <jsp:include page="../common/script.jsp"/>
-<script src="/resources/js/filter.js"></script>
+<script src="/resources/js/filter.js?vc=${RESOURCES_VERSION}"></script>
 <script>
     /**
      * Static JS
