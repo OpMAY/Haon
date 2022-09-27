@@ -52,6 +52,7 @@ public class AuthRestController {
     public ResponseEntity<String> getKakaoKey(HttpServletRequest request) {
         Message message = new Message();
         message.put("key", KAKAO_JAVASCRIPT);
+        message.put("status", true);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message), HttpStatus.OK);
     }
 

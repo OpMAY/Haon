@@ -55,7 +55,7 @@
                             <div class="_title ellipsis-one-line bold-h2 c-gray-dark-low">
                                 <span>${question.title}</span>
                                 <div class="_right-option">
-                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                    <svg id="kakao-share" width="32" height="32" viewBox="0 0 32 32" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <g clip-path="url(#clip0_261_12485)">
                                             <path d="M27 1.99965C26.2044 1.99965 25.4413 2.31572 24.8787 2.87833C24.3161 3.44094 24 4.204 24 4.99965C24 5.7953 24.3161 6.55836 24.8787 7.12097C25.4413 7.68358 26.2044 7.99965 27 7.99965C27.7957 7.99965 28.5588 7.68358 29.1214 7.12097C29.684 6.55836 30 5.7953 30 4.99965C30 4.204 29.684 3.44094 29.1214 2.87833C28.5588 2.31572 27.7957 1.99965 27 1.99965ZM22 4.99965C21.9999 3.82652 22.4123 2.69068 23.165 1.79087C23.9177 0.891064 24.9628 0.284578 26.1176 0.0775257C27.2723 -0.129527 28.463 0.0760382 29.4815 0.658256C30.5 1.24047 31.2813 2.16227 31.6888 3.26237C32.0962 4.36247 32.1039 5.57081 31.7104 6.676C31.317 7.78118 30.5474 8.71283 29.5364 9.30794C28.5255 9.90305 27.3374 10.1237 26.1802 9.93135C25.0229 9.73899 23.9701 9.14583 23.206 8.25565L9.77004 14.4957C10.0789 15.4745 10.0789 16.5248 9.77004 17.5037L23.206 23.7437C24.0137 22.8043 25.1414 22.1983 26.3704 22.043C27.5995 21.8876 28.8424 22.1941 29.8584 22.903C30.8744 23.6119 31.591 24.6728 31.8694 25.8799C32.1478 27.087 31.9681 28.3546 31.3652 29.4368C30.7623 30.519 29.7791 31.3389 28.6062 31.7376C27.4333 32.1362 26.1541 32.0852 25.0166 31.5945C23.8791 31.1037 22.9643 30.2082 22.4495 29.0814C21.9346 27.9546 21.8564 26.6768 22.23 25.4957L8.79404 19.2557C8.12891 20.0308 7.24234 20.5836 6.2536 20.8398C5.26486 21.096 4.22137 21.0432 3.26352 20.6886C2.30566 20.334 1.47939 19.6945 0.895857 18.8562C0.31232 18.0179 -0.000488281 17.021 -0.000488281 15.9997C-0.000488281 14.9783 0.31232 13.9814 0.895857 13.1431C1.47939 12.3048 2.30566 11.6653 3.26352 11.3107C4.22137 10.9561 5.26486 10.9033 6.2536 11.1595C7.24234 11.4157 8.12891 11.9685 8.79404 12.7437L22.23 6.50365C22.0771 6.01699 21.9995 5.50978 22 4.99965V4.99965ZM5.00004 12.9997C4.20439 12.9997 3.44133 13.3157 2.87872 13.8783C2.31611 14.4409 2.00004 15.204 2.00004 15.9997C2.00004 16.7953 2.31611 17.5584 2.87872 18.121C3.44133 18.6836 4.20439 18.9997 5.00004 18.9997C5.79569 18.9997 6.55875 18.6836 7.12136 18.121C7.68397 17.5584 8.00004 16.7953 8.00004 15.9997C8.00004 15.204 7.68397 14.4409 7.12136 13.8783C6.55875 13.3157 5.79569 12.9997 5.00004 12.9997ZM27 23.9997C26.2044 23.9997 25.4413 24.3157 24.8787 24.8783C24.3161 25.4409 24 26.204 24 26.9997C24 27.7953 24.3161 28.5584 24.8787 29.121C25.4413 29.6836 26.2044 29.9997 27 29.9997C27.7957 29.9997 28.5588 29.6836 29.1214 29.121C29.684 28.5584 30 27.7953 30 26.9997C30 26.204 29.684 25.4409 29.1214 24.8783C28.5588 24.3157 27.7957 23.9997 27 23.9997Z"
@@ -484,6 +484,7 @@
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/script.jsp"/>
 <script src="/resources/js/module/comment.js?vc=${RESOURCES_VERSION}"></script>
+<script src="/resources/js/module/api/kakao/kakao-link.js?vc=${RESOURCES_VERSION}"></script>
 <script>
     /**
      * Static JS
@@ -522,7 +523,6 @@
                 }
             });
         });
-
         $('[data-detail-like]').on('click', function () {
             let no = this.dataset.no;
             let type = this.dataset.detailLike;
@@ -624,6 +624,68 @@
                     }
                 }
             });
+        });
+        loginCheck().then((result) => {
+            console.log('Login Check', result);
+            if (result.status === 'OK') {
+                if (result.data.status) {
+                    if (typeof Kakao === 'undefined') {
+                        // CALL naver login script
+                        $.getScript('https://developers.kakao.com/sdk/js/kakao.js', function () {
+                            // Stuff to do after someScript has loaded
+                            getKakaoKey().then((result) => {
+                                console.log('Kakao Key', result);
+                                if (result.status === 'OK') {
+                                    if (result.data.status) {
+                                        console.log('Kakao Object', Kakao);
+                                        if (Kakao !== null && Kakao !== undefined) {
+                                            let templateArgs = {
+                                                title: `${question.title}`,
+                                                description: `<custom:formatHTMLToString value="${question.content}"/>`,
+                                                likes: ${likes.size()},
+                                                comments: ${comments.size()},
+                                                views: ${question.views},
+                                                profile_image: '${farm.profile_image.url}',
+                                                profile_title: `${farm.name}`,
+                                                btn_text: '자세히 보기',
+                                                type: 'QUESTION',
+                                                no: '${question.no}',
+                                            };
+                                            let kakaoLink = new KakaoLink(result.data.key, Kakao, {
+                                                container: '#kakao-share', // 카카오 공유하기 btn element ID
+                                                templateId: 83469,// TEMPLATE ID 기본 세팅 값
+                                                // 디자인 페이지에서 해당 값들에 맞게 가지고오면 됩니다 (제목, 사진 등)
+                                                templateArgs,
+                                                callback: () => {
+                                                    kakaoLink.linkSendCallback({});
+                                                }
+                                            });
+                                        } else {
+                                            viewAlert({content: '현재 카카오 링크를 사용할 수 없습니다.'});
+                                        }
+                                    } else {
+                                        $('#kakao-share').click(function () {
+                                            viewAlert({content: '로그인이 필요한 기능입니다.'});
+                                        });
+                                    }
+                                } else {
+                                    $('#kakao-share').click(function () {
+                                        viewAlert({content: '로그인이 필요한 기능입니다.'});
+                                    });
+                                }
+                            });
+                        });
+                    }
+                } else {
+                    $('#kakao-share').click(function () {
+                        viewAlert({content: '로그인이 필요한 기능입니다.'});
+                    });
+                }
+            } else {
+                $('#kakao-share').click(function () {
+                    viewAlert({content: '로그인이 필요한 기능입니다.'});
+                });
+            }
         });
     });
 </script>

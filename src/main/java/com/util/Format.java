@@ -2,6 +2,7 @@ package com.util;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
 
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
@@ -245,5 +246,7 @@ public class Format {
         log.info(nf.format(n)); // 출력값 : ￦12,345.68
     }
 
-
+    public static String summernoteHTMLToString(String HTMLString){
+        return Jsoup.parse(HTMLString).text();
+    }
 }
