@@ -18,7 +18,8 @@
                             </g>
                             <defs>
                                 <clipPath id="clip0_279_20047">
-                                    <rect width="26.6667" height="26.6667" fill="white" transform="translate(0 26.666) rotate(-90)"/>
+                                    <rect width="26.6667" height="26.6667" fill="white"
+                                          transform="translate(0 26.666) rotate(-90)"/>
                                 </clipPath>
                             </defs>
                         </svg>
@@ -27,13 +28,13 @@
             </div>
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
                 <div class="card-body">
-                    <div class="regular-h5 c-gray-dark-low">양 & 염소</div>
-                    <div class="regular-h5 c-gray-dark-low">말</div>
-                    <div class="regular-h5 c-gray-dark-low">돼지</div>
-                    <div class="regular-h5 c-gray-dark-low">소</div>
-                    <div class="regular-h5 c-gray-dark-low">닭 & 계란</div>
-                    <div class="regular-h5 c-gray-dark-low">토끼</div>
-                    <div class="regular-h5 c-gray-dark-low">오리</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms">양 & 염소</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms">말</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms">돼지</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms">소</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms">닭 & 계란</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms">토끼</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms">오리</div>
                 </div>
             </div>
         </div>
@@ -54,7 +55,8 @@
                             </g>
                             <defs>
                                 <clipPath id="clip0_279_20047">
-                                    <rect width="26.6667" height="26.6667" fill="white" transform="translate(0 26.666) rotate(-90)"/>
+                                    <rect width="26.6667" height="26.6667" fill="white"
+                                          transform="translate(0 26.666) rotate(-90)"/>
                                 </clipPath>
                             </defs>
                         </svg>
@@ -63,11 +65,11 @@
             </div>
             <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo">
                 <div class="card-body">
-                    <div class="regular-h5 c-gray-dark-low">자유 게시판</div>
-                    <div class="regular-h5 c-gray-dark-low">팁과 노하우</div>
-                    <div class="regular-h5 c-gray-dark-low">축산 메뉴얼</div>
-                    <div class="regular-h5 c-gray-dark-low">최신 매거진</div>
-                    <div class="regular-h5 c-gray-dark-low">질문과 답변</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/boards">자유 게시판</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/tips">팁과 노하우</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/manuals">축산 메뉴얼</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/magazines">최신 매거진</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/questions">질문과 답변</div>
                 </div>
             </div>
         </div>
@@ -88,7 +90,8 @@
                             </g>
                             <defs>
                                 <clipPath id="clip0_279_20047">
-                                    <rect width="26.6667" height="26.6667" fill="white" transform="translate(0 26.666) rotate(-90)"/>
+                                    <rect width="26.6667" height="26.6667" fill="white"
+                                          transform="translate(0 26.666) rotate(-90)"/>
                                 </clipPath>
                             </defs>
                         </svg>
@@ -99,9 +102,27 @@
                 <div class="card-body">
                     <div class="regular-h5 c-gray-dark-low">이력 안내</div>
                     <div class="regular-h5 c-gray-dark-low _trace-search">이력 조회</div>
-                    <div class="regular-h5 c-gray-dark-low">이력 등록</div>
+                    <div class="regular-h5 c-gray-dark-low _trace-register">이력 등록</div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        let register_buttons = document.querySelectorAll('._trace-register');
+        register_buttons.forEach(function (register_button) {
+            register_button.addEventListener('click', function (event) {
+                loginCheck().then((result) => {
+                    if (result.status === 'OK') {
+                        if (result.data.status) {
+                            location.href = '/user/trace';
+                        } else {
+                            viewAlert({content: '로그인이 필요한 기능입니다.'});
+                        }
+                    }
+                });
+            });
+        });
+    });
+</script>

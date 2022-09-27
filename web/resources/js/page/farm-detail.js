@@ -1,14 +1,11 @@
 const farmNo = window.location.pathname[23];
-$('._board-list ._board-container').on('click', function (e) {
-    let no = $(this).data().no;
-    window.open(`/community/board/detail/` + no, '_blank');
-})
+$(document).ready(function () {
+    $('._board-list ._board-container').on('click', function (e) {
+        let no = $(this).data().no;
+        window.open(`/community/board/detail/` + no, '_blank');
+    });
 
-$('._accordion-content > span').on('click', function () {
-    window.open('/community/question/detail/' + $(this).parent().parent().parent().data().no, '_blank');
-})
-
-$('.dropdown-menu a.dropdown-item').on('click', function () {
+    $('.dropdown-menu a.dropdown-item').on('click', function () {
         let type = $(this).parent().data().type;
         let item = $(this).parent().data().item;
         let dropdown_item = this;
@@ -17,37 +14,36 @@ $('.dropdown-menu a.dropdown-item').on('click', function () {
             // 카테고리에 맞춰 새로 불러오기
             if (type === 'switch') {
                 let category = dropdown_item.closest('.dropdown').nextElementSibling.querySelector('[data-toggle="dropdown"] .dropdown-input');
-                loadMoreFarmContents(dropdown_item.querySelector('div').dataset.type,farmNo, 0, $(category).data().type).then((result) => {
-                        console.log(result);
-                        if (result.status === 'OK') {
-                            if (item === 'boards') {
-                                let data = result.data.list;
-                                if (data !== undefined && data !== null && data.length > 0) {
-                                    updateDataOnBoards(dropdown_item.querySelector('div').dataset.type, $(category).data().type, data, true);
-                                } else {
-                                    let contents_elem = $('._board-list');
-                                    contents_elem.children().remove();
-                                    viewAlert({content: '조건에 일치하는 데이터가 없습니다.'});
-                                }
-                            } else if (item === 'tips') {
-                                let data = result.data.list;
-                                if (data !== undefined && data !== null && data.length > 0) {
-                                    updateDataOnTips(dropdown_item.querySelector('div').dataset.type, $(category).data().type, data, true);
-                                } else {
-                                    let contents_elem = $('._manual-deck');
-                                    contents_elem.children().remove();
-                                    viewAlert({content: '조건에 일치하는 데이터가 없습니다.'});
-                                }
+                loadMoreFarmContents(dropdown_item.querySelector('div').dataset.type, farmNo, 0, $(category).data().type).then((result) => {
+                    console.log(result);
+                    if (result.status === 'OK') {
+                        if (item === 'boards') {
+                            let data = result.data.list;
+                            if (data !== undefined && data !== null && data.length > 0) {
+                                updateDataOnBoards(dropdown_item.querySelector('div').dataset.type, $(category).data().type, data, true);
+                            } else {
+                                let contents_elem = $('._board-list');
+                                contents_elem.children().remove();
+                                viewAlert({content: '조건에 일치하는 데이터가 없습니다.'});
+                            }
+                        } else if (item === 'tips') {
+                            let data = result.data.list;
+                            if (data !== undefined && data !== null && data.length > 0) {
+                                updateDataOnTips(dropdown_item.querySelector('div').dataset.type, $(category).data().type, data, true);
+                            } else {
+                                let contents_elem = $('._manual-deck');
+                                contents_elem.children().remove();
+                                viewAlert({content: '조건에 일치하는 데이터가 없습니다.'});
                             }
                         }
                     }
-                )
+                })
                 let cType = dropdown_item.querySelector('div').dataset.type;
                 $(input).data('type', cType);
             } else if (type === 'category') {
                 let contentType = dropdown_item.closest('.dropdown').previousElementSibling.querySelector('[data-toggle="dropdown"] .dropdown-input');
                 console.log(dropdown_item.querySelector('div').dataset.value);
-                loadMoreFarmContents($(contentType).data().type,farmNo, 0, dropdown_item.querySelector('div').dataset.value).then((result) => {
+                loadMoreFarmContents($(contentType).data().type, farmNo, 0, dropdown_item.querySelector('div').dataset.value).then((result) => {
                     console.log(result);
                     if (result.status === 'OK') {
                         if (item === 'boards') {
@@ -77,92 +73,95 @@ $('.dropdown-menu a.dropdown-item').on('click', function () {
         } else {
             console.log('same');
         }
-    }
-)
+    });
 
-$('.question-accordion').on('click', '._more-comments', function (e) {
-    let $this = $(this);
-    e.preventDefault();
-    let question_no = $(this).parent().parent().parent().data().no;
-    let comments_Div = $(this).parent().prev();
-    let display_comment_list = comments_Div.find('span');
-    let last_idx = display_comment_list.length - 1;
-    let last_comment = display_comment_list[last_idx];
-    console.log(question_no);
-    console.log(last_comment);
-    let last_comment_no = last_comment.dataset.commentNo * 1;
-    if (!isNaN(last_comment_no)) {
-        console.log(last_comment_no);
-        loadMoreComments('question', question_no, last_comment_no).then((result) => {
-            if (result.status === 'OK') {
-                if (result.data.status) {
-                    result.data.comments.forEach((element, index) => {
-                        comments_Div.append(`<span class="regular-h5" data-comment-no="` + element.no + `">` + element.content + `</span>`);
-                    })
-                } else {
-                    viewAlert({content: '불러올 댓글이 없거나 댓글을 더 불러올 수 없습니다.'});
-                    $this.remove();
+    $('.question-accordion').on('click', '._more-comments', function (e) {
+        let $this = $(this);
+        e.preventDefault();
+        let question_no = $(this).parent().parent().parent().data().no;
+        let comments_Div = $(this).parent().prev();
+        let display_comment_list = comments_Div.find('span');
+        let last_idx = display_comment_list.length - 1;
+        let last_comment = display_comment_list[last_idx];
+        console.log(question_no);
+        console.log(last_comment);
+        let last_comment_no = last_comment.dataset.commentNo * 1;
+        if (!isNaN(last_comment_no)) {
+            console.log(last_comment_no);
+            loadMoreComments('question', question_no, last_comment_no).then((result) => {
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        result.data.comments.forEach((element, index) => {
+                            comments_Div.append(`<span class="regular-h5" data-comment-no="` + element.no + `">` + element.content + `</span>`);
+                        })
+                    } else {
+                        viewAlert({content: '불러올 댓글이 없거나 댓글을 더 불러올 수 없습니다.'});
+                        $this.remove();
+                    }
                 }
-            }
-        })
-    } else {
-        viewAlert({content: '불러올 댓글이 없거나 댓글을 더 불러올 수 없습니다.'});
-    }
-});
+            })
+        } else {
+            viewAlert({content: '불러올 댓글이 없거나 댓글을 더 불러올 수 없습니다.'});
+        }
+    });
+    $('.question-accordion').on('click', '._accordion-content', function (e) {
+        window.open('/community/question/detail/' + this.closest('[data-no]').dataset.no, '_blank');
+    });
 
-$('._farmload').on('click', function () {
-    let tab = this.closest('.tab-pane');
-    // content type
-    let contentType = $(tab).find('.dropdown:first-child input').data().type;
-    // category type
-    let categoryType = $(tab).find('.dropdown:last-child input').data().type;
-    let contentNo;
-    if(contentType === 'board') {
-        contentNo = $('._board-list').find('._board-container:last-child').data().no;
-    } else if (contentType === 'question') {
-        contentNo = $('.question-accordion .accordion-deck-container').find('.col:last-child').data().no;
-    } else {
-        contentNo = $('._manual-deck').find('.col:last-child').data().no;
-    }
-    loadMoreFarmContents(contentType, farmNo, contentNo, categoryType).then((result) => {
-        if(result.status === 'OK') {
-            let data = result.data.list;
-            if (data !== undefined && data !== null && data.length > 0) {
-                if (contentType === 'board' || contentType === 'question') {
-                    updateDataOnBoards(contentType, categoryType, result.data.list, false);
+    $('._farmload').on('click', function () {
+        let tab = this.closest('.tab-pane');
+        // content type
+        let contentType = $(tab).find('.dropdown:first-child input').data().type;
+        // category type
+        let categoryType = $(tab).find('.dropdown:last-child input').data().type;
+        let contentNo;
+        if (contentType === 'board') {
+            contentNo = $('._board-list').find('._board-container:last-child').data().no;
+        } else if (contentType === 'question') {
+            contentNo = $('.question-accordion .accordion-deck-container').find('.col:last-child').data().no;
+        } else {
+            contentNo = $('._manual-deck').find('.col:last-child').data().no;
+        }
+        loadMoreFarmContents(contentType, farmNo, contentNo, categoryType).then((result) => {
+            if (result.status === 'OK') {
+                let data = result.data.list;
+                if (data !== undefined && data !== null && data.length > 0) {
+                    if (contentType === 'board' || contentType === 'question') {
+                        updateDataOnBoards(contentType, categoryType, result.data.list, false);
+                    } else {
+                        updateDataOnTips(contentType, categoryType, result.data.list, false);
+                    }
                 } else {
-                    updateDataOnTips(contentType, categoryType, result.data.list, false);
+                    viewAlert({content: '더이상 불러올 데이터가 없습니다.'});
                 }
             } else {
-                viewAlert({content: '더이상 불러올 데이터가 없습니다.'});
+                viewAlert({content: '잘못된 접근입니다.'});
+                console.log(result);
+            }
+        })
+    });
+
+    $('._manual-deck').on('click', '.col', function (e) {
+        let type = $(this).data().type;
+        if (type === 'tip') {
+            let path = e.originalEvent.path;
+            if (!path.includes($(this).find('._bookmark')[0])) {
+                window.open('/community/tip/detail/' + $(this).data().no, '_blank');
             }
         } else {
-            viewAlert({content: '잘못된 접근입니다.'});
-            console.log(result);
+            let path = e.originalEvent.path;
+            if (!path.includes($(this).find('._bookmark')[0])) {
+                window.open('/community/manual/detail/' + $(this).data().no, '_blank');
+            }
         }
-    })
-})
 
-$('._manual-deck').on('click', '.col', function (e) {
-    let type = $(this).data().type;
-    if(type === 'tip') {
-        let path = e.originalEvent.path;
-        if (!path.includes($(this).find('._bookmark')[0])) {
-            window.open('/community/tips/detail/' + $(this).data().no, '_blank');
-        }
-    } else {
-        let path = e.originalEvent.path;
-        if (!path.includes($(this).find('._bookmark')[0])) {
-            window.open('/community/manual/detail/' + $(this).data().no, '_blank');
-        }
-    }
-
-})
+    });
+});
 
 function updateDataOnBoards(contentType, category, data, isNew) {
     let contents_elem;
     if (contentType === 'board') {
-            contents_elem = $('._board-list');
+        contents_elem = $('._board-list');
         if (isNew) {
             contents_elem.removeClass('d-none')
             contents_elem.next().addClass('d-none');
@@ -180,7 +179,7 @@ function updateDataOnBoards(contentType, category, data, isNew) {
                                                 </div>`)
         })
     } else if (contentType === 'question') {
-            contents_elem = $('.question-accordion');
+        contents_elem = $('.question-accordion');
         if (isNew) {
             contents_elem.removeClass('d-none');
             contents_elem.prev().addClass('d-none');
@@ -248,8 +247,7 @@ function updateDataOnTips(contentType, category, data, isNew) {
         if (contentType === 'tip') {
             let component;
             if (elem.thumbnail === null || elem.thumbnail.url === null) {
-                component =
-                    `<div class="col p-8 d-flex align-items-stretch" data-no="${elem.no}" data-type="tip">
+                component = `<div class="col p-8 d-flex align-items-stretch" data-no="${elem.no}" data-type="tip">
                                         <div class="card community-card is-empty">
                                             <div class="background-image _profile"
                                                  style="background-image:url('${elem.profile_image.url}')"></div>
@@ -260,8 +258,7 @@ function updateDataOnTips(contentType, category, data, isNew) {
                                             <div class="_footer">
                                                 <span class="_views medium-p1 c-gray-light">
                                                   <span class="_count">${elem.views}</span> Views
-                                                </span>`
-                    + (elem._bookmark ? `<span class="_bookmark is-active" data-bookmark="TIPS"
+                                                </span>` + (elem._bookmark ? `<span class="_bookmark is-active" data-bookmark="TIP"
                                           data-no="${elem.no}">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -276,15 +273,14 @@ function updateDataOnTips(contentType, category, data, isNew) {
                                                       </clipPath>
                                                   </defs>
                                               </svg>
-                                    </span>` : `<span class="_bookmark" data-bookmark="TIPS" data-no="${elem.no}">
+                                    </span>` : `<span class="_bookmark" data-bookmark="TIP" data-no="${elem.no}">
                                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg"><g
                                                            clip-path="url(#clip0_204_2957)"><path
                                                            d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/></g><defs><clipPath
                                                            id="clip0_204_2957"><rect width="24.0923" height="24"
                                                                                      transform="translate(0.0500488)"/></clipPath></defs></svg>
-                                            </span>`) +
-                    `</div>
+                                            </span>`) + `</div>
                                     </div>
                                 </div>`;
             } else {
@@ -302,8 +298,7 @@ function updateDataOnTips(contentType, category, data, isNew) {
                                 <div class="_footer">
                                     <span class="_views medium-p1 c-gray-light">
                                       <span class="_count">${elem.views}</span> Views
-                                    </span>`
-                    + (elem._bookmark ? `<span class="_bookmark is-active" data-bookmark="TIPS"
+                                    </span>` + (elem._bookmark ? `<span class="_bookmark is-active" data-bookmark="TIP"
                                           data-no="${elem.no}">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -318,15 +313,14 @@ function updateDataOnTips(contentType, category, data, isNew) {
                                                       </clipPath>
                                                   </defs>
                                               </svg>
-                                    </span>` : `<span class="_bookmark" data-bookmark="TIPS" data-no="${elem.no}">
+                                    </span>` : `<span class="_bookmark" data-bookmark="TIP" data-no="${elem.no}">
                                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg"><g
                                                            clip-path="url(#clip0_204_2957)"><path
                                                            d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/></g><defs><clipPath
                                                            id="clip0_204_2957"><rect width="24.0923" height="24"
                                                                                      transform="translate(0.0500488)"/></clipPath></defs></svg>
-                                            </span>`) +
-                    `</div>
+                                            </span>`) + `</div>
                                     </div>
                                 </div>`;
             }
@@ -334,8 +328,7 @@ function updateDataOnTips(contentType, category, data, isNew) {
         } else if (contentType === 'manual') {
             let component;
             if (elem.thumbnail === null || elem.thumbnail.url === null) {
-                component =
-                    `<div class="col p-8 d-flex align-items-stretch" data-no="${elem.no}">
+                component = `<div class="col p-8 d-flex align-items-stretch" data-no="${elem.no}">
                                                         <div class="card community-card is-empty">
                                                             <div class="background-image _profile"
                                                                  style="background-image:url('${elem.profile_image.url}')"></div>
@@ -346,8 +339,7 @@ function updateDataOnTips(contentType, category, data, isNew) {
                                                             <div class="_footer">
                                                                 <span class="_views medium-p1 c-gray-light">
                                                                   <span class="_count">${elem.views}</span> Views
-                                                                </span>`
-                    + (elem._bookmark ? `<span class="_bookmark is-active" data-bookmark="TIPS"
+                                                                </span>` + (elem._bookmark ? `<span class="_bookmark is-active" data-bookmark="TIP"
                                                           data-no="${elem.no}">
                                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                                  xmlns="http://www.w3.org/2000/svg">
@@ -362,15 +354,14 @@ function updateDataOnTips(contentType, category, data, isNew) {
                                                                       </clipPath>
                                                                   </defs>
                                                               </svg>
-                                                    </span>` : `<span class="_bookmark" data-bookmark="TIPS" data-no="${elem.no}">
+                                                    </span>` : `<span class="_bookmark" data-bookmark="TIP" data-no="${elem.no}">
                                                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                                                         xmlns="http://www.w3.org/2000/svg"><g
                                                                            clip-path="url(#clip0_204_2957)"><path
                                                                            d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/></g><defs><clipPath
                                                                            id="clip0_204_2957"><rect width="24.0923" height="24"
                                                                                                      transform="translate(0.0500488)"/></clipPath></defs></svg>
-                                                            </span>`) +
-                    `</div>
+                                                            </span>`) + `</div>
                                                     </div>
                                                 </div>`;
             } else {
@@ -388,8 +379,7 @@ function updateDataOnTips(contentType, category, data, isNew) {
                                                         <div class="_footer">
                                                             <span class="_views medium-p1 c-gray-light">
                                                               <span class="_count">${elem.views}</span> Views
-                                                            </span>`
-                    + (elem._bookmark ? `<span class="_bookmark is-active" data-bookmark="TIPS"
+                                                            </span>` + (elem._bookmark ? `<span class="_bookmark is-active" data-bookmark="TIP"
                                                                   data-no="${elem.no}">
                                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                                          xmlns="http://www.w3.org/2000/svg">
@@ -404,15 +394,14 @@ function updateDataOnTips(contentType, category, data, isNew) {
                                                                               </clipPath>
                                                                           </defs>
                                                                       </svg>
-                                                            </span>` : `<span class="_bookmark" data-bookmark="TIPS" data-no="${elem.no}">
+                                                            </span>` : `<span class="_bookmark" data-bookmark="TIP" data-no="${elem.no}">
                                                                            <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                                                                 xmlns="http://www.w3.org/2000/svg"><g
                                                                                    clip-path="url(#clip0_204_2957)"><path
                                                                                    d="M21.3105 12.794L21.3236 12.808L12.0962 22L2.86887 12.808L2.88192 12.794C1.81038 11.5496 1.25052 9.9477 1.31451 8.30941C1.3785 6.67111 2.06163 5.11742 3.227 3.95968C4.39237 2.80194 5.95389 2.12567 7.59866 2.06639C9.24342 2.00711 10.8499 2.5692 12.0962 3.64002C13.3425 2.5692 14.949 2.00711 16.5938 2.06639C18.2386 2.12567 19.8001 2.80194 20.9655 3.95968C22.1308 5.11742 22.814 6.67111 22.8779 8.30941C22.9419 9.9477 22.3821 11.5496 21.3105 12.794ZM4.64267 5.38302C4.22319 5.80089 3.89045 6.29697 3.66343 6.84293C3.43641 7.3889 3.31956 7.97407 3.31956 8.56502C3.31956 9.15597 3.43641 9.74114 3.66343 10.2871C3.89045 10.8331 4.22319 11.3292 4.64267 11.747L12.0962 19.172L19.5498 11.747C20.3969 10.9031 20.8729 9.7585 20.8729 8.56502C20.8729 7.37154 20.3969 6.22694 19.5498 5.38302C18.7026 4.5391 17.5536 4.065 16.3555 4.065C15.1575 4.065 14.0085 4.5391 13.1613 5.38302L8.90199 9.62602L7.48255 8.21002L10.6567 5.04802C9.7886 4.35736 8.69544 4.0096 7.58617 4.07121C6.4769 4.13283 5.42932 4.5995 4.64367 5.38202L4.64267 5.38302Z"/></g><defs><clipPath
                                                                                    id="clip0_204_2957"><rect width="24.0923" height="24"
                                                                                                              transform="translate(0.0500488)"/></clipPath></defs></svg>
-                                                                    </span>`) +
-                    `</div>
+                                                                    </span>`) + `</div>
                                                             </div>
                                                         </div>`;
             }

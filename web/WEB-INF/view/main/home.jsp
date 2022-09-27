@@ -1176,10 +1176,7 @@
             let display_comment_list = comments_Div.find('span');
             let last_idx = display_comment_list.length - 1;
             let last_comment = display_comment_list[last_idx];
-            console.log(question_no);
-            console.log(last_comment);
             let last_comment_no = last_comment.dataset.commentNo * 1;
-            console.log(last_comment_no);
             loadMoreComments('question', question_no, last_comment_no).then((result) => {
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -1195,8 +1192,6 @@
         });
 
         $('._board-list ._board-container').on('click', function (e) {
-            console.log(e);
-            console.log($(this).closest('.owl-carousel'));
             if (!free_board_dragging) {
                 let no = $(this).data().no;
                 window.location.href = `/community/board/detail/` + no;
@@ -1206,7 +1201,6 @@
         $('#tips-section').find('.card').on('click', function (e) {
             let path = e.originalEvent.path;
             if (!path.includes($(this).find('._bookmark')[0])) {
-                alert('home.jsp 1207 줄 수정');
                 window.open('/community/tip/detail/' + $(this).data().no, '_blank');
                 // window.location.href = '/community/tip/detail/' + $(this).data().no;
             }
@@ -1215,7 +1209,6 @@
         $('#manual-section').find('.card').on('click', function (e) {
             let path = e.originalEvent.path;
             if (!path.includes($(this).find('._bookmark')[0])) {
-                alert('home.jsp 1216 줄 수정');
                 window.open('/community/manual/detail/' + $(this).data().no, '_blank');
                 // window.location.href = '/community/manual/detail/' + $(this).data().no;
             }
@@ -1224,20 +1217,17 @@
         $('#magazine-section').find('.card').on('click', function (e) {
             let path = e.originalEvent.path;
             if (!path.includes($(this).find('._bookmark')[0])) {
-                alert('home.jsp 1225 줄 수정');
                 window.open('/community/magazine/detail/' + $(this).data().no, '_blank');
                 // window.location.href = '/community/manual/detail/' + $(this).data().no;
             }
         })
 
         $('.farm-card').find('._footer button').on('click', function () {
-            alert('home.jsp 1232 줄 수정');
             window.open('/community/farm/detail/' + $(this).data().no, '_blank');
             // window.location.href = '/community/farm/detail/' + $(this).data().no;
         })
 
         $('#question-section ._accordion-content > span').on('click', function () {
-            alert('home.jsp 1238 줄 수정');
             window.open('/community/question/detail/' + $(this).parent().parent().parent().data().no, '_blank');
             // window.location.href = '/community/question/detail/' + $(this).parent().parent().parent().data().no;
         })
