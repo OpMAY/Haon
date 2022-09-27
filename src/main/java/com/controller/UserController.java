@@ -3,7 +3,6 @@ package com.controller;
 import com.aws.file.FileUploadUtility;
 import com.model.common.MFile;
 import com.model.content.board.Board;
-import com.model.content.common.BOOKMARK_TYPE;
 import com.model.content.common.COMMENT_TYPE;
 import com.model.content.common.ContentForm;
 import com.model.content.magazine.Magazine;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
