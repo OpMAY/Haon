@@ -106,8 +106,7 @@
                                                     </clipPath>
                                                 </defs>
                                             </svg>
-                                            </span>
-                                        </td>
+                                            </span></td>
                                         <td>${bundle.traceList[i-1].entity.rate eq null ? '-' : bundle.traceList[i-1].entity.rate}</td>
                                         <td>${bundle.traceList[i-1].breed.size() eq 0 ? '-' : (bundle.traceList[i-1].breed[0].breed_farmer_name eq null ? '-' : bundle.traceList[i-1].breed[0].breed_farmer_name)}</td>
                                         <td>${bundle.traceList[i-1].breed.size() eq 0 ? '-' : (bundle.traceList[i-1].breed[0].breed_farm_addr eq null ? '-' : bundle.traceList[i-1].breed[0].breed_farm_addr)}</td>

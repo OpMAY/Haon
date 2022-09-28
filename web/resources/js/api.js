@@ -1208,3 +1208,26 @@ async function deleteBundle(no) {
         console.log(error);
     }
 }
+
+async function searchByCode(code) {
+    function apiSearchByCode(code) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+        };
+        const response = fetch(`${host}/api/search/trace/${code}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiSearchByCode(code);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}

@@ -114,4 +114,10 @@ public class TraceRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/search/trace/{code}", method = RequestMethod.GET)
+    public ResponseEntity<String> searchByCode(@PathVariable String code) {
+        Message message = traceService.searchByCode(code);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
 }

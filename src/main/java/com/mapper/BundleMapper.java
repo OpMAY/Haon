@@ -15,4 +15,6 @@ public interface BundleMapper {
     void deleteBundle(int bundle_no);
 
     Bundle getTracePackagePage(int bundle_no);
+
+    Bundle getBundleByCode(String code);
 }

@@ -23,7 +23,7 @@
 
                     <div class="col-6">
                         <div class="form-group form-inner-button">
-                            <input type="text" placeholder="이력 번호 또는 묶음 번호 입력"
+                            <input type="text" placeholder="이력 번호 또는 묶음 번호 입력" id="trace-search"
                                    class="form-control input-box medium-h5">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -108,7 +108,8 @@
                                             <td>${breed.type.keyword}</td>
                                             <td>${breed.breed_farmer_name}</td>
                                             <td>${breed.breed_farm_name}
-                                                <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
+                                                <svg style="padding-bottom: 2px;" width="20" height="20"
+                                                     viewBox="0 0 20 20"
                                                      fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <g clip-path="url(#clip0_375_14409)">
@@ -235,7 +236,7 @@
                             <c:if test="${trace.process.size() <= 0}">
                                 <tr data-type="empty">
                                     <td colspan="2">
-                                        <span class="c-gray-light">도축 정보가 등록되지 않았습니다.</span>
+                                        <span class="c-gray-light">가공 정보가 등록되지 않았습니다.</span>
                                     </td>
                                 </tr>
                             </c:if>
@@ -259,6 +260,28 @@
      * */
     $(document).ready(function () {
         console.log('Static JS is ready');
+
+        $('#trace-search').next().on('click', function () {
+            let value = $('#trace-search').val();
+            if (value.trim().length <= 0) {
+                viewAlert({content: '검색할 이력 번호를 입력하세요.'});
+            } else {
+                searchByCode(value).then((result) => {
+                    if(result.status === 'OK') {
+                        if(result.data.status) {
+                            let no = result.data.data.no;
+                            if(result.data.type === 'trace') {
+                                window.location.href = '/trace/single/' + no;
+                            } else if (result.data.type === 'bundle'){
+                                window.location.href = '/trace/package/' + no;
+                            }
+                        } else {
+                            viewAlert({content: '일치하는 이력이 없습니다.'});
+                        }
+                    }
+                })
+            }
+        })
     });
 </script>
 </body>

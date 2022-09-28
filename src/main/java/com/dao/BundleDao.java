@@ -37,4 +37,8 @@ public class BundleDao {
     public Bundle getTracePackagePage(int bundle_no) {
         return mapper.getTracePackagePage(bundle_no);
     }
+
+    public Bundle getBundleByCode(String code) {
+        return mapper.getBundleByCode(code);
+    }
 }

@@ -445,7 +445,7 @@ public class TraceService {
         Trace trace = traceDao.getTraceByCode(code);
         Farm farm = farmDao.getFarmByUserNo(user_no);
         if (trace != null) {
-            if (trace.getFarm_no() != farm.getNo()) {
+            if (farm != null && trace.getFarm_no() != farm.getNo()) {
                 message.put("status", -1);
             } else if (bundleTracesDao.checkTraceHasBundle(trace.getNo())) {
                 message.put("status", -2);
@@ -585,6 +585,22 @@ public class TraceService {
 
     public Trace getTracePage(int trace_no) {
         return traceDao.getTracePage(trace_no);
+    }
+
+    public Message searchByCode(String code) {
+        Message message = new Message();
+        if(traceDao.isCodeExists(code)) {
+            message.put("data", traceDao.getTraceByCode(code));
+            message.put("status", true);
+            message.put("type", "trace");
+        } else if (bundleDao.isCodeExists(code)) {
+            message.put("data", bundleDao.getBundleByCode(code));
+            message.put("status", true);
+            message.put("type", "bundle");
+        } else {
+            message.put("status", false);
+        }
+        return message;
     }
 
 
