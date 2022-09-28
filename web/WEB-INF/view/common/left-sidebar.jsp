@@ -28,13 +28,13 @@
             </div>
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
                 <div class="card-body">
-                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms">양 & 염소</div>
-                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms">말</div>
-                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms">돼지</div>
-                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms">소</div>
-                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms">닭 & 계란</div>
-                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms">토끼</div>
-                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms">오리</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms?type=CATTLE">소</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms?type=PIG">돼지</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms?type=FOWL">닭</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms?type=DUCK">오리</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms?type=RABBIT">토끼</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms?type=HORSE">말</div>
+                    <div class="regular-h5 c-gray-dark-low" data-href="/community/farms?type=SHEEP_GOAT">양 & 염소</div>
                 </div>
             </div>
         </div>
@@ -110,19 +110,29 @@
 </div>
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
-        let register_buttons = document.querySelectorAll('._trace-register');
-        register_buttons.forEach(function (register_button) {
-            register_button.addEventListener('click', function (event) {
-                loginCheck().then((result) => {
-                    if (result.status === 'OK') {
-                        if (result.data.status) {
-                            location.href = '/user/trace';
-                        } else {
-                            viewAlert({content: '로그인이 필요한 기능입니다.'});
-                        }
+        let pathname = location.pathname;
+        let left_sidebar = document.querySelector('#header-left-sidebar');
+        let items = left_sidebar.querySelectorAll('.card-body > div');
+        items.forEach(function (e) {
+            if (e.dataset.href !== null && e.dataset.href !== undefined) {
+                if (getParameter('type').length != 0 && e.dataset.href.includes(getParameter('type'))) {
+                    e.classList.add('is-active');
+                } else {
+                    if (pathname === e.dataset.href) {
+                        e.classList.add('is-active');
+                    } else {
+                        e.classList.remove('is-active');
                     }
-                });
-            });
+                }
+            } else {
+                if (pathname.includes('/user/trace')) {
+                    if (e.classList.contains('_trace-register')) {
+                        e.classList.add('is-active');
+                    } else {
+                        e.classList.remove('is-active');
+                    }
+                }
+            }
         });
     });
 </script>

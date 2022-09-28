@@ -125,6 +125,12 @@
                     }
                 });
             }
+        } else if (pathname.includes('/user/trace')) {
+            lefts.forEach(function (left) {
+                if (left.dataset.type === 'TRACE') {
+                    left.closest('.nav-item').classList.add('active');
+                }
+            });
         }
     });
 </script>
