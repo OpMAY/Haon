@@ -53,20 +53,15 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">묶음 번호</th>
-                                    <th scope="col">농장</th>
+                                    <th scope="col">농장 (농장주)</th>
                                     <th scope="col">소재지</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td style="color: var(--brand-green);">01332323214</td>
-                                    <td>오키위 축산</td>
-                                    <td>서울특별시 남부순환로 1892</td>
-                                </tr>
-                                <tr>
-                                    <td style="color: var(--brand-green);">01332323214</td>
-                                    <td>오키위 축산</td>
-                                    <td>서울특별시 남부순환로 1892</td>
+                                    <td style="color: var(--brand-green);">${bundle.bundle_code}</td>
+                                    <td>${bundle.bundle_owner_name}</td>
+                                    <td>${bundle.bundle_owner_addr}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -93,132 +88,30 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>0013232424
-                                        <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_375_14409)">
-                                                <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                      fill="#222222"/>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_375_14409">
-                                                    <rect width="20" height="20" fill="white"/>
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </td>
-                                    <td>1++</td>
-                                    <td>유병준</td>
-                                    <td>서울특별시 남부순환로 1892</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>0013232424
-                                        <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_375_14409)">
-                                                <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                      fill="#222222"/>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_375_14409">
-                                                    <rect width="20" height="20" fill="white"/>
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </td>
-                                    <td>1++</td>
-                                    <td>유병준</td>
-                                    <td>서울특별시 남부순환로 1892</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>0013232424
-                                        <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_375_14409)">
-                                                <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                      fill="#222222"/>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_375_14409">
-                                                    <rect width="20" height="20" fill="white"/>
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </td>
-                                    <td>1++</td>
-                                    <td>유병준</td>
-                                    <td>서울특별시 남부순환로 1892</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>0013232424
-                                        <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_375_14409)">
-                                                <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                      fill="#222222"/>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_375_14409">
-                                                    <rect width="20" height="20" fill="white"/>
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </td>
-                                    <td>1++</td>
-                                    <td>유병준</td>
-                                    <td>서울특별시 남부순환로 1892</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>0013232424
-                                        <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_375_14409)">
-                                                <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                      fill="#222222"/>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_375_14409">
-                                                    <rect width="20" height="20" fill="white"/>
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </td>
-                                    <td>1++</td>
-                                    <td>유병준</td>
-                                    <td>서울특별시 남부순환로 1892</td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>0013232424
-                                        <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_375_14409)">
-                                                <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                      fill="#222222"/>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_375_14409">
-                                                    <rect width="20" height="20" fill="white"/>
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </td>
-                                    <td>1++</td>
-                                    <td>유병준</td>
-                                    <td>서울특별시 남부순환로 1892</td>
-                                </tr>
+                                <c:forEach var="i" begin="1" end="${bundle.traceList.size()}">
+                                    <tr>
+                                        <td>${i}</td>
+                                        <td><span class="cursor-pointer _trace-detail"
+                                                  data-no="${bundle.traceList[i-1].no}">${bundle.traceList[i-1].trace_code}
+                                            <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
+                                                 fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_375_14409)">
+                                                    <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
+                                                          fill="#222222"/>
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_375_14409">
+                                                        <rect width="20" height="20" fill="white"/>
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                            </span></td>
+                                        <td>${bundle.traceList[i-1].entity.rate eq null ? '-' : bundle.traceList[i-1].entity.rate}</td>
+                                        <td>${bundle.traceList[i-1].breed.size() eq 0 ? '-' : (bundle.traceList[i-1].breed[0].breed_farmer_name eq null ? '-' : bundle.traceList[i-1].breed[0].breed_farmer_name)}</td>
+                                        <td>${bundle.traceList[i-1].breed.size() eq 0 ? '-' : (bundle.traceList[i-1].breed[0].breed_farm_addr eq null ? '-' : bundle.traceList[i-1].breed[0].breed_farm_addr)}</td>
+                                    </tr>
+                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>
@@ -238,6 +131,9 @@
      * */
     $(document).ready(function () {
         console.log('Static JS is ready');
+        $('._trace-detail').on('click', function () {
+            window.open('/trace/single/' + $(this).data().no, '_blank');
+        })
     });
 </script>
 </body>

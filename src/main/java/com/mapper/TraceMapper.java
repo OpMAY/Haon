@@ -14,4 +14,8 @@ public interface TraceMapper {
     void deleteTrace(int no);
 
     Trace getTraceByNo(int no);
+
+    Trace getTraceByCode(String code);
+
+    Trace getTracePage(int trace_no);
 }

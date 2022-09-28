@@ -94,7 +94,7 @@
                                                                 <span class="bold-h5 my-auto">수정</span>
                                                             </button>
                                                         </c:if>
-                                                        <button type="button"
+                                                        <button type="button" data-no="${trace.no}"
                                                                 class="_qr btn btn-brand-opacity btn-block bold-h5">
                                                             QR
                                                         </button>
@@ -142,28 +142,43 @@
                                 <div class="_bundles d-none">
                                     <c:if test="${bundles.size() > 0}">
                                         <c:forEach var="bundle" items="${bundles}">
-                                            <div class="_bundle mt-32">
+                                            <div class="_bundle mt-32" data-no="${bundle.no}">
                                                 <div class="_bundle-header">
-                                            <span class="bold-h2"
-                                                  data-code="L-0-220819-9763-101">L-0-220819-9763-101</span>
-                                                    <button type="button"
-                                                            class="_qr btn btn-brand-opacity btn-block bold-h5">
-                                                        QR 코드 다운로드
-                                                    </button>
+                                                    <span class="bold-h2"
+                                                          data-code="${bundle.bundle_code}">${bundle.bundle_code}</span>
+                                                    <div class="_bundle-button" data-no="${bundle.no}">
+                                                        <button type="button"
+                                                                class="_delete btn btn-brand-opacity bold-h5">
+                                                            삭제
+                                                        </button>
+                                                        <c:if test="${farmType.manual_available eq true}">
+                                                            <button type="button"
+                                                                    class="_edit btn btn-brand-opacity btn-icon">
+                                                                <span class="bold-h5 my-auto">수정</span>
+                                                            </button>
+                                                        </c:if>
+                                                        <button type="button" data-no="${bundle.no}"
+                                                                class="_qr btn btn-brand-opacity btn-block bold-h5">
+                                                            QR
+                                                        </button>
+                                                    </div>
                                                 </div>
                                                 <div class="_bundle-body">
-                                                    <span class="regular-h5" data-count="12">12개의 이력</span>
+                                                    <span class="regular-h5" data-count="${bundle.traceList.size()}">${bundle.traceList.size()}개의 이력</span>
                                                 </div>
                                                 <div class="_bundle-bottom">
-                                        <span class="medium-h5 c-brand-green cursor-pointer">이력 추가하기<svg
-                                                style="padding-bottom: 1px;" width="20" height="20" viewBox="0 0 20 20"
-                                                fill="none" xmlns="http://www.w3.org/2000/svg"><g
-                                                clip-path="url(#clip0_249_9083)"><path
-                                                d="M10.9767 10.0006L6.85165 5.8756L8.02999 4.69727L13.3333 10.0006L8.02999 15.3039L6.85165 14.1256L10.9767 10.0006Z"
-                                                fill="#A9CC52"/></g><defs><clipPath id="clip0_249_9083"><rect width="20"
-                                                                                                              height="20"
-                                                                                                              fill="white"/></clipPath></defs></svg></span>
-                                                    <span class="regular-h5 _date">2023.12.12</span>
+                                                <span class="medium-h5 c-brand-green cursor-pointer">이력 추가하기<svg
+                                                        style="padding-bottom: 1px;" width="20" height="20"
+                                                        viewBox="0 0 20 20"
+                                                        fill="none" xmlns="http://www.w3.org/2000/svg"><g
+                                                        clip-path="url(#clip0_249_9083)"><path
+                                                        d="M10.9767 10.0006L6.85165 5.8756L8.02999 4.69727L13.3333 10.0006L8.02999 15.3039L6.85165 14.1256L10.9767 10.0006Z"
+                                                        fill="#A9CC52"/></g><defs><clipPath id="clip0_249_9083"><rect
+                                                        width="20"
+                                                        height="20"
+                                                        fill="white"/></clipPath></defs></svg></span>
+                                                    <span class="regular-h5 _date"><custom:formatDatetime
+                                                            value="${bundle.reg_datetime}" pattern="yyyy-MM-dd"/></span>
                                                 </div>
                                             </div>
                                         </c:forEach>
@@ -643,25 +658,10 @@
                             </div>
                         </div>
                     </div>
-                </c:if>
 
-                <div class="row mt-24">
-                    <div class="col-12">
-                        <div class="trace-register-item">
-                            <span class="bold-h5">1001 2645 4999</span>
-                            <span class="regular-h5">양 & 염소</span>
-                            <span class="regular-h5">1++</span>
-                            <span class="regular-h5">수컷</span>
-                            <span class="regular-h5 mr-auto">2023.12.12 출생</span>
-                            <button type="button"
-                                    class="btn btn-sm btn-brand-opacity bold-h5 ml-auto">
-                                이력 추가하기
-                            </button>
-                        </div>
-                    </div>
+                <div class="row mt-24" id="result-traces">
+
                 </div>
-
-
                 <div class="row mt-24">
                     <div class="col-12">
                         <table class="table table-bordered trace-register-table">
@@ -684,15 +684,14 @@
                         </table>
                     </div>
                 </div>
-
-
+                </c:if>
             </div>
             <div class="modal-footer">
                 <button data-dismiss="modal" type="button"
                         class="btn btn-gray-high-light medium-h4">
                     취소
                 </button>
-                <button type="button" class="btn btn-brand medium-h4">
+                <button type="button" class="btn btn-brand medium-h4 _create">
                     만들기
                 </button>
             </div>

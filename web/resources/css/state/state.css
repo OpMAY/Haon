@@ -229,3 +229,7 @@ svg.bookmark.is-active path {
 #header-left-sidebar .card-body > div:hover {
     color: var(--brand-green);
 }
+
+._bundle:hover {
+    background-color: var(--gray-high-light);
+}
