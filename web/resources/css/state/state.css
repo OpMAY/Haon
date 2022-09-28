@@ -210,18 +210,24 @@ input.form-control.input-box.is-focus {
 }
 
 /*Bottom Tab*/
+#bottom-tab ul.list-group li.list-group-item:hover *,
 #bottom-tab ul.list-group li.list-group-item.is-active * {
     fill: var(--brand-green);
     color: var(--brand-green);
 }
 
-svg.bookmark.is-active path{
+svg.bookmark.is-active path {
     fill: var(--brand-green);
 }
 
 /* Trace */
 ._trace:hover {
     background-color: var(--gray-high-light);
+}
+
+#header-left-sidebar .card-body > div.is-active,
+#header-left-sidebar .card-body > div:hover {
+    color: var(--brand-green);
 }
 
 ._bundle:hover {

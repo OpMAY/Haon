@@ -70,3 +70,16 @@
         </ul>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let pathname = location.pathname;
+        let items = document.querySelectorAll('.left-sidebar-container ._left-tabs .list-group-item._left-tab-item');
+        items.forEach(function (e) {
+            if (e.dataset.href === pathname) {
+                e.classList.add('is-active');
+            } else {
+                e.classList.remove('is-active');
+            }
+        });
+    });
+</script>

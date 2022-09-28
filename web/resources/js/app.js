@@ -226,6 +226,21 @@ $(document).ready(function () {
         event.preventDefault();
     });
 
+    let register_buttons = document.querySelectorAll('._trace-register');
+    register_buttons.forEach(function (register_button) {
+        register_button.addEventListener('click', function (event) {
+            loginCheck().then((result) => {
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        location.href = '/user/trace';
+                    } else {
+                        viewAlert({content: '로그인이 필요한 기능입니다.'});
+                    }
+                }
+            });
+        });
+    });
+
     $(document).click(function (event) {
         let search_tab = $('#tab-search');
         let trace_tab = $('#tab-trace');

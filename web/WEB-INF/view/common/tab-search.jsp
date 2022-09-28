@@ -21,8 +21,9 @@
         <label class="c-gray-dark-low bold-h5">최근 검색어</label>
         <ul class="list-group">
             <li class="list-group-item">
-                <div>셰프</div>
-                <svg class="my-auto" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div data-href="/search/테스트">테스트</div>
+                <svg class="my-auto" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 18L18 6M6 6L18 18"
                           stroke-width="1.5"
                           stroke-linecap="round"
@@ -30,7 +31,7 @@
                 </svg>
             </li>
             <li class="list-group-item">
-                <div>셰프</div>
+                <div data-href="/search/메뉴얼">메뉴얼</div>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 18L18 6M6 6L18 18"
                           stroke-width="1.5"
@@ -39,7 +40,7 @@
                 </svg>
             </li>
             <li class="list-group-item">
-                <div>셰프</div>
+                <div data-href="/search/매거진">매거진</div>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 18L18 6M6 6L18 18"
                           stroke-width="1.5"
@@ -48,7 +49,7 @@
                 </svg>
             </li>
             <li class="list-group-item">
-                <div>셰프</div>
+                <div data-href="/search/테스트">테스트</div>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 18L18 6M6 6L18 18"
                           stroke-width="1.5"
@@ -61,18 +62,29 @@
     <div class="mt-24">
         <label class="c-gray-dark-low bold-h5">추천 검색어</label>
         <div class="mt-16 _buttons">
-            <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1">
-                추천 검색어4
+            <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1" data-href="/search/자유게시판">
+                자유게시판
             </button>
-            <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1">
-                추천 검색어3
+            <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1" data-href="/search/매거진">
+                매거진
             </button>
-            <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1">
-                추천 검색어2
+            <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1" data-href="/search/질문">
+                질문
             </button>
-            <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1">
-                추천 검색어1
+            <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1" data-href="/search/테스트">
+                테스트
             </button>
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let latest_buttons = document.querySelectorAll('#tab-search .list-group .list-group-item');
+        latest_buttons.forEach(function (latest_button) {
+            latest_button.querySelector('svg').addEventListener('click', function (event) {
+                let list_item = this.closest('.list-group-item');
+                list_item.remove();
+            });
+        });
+    });
+</script>

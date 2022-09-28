@@ -87,10 +87,15 @@
                 bottom.classList.remove('is-active');
             }
         });
-        let bottomTab = document.querySelector('#bottom-tab [data-href="' + pathname + '"]');
-        if(bottomTab !== null) {
-            bottomTab.classList.add('is-active');
+        if (pathname === '/') {
+            document.querySelector('#bottom-tab [data-href="/"]').classList.add('is-active');
+        } else if (pathname.includes('magazines') || pathname.includes('boards') || pathname.includes('tips')
+            || pathname.includes('questions') || pathname.includes('manuals')) {
+            document.querySelector('#bottom-tab [data-href="/community/boards"]').classList.add('is-active');
+        } else if (pathname.includes('farms')) {
+            document.querySelector('#bottom-tab [data-href="/community/farms"]').classList.add('is-active');
+        } else if (pathname.includes('user')) {
+            document.querySelector('#bottom-tab [data-href="/user/home"]').classList.add('is-active');
         }
-
     });
 </script>
