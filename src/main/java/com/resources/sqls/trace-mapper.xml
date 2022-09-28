@@ -21,7 +21,7 @@
     <select id="isCodeExists" resultType="_boolean">
         select EXISTS(select * from trace WHERE trace_code = #{code})
     </select>
-    <insert id="registerTrace">
+    <insert id="registerTrace" useGeneratedKeys="true" keyProperty="no">
         insert into trace(farm_no, trace_code, entity, breed, butchery, process) VALUE (#{farm_no}, #{trace_code},
                                                                                         #{entity, typeHandler=JsonArrayObjectTypeHandler},
                                                                                         #{breed, typeHandler=JsonArrayObjectTypeHandler},
@@ -37,5 +37,15 @@
         select *
         from trace
         WHERE no = #{no}
+    </select>
+    <select id="getTraceByCode" resultType="Trace" resultMap="Trace">
+        select *
+        from trace
+        WHERE trace_code = #{code}
+    </select>
+    <select id="getTracePage" resultType="Trace" resultMap="Trace">
+        select *
+        from trace
+        WHERE no = #{trace_no}
     </select>
 </mapper>

@@ -255,7 +255,7 @@ public class ProtocolBuilder {
             }
 
             JSONObject json = XML.toJSONObject(result);
-            String jsonStr = json.toString(4);;
+            String jsonStr = json.toString(4);
 
             if (class_type == String.class) {
                 return (T) jsonStr;

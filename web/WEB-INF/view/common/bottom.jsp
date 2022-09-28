@@ -87,6 +87,10 @@
                 bottom.classList.remove('is-active');
             }
         });
-        document.querySelector('#bottom-tab [data-href="' + pathname + '"]').classList.add('is-active');
+        let bottomTab = document.querySelector('#bottom-tab [data-href="' + pathname + '"]');
+        if(bottomTab !== null) {
+            bottomTab.classList.add('is-active');
+        }
+
     });
 </script>

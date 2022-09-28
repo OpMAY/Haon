@@ -8,4 +8,26 @@
         from bundle
         WHERE farm_no = #{farm_no}
     </select>
+    <insert id="createNewFarmBundle" useGeneratedKeys="true" keyProperty="no">
+        insert into bundle(farm_no, bundle_code, bundle_owner_name, bundle_owner_addr)
+        VALUES (#{farm_no}, #{bundle_code}, #{bundle_owner_name}, #{bundle_owner_addr})
+    </insert>
+    <select id="isCodeExists" resultType="_boolean">
+        select EXISTS(select * from bundle WHERE bundle_code = #{bundle_code})
+    </select>
+    <delete id="deleteBundle">
+        delete
+        from bundle
+        where no = #{bundle_no};
+    </delete>
+    <select id="getTracePackagePage" resultType="Bundle">
+        select *
+        from bundle
+        WHERE no = #{bundle_no}
+    </select>
+    <select id="getBundleByCode" resultType="Bundle">
+        select *
+        from bundle
+        WHERE bundle_code = #{code}
+    </select>
 </mapper>

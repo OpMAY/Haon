@@ -38,26 +38,74 @@ public class TraceCodeGenerator {
              *    2) 토끼 6, 말 7, 양 & 염소 8 로 지정
              *    3) 등록 일자 기준으로 선정
              * **/
-            String time = Time.TimeFormatCurrent("yymmdd"); // 6
+            String rateCode;
+            String genderCode;
+            switch (trace.getEntity().getRate()) {
+                case "1++" :
+                    rateCode = "1";
+                    break;
+                case "1+":
+                    rateCode = "2";
+                    break;
+                case "1등급":
+                    rateCode = "3";
+                    break;
+                case "2등급":
+                    rateCode = "4";
+                    break;
+                case "3등급":
+                    rateCode = "5";
+                    break;
+                default:
+                    rateCode = "0";
+                    break;
+            }
+            switch (trace.getEntity().getRate()) {
+                case "수컷" :
+                    genderCode = "1";
+                    break;
+                case "암컷":
+                    genderCode = "2";
+                    break;
+                case "거세":
+                    genderCode = "3";
+                    break;
+                default:
+                    genderCode = "0";
+                    break;
+            }
             int farmNo = trace.getFarm_no();
             String workCode = Integer.toString(trace.getFarm_no()); // 3
             if(farmNo < 10) {
-                workCode = "00" + workCode;
+                workCode = "000" + workCode;
             } else if (farmNo < 100) {
+                workCode = "00" + workCode;
+            } else if (farmNo < 1000) {
                 workCode = "0" + workCode;
-            } else if (farmNo >= 1000) {
-                workCode = workCode.substring(0, 2);
+            } else {
+                workCode = workCode.substring(0, 3);
             }
-            String record = "01"; // 2
-            return type.getSpeciesCode() + time + workCode + record;
+            return workCode + rateCode + trace.getEntity().getEntity_type().getSpeciesCode() + genderCode + TokenGenerator.RandomIntegerToken(5);
         }
     }
 
     public static String makeBundleCode(Bundle bundle) {
         // 묶음 번호 규칙
         // 고정 코드 [L] (1), 구분 코드 [0 = 소, 1 = 돼지] (1), 묶음 날짜 코드 (6), 영업자코드 (4), 일련번호 (3) -> 15자리
-
-        return "";
+        Trace mainTrace = bundle.getTraceList().get(0);
+        String time = Time.TimeFormatCurrent("yyMMdd");
+        int farmNo = bundle.getFarm_no();
+        String workCode = Integer.toString(bundle.getFarm_no()); // 3
+        if(farmNo < 10) {
+            workCode = "000" + workCode;
+        } else if (farmNo < 100) {
+            workCode = "00" + workCode;
+        } else if (farmNo < 1000) {
+            workCode = "0" + workCode;
+        } else {
+            workCode = workCode.substring(0, 3);
+        }
+        return "L" + mainTrace.getEntity().getEntity_type().getSpeciesCode() + time + workCode + TokenGenerator.RandomIntegerToken(3);
     }
 
     private static final List<EntityType> unavailable_entity_types = new ArrayList<>(Arrays.asList(new EntityType[]{

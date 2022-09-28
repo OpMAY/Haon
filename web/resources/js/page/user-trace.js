@@ -3,7 +3,7 @@ const MODAL_ALERT_ZINDEX = 1060;
 $(document).ready(function () {
     $('._trace').on('click', function () {
         viewAlert({content: '이력 상세로 이동 ' + $(this).data().no})
-        window.open('/trace/single', '_blank');
+        window.open('/trace/single/' + $(this).data().no, '_blank');
     })
 
     $('._trace button._qr').on('click', function (e) {
@@ -15,11 +15,11 @@ $(document).ready(function () {
         e.stopPropagation();
         getTraceModalData($(this).parent().data().no).then((result) => {
             console.log(result);
-            if(result.status === 'OK') {
+            if (result.status === 'OK') {
                 let tData = result.data.trace;
             }
         })
-        viewAlert({content: '수정 '  + $(this).parent().data().no})
+        viewAlert({content: '수정 ' + $(this).parent().data().no})
     })
 
     $('._trace button._delete').on('click', function (e) {
@@ -33,18 +33,65 @@ $(document).ready(function () {
             desc: '해당 이력을 삭제하시겠어요?',
             onConfirm: () => {
                 deleteTrace(no).then((result) => {
-                    if(result.status === 'OK') {
+                    if (result.status === 'OK') {
                         viewAlert({content: '삭제되었습니다.'})
                         $thisElem.remove();
-                        if($('._traces').find('._trace').length <= 0) {
+                        if ($('._traces').find('._trace').length <= 0) {
                             $('._traces').append(`<div class="bold-h2 c-gray-light" style="text-align: center">
-                                            <span>등록된 이력이 없어요.</span>
-                                        </div>`);
+                                                    <span>등록된 이력이 없어요.</span>
+                                                </div>`);
                         }
                     }
                 })
             }
         });
+    })
+
+    $('._bundle').on('click', function () {
+        viewAlert({content: '이력 상세로 이동 ' + $(this).data().no});
+        window.open('/trace/package/' + $(this).data().no, '_blank');
+    })
+
+    $('._bundle button._qr').on('click', function (e) {
+        e.stopPropagation();
+        viewAlert({content: 'QR 생성 ' + $(this).parent().data().no});
+    })
+
+    $('._bundle button._edit').on('click', function (e) {
+        e.stopPropagation();
+        // getTraceModalData($(this).parent().data().no).then((result) => {
+        //     console.log(result);
+        //     if (result.status === 'OK') {
+        //         let tData = result.data.trace;
+        //     }
+        // })
+        viewAlert({content: '수정 ' + $(this).parent().data().no})
+    })
+
+    $('._bundle button._delete').on('click', function (e) {
+        e.stopPropagation();
+        let $thisElem = $(this).parent().parent().parent();
+        let no = $(this).parent().data().no;
+        viewModal({
+            btnCount: 2,
+            backDrop: true,
+            title: '이력 삭제',
+            desc: '해당 이력을 삭제하시겠어요?<br><br>※ 묶음 이력만 삭제되며, 묶음 이력에 엮여진 이력은 삭제되지 않습니다.',
+            onConfirm: () => {
+                deleteBundle(no).then((result) => {
+                    if (result.status === 'OK') {
+                        viewAlert({content: '삭제되었습니다.'})
+                        $thisElem.remove();
+                        if ($('._bundles').find('._bundle').length <= 0) {
+                            $('._bundles').append(`<div class="bold-h2 c-gray-light" style="text-align: center">
+                                                    <span>등록된 묶음 이력이 없어요.</span>
+                                                </div>`);
+                        }
+                    }
+                })
+            }
+        });
+        viewAlert({content: '삭제 ' + $(this).parent().data().no})
     })
 
     $('#trace-created').on('show.bs.modal', function () {
@@ -59,7 +106,6 @@ $(document).ready(function () {
             console.log(result);
             if (result.status === 'OK') {
                 if (result.data.status) {
-                    // TODO 해당 번호로 데이터 가져오기
                     viewModal({
                         zIndex: 1999,
                         btnCount: 2,
@@ -69,7 +115,6 @@ $(document).ready(function () {
                         이력 상 농장 주소 : ${result.data.address}<br><br>
                         ※ 주의! 이력제에 등록된 주소와 정보가 일치하는지 확인 후 연결해주시길 바랍니다.`,
                         onConfirm: () => {
-                            viewAlert({content: `${$input.val()}`});
                             // TODO result.data.data 로 Format 만들기
                             createTrace(result.data.data).then((result) => {
                                 if (result.status === 'OK') {
@@ -111,20 +156,203 @@ $(document).ready(function () {
         })
     })
 
-    $('#package-trace-created').find('input#package-trace-search').next().on('click', function () {
-        let code = $('#package-trace-search').val();
-        if(code.trim().length <= 0) {
+    $('#package-trace-created').find('input#bundle-trace-search').next().on('click', function () {
+        let input = $('#bundle-trace-search');
+        let code = input.val();
+        if (code.trim().length <= 0) {
             viewAlert({content: '조회할 이력번호를 입력하세요.', zIndex: MODAL_ALERT_ZINDEX});
         } else {
             // TODO Search Registered Trace
+            getTraceByCode(code).then((result) => {
+                console.log(result);
+                if (result.status === 'OK') {
+                    let dataStatus = result.data.status;
+                    if (dataStatus === -1) {
+                        viewAlert({content: '본인 농장의 이력만 묶음 이력으로 등록할 수 있습니다.', zIndex: MODAL_ALERT_ZINDEX});
+                        return false;
+                    } else if (dataStatus === -2) {
+                        viewAlert({content: '이미 묶음 이력으로 등록된 이력입니다.', zIndex: MODAL_ALERT_ZINDEX});
+                        return false;
+                    } else if (dataStatus === -3) {
+                        viewAlert({content: '존재하지 않는 이력입니다.', zIndex: MODAL_ALERT_ZINDEX});
+                        return false;
+                    } else {
+                        input.val('');
+                        console.log(result.data.data);
+                        let trace = result.data.data;
+                        const result_area = $('#result-traces')
+                        result_area.children().remove();
+                        result_area.append(`<div class="col-12">
+                                                <div class="trace-register-item">
+                                                    <span class="bold-h5" data-no="${trace.no}">${trace.trace_code}</span>
+                                                    <span class="regular-h5">${trace.entity.rate}</span>
+                                                    <span class="regular-h5">${trace.entity.gender}</span>
+                                                    <span class="regular-h5 mr-auto" data-farmer="${trace.breed[0].breed_farmer_name}" data-addr="${trace.breed[0].breed_farm_addr}">${trace.entity.birth !== null ? (trace.entity.birth + ' 출생') : ''}</span>
+                                                    <button type="button"
+                                                            class="btn btn-sm btn-brand-opacity bold-h5 ml-auto">
+                                                        이력 추가하기
+                                                    </button>
+                                                </div>
+                                            </div>`);
+                    }
+                }
+            })
         }
-    }).find('input#public-bundle-search').next().on('click', function () {
+    })
+
+    $('#package-trace-created').find('input#public-bundle-search').next().on('click', function () {
         let code = $('#public-bundle-search').val();
-        if(code.trim().length <= 0) {
+        if (code.trim().length <= 0) {
             viewAlert({content: '조회할 묶음 번호를 입력하세요.', zIndex: MODAL_ALERT_ZINDEX});
         } else {
-            // TODO Search public bundle
+            getPublicBundle(code).then((result) => {
+                console.log(result);
+                if(result.status === 'OK') {
+                    if(result.data.status) {
+                        viewModal({
+                            zIndex: 1999,
+                            btnCount: 2,
+                            backDrop: true,
+                            title: `묶음 이력 조회 결과 : ${code}`,
+                            desc: `연결 가능한 묶음 이력을 찾았습니다! 해당 묶음 이력을 연결하시겠습니까?<br>
+                        묶음 이력 등록인 : ${result.data.name}<br>
+                        묶음 이력 등록 기준 농장 주소 : ${result.data.address}<br><br>
+                        ※ 주의! 이력제에 등록된 주소와 정보가 일치하는지 확인 후 연결해주시길 바랍니다.`,
+                            onConfirm: () => {
+                                // TODO result.data.data 로 Format 만들기
+                                createPublicBundle(result.data.data).then((result) => {
+                                    if (result.status === 'OK') {
+                                        if (result.data.status) {
+                                            viewModal({
+                                                btnCount: 1,
+                                                title: '묶음 이력 제작 성공',
+                                                desc: '묶음 이력이 성공적으로 제작되었습니다.',
+                                                zIndex: 2500,
+                                                onConfirm: function () {
+                                                    window.location.reload();
+                                                },
+                                                onShow: () => {
+                                                    $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
+                                                },
+                                                onShown: () => {
+                                                    $('body .modal-backdrop._second').removeClass('_second').css('z-index', 1040);
+                                                    $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
+                                                },
+                                            })
+                                        } else {
+                                            viewAlert({content: '묶음 이력 제작에 실패하였습니다. 관리자에게 문의하세요.', zIndex: 2500});
+                                            return false;
+                                        }
+                                    }
+                                })
+                            }
+                        })
+                    } else {
+                        if(result.data.type === 1) {
+                            viewAlert({content: '이미 하온에 등록되어 있는 묶음 이력입니다.', zIndex: MODAL_ALERT_ZINDEX});
+                            return false;
+                        } else if(result.data.type === 2) {
+                            viewAlert({content: '회원님의 농장 종류와 맞지 않는 묶음 이력입니다.', zIndex: MODAL_ALERT_ZINDEX});
+                            return false;
+                        } else if(result.data.type === -1) {
+                            viewAlert({content: '존재하지 않거나 조회할 수 없는 묶음 이력 번호입니다.', zIndex: MODAL_ALERT_ZINDEX});
+                            return false;
+                        } else if(result.data.type === 0) {
+                            viewAlert({content: '존재하지 않거나 조회할 수 없는 묶음 이력 번호입니다.', zIndex: MODAL_ALERT_ZINDEX});
+                            return false;
+                        }
+                    }
+                }
+            })
         }
+    })
+
+    $('#package-trace-created').find('button._create').on('click', function () {
+        let table = $('#result-traces').next().find('.trace-register-table tbody');
+        if(table.find('tr').length <= 2) {
+            viewAlert({content: '묶음 이력을 제작하기 위해선 최소 2개 이상의 이력을 등록해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+            return false;
+        } else {
+            let list = [];
+            table.find('tr:not([data-type=empty])').each((idx, elem) => {
+                console.log(elem);
+                let no = $(elem).find('td:first-child').data().no;
+                list.push(no);
+            })
+            createManualBundle(list).then((result) => {
+                console.log(result);
+                if(result.status === 'OK') {
+                    if(result.data.status) {
+                        viewModal({
+                            btnCount: 1,
+                            title: '묶음 이력 제작 성공',
+                            desc: '묶음 이력이 성공적으로 제작되었습니다.',
+                            zIndex: 2500,
+                            onConfirm: function () {
+                                window.location.reload();
+                            },
+                            onShow: () => {
+                                $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
+                            },
+                            onShown: () => {
+                                $('body .modal-backdrop._second').removeClass('_second').css('z-index', 1040);
+                                $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
+                            },
+                        })
+                    }
+                } else {
+                    viewAlert({content: '묶음 이력을 생성할 수 없습니다.', zIndex: MODAL_ALERT_ZINDEX});
+                    return false;
+                }
+            })
+        }
+    })
+
+    $('#result-traces').on('click', '.trace-register-item button', function () {
+        console.log($(this).parent());
+        let elem = $(this).parent();
+        let code = elem.find('span:first-child').html();
+        let table = $('#result-traces').next().find('.trace-register-table tbody');
+        let no = elem.find('span:first-child').data().no;
+        let trs = table.find('tr');
+        let duplicate = false;
+        trs.each((idx, elem) => {
+            if($(elem).find('td:first-child').data().no === no) {
+                duplicate = true;
+            }
+        })
+        if(duplicate) {
+            viewAlert({
+                content: '이미 등록 목록에 추가한 이력입니다.',
+                zIndex: MODAL_ALERT_ZINDEX
+            });
+            return false;
+        }
+        let rate = elem.find('span:nth-child(2)').html();
+        let farmer = elem.find('span:nth-child(4)').data().farmer;
+        let addr = elem.find('span:nth-child(4)').data().addr;
+        if(table.find('tr').length === 1) {
+            table.find('tr[data-type=empty]').addClass('d-none');
+        }
+        let tr = `<tr>
+                    <td data-no="${no}">${code}</td>
+                    <td>${rate}</td>
+                    <td>${farmer}</td>
+                    <td>${addr}</td>
+                    <td scope="row">
+                        <svg class="_trace-table-delete cursor-pointer" width="24"
+                             height="24" viewBox="0 0 24 24"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M12 1C5.925 1 1 5.925 1 12C1 18.075 5.925 23 12 23C18.075 23 23 18.075 23 12C23 5.925 18.075 1 12 1ZM15.707 9.707C15.8892 9.5184 15.99 9.2658 15.9877 9.0036C15.9854 8.7414 15.8802 8.49059 15.6948 8.30518C15.5094 8.11977 15.2586 8.0146 14.9964 8.01233C14.7342 8.01005 14.4816 8.11084 14.293 8.293L12 10.586L9.707 8.293C9.61475 8.19749 9.50441 8.12131 9.3824 8.0689C9.2604 8.01649 9.12918 7.9889 8.9964 7.98775C8.86362 7.9866 8.73194 8.0119 8.60905 8.06218C8.48615 8.11246 8.3745 8.18671 8.28061 8.28061C8.18671 8.3745 8.11246 8.48615 8.06218 8.60905C8.0119 8.73194 7.9866 8.86362 7.98775 8.9964C7.9889 9.12918 8.01649 9.2604 8.0689 9.3824C8.12131 9.50441 8.19749 9.61475 8.293 9.707L10.586 12L8.293 14.293C8.19749 14.3852 8.12131 14.4956 8.0689 14.6176C8.01649 14.7396 7.9889 14.8708 7.98775 15.0036C7.9866 15.1364 8.0119 15.2681 8.06218 15.391C8.11246 15.5139 8.18671 15.6255 8.28061 15.7194C8.3745 15.8133 8.48615 15.8875 8.60905 15.9378C8.73194 15.9881 8.86362 16.0134 8.9964 16.0123C9.12918 16.0111 9.2604 15.9835 9.3824 15.9311C9.50441 15.8787 9.61475 15.8025 9.707 15.707L12 13.414L14.293 15.707C14.4816 15.8892 14.7342 15.99 14.9964 15.9877C15.2586 15.9854 15.5094 15.8802 15.6948 15.6948C15.8802 15.5094 15.9854 15.2586 15.9877 14.9964C15.99 14.7342 15.8892 14.4816 15.707 14.293L13.414 12L15.707 9.707Z"
+                                  fill="#A9CC52"/>
+                        </svg>
+                    </td>
+                </tr>`
+        table.append(tr);
+        $(this).parent().parent().remove();
     })
 
     $('.modal').on('click', '._trace-table-delete', function () {
@@ -289,93 +517,93 @@ $(document).ready(function () {
         }
     })
         .on('click', '._breed-make ._confirm', function () {
-        let makeField = $(this).parent().parent().parent();
-        let type = makeField.find('input[name="breed-type"]:checked');
-        let farmer = makeField.find('input[name="breed-farmer"]');
-        let farm = makeField.find('input[name="breed-farm"]');
-        let link = makeField.find('input[name="breed-link"]');
-        let date = makeField.find('input[name="breed-date"]');
-        let addr = makeField.find('input[name="breed-farm-addr"]');
-        let addr_specifc = makeField.find('input[name="breed-farm-addr-spec"]');
-        // TODO Validation
+            let makeField = $(this).parent().parent().parent();
+            let type = makeField.find('input[name="breed-type"]:checked');
+            let farmer = makeField.find('input[name="breed-farmer"]');
+            let farm = makeField.find('input[name="breed-farm"]');
+            let link = makeField.find('input[name="breed-link"]');
+            let date = makeField.find('input[name="breed-date"]');
+            let addr = makeField.find('input[name="breed-farm-addr"]');
+            let addr_specifc = makeField.find('input[name="breed-farm-addr-spec"]');
+            // TODO Validation
 
-        let b = false;
-        const tableBody = $('#pills-breed .trace-register-table').find('tbody');
-        let putTarget = tableBody;
-        let slaughterExist = false;
-        if (type.length !== 0) {
-            if (type.data().value === 'breed-register') {
-                // 표에 이미 등록이 존재하는지 체크
-                if (tableBody.find('[data-type=breed-register]').length > 0) {
-                    viewAlert({content: '전산 등록은 한 번만 가능합니다.', zIndex: MODAL_ALERT_ZINDEX});
-                    return false;
-                } else {
-                    b = true;
-                }
-            } else if (type.data().value === 'breed-amniotic') {
-                // 표에 등록이 존재하는지 체크
-                if (tableBody.find('[data-type=breed-register]').length <= 0) {
-                    viewAlert({content: '먼저 전산 등록부터 하셔야합니다.', zIndex: MODAL_ALERT_ZINDEX});
-                    return false;
-                } else {
-                    if (tableBody.find('[data-type=breed-slaughter]').length > 0) {
-                        // 표에 마지막이 양도가 아닌 출하라면 출하 위, 양도 중 마지막 순서에 넣기
-                        putTarget = tableBody.find('[data-type=breed-slaughter]')[0];
-                        slaughterExist = true;
+            let b = false;
+            const tableBody = $('#pills-breed .trace-register-table').find('tbody');
+            let putTarget = tableBody;
+            let slaughterExist = false;
+            if (type.length !== 0) {
+                if (type.data().value === 'breed-register') {
+                    // 표에 이미 등록이 존재하는지 체크
+                    if (tableBody.find('[data-type=breed-register]').length > 0) {
+                        viewAlert({content: '전산 등록은 한 번만 가능합니다.', zIndex: MODAL_ALERT_ZINDEX});
+                        return false;
                     } else {
-                        // 그냥 맨 뒤에 append
+                        b = true;
                     }
-                    b = true;
+                } else if (type.data().value === 'breed-amniotic') {
+                    // 표에 등록이 존재하는지 체크
+                    if (tableBody.find('[data-type=breed-register]').length <= 0) {
+                        viewAlert({content: '먼저 전산 등록부터 하셔야합니다.', zIndex: MODAL_ALERT_ZINDEX});
+                        return false;
+                    } else {
+                        if (tableBody.find('[data-type=breed-slaughter]').length > 0) {
+                            // 표에 마지막이 양도가 아닌 출하라면 출하 위, 양도 중 마지막 순서에 넣기
+                            putTarget = tableBody.find('[data-type=breed-slaughter]')[0];
+                            slaughterExist = true;
+                        } else {
+                            // 그냥 맨 뒤에 append
+                        }
+                        b = true;
+                    }
+                } else if (type.data().value === 'breed-slaughter') {
+                    // 표에 등록이 존재하는지 체크, 양도는 필수 X
+                    if (tableBody.find('[data-type=breed-register]').length <= 0) {
+                        viewAlert({content: '먼저 전산 등록부터 하셔야합니다.', zIndex: MODAL_ALERT_ZINDEX});
+                        return false;
+                    } else {
+                        b = true;
+                    }
                 }
-            } else if (type.data().value === 'breed-slaughter') {
-                // 표에 등록이 존재하는지 체크, 양도는 필수 X
-                if (tableBody.find('[data-type=breed-register]').length <= 0) {
-                    viewAlert({content: '먼저 전산 등록부터 하셔야합니다.', zIndex: MODAL_ALERT_ZINDEX});
-                    return false;
-                } else {
-                    b = true;
+            } else {
+                viewAlert({content: '신고 유형을 먼저 선택해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            }
+
+            // 농장 경영자 명
+            if (farmer.val().trim().length <= 0) {
+                viewAlert({content: '농장 경영자 명을 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            }
+
+            // 농장 명
+            if (farm.val().trim().length <= 0) {
+                viewAlert({content: '농장 명을 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            }
+            // 농장 링크
+
+            // 소재 일자
+            if (date.val().trim().length <= 0) {
+                viewAlert({content: '소재 일자를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            }
+            // 소재지
+            if (addr.val().trim().length <= 0) {
+                viewAlert({content: '소재지를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            }
+            // 상세 주소
+            if (addr_specifc.val().trim().length <= 0) {
+                viewAlert({content: '상세 주소를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            }
+
+            if (b === true) {
+                let emptyTr = tableBody.find('tr[data-type=empty]');
+                if (!emptyTr.hasClass('d-none')) {
+                    emptyTr.addClass('d-none');
                 }
-            }
-        } else {
-            viewAlert({content: '신고 유형을 먼저 선택해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-            return false;
-        }
-
-        // 농장 경영자 명
-        if (farmer.val().trim().length <= 0) {
-            viewAlert({content: '농장 경영자 명을 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-            return false;
-        }
-
-        // 농장 명
-        if (farm.val().trim().length <= 0) {
-            viewAlert({content: '농장 명을 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-            return false;
-        }
-        // 농장 링크
-
-        // 소재 일자
-        if (date.val().trim().length <= 0) {
-            viewAlert({content: '소재 일자를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-            return false;
-        }
-        // 소재지
-        if (addr.val().trim().length <= 0) {
-            viewAlert({content: '소재지를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-            return false;
-        }
-        // 상세 주소
-        if (addr_specifc.val().trim().length <= 0) {
-            viewAlert({content: '상세 주소를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-            return false;
-        }
-
-        if (b === true) {
-            let emptyTr = tableBody.find('tr[data-type=empty]');
-            if (!emptyTr.hasClass('d-none')) {
-                emptyTr.addClass('d-none');
-            }
-            let element = `<tr data-type="${type.data().value}">
+                let element = `<tr data-type="${type.data().value}">
                                                         <td>${type.data().kor}</td>
                                                         <td>${farmer.val()}</td>
                                                         <td data-link="${link.val()}">${farm.val()}</td>
@@ -393,18 +621,18 @@ $(document).ready(function () {
                                                             </svg>
                                                         </td>
                                                     </tr>`;
-            if (slaughterExist) {
-                // TODO 날짜 순서대로 정렬해주기
-                $(putTarget).before(element);
-            } else {
-                tableBody.append(element);
+                if (slaughterExist) {
+                    // TODO 날짜 순서대로 정렬해주기
+                    $(putTarget).before(element);
+                } else {
+                    tableBody.append(element);
+                }
+                makeField.remove();
             }
-            makeField.remove();
-        }
-    })
+        })
         .on('click', '._breed-make ._cancel', function () {
-        $('._breed-make').remove();
-    })
+            $('._breed-make').remove();
+        })
 
     $('#pills-processing').on('click', '._add-new', function () {
         let parent = $(this).parent().parent();
@@ -498,32 +726,32 @@ $(document).ready(function () {
         }
     })
         .on('click', '._slaughter-make ._confirm', function () {
-        let makeField = $(this).parent().parent().parent();
-        let tableBody = $('._slaughter-table').find('tbody');
-        let farm = makeField.find('input[name="slaughter-farm"');
-        let date = makeField.find('input[name="slaughter-date"');
-        let url = makeField.find('input[name="slaughter-url"');
-        let addr = makeField.find('input[name="slaughter-addr"');
-        let addr_spec = makeField.find('input[name="slaughter-addr-spec"');
+            let makeField = $(this).parent().parent().parent();
+            let tableBody = $('._slaughter-table').find('tbody');
+            let farm = makeField.find('input[name="slaughter-farm"');
+            let date = makeField.find('input[name="slaughter-date"');
+            let url = makeField.find('input[name="slaughter-url"');
+            let addr = makeField.find('input[name="slaughter-addr"');
+            let addr_spec = makeField.find('input[name="slaughter-addr-spec"');
 
-        if(farm.val().trim().length <= 0) {
-            viewAlert({content: '농장 명을 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-            return false;
-        }
-        if(date.val().trim().length <= 0) {
-            viewAlert({content: '가공 일자를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-            return false;
-        }
-        if(addr.val().trim().length <= 0) {
-            viewAlert({content: '가공 소재지를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-            return false;
-        }
-        if(addr_spec.val().trim().length <= 0) {
-            viewAlert({content: '가공 소재지 상세 주소를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-            return false;
-        }
+            if (farm.val().trim().length <= 0) {
+                viewAlert({content: '농장 명을 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            }
+            if (date.val().trim().length <= 0) {
+                viewAlert({content: '가공 일자를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            }
+            if (addr.val().trim().length <= 0) {
+                viewAlert({content: '가공 소재지를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            }
+            if (addr_spec.val().trim().length <= 0) {
+                viewAlert({content: '가공 소재지 상세 주소를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            }
 
-        let element = `<tr>
+            let element = `<tr>
                             <td data-link="${url.val()}">${farm.val()}</td>
                             <td data-date="${date.val()}">${date.val()}</td>
                             <td>${addr.val()} ${addr_spec.val()}</td>
@@ -539,16 +767,16 @@ $(document).ready(function () {
                                 </svg>
                             </td>
                         </tr>`
-        if(tableBody.find('tr').length === 1) {
-            tableBody.find('tr[data-type="empty"]').addClass('d-none');
-        }
-        tableBody.append(element);
-        makeField.remove();
+            if (tableBody.find('tr').length === 1) {
+                tableBody.find('tr[data-type="empty"]').addClass('d-none');
+            }
+            tableBody.append(element);
+            makeField.remove();
 
-    })
+        })
         .on('click', '._slaughter-make ._cancel', function () {
-        $('._slaughter-make').remove();
-    })
+            $('._slaughter-make').remove();
+        })
 
     $('.tab-pane').on('click', '[data-type=postcode]', function () {
         let input = $(this);
@@ -704,8 +932,8 @@ $(document).ready(function () {
         // MAKE
         createTrace(sendData).then((result) => {
             console.log(result);
-            if(result.status === 'OK') {
-                if(result.data.status) {
+            if (result.status === 'OK') {
+                if (result.data.status) {
                     viewModal({
                         btnCount: 1,
                         title: '이력 제작 성공',

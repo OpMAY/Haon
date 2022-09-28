@@ -612,6 +612,7 @@ input.form-control.input-box {
     padding: 16px;
     border: var(--border-1px) var(--gray-high-light);
     border-radius: var(--radius-5);
+    cursor: pointer;
 }
 
 ._bundle ._bundle-header {
@@ -623,7 +624,7 @@ input.form-control.input-box {
     cursor: pointer;
     align-self: center;
     height: 32px;
-    width: 132px;
+    width: 40px;
     padding: 4px 8px 4px 8px;
 }
 
@@ -1341,16 +1342,16 @@ input.form-control.input-box {
     cursor: pointer;
 }
 
-._trace ._bundle-header {
+._bundle-header {
     display: flex;
     justify-content: space-between;
 }
 
-._trace ._bundle-header ._bundle-button{
+._bundle-header ._bundle-button{
     display: flex;
 }
 
-._trace ._bundle-header ._qr {
+._bundle-header ._qr {
     cursor: pointer;
     align-self: center;
     height: 32px;
@@ -1358,7 +1359,7 @@ input.form-control.input-box {
     padding: 4px 8px 4px 8px;
 }
 
-._trace ._bundle-header ._edit {
+._bundle-header ._edit {
     cursor: pointer;
     align-self: center;
     height: 32px;
@@ -1367,7 +1368,7 @@ input.form-control.input-box {
     margin-right: 8px;
 }
 
-._trace ._bundle-header ._delete {
+._bundle-header ._delete {
     cursor: pointer;
     align-self: center;
     height: 32px;

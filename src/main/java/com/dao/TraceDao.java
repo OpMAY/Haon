@@ -34,4 +34,12 @@ public class TraceDao {
     public Trace getTraceByNo(int no) {
         return mapper.getTraceByNo(no);
     }
+
+    public Trace getTraceByCode(String code) {
+        return mapper.getTraceByCode(code);
+    }
+
+    public Trace getTracePage(int trace_no) {
+        return mapper.getTracePage(trace_no);
+    }
 }
