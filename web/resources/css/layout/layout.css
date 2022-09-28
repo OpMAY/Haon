@@ -425,6 +425,10 @@ body {
     stroke: var(--brand-green);
 }
 
+#tab-search .list-group .list-group-item > div {
+    width: calc(100% - 40px);
+}
+
 #tab-search .list-group .list-group-item svg {
     display: none;
     cursor: pointer;

@@ -1,13 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div id="header-desc" style="display: none;">
     <ul class="list-group">
-        <li class="list-group-item regular-h5">양</li>
-        <li class="list-group-item regular-h5">염소</li>
-        <li class="list-group-item regular-h5">소</li>
-        <li class="list-group-item regular-h5">돼지</li>
-        <li class="list-group-item regular-h5">닭</li>
-        <li class="list-group-item regular-h5">토끼</li>
-        <li class="list-group-item regular-h5">오리</li>
+        <li class="list-group-item regular-h5" data-href="/community/farms">양</li>
+        <li class="list-group-item regular-h5" data-href="/community/farms">염소</li>
+        <li class="list-group-item regular-h5" data-href="/community/farms">소</li>
+        <li class="list-group-item regular-h5" data-href="/community/farms">돼지</li>
+        <li class="list-group-item regular-h5" data-href="/community/farms">닭</li>
+        <li class="list-group-item regular-h5" data-href="/community/farms">토끼</li>
+        <li class="list-group-item regular-h5" data-href="/community/farms">오리</li>
     </ul>
     <ul class="list-group">
         <li class="list-group-item regular-h5" data-href="/community/boards">자유 게시판</li>

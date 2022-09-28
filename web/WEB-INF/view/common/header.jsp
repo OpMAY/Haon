@@ -33,14 +33,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarsExample04">
             <ul class="navbar-nav _navbar-left mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">농장</a>
+                <li class="nav-item">
+                    <a class="nav-link" data-type="FARM" href="javascript:void(0);">농장</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">커뮤니티</a>
+                    <a class="nav-link" data-type="COMMUNITY" href="javascript:void(0);">커뮤니티</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">QR이력제</a>
+                    <a class="nav-link" data-type="TRACE" href="javascript:void(0);">QR이력제</a>
                 </li>
             </ul>
         </div>
@@ -103,3 +103,28 @@
         </ul>
     </nav>
 </header>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let pathname = location.pathname;
+        let lefts = document.querySelectorAll('#header ._navbar-left .nav-item .nav-link');
+        lefts.forEach(function (left) {
+            left.closest('.nav-item').classList.remove('active');
+        });
+        if (pathname.includes('community')) {
+            if (pathname.includes('boards') || pathname.includes('magazines') || pathname.includes('tips')
+                || pathname.includes('manuals') || pathname.includes('questions')) {
+                lefts.forEach(function (left) {
+                    if (left.dataset.type === 'COMMUNITY') {
+                        left.closest('.nav-item').classList.add('active');
+                    }
+                });
+            } else if (pathname.includes('farms')) {
+                lefts.forEach(function (left) {
+                    if (left.dataset.type === 'FARM') {
+                        left.closest('.nav-item').classList.add('active');
+                    }
+                });
+            }
+        }
+    });
+</script>
