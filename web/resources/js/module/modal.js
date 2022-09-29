@@ -118,6 +118,7 @@ const viewModal = ({
                        zIndex = 1050,
                        vCenter = false,
                        wCenter = false,
+                        largeModal = false,
                        btnCount = 1,
                        title = '알림',
                        desc,
@@ -139,7 +140,7 @@ const viewModal = ({
     modal.setAttribute('tabindex', tabindex);
     modal.setAttribute('aria-hidden', ariaHidden);
 
-    modal.innerHTML = `<div class="modal-dialog modal-dialog-centered modal-dialog-lg">
+    modal.innerHTML = `<div class="modal-dialog ${largeModal === true ? 'modal-lg' : void(0)} modal-dialog-centered modal-dialog-lg">
                          <div class="modal-content">
                            <div class="modal-header ${wCenter === true ? 'd-block text-center' : void (0)}">
                              <div class="modal-title bold-h3">${title}</div>

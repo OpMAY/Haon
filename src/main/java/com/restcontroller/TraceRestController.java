@@ -79,6 +79,12 @@ public class TraceRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/get/bundle/modal/{no}", method = RequestMethod.GET)
+    public ResponseEntity<String> getBundleModalData(@PathVariable Integer no) {
+        Message message = traceService.getBundleModalData(no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/get/trace/code/{code}", method = RequestMethod.GET)
     public ResponseEntity<String> getTraceByCode(HttpServletRequest request, @PathVariable String code) {
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
@@ -117,6 +123,22 @@ public class TraceRestController {
     @RequestMapping(value = "/search/trace/{code}", method = RequestMethod.GET)
     public ResponseEntity<String> searchByCode(@PathVariable String code) {
         Message message = traceService.searchByCode(code);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/update/trace", method = RequestMethod.POST)
+    public ResponseEntity<String> updateTrace(@RequestBody Trace trace, HttpServletRequest request) {
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Message message = traceService.editTrace(trace, user_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/update/bundle", method = RequestMethod.POST)
+    public ResponseEntity<String> updateBundle(@RequestBody Map<String, Object> map, HttpServletRequest request) {
+        List<Integer> traceList = (List<Integer>) map.get("list");
+        Integer bundle_no = (Integer) map.get("no");
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Message message = traceService.updateBundle(traceList, bundle_no, user_no);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 

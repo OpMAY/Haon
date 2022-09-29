@@ -503,7 +503,7 @@
                                                 <label class="medium-h6 c-gray-dark-low">소재지</label>
                                                 <div class="form-group form-inner-button">
                                                     <input type="text" placeholder="주소를 입력해주세요." data-type="postcode"
-                                                           class="form-control input-box medium-h5 cursor-pointer"
+                                                           class="form-control input-box medium-h5 cursor-pointer postcode-init"
                                                            readonly
                                                            name="amniotic-addr"
                                                            id="input21">

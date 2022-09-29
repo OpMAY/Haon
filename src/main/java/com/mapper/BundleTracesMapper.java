@@ -11,4 +11,6 @@ public interface BundleTracesMapper {
     boolean checkTraceHasBundle(int trace_no);
 
     void connectBundleTrace(@Param("bundle_no") int bundle_no, @Param("trace_no") int trace_no);
+
+    void resetBundleTraces(int bundle_no);
 }

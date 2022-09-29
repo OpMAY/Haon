@@ -42,4 +42,8 @@ public class TraceDao {
     public Trace getTracePage(int trace_no) {
         return mapper.getTracePage(trace_no);
     }
+
+    public void editTrace(Trace trace) {
+        mapper.editTrace(trace);
+    }
 }

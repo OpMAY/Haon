@@ -30,4 +30,9 @@
         from bundle
         WHERE bundle_code = #{code}
     </select>
+    <select id="getBundleByNo" resultType="Bundle">
+        select *
+        from bundle
+        WHERE no = #{bundle_no}
+    </select>
 </mapper>
