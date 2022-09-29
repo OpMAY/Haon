@@ -860,25 +860,46 @@ $(document).ready(function () {
         e.stopPropagation();
         let $thisElem = $(this).parent().parent().parent();
         let no = $(this).parent().data().no;
-        viewModal({
-            btnCount: 2,
-            backDrop: true,
-            title: '이력 삭제',
-            desc: '해당 이력을 삭제하시겠어요?',
-            onConfirm: () => {
-                deleteTrace(no).then((result) => {
-                    if (result.status === 'OK') {
-                        viewAlert({content: '삭제되었습니다.'})
-                        $thisElem.remove();
-                        if ($('._traces').find('._trace').length <= 0) {
-                            $('._traces').append(`<div class="bold-h2 c-gray-light" style="text-align: center">
+        getTraceInBundle(no).then((result) => {
+            if(result.status) {
+                if(result.data.status) {
+                    if(result.data.type) {
+                        viewAlert({content: '해당 이력이 묶음 이력에 연결되어 있습니다.<br>묶음 이력을 먼저 해제해주세요.' });
+                        return false;
+                    } else {
+                        viewModal({
+                            btnCount: 1,
+                            backDrop: true,
+                            title: '이력 삭제',
+                            desc: '해당 이력이 묶음 이력과 연결되어 있습니다.<br>' +
+                                '이 이력과 엮여져있는 묶음 이력 삭제 시 해당 이력을 삭제할 수 있습니다.',
+                        });
+                        return false;
+                    }
+                } else {
+                    viewModal({
+                        btnCount: 2,
+                        backDrop: true,
+                        title: '이력 삭제',
+                        desc: '해당 이력을 삭제하시겠어요?',
+                        onConfirm: () => {
+                            deleteTrace(no).then((result) => {
+                                if (result.status === 'OK') {
+                                    viewAlert({content: '삭제되었습니다.'})
+                                    $thisElem.remove();
+                                    if ($('._traces').find('._trace').length <= 0) {
+                                        $('._traces').append(`<div class="bold-h2 c-gray-light" style="text-align: center">
                                                     <span>등록된 이력이 없어요.</span>
                                                 </div>`);
+                                    }
+                                }
+                            })
                         }
-                    }
-                })
+                    });
+                }
             }
-        });
+        })
+
     })
 
     $('._bundle').on('click', function () {

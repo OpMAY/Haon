@@ -142,4 +142,11 @@ public class TraceRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/get/trace/bundle_check/{no}", method = RequestMethod.GET)
+    public ResponseEntity<String> checkTraceHasBundle(@PathVariable Integer no, HttpServletRequest request) {
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        Message message = traceService.checkTraceInBundle(no, user_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
 }
