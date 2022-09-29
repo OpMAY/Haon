@@ -2,6 +2,7 @@ package com.controller;
 
 import com.api.LoginAPI;
 import com.aws.file.FileUploadUtility;
+import com.aws.model.CDNUploadPath;
 import com.dao.UserDao;
 import com.model.Agree;
 import com.model.User;
@@ -60,9 +61,9 @@ public class AuthController {
         farm.setType(farm_type);
         farm.setUser_no(user_no);
         log.info("{}", farm);
-        MFile profile_image = fileUploadUtility.uploadFile(farm.getProfile_image().getFile(), "/files");
+        MFile profile_image = fileUploadUtility.uploadFile(farm.getProfile_image().getFile(), CDNUploadPath.USER.getPath() + user_no + "/profile/");
         farm.setProfile_image(profile_image);
-        MFile farm_image = fileUploadUtility.uploadFile(farm.getFarm_image().getFile(), "/files");
+        MFile farm_image = fileUploadUtility.uploadFile(farm.getFarm_image().getFile(), CDNUploadPath.USER.getPath() + user_no + "/farm/");
         farm.setFarm_image(farm_image);
         farmService.insertFarm(farm);
         VIEW.addObject("status", true);

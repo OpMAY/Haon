@@ -1,6 +1,7 @@
 package com.restcontroller;
 
 import com.aws.file.FileUploadUtility;
+import com.aws.model.CDNUploadPath;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.model.common.MFile;
@@ -34,7 +35,7 @@ public class SummernoteRestController {
             log.info(file.getName());
             log.info(file.getContentType());
             log.info("size -> {}", file.getSize());
-            MFile uploadedFile = fileUploadUtility.uploadFile(file, "/summernote/rest/file/");
+            MFile uploadedFile = fileUploadUtility.uploadFile(file, CDNUploadPath.SUMMERNOTE.getPath());
             message.put("file", uploadedFile);
             message.put("status", true);
         } else {

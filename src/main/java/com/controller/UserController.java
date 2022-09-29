@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.aws.file.FileUploadUtility;
+import com.aws.model.CDNUploadPath;
 import com.model.User;
 import com.model.common.MFile;
 import com.model.content.board.Board;
@@ -82,7 +83,7 @@ public class UserController {
             case MANUAL:
             case MAGAZINE:
                 if (contentForm.getFile() != null && contentForm.getFile().getSize() != 0) {
-                    MFile thumbnail = fileUploadUtility.uploadFile(contentForm.getFile(), "/board/");
+                    MFile thumbnail = fileUploadUtility.uploadFile(contentForm.getFile(), CDNUploadPath.COMMUNITY.getPath() + "/" + contentForm.getCommunity_type().name() + "/" + farm.getNo());
                     contentService.insertCommunityThumbnail(contentForm, thumbnail);
                     VIEW.addObject("message", "게시글 등록이 완료되었습니다.");
                     VIEW.addObject("status", true);
@@ -143,7 +144,7 @@ public class UserController {
             case MANUAL:
             case MAGAZINE:
                 if (contentForm.getFile() != null && contentForm.getFile().getSize() != 0) {
-                    MFile thumbnail = fileUploadUtility.uploadFile(contentForm.getFile(), "/board/");
+                    MFile thumbnail = fileUploadUtility.uploadFile(contentForm.getFile(), CDNUploadPath.COMMUNITY.getPath() + "/" + contentForm.getCommunity_type().name() + "/" + farm.getNo());
                     contentService.updateCommunityThumbnail(contentForm, thumbnail);
                     VIEW.addObject("message", "게시글 등록이 완료되었습니다.");
                     VIEW.addObject("status", true);

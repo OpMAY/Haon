@@ -1,6 +1,7 @@
 package com.restcontroller;
 
 import com.aws.file.FileUploadUtility;
+import com.aws.model.CDNUploadPath;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.model.ALARM_TYPE;
@@ -117,7 +118,7 @@ public class UserRestController {
             log.info(file.getOriginalFilename());
             log.info("{}", file.getSize());
             log.info(file.getContentType());
-            MFile uploaded_file = fileUploadUtility.uploadFile(file, "/user/profile/");
+            MFile uploaded_file = fileUploadUtility.uploadFile(file, CDNUploadPath.USER.getPath() + user_no + "/profile/");
             farmService.updateFarmProfile(farm.getNo(), uploaded_file);
             message.put("file", uploaded_file);
             message.put("status", true);
@@ -138,7 +139,7 @@ public class UserRestController {
             log.info(file.getOriginalFilename());
             log.info("{}", file.getSize());
             log.info(file.getContentType());
-            MFile uploaded_file = fileUploadUtility.uploadFile(file, "/user/profile/");
+            MFile uploaded_file = fileUploadUtility.uploadFile(file, CDNUploadPath.USER.getPath() + user_no + "/farm/");
             farmService.updateFarmBanner(farm.getNo(), uploaded_file);
             message.put("file", uploaded_file);
             message.put("status", true);
