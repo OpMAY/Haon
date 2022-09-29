@@ -636,7 +636,10 @@ input.form-control.input-box {
     margin-top: 8px;
     margin-bottom: 16px;
     display: flex;
-    justify-content: space-between;
+}
+
+._bundle ._bundle-bottom ._date{
+    margin-left: auto;
 }
 
 /*option table*/
