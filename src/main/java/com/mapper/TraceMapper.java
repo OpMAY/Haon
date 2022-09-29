@@ -18,4 +18,6 @@ public interface TraceMapper {
     Trace getTraceByCode(String code);
 
     Trace getTracePage(int trace_no);
+
+    void editTrace(Trace trace);
 }

@@ -41,4 +41,8 @@ public class BundleDao {
     public Bundle getBundleByCode(String code) {
         return mapper.getBundleByCode(code);
     }
+
+    public Bundle getBundleByNo(int bundle_no) {
+        return mapper.getBundleByNo(bundle_no);
+    }
 }

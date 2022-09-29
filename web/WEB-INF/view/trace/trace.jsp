@@ -162,7 +162,7 @@
                             <c:if test="${trace.butchery.size() > 0}">
                                 <c:forEach var="butchery" items="${trace.butchery}">
                                     <tr>
-                                        <td>${butchery.butchery_result}</td>
+                                        <td>${butchery.butchery_result == 'true' ? '합격' : '불합격'}</td>
                                         <td>${butchery.butchery_corp}
                                             <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
                                                  fill="none"

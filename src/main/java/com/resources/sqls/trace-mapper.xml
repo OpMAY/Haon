@@ -48,4 +48,13 @@
         from trace
         WHERE no = #{trace_no}
     </select>
+    <update id="editTrace">
+        update trace
+        SET entity   = #{entity, typeHandler=JsonArrayObjectTypeHandler},
+            breed    = #{breed, typeHandler=JsonArrayObjectTypeHandler},
+            butchery = #{butchery, typeHandler=JsonArrayObjectTypeHandler},
+            process  = #{process, typeHandler=JsonArrayObjectTypeHandler},
+            updated_datetime = now()
+        WHERE no = #{no}
+    </update>
 </mapper>

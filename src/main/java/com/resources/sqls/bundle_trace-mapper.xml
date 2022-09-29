@@ -4,10 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.BundleTracesMapper">
     <resultMap id="Trace" type="com.model.farm.trace.Trace">
-        <result property="entity" column="entity" typeHandler="JsonObjectTypeHandler"/>
-        <result property="breed" column="breed" typeHandler="JsonArrayObjectTypeHandler"/>
-        <result property="butchery" column="butchery" typeHandler="JsonArrayObjectTypeHandler"/>
-        <result property="process" column="process" typeHandler="JsonArrayObjectTypeHandler"/>
+        <result property="entity" column="entity" javaType="com.model.farm.trace.TraceEntity"
+                typeHandler="JsonObjectTypeHandler"/>
+        <result property="breed" column="breed" javaType="com.model.farm.trace.TraceBreed"
+                typeHandler="JsonArrayObjectTypeHandler"/>
+        <result property="butchery" column="butchery" javaType="com.model.farm.trace.TraceButchery"
+                typeHandler="JsonArrayObjectTypeHandler"/>
+        <result property="process" column="process" javaType="com.model.farm.trace.TraceProcess"
+                typeHandler="JsonArrayObjectTypeHandler"/>
     </resultMap>
     <select id="getBundleTraces" resultType="Trace" resultMap="Trace">
         select *
@@ -18,6 +22,12 @@
         select EXISTS(select * from bundle_traces WHERE trace_no = #{trace_no})
     </select>
     <insert id="connectBundleTrace">
-        insert into bundle_traces(bundle_no, trace_no) VALUES (#{bundle_no}, #{trace_no})
+        insert into bundle_traces(bundle_no, trace_no)
+        VALUES (#{bundle_no}, #{trace_no})
     </insert>
+    <delete id="resetBundleTraces">
+        delete
+        from bundle_traces
+        WHERE bundle_no = #{bundle_no}
+    </delete>
 </mapper>

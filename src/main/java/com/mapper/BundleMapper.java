@@ -17,4 +17,6 @@ public interface BundleMapper {
     Bundle getTracePackagePage(int bundle_no);
 
     Bundle getBundleByCode(String code);
+
+    Bundle getBundleByNo(int bundle_no);
 }

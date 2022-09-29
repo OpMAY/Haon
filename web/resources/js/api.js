@@ -1088,6 +1088,29 @@ async function getTraceModalData(no) {
     }
 }
 
+async function getBundleModalData(no) {
+    function apiGetBundleModalData(no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+        };
+        const response = fetch(`${host}/api/get/bundle/modal/${no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiGetBundleModalData(no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 async function getTraceByCode(code) {
     function apiGetTraceByCode(code) {
         const myHeaders = new Headers();
@@ -1226,6 +1249,56 @@ async function searchByCode(code) {
     let result;
     try {
         result = await apiSearchByCode(code);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function editTrace(trace) {
+    function apiEditTrace(trace) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify(trace),
+        };
+        const response = fetch(`${host}/api/update/trace`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiEditTrace(trace);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function updateManualBundle(list, no) {
+    function apiUpdateManualBundle(list, no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        let raw = {'list' : list, 'no' : no};
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify(raw),
+        };
+        const response = fetch(`${host}/api/update/bundle`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiUpdateManualBundle(list, no);
         return result;
     } catch (error) {
         console.log(error);

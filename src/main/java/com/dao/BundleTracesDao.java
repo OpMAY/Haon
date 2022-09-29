@@ -27,4 +27,9 @@ public class BundleTracesDao {
     public void connectBundleTrace(int bundle_no, int trace_no) {
         mapper.connectBundleTrace(bundle_no, trace_no);
     }
+
+    public void resetBundleTraces(int bundle_no) {
+        mapper.resetBundleTraces(bundle_no);
+    }
+
 }
