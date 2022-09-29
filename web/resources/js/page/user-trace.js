@@ -8,7 +8,25 @@ $(document).ready(function () {
 
     $('._trace button._qr').on('click', function (e) {
         e.stopPropagation();
-        viewAlert({content: 'QR 생성 ' + $(this).parent().data().no})
+        let url = `${window.location.origin}/trace/single/${$(this).parent().data().no}`;
+        viewModal({
+            title: '이력 QR',
+            desc: `<div class="d-flex flex-column align-items-center">
+                        <div class="_qrArea mb-24">아래 이미지를 저장하여 QR 코드를 공유하세요.</div>
+                        <div id="trace-qr" class="mb-24"><a download="qrCode.png"></a></div>
+                        <button class="btn btn-brand-opacity btn-block" id="download-qr">QR 다운로드</button>
+                    </div>`,
+            confirm_text: '닫기',
+        })
+        new QRCode(document.getElementById('trace-qr'), {
+            text: url,
+            width: 256,
+            height: 256,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H,
+            alt: '스캔하세요.',
+        });
     })
 
     $('._trace button._edit').on('click', function (e) {
@@ -48,13 +66,31 @@ $(document).ready(function () {
     })
 
     $('._bundle').on('click', function () {
-        viewAlert({content: '이력 상세로 이동 ' + $(this).data().no});
         window.open('/trace/package/' + $(this).data().no, '_blank');
     })
 
     $('._bundle button._qr').on('click', function (e) {
         e.stopPropagation();
-        viewAlert({content: 'QR 생성 ' + $(this).parent().data().no});
+        let url = `${window.location.origin}/trace/package/${$(this).parent().data().no}`;
+        viewModal({
+            id: 'qrModal',
+            title: '이력 QR',
+            desc: `<div class="d-flex flex-column align-items-center">
+                        <div class="_qrArea mb-24">아래 이미지를 저장하여 QR 코드를 공유하세요.</div>
+                        <div id="trace-qr" class="mb-24"><a download="qrCode.png"></a></div>
+                        <button class="btn btn-brand-opacity btn-block" id="download-qr">QR 다운로드</button>
+                    </div>`,
+            confirm_text: '닫기'
+        })
+        new QRCode(document.document.getElementById('trace-qr'), {
+            text: url,
+            width: 256,
+            height: 256,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H,
+            alt: '스캔하세요.',
+        });
     })
 
     $('._bundle button._edit').on('click', function (e) {
@@ -207,8 +243,8 @@ $(document).ready(function () {
         } else {
             getPublicBundle(code).then((result) => {
                 console.log(result);
-                if(result.status === 'OK') {
-                    if(result.data.status) {
+                if (result.status === 'OK') {
+                    if (result.data.status) {
                         viewModal({
                             zIndex: 1999,
                             btnCount: 2,
@@ -248,16 +284,16 @@ $(document).ready(function () {
                             }
                         })
                     } else {
-                        if(result.data.type === 1) {
+                        if (result.data.type === 1) {
                             viewAlert({content: '이미 하온에 등록되어 있는 묶음 이력입니다.', zIndex: MODAL_ALERT_ZINDEX});
                             return false;
-                        } else if(result.data.type === 2) {
+                        } else if (result.data.type === 2) {
                             viewAlert({content: '회원님의 농장 종류와 맞지 않는 묶음 이력입니다.', zIndex: MODAL_ALERT_ZINDEX});
                             return false;
-                        } else if(result.data.type === -1) {
+                        } else if (result.data.type === -1) {
                             viewAlert({content: '존재하지 않거나 조회할 수 없는 묶음 이력 번호입니다.', zIndex: MODAL_ALERT_ZINDEX});
                             return false;
-                        } else if(result.data.type === 0) {
+                        } else if (result.data.type === 0) {
                             viewAlert({content: '존재하지 않거나 조회할 수 없는 묶음 이력 번호입니다.', zIndex: MODAL_ALERT_ZINDEX});
                             return false;
                         }
@@ -269,7 +305,7 @@ $(document).ready(function () {
 
     $('#package-trace-created').find('button._create').on('click', function () {
         let table = $('#result-traces').next().find('.trace-register-table tbody');
-        if(table.find('tr').length <= 2) {
+        if (table.find('tr').length <= 2) {
             viewAlert({content: '묶음 이력을 제작하기 위해선 최소 2개 이상의 이력을 등록해주세요.', zIndex: MODAL_ALERT_ZINDEX});
             return false;
         } else {
@@ -281,8 +317,8 @@ $(document).ready(function () {
             })
             createManualBundle(list).then((result) => {
                 console.log(result);
-                if(result.status === 'OK') {
-                    if(result.data.status) {
+                if (result.status === 'OK') {
+                    if (result.data.status) {
                         viewModal({
                             btnCount: 1,
                             title: '묶음 이력 제작 성공',
@@ -317,11 +353,11 @@ $(document).ready(function () {
         let trs = table.find('tr');
         let duplicate = false;
         trs.each((idx, elem) => {
-            if($(elem).find('td:first-child').data().no === no) {
+            if ($(elem).find('td:first-child').data().no === no) {
                 duplicate = true;
             }
         })
-        if(duplicate) {
+        if (duplicate) {
             viewAlert({
                 content: '이미 등록 목록에 추가한 이력입니다.',
                 zIndex: MODAL_ALERT_ZINDEX
@@ -331,7 +367,7 @@ $(document).ready(function () {
         let rate = elem.find('span:nth-child(2)').html();
         let farmer = elem.find('span:nth-child(4)').data().farmer;
         let addr = elem.find('span:nth-child(4)').data().addr;
-        if(table.find('tr').length === 1) {
+        if (table.find('tr').length === 1) {
             table.find('tr[data-type=empty]').addClass('d-none');
         }
         let tr = `<tr>
@@ -504,7 +540,7 @@ $(document).ready(function () {
                                                 </div>
                                             </div>
                                         </div>`);
-            $('input[data-provide="datepicker"]').datepicker({
+            $('input[data-provide="datepicker"][name=breed-date]').datepicker({
                 format: 'yyyy년 mm월 dd일',
                 endDate: 'today',
                 language: 'ko',

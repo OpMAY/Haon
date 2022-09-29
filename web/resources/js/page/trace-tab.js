@@ -5,11 +5,14 @@ $('#tab-trace-search').next().on('click', function () {
     } else {
         searchByCode(value).then((result) => {
             if (result.status === 'OK') {
+                let showDiv = $('#tab-trace ._traces');
+                showDiv.children('._trace').remove();
                 if (result.data.status) {
-                    let no = result.data.data.no;
-                    let showDiv = $('#tab-trace ._traces');
+                    console.log(result);
                     let element;
                     if (result.data.type === 'trace') {
+                        let date = result.data.data.reg_datetime;
+                        let dFormatted = `${Time.formatLocalDate(date)}`;
                         element = `<div class="_trace _tab mt-32" data-no="${result.data.data.no}">
                                                 <div class="_bundle-header">
                                                     <span class="bold-h2"
@@ -22,11 +25,11 @@ $('#tab-trace-search').next().on('click', function () {
                                                     </div>
                                                 </div>
                                                 <div class="_bundle-body d-flex">
-                                                    <span class="_livestock regular-h5 p-2">${result.data.data.entity.entity_type}</span>
-                                                    <span class="regular-h5 p-2">${result.data.data.entity.rate}</span>
-                                                    <span class="regular-h5 p-2">${result.data.data.entity.gender}</span>
+                                                    <span class="_livestock regular-h5 p-2">${getEntityType(result.data.data.entity.entity_type)}</span>
+                                                    <span class="regular-h5 p-2">${result.data.data.entity.rate === null ? '' : result.data.data.entity.rate}</span>
+                                                    <span class="regular-h5 p-2">${result.data.data.entity.gender === null ? '' : result.data.data.entity.gender}</span>
                                                     <span class="regular-h5 p-2">${result.data.data.entity.birth === null ? '' : (result.data.data.entity.birth + ' 출생')}</c:if></span>
-                                                    <span class="regular-h5 _date ml-auto p-2">${result.data.data.reg_datetime}</span>
+                                                    <span class="regular-h5 _date ml-auto p-2">${dFormatted}</span>
                                                 </div>
                                             </div>`;
                     } else if (result.data.type === 'bundle') {
@@ -65,3 +68,60 @@ $('#tab-trace').on('click', '._traces ._tab', function () {
         window.location.href = `/trace/package/${$(this).data().no}`;
     }
 })
+
+$('#tab-trace').on('click', '._traces ._tab ._qr', function (e) {
+    e.stopPropagation();
+    let url;
+    if($(this).closest('._tab').hasClass('_trace')) {
+        url = `${window.location.origin}/trace/single/${$(this).data().no}`;
+
+    } else {
+        url = `${window.location.origin}/trace/package/${$(this).data().no}`;
+    }
+    viewModal({
+        title: '이력 QR',
+        desc: `<div class="d-flex flex-column align-items-center">
+                        <div class="_qrArea mb-24">아래 이미지를 저장하여 QR 코드를 공유하세요.</div>
+                        <div id="trace-qr" class="mb-24"><a download="qrCode.png"></a></div>
+                        <button class="btn btn-brand-opacity btn-block" id="download-qr">QR 다운로드</button>
+                    </div>`,
+        confirm_text: '닫기'
+    })
+    new QRCode(document.getElementById('trace-qr'), {
+        text: url,
+        width: 256,
+        height: 256,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H,
+        alt: '스캔하세요.',
+    });
+})
+
+function getEntityType(type) {
+    let str;
+    switch (type) {
+        case 'CATTLE':
+            str = '소';
+            break;
+        case 'PIG' :
+            str = '돼지';
+            break;
+        case 'FOWL':
+            str = '닭';
+            break;
+        case 'DUCK' :
+            str = '오리';
+            break;
+        case 'HORSE':
+            str = '말';
+            break;
+        case 'SHEEP_GOAT' :
+            str = '양 & 염소';
+            break;
+        default:
+            str = '';
+            break;
+    }
+    return str;
+}

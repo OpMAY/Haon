@@ -107,7 +107,7 @@
                                                     <span class="regular-h5 p-2"><c:if
                                                             test="${trace.entity.birth ne null}">${trace.entity.birth} 출생</c:if></span>
                                                     <span class="regular-h5 _date ml-auto p-2"><custom:formatDatetime
-                                                            value="${trace.reg_datetime}" pattern="yyyy-MM-dd"/></span>
+                                                            value="${trace.reg_datetime}" pattern="yyyy.MM.dd"/></span>
                                                 </div>
                                             </div>
                                         </c:forEach>
@@ -164,21 +164,24 @@
                                                     </div>
                                                 </div>
                                                 <div class="_bundle-body">
-                                                    <span class="regular-h5" data-count="${bundle.traceList.size()}">${bundle.traceList.size()}개의 이력</span>
+                                                    <span class="regular-h5"
+                                                          data-count="${bundle.traceList.size()}">${bundle.traceList.size()}개의 이력</span>
                                                 </div>
                                                 <div class="_bundle-bottom">
-                                                <span class="medium-h5 c-brand-green cursor-pointer">이력 추가하기<svg
-                                                        style="padding-bottom: 1px;" width="20" height="20"
-                                                        viewBox="0 0 20 20"
-                                                        fill="none" xmlns="http://www.w3.org/2000/svg"><g
-                                                        clip-path="url(#clip0_249_9083)"><path
-                                                        d="M10.9767 10.0006L6.85165 5.8756L8.02999 4.69727L13.3333 10.0006L8.02999 15.3039L6.85165 14.1256L10.9767 10.0006Z"
-                                                        fill="#A9CC52"/></g><defs><clipPath id="clip0_249_9083"><rect
-                                                        width="20"
-                                                        height="20"
-                                                        fill="white"/></clipPath></defs></svg></span>
+                                                    <c:if test="${farmType.manual_available eq true}">
+                                                        <span class="medium-h5 c-brand-green cursor-pointer">이력 추가하기<svg
+                                                                style="padding-bottom: 1px;" width="20" height="20"
+                                                                viewBox="0 0 20 20"
+                                                                fill="none" xmlns="http://www.w3.org/2000/svg"><g
+                                                                clip-path="url(#clip0_249_9083)"><path
+                                                                d="M10.9767 10.0006L6.85165 5.8756L8.02999 4.69727L13.3333 10.0006L8.02999 15.3039L6.85165 14.1256L10.9767 10.0006Z"
+                                                                fill="#A9CC52"/></g><defs><clipPath id="clip0_249_9083"><rect
+                                                                width="20"
+                                                                height="20"
+                                                                fill="white"/></clipPath></defs></svg></span>
+                                                    </c:if>
                                                     <span class="regular-h5 _date"><custom:formatDatetime
-                                                            value="${bundle.reg_datetime}" pattern="yyyy-MM-dd"/></span>
+                                                            value="${bundle.reg_datetime}" pattern="yyyy.MM.dd"/></span>
                                                 </div>
                                             </div>
                                         </c:forEach>
@@ -659,31 +662,31 @@
                         </div>
                     </div>
 
-                <div class="row mt-24" id="result-traces">
+                    <div class="row mt-24" id="result-traces">
 
-                </div>
-                <div class="row mt-24">
-                    <div class="col-12">
-                        <table class="table table-bordered trace-register-table">
-                            <thead>
-                            <tr>
-                                <th scope="col">이력 번호</th>
-                                <th scope="col">등급</th>
-                                <th scope="col">사용자</th>
-                                <th scope="col">소재지</th>
-                                <th scope="col">삭제</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr data-type="empty">
-                                <td colspan="6">
-                                    <span class="c-gray-light">묶을 이력을 추가하세요.</span>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
                     </div>
-                </div>
+                    <div class="row mt-24">
+                        <div class="col-12">
+                            <table class="table table-bordered trace-register-table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">이력 번호</th>
+                                    <th scope="col">등급</th>
+                                    <th scope="col">사용자</th>
+                                    <th scope="col">소재지</th>
+                                    <th scope="col">삭제</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-type="empty">
+                                    <td colspan="6">
+                                        <span class="c-gray-light">묶을 이력을 추가하세요.</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </c:if>
             </div>
             <div class="modal-footer">
