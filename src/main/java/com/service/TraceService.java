@@ -660,6 +660,14 @@ public class TraceService {
         return message;
     }
 
+    public Message checkTraceInBundle(int trace_no, int user_no) {
+        Message message = new Message();
+        Farm farm = farmDao.getFarmByUserNo(user_no);
+        message.put("type", farm.getType().isManual_available());
+        message.put("status", bundleTracesDao.checkTraceHasBundle(trace_no));
+        return message;
+    }
+
 
     /**
      * 1. 이력번호

@@ -53,6 +53,7 @@ const viewAlert = ({
     }
     alert.classList.add('medium-h5', 'c-basic-white');
     alert.innerHTML = `${content}`;
+    alert.style.textAlign = 'center';
     ALERT_CONTAINER.append(alert);
     $('#' + id).fadeIn(fadeTimeOut);
     setTimeout(() => {

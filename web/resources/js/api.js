@@ -1304,3 +1304,26 @@ async function updateManualBundle(list, no) {
         console.log(error);
     }
 }
+
+async function getTraceInBundle(no) {
+    function apiGetTraceInBundle(no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+        };
+        const response = fetch(`${host}/api/get/trace/bundle_check/${no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiGetTraceInBundle(no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
