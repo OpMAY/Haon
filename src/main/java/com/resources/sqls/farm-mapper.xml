@@ -28,7 +28,7 @@
         values (#{user_no}, #{name}, #{type},
                 #{profile_image, typeHandler=JsonObjectTypeHandler},
                 #{farm_image, typeHandler=JsonObjectTypeHandler},
-                #{description}, JSON_ARRAY(), JSON_OBJECT());
+                #{description}, null, null);
     </insert>
     <select id="getFarmByUserNo" parameterType="int" resultType="Farm" resultMap="farm">
         select *
