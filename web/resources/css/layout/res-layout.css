@@ -45,16 +45,16 @@
         max-width: 50%;
     }
 
-    #content-wrapper ._content-banner ._recommend {
+    #content-wrapper .banner-section ._recommend {
         padding: 24px;
     }
 
-    #content-wrapper ._content-banner ._recommend svg {
+    #content-wrapper .banner-section ._recommend svg {
         width: 123px;
         height: 123px;
     }
 
-    #content-wrapper ._content-banner ._recommend.bold-h4 {
+    #content-wrapper .banner-section ._recommend.bold-h4 {
         font-size: var(--font-16);
         line-height: var(--line-24);
     }

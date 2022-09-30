@@ -43,22 +43,74 @@
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
-    <div class="banner-section background-image _content-banner"
-         style="background-image: url('../resources/assets/images/sample/background-wallpaper1.png')">
-        <div class="_text-container">
-            <div class="_text">
-                <div class="_top-text bold-h1 c-brand-green">
-                    Lorem ipsum dolor sit amet
+    <div class="banner-section">
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="background-image _content-banner"
+                         style="background-image: url('../resources/assets/images/sample/background-wallpaper1.png')">
+                        <div class="_text-container">
+                            <div class="_text">
+                                <div class="_top-text bold-h1 c-brand-green">
+                                    Lorem ipsum dolor sit amet
+                                </div>
+                                <div class="_middle-text display-1 font-weight-bold">
+                                    Lorem <span class="c-brand-green">ipsum</span> dolor sit amet
+                                </div>
+                                <div class="_bottom-text bold-h4 font-weight-bold">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem explicabo, harum illo ipsam
+                                    laudantium
+                                    maiores necessitatibus nisi nulla qui quo ratione recusandae reiciendis soluta temporibus totam
+                                    vero? Iste,
+                                    tempore?
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="_middle-text display-1 font-weight-bold">
-                    Lorem <span class="c-brand-green">ipsum</span> dolor sit amet
+                <div class="carousel-item">
+                    <div class="background-image _content-banner"
+                         style="background-image: url('../resources/assets/images/sample/background-wallpaper1.png')">
+                        <div class="_text-container">
+                            <div class="_text">
+                                <div class="_top-text bold-h1 c-brand-green">
+                                    Lorem ipsum dolor sit amet
+                                </div>
+                                <div class="_middle-text display-1 font-weight-bold">
+                                    Lorem <span class="c-brand-green">ipsum</span> dolor sit amet
+                                </div>
+                                <div class="_bottom-text bold-h4 font-weight-bold">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem explicabo, harum illo ipsam
+                                    laudantium
+                                    maiores necessitatibus nisi nulla qui quo ratione recusandae reiciendis soluta temporibus totam
+                                    vero? Iste,
+                                    tempore?
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="_bottom-text bold-h4 font-weight-bold">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem explicabo, harum illo ipsam
-                    laudantium
-                    maiores necessitatibus nisi nulla qui quo ratione recusandae reiciendis soluta temporibus totam
-                    vero? Iste,
-                    tempore?
+                <div class="carousel-item">
+                    <div class="background-image _content-banner"
+                         style="background-image: url('../resources/assets/images/sample/background-wallpaper1.png')">
+                        <div class="_text-container">
+                            <div class="_text">
+                                <div class="_top-text bold-h1 c-brand-green">
+                                    Lorem ipsum dolor sit amet
+                                </div>
+                                <div class="_middle-text display-1 font-weight-bold">
+                                    Lorem <span class="c-brand-green">ipsum</span> dolor sit amet
+                                </div>
+                                <div class="_bottom-text bold-h4 font-weight-bold">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem explicabo, harum illo ipsam
+                                    laudantium
+                                    maiores necessitatibus nisi nulla qui quo ratione recusandae reiciendis soluta temporibus totam
+                                    vero? Iste,
+                                    tempore?
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
