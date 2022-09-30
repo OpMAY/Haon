@@ -67,9 +67,13 @@ $(document).ready(function () {
     let header_check = false;
     $('#navbarsExample04 .navbar-nav').on('mouseover', function (event) {
         header_check = true;
-        if ($('#header-desc').css('display') === 'none') {
-            $('#header-desc').slideDown(200);
-        }
+        setTimeout(function () {
+            if (header_check) {
+                if ($('#header-desc').css('display') === 'none') {
+                    $('#header-desc').slideDown(200);
+                }
+            }
+        }, 400);
     });
     $('#navbarsExample04 .navbar-nav').on('mouseleave', function (event) {
         header_check = false;
@@ -80,8 +84,12 @@ $(document).ready(function () {
         }, 400);
     });
     $('#header-desc').on('mouseover', function (event) {
-        $(this).slideDown(200);
-        header_check = true;
+        setTimeout(function () {
+            if (header_check) {
+                $(this).slideDown(200);
+                header_check = true;
+            }
+        }, 400);
     });
     $('#header-desc').on('mouseleave', function (event) {
         header_check = false;

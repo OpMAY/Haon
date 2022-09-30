@@ -310,6 +310,10 @@ input.form-control.input-box {
     cursor: pointer;
 }
 
+.card.community-card ._description img {
+    max-height: 48px;
+}
+
 .card.community-card ._description {
     height: auto;
     overflow: hidden;
@@ -318,6 +322,7 @@ input.form-control.input-box {
     -webkit-line-clamp: 2; /* 라인수 */
     -webkit-box-orient: vertical;
     word-wrap: break-word;
+    max-height: 48px;
 }
 
 .card.community-card ._edit {
@@ -638,7 +643,7 @@ input.form-control.input-box {
     display: flex;
 }
 
-._bundle ._bundle-bottom ._date{
+._bundle ._bundle-bottom ._date {
     margin-left: auto;
 }
 
@@ -1350,7 +1355,7 @@ input.form-control.input-box {
     justify-content: space-between;
 }
 
-._bundle-header ._bundle-button{
+._bundle-header ._bundle-button {
     display: flex;
 }
 
