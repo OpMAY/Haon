@@ -144,12 +144,12 @@ public class LikeService {
         return likeDao.getLikesByManualNo(manual_no);
     }
 
-    public boolean isCommentManualLikeByUserNo(int manual_no, int user_no) {
-        return likeDao.isCommentManualLikeByUserNo(manual_no, user_no);
+    public boolean isCommentManualLikeByUserNo(int comment_no, int user_no) {
+        return likeDao.isCommentManualLikeByUserNo(comment_no, user_no);
     }
 
-    public boolean isCommentManualDislikeByUserNo(int manual_no, int user_no) {
-        return likeDao.isCommentManualDislikeByUserNo(manual_no, user_no);
+    public boolean isCommentManualDislikeByUserNo(int comment_no, int user_no) {
+        return likeDao.isCommentManualDislikeByUserNo(comment_no, user_no);
     }
 
     public boolean isManualLikeByUserNo(int manual_no, int user_no) {

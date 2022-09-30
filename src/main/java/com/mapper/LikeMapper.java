@@ -73,9 +73,9 @@ public interface LikeMapper {
 
     ArrayList<ManualTransaction> getLikesByManualNo(@Param("manual_no") int manual_no);
 
-    boolean isCommentManualLikeByUserNo(@Param("manual_no") int manual_no, @Param("user_no") int user_no);
+    boolean isCommentManualLikeByUserNo(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
 
-    boolean isCommentManualDislikeByUserNo(@Param("manual_no") int manual_no, @Param("user_no") int user_no);
+    boolean isCommentManualDislikeByUserNo(@Param("comment_no") int comment_no, @Param("user_no") int user_no);
 
     boolean isManualLikeByUserNo(@Param("manual_no") int manual_no, @Param("user_no") int user_no);
 

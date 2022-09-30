@@ -439,6 +439,29 @@ $(document).ready(function () {
     $('#tab-search').on('click', '.form-group > svg', function () {
         let input = $('#tab-search-input');
         if (input.val().trim().length > 0) {
+            let searches = getCookie('searches');
+            if (searches !== null) {
+                let search_array = JSON.parse(searches);
+                //중복 제거 후 push
+                let is_duplicate = false;
+                for (let index in search_array) {
+                    if (search_array.hasOwnProperty(index)) {
+                        // your code
+                        if (input.val() === search_array[index]) {
+                            is_duplicate = true;
+                        }
+                    }
+                }
+                if (!is_duplicate) {
+                    search_array.push(input.val());
+                    deleteCookie('searches');
+                    setCookie({key: 'searches', value: JSON.stringify(search_array)});
+                }
+            } else {
+                let search_array = new Array();
+                search_array.push(input.val());
+                setCookie({key: 'searches', value: JSON.stringify(search_array)});
+            }
             window.location.href = `/search/${encodeURI(input.val())}`;
         } else {
             viewAlert({'content': '검색어를 입력하세요.'});
@@ -454,6 +477,58 @@ $(document).ready(function () {
             $(this).next().click();
         }
     })
+
+    //Recent Search Word
+    let tab_search = document.querySelector('#tab-search');
+    if (tab_search) {
+        let list_container = tab_search.querySelector('.list-group');
+        deleteChild(list_container);
+        let searches = getCookie('searches');
+        if (searches !== null) {
+            searches = JSON.parse(searches);
+            searches = searches.reverse();
+            if (searches.length !== 0) {
+                for (let index in searches) {
+                    if (searches.hasOwnProperty(index) && index < 5) {
+                        // your code
+                        $(list_container).append(`<li class="list-group-item">
+                                                  <div data-href="/search/${encodeURI(searches[index])}">${searches[index]}</div>
+                                                  <svg class="my-auto" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                      <path d="M6 18L18 6M6 6L18 18" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                  </svg>
+                                              </li>`);
+                    }
+                }
+            } else {
+                list_container.parentElement.remove();
+            }
+        } else {
+            list_container.parentElement.remove();
+        }
+        let latest_buttons = document.querySelectorAll('#tab-search .list-group .list-group-item');
+        latest_buttons.forEach(function (latest_button) {
+            latest_button.querySelector('svg').addEventListener('click', function (event) {
+                let list_item = this.closest('.list-group-item');
+                list_item.remove();
+                let searches = getCookie('searches');
+                let text = list_item.querySelector('[data-href]').innerText.trim();
+                if (searches !== null) {
+                    searches = JSON.parse(searches);
+                    searches = searches.filter(function (search) {
+                        if (search === text) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    });
+                    deleteCookie('searches');
+                    setCookie({key: 'searches', value: JSON.stringify(searches)});
+                }
+                event.stopPropagation();
+                event.preventDefault();
+            });
+        });
+    }
 });
 
 const getPosition = ($target) => {
