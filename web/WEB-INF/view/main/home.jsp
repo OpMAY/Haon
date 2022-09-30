@@ -685,7 +685,7 @@
                             </clipPath>
                         </defs>
                     </svg>
-                    <button type="button" class="ml-auto btn btn-md btn-brand bold-h4">
+                    <button type="button" class="ml-auto btn btn-md btn-brand bold-h4" data-href="/user/board/write?type=QUESTION">
                         질문하기
                     </button>
                 </div>
@@ -1201,35 +1201,30 @@
         $('#tips-section').find('.card').on('click', function (e) {
             let path = e.originalEvent.path;
             if (!path.includes($(this).find('._bookmark')[0])) {
-                window.open('/community/tip/detail/' + $(this).data().no, '_blank');
-                // window.location.href = '/community/tip/detail/' + $(this).data().no;
+                window.location.href = '/community/tip/detail/' + $(this).data().no;
             }
         })
 
         $('#manual-section').find('.card').on('click', function (e) {
             let path = e.originalEvent.path;
             if (!path.includes($(this).find('._bookmark')[0])) {
-                window.open('/community/manual/detail/' + $(this).data().no, '_blank');
-                // window.location.href = '/community/manual/detail/' + $(this).data().no;
+                window.location.href = '/community/manual/detail/' + $(this).data().no;
             }
         })
 
         $('#magazine-section').find('.card').on('click', function (e) {
             let path = e.originalEvent.path;
             if (!path.includes($(this).find('._bookmark')[0])) {
-                window.open('/community/magazine/detail/' + $(this).data().no, '_blank');
-                // window.location.href = '/community/manual/detail/' + $(this).data().no;
+                window.location.href = '/community/magazine/detail/' + $(this).data().no;
             }
         })
 
         $('.farm-card').find('._footer button').on('click', function () {
-            window.open('/community/farm/detail/' + $(this).data().no, '_blank');
-            // window.location.href = '/community/farm/detail/' + $(this).data().no;
+            window.location.href = '/community/farm/detail/' + $(this).data().no;
         })
 
         $('#question-section ._accordion-content > span').on('click', function () {
-            window.open('/community/question/detail/' + $(this).parent().parent().parent().data().no, '_blank');
-            // window.location.href = '/community/question/detail/' + $(this).parent().parent().parent().data().no;
+            window.location.href = '/community/question/detail/' + $(this).parent().parent().parent().data().no;
         })
 
         $('#question-section .section-title ._title button').on('click', function () {

@@ -318,7 +318,7 @@ public class CommunityController {
     @RequestMapping(value = "/farms", method = RequestMethod.GET)
     public ModelAndView communityFarmsPage(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("community/farms");
-        List<Farm> farms = contentService.getCommunityFarmsPage(ORDER_TYPE.RECENT, request);
+        List<Farm> farms = contentService.getCommunityFarmsPage(null, ORDER_TYPE.RECENT, request);
         VIEW.addObject("farms", farms);
         return VIEW;
     }

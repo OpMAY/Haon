@@ -42,7 +42,7 @@
     </select>
     <select id="getMainMagazines" resultType="Magazine" resultMap="Magazine">
         select *
-        from magazine
+        from magazine WHERE is_show = true
         ORDER BY rand(), views DESC
         LIMIT 8
     </select>
@@ -107,13 +107,13 @@
     <select id="getMagazine" parameterType="int" resultType="Magazine" resultMap="Magazine">
         select *
         from magazine
-        where no = #{magazine_no};
+        where no = #{magazine_no} AND is_show = true;
     </select>
     <select id="getBookmarkMagazines" parameterType="int" resultType="Magazine" resultMap="Magazine">
         select *
         from magazine
                  inner join magazine_bookmark mb on mb.user_no = #{user_no}
-        where magazine.no = mb.magazine_no;
+        where magazine.no = mb.magazine_no AND is_show = true;
     </select>
     <select id="getFameMagazines" resultType="Magazine" resultMap="Magazine">
         select *
@@ -418,31 +418,33 @@
     <select id="getCommunityMagazinesOrderByRecent" resultType="Magazine" resultMap="Magazine">
         select *
         from magazine
-        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        WHERE is_show = true
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
         ORDER BY reg_datetime DESC, magazine.no DESC LIMIT 4
     </select>
     <select id="getCommunityMagazinesOrderByViews" resultType="Magazine" resultMap="Magazine">
         select *
         from magazine
-        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        WHERE is_show = true
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
         ORDER BY views DESC, magazine.no DESC LIMIT 4
     </select>
     <select id="getCommunityMagazinesOrderByComments" resultType="Magazine" resultMap="Magazine">
         select *, (select COUNT(*) from magazine_comment WHERE magazine_no = magazine.no) as comment_count
-        from magazine
-        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        from magazine WHERE is_show = true
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
         ORDER BY comment_count DESC, magazine.no DESC LIMIT 4
     </select>
     <select id="getCommunityMagazinesOrderByLikes" resultType="Magazine" resultMap="Magazine">
         select *, (select COUNT(*) from magazine_like WHERE magazine_no = magazine.no) as like_count
-        from magazine
-        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        from magazine WHERE is_show = true
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
         ORDER BY like_count DESC, magazine.no DESC LIMIT 4
     </select>
     <select id="getCommunityMagazinesOrderByBookmarks" resultType="Magazine" resultMap="Magazine">
         select *, (select COUNT(*) from magazine_bookmark WHERE magazine_no = magazine.no) as bookmark_count
-        from magazine
-        <if test="category neq null and category neq '' ">WHERE category = #{category}</if>
+        from magazine WHERE is_show = true
+        <if test="category neq null and category neq '' ">AND category = #{category}</if>
         ORDER BY bookmark_count DESC, magazine.no DESC LIMIT 4
     </select>
     <select id="getCommunityMagazinesOrderByRecentReload" resultType="Magazine" resultMap="Magazine">
@@ -450,7 +452,7 @@
         select *
         from magazine
         WHERE (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND magazine.no
-        <![CDATA[<]]> #{content_no}))
+        <![CDATA[<]]> #{content_no})) and is_show = true
         <if test="category neq null and category neq '' ">AND category = #{category}</if>
         ORDER BY reg_datetime DESC, magazine.no DESC LIMIT 4
     </select>
@@ -459,7 +461,7 @@
         select *
         from magazine
         WHERE (views <![CDATA[<]]> @LAST_VIEWS OR (views = @LAST_VIEWS AND magazine.no
-        <![CDATA[<]]> #{content_no}))
+        <![CDATA[<]]> #{content_no})) and is_show = true
         <if test="category neq null and category neq '' ">AND category = #{category}</if>
         ORDER BY views DESC, magazine.no DESC LIMIT 4
     </select>
@@ -470,7 +472,7 @@
         WHERE ((select COUNT(*) from magazine_comment WHERE magazine_no = magazine.no) <![CDATA[<]]> @LAST_COMMENTS OR
         ((select
         COUNT(*) from magazine_comment WHERE magazine_no = magazine.no) = @LAST_COMMENTS AND magazine.no
-        <![CDATA[<]]> #{content_no}))
+        <![CDATA[<]]> #{content_no})) and is_show = true
         <if test="category neq null and category neq '' ">AND category = #{category}</if>
         ORDER BY comment_count DESC, magazine.no DESC LIMIT 4
     </select>
@@ -481,7 +483,7 @@
         WHERE ((select COUNT(*) from magazine_like WHERE magazine_no = magazine.no) <![CDATA[<]]> @LAST_LIKES OR
         ((select
         COUNT(*) from magazine_like WHERE magazine_no = magazine.no) = @LAST_LIKES AND magazine.no
-        <![CDATA[<]]> #{content_no}))
+        <![CDATA[<]]> #{content_no})) and is_show = true
         <if test="category neq null and category neq '' ">AND category = #{category}</if>
         ORDER BY like_count DESC, magazine.no DESC LIMIT 4
     </select>
@@ -492,7 +494,7 @@
         WHERE ((select COUNT(*) from magazine_bookmark WHERE magazine_no = magazine.no) <![CDATA[<]]> @LAST_BOOKMARKS OR
         ((select
         COUNT(*) from magazine_bookmark WHERE magazine_no = magazine.no) = @LAST_BOOKMARKS AND magazine.no
-        <![CDATA[<]]> #{content_no}))
+        <![CDATA[<]]> #{content_no})) and is_show = true
         <if test="category neq null and category neq '' ">AND category = #{category}</if>
         ORDER BY bookmark_count DESC, magazine.no DESC LIMIT 4
     </select>
@@ -907,7 +909,7 @@
         select *
         from magazine
         WHERE title like @QUERY
-        OR content like @QUERY
+        OR content like @QUERY AND is_show = true
         <if test="last_content_no != 0">
             AND (reg_datetime <![CDATA[<]]> @LAST_DATETIME OR (reg_datetime = @LAST_DATETIME AND no
             <![CDATA[<]]> #{last_content_no}))

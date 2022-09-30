@@ -1,6 +1,7 @@
 package com.mapper;
 
 import com.model.common.MFile;
+import com.model.farm.FARM_TYPE;
 import com.model.farm.Farm;
 import com.model.farm.FarmSns;
 import org.apache.ibatis.annotations.Param;
@@ -23,17 +24,17 @@ public interface FarmMapper {
 
     Farm getFarmByNo(int farm_no);
 
-    List<Farm> getCommunityFarmsOrderByRecent();
+    List<Farm> getCommunityFarmsOrderByRecent(@Param("farm_type") FARM_TYPE farm_type);
 
-    List<Farm> getCommunityFarmsOrderByViews();
+    List<Farm> getCommunityFarmsOrderByViews(@Param("farm_type") FARM_TYPE farm_type);
 
-    List<Farm> getCommunityFarmsOrderByBookmarks();
+    List<Farm> getCommunityFarmsOrderByBookmarks(@Param("farm_type") FARM_TYPE farm_type);
 
-    List<Farm> getCommunityFarmsOrderByRecentReload(@Param("content_no") int content_no);
+    List<Farm> getCommunityFarmsOrderByRecentReload(@Param("farm_type") FARM_TYPE farm_type, @Param("content_no") int content_no);
 
-    List<Farm> getCommunityFarmsOrderByViewsReload(@Param("content_no") int content_no);
+    List<Farm> getCommunityFarmsOrderByViewsReload(@Param("farm_type") FARM_TYPE farm_type, @Param("content_no") int content_no);
 
-    List<Farm> getCommunityFarmsOrderByBookmarksReload(@Param("content_no") int content_no);
+    List<Farm> getCommunityFarmsOrderByBookmarksReload(@Param("farm_type") FARM_TYPE farm_type, @Param("content_no") int content_no);
 
     List<Farm> getFarmSearchResult(@Param("query") String query, @Param("last_content_no") int last_content_no);
 

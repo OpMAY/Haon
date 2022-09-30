@@ -10,6 +10,7 @@ import com.model.content.common.ORDER_TYPE;
 import com.model.content.manual.Manual;
 import com.model.content.question.QuestionSummary;
 import com.model.content.tips.Tips;
+import com.model.farm.FARM_TYPE;
 import com.model.farm.Farm;
 import com.response.Message;
 import com.util.Encryption.EncryptionService;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -239,18 +241,18 @@ public class ContentService {
         return questions;
     }
 
-    public List<Farm> getCommunityFarmsPage(ORDER_TYPE order_type, HttpServletRequest request) {
+    public List<Farm> getCommunityFarmsPage(FARM_TYPE farm_type, ORDER_TYPE order_type, HttpServletRequest request) {
         Integer userNo = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         List<Farm> farms;
         switch (order_type) {
             case RECENT:
-                farms = farmDao.getCommunityFarmsOrderByRecent();
+                farms = farmDao.getCommunityFarmsOrderByRecent(farm_type);
                 break;
             case VIEWS:
-                farms = farmDao.getCommunityFarmsOrderByViews();
+                farms = farmDao.getCommunityFarmsOrderByViews(farm_type);
                 break;
             case BOOKMARKS:
-                farms = farmDao.getCommunityFarmsOrderByBookmarks();
+                farms = farmDao.getCommunityFarmsOrderByBookmarks(farm_type);
                 break;
             default:
                 throw new RuntimeException();
@@ -504,26 +506,37 @@ public class ContentService {
                 break;
             case "farm":
                 List<Farm> farms;
+                FARM_TYPE farm_type;
+                if(!Objects.equals(category, "")) {
+                    try {
+                        farm_type = FARM_TYPE.valueOf(category);
+                    } catch (IllegalArgumentException e) {
+                        farm_type = null;
+                        message.put("status", false);
+                    }
+                } else {
+                    farm_type = null;
+                }
                 switch (order_type) {
                     case RECENT:
                         if (is_reload) {
-                            farms = farmDao.getCommunityFarmsOrderByRecentReload(content_no);
+                            farms = farmDao.getCommunityFarmsOrderByRecentReload(farm_type, content_no);
                         } else {
-                            farms = farmDao.getCommunityFarmsOrderByRecent();
+                            farms = farmDao.getCommunityFarmsOrderByRecent(farm_type);
                         }
                         break;
                     case VIEWS:
                         if (is_reload) {
-                            farms = farmDao.getCommunityFarmsOrderByViewsReload(content_no);
+                            farms = farmDao.getCommunityFarmsOrderByViewsReload(farm_type, content_no);
                         } else {
-                            farms = farmDao.getCommunityFarmsOrderByViews();
+                            farms = farmDao.getCommunityFarmsOrderByViews(farm_type);
                         }
                         break;
                     case BOOKMARKS:
                         if (is_reload) {
-                            farms = farmDao.getCommunityFarmsOrderByBookmarksReload(content_no);
+                            farms = farmDao.getCommunityFarmsOrderByBookmarksReload(farm_type, content_no);
                         } else {
-                            farms = farmDao.getCommunityFarmsOrderByBookmarks();
+                            farms = farmDao.getCommunityFarmsOrderByBookmarks(farm_type);
                         }
                         break;
                     default:

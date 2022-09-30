@@ -2,7 +2,7 @@ $('.dropdown-menu').on('click', 'a.dropdown-item', function (event) {
     let type = $(this).parent().data().type;
     let item = $(this).parent().data().item;
     let dropdown_item = this;
-    if($(this).hasClass('farm')) {
+    if ($(this).hasClass('farm')) {
         // Only for Farm Detail
 
     } else {
@@ -13,15 +13,35 @@ $('.dropdown-menu').on('click', 'a.dropdown-item', function (event) {
             if (type === 'category') {
                 if (input.value !== dropdown_item.querySelector('div').dataset.value) {
                     // 카테고리에 맞춰 새로 불러오기
-                    // farm 들어올 일 없음
                     let order = $('[data-type="order"]').closest('.dropdown').find('[data-toggle="dropdown"] .dropdown-input').data().type;
                     let category = dropdown_item.querySelector('div').dataset.value;
                     loadMoreContents(item, 0, order, category).then((result) => listFormatOnResult(result, item, true))
+                    if (item === 'farm') {
+                        let header_farm_list_group = document.getElementById('header-desc').querySelector('.list-group:first-child');
+                        let now_selected = header_farm_list_group.querySelector('.is-active');
+                        if (now_selected !== undefined && now_selected !== null) {
+                            if (category !== '') {
+                                let category_selected = header_farm_list_group.querySelector(`[data-href="/community/farms?type=${category}"]`)
+                                if (now_selected !== category_selected) {
+                                    now_selected.classList.remove('is-active');
+                                    category_selected.classList.add('is-active');
+                                }
+                            } else {
+                                now_selected.classList.remove('is-active');
+                            }
+                        } else {
+                            if (category !== '') {
+                                let category_selected = header_farm_list_group.querySelector(`[data-href="/community/farms?type=${category}"]`)
+                                category_selected.classList.add('is-active');
+                            }
+                        }
+
+                    }
                 }
             } else if (type === 'order') {
                 if (input.value !== dropdown_item.textContent) {
                     // 순서에 맞춰 새로 불러오기
-                    let category = item === 'farm' ? '' : $('[data-type="category"]').closest('.dropdown').find('[data-toggle="dropdown"] .dropdown-input').data().type;
+                    let category = $('[data-type="category"]').closest('.dropdown').find('[data-toggle="dropdown"] .dropdown-input').data().type;
                     let order = dropdown_item.querySelector('div').dataset.value;
                     loadMoreContents(item, 0, order, category).then((result) => listFormatOnResult(result, item, true))
                 }
@@ -49,10 +69,13 @@ function listFormatOnResult(result, item, is_new) {
     if (result.status === 'OK') {
         let contents_elem = $('._content-list');
         if (is_new) {
-            contents_elem.children().remove();
+            contents_elem.children(':not(.no-data)').remove();
         }
         let data = result.data.list;
         if (data !== undefined && data !== null && data.length > 0) {
+            if(contents_elem.find('.no-data').length > 0){
+                contents_elem.find('.no-data').remove();
+            }
             switch (item) {
                 case 'board':
                     data.forEach((elem, idx) => {
@@ -487,6 +510,9 @@ function listFormatOnResult(result, item, is_new) {
         } else {
             if (is_new) {
                 viewAlert({content: '조건에 맞는 데이터가 없습니다.'});
+                contents_elem.append(`<div class="no-data bold-h4 c-gray-light mx-auto" style="text-align: center; min-height: 400px; padding: 186px 0">
+                    <span>조건에 맞는 데이터가 없습니다.</span>
+                </div>`);
             } else {
                 viewAlert({content: '더이상 불러올 데이터가 없습니다.'});
             }
