@@ -439,7 +439,7 @@ $(document).ready(function () {
     $('#tab-search').on('click', '.form-group > svg', function () {
         let input = $('#tab-search-input');
         if (input.val().trim().length > 0) {
-            window.location.href = `/search/${input.val()}`;
+            window.location.href = `/search/${encodeURI(input.val())}`;
         } else {
             viewAlert({'content': '검색어를 입력하세요.'});
         }

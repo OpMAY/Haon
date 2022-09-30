@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 @Slf4j
@@ -26,6 +28,7 @@ import java.util.List;
 public class MainController {
     private final GlobalService globalService;
     private final ContentService contentService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView mainHomePage(HttpServletRequest request) {
         return globalService.getMain(request);
@@ -45,6 +48,11 @@ public class MainController {
          * 7. 다양한 축산농가
          * 8. 각자 리로딩 ?
          * */
+        try {
+            query = URLDecoder.decode(query, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         List<Board> boards = contentService.getBoardSearchResult(query, 0);
         List<Tips> tips = contentService.getTipsSearchResult(query, 0);
         List<Manual> manuals = contentService.getManualSearchResult(query, 0);
