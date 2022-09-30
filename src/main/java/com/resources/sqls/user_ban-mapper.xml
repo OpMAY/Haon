@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.UserBanMapper">
+    <select id="isUserBan" resultType="_boolean">
+        select status
+        from user_ban
+        WHERE user_no = #{user_no}
+    </select>
+    <insert id="insertUserBan">
+        insert into user_ban(user_no, reason, days)
+        VALUES (#{user_no}, #{reason}, #{days})
+    </insert>
+    <update id="removeUserBan">
+        update user_ban
+        SET status = false
+        WHERE user_no = #{user_no}
+    </update>
+</mapper>

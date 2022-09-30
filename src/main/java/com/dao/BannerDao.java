@@ -19,4 +19,16 @@ public class BannerDao {
     public List<Banner> getBanners() {
         return mapper.getBanners();
     }
+
+    public void insertBanner(Banner banner) {
+        mapper.insertBanner(banner);
+    }
+
+    public void removeBanner(int banner_no) {
+        mapper.removeBanner(banner_no);
+    }
+
+    public void updateBanner(Banner banner) {
+        mapper.updateBanner(banner);
+    }
 }

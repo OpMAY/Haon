@@ -2,6 +2,7 @@ package com.controller;
 
 import com.aws.file.FileUploadUtility;
 import com.aws.model.CDNUploadPath;
+import com.dao.CommunityCategoryDao;
 import com.google.gson.Gson;
 import com.model.User;
 import com.model.common.MFile;
@@ -13,6 +14,7 @@ import com.model.content.manual.Manual;
 import com.model.content.question.Question;
 import com.model.content.tips.Tips;
 import com.model.farm.Farm;
+import com.model.global.category.CATEGORY_TYPE;
 import com.service.*;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
@@ -54,6 +56,7 @@ public class UserController {
     private final LikeService likeService;
 
     private final TraceService traceService;
+    private final CommunityCategoryDao communityCategoryDao;
 
     @RequestMapping(value = "/alarm", method = RequestMethod.GET)
     public ModelAndView getAlarm() {
@@ -62,8 +65,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/board/write", method = RequestMethod.GET)
-    public ModelAndView getBoardWrite(COMMENT_TYPE type) {
+    public ModelAndView getBoardWrite(CATEGORY_TYPE type) {
         ModelAndView VIEW = new ModelAndView("user/board-write");
+        VIEW.addObject("categories", communityCategoryDao.getCategories(type));
         return VIEW;
     }
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.CommunityCategoryMapper">
+    <resultMap id="CommunityCategory" type="com.model.global.category.CommunityCategory">
+        <result column="categories" property="categories" typeHandler="StringArrayListTypeHandler"/>
+    </resultMap>
+    <select id="getCategories" resultType="string">
+        select categories
+        from community_category
+        WHERE type = #{type}
+    </select>
+    <update id="updateCategory">
+        update community_category
+        SET categories = #{categories, typeHandler=StringArrayListTypeHandler}
+        WHERE type = #{type}
+    </update>
+    <select id="getAllCategories" resultType="CommunityCategory" resultMap="CommunityCategory">
+        select *
+        from community_category
+    </select>
+</mapper>
