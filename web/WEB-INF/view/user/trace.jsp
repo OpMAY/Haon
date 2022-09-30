@@ -203,7 +203,7 @@
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/bottom.jsp"/>
 <!-- Modal -->
-<div class="modal fade" id="trace-created" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="trace-created" tabindex="-1" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-md-max">
         <div class="modal-content">
             <div class="modal-header">
@@ -585,7 +585,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="package-trace-created" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="package-trace-created" tabindex="-1" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">

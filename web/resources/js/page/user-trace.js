@@ -81,6 +81,7 @@ $(document).ready(function () {
                     id: modal1_id,
                     title: `이력 수정 - ${tData.trace_code}`,
                     largeModal: true,
+                    backDrop: true,
                     desc: `<div class="row">
                     <div class="col-12">
                         <div class="form-group">
@@ -420,6 +421,7 @@ $(document).ready(function () {
                             zIndex: 1300,
                             title: '이력 수정',
                             desc: '정말 이력을 수정하시겠습니까?',
+                            backDrop: true,
                             btnCount: 2,
                             onConfirm: () => {
                                 let no = tData.no;
@@ -811,6 +813,7 @@ $(document).ready(function () {
                             btnCount: 2,
                             title: '이력 요소 삭제',
                             desc: '정말 삭제하시겠어요?',
+                            backDrop: true,
                             zIndex: 1999,
                             onConfirm: function () {
                                 let tableBody = $this.closest('tbody');
@@ -912,6 +915,7 @@ $(document).ready(function () {
         viewModal({
             id: 'qrModal',
             title: '이력 QR',
+            backDrop: true,
             desc: `<div class="d-flex flex-column align-items-center">
                         <div class="_qrArea mb-24">아래 이미지를 저장하여 QR 코드를 공유하세요.</div>
                         <div id="trace-qr" class="mb-24"><a download="qrCode.png"></a></div>
@@ -1041,11 +1045,13 @@ $(document).ready(function () {
                         btnCount: 2,
                         confirm_text: '수정하기',
                         largeModal: true,
+                        backDrop: true,
                         onConfirm: () => {
                             viewModal({
                                 title: '묶음 이력 수정',
                                 desc: '묶음 이력을 수정하시겠습니까?',
                                 btnCount: 2,
+                                backDrop: true,
                                 zIndex: 1300,
                                 onConfirm: () => {
                                     let table = $(`#${modalId}`).find('#result-traces').next().find('.trace-register-table tbody');
@@ -1204,6 +1210,7 @@ $(document).ready(function () {
                             btnCount: 2,
                             title: '이력 요소 삭제',
                             desc: '정말 삭제하시겠어요?',
+                            backDrop: true,
                             zIndex: 1999,
                             onConfirm: function () {
                                 let tableBody = $this.closest('tbody');

@@ -336,7 +336,7 @@ public class CommunityController {
         boolean is_bookmark = false;
         if (user_no != null) {
             for (MagazineTransaction like : likes) {
-                if (like.getUser_no().intValue() == user_no.intValue()) {
+                if (like.getUser_no() != null && like.getUser_no().intValue() == user_no.intValue()) {
                     is_like = true;
                 }
             }

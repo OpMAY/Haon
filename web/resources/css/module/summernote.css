@@ -11,8 +11,8 @@
     padding-inline-start: 26px !important;
 }
 
-.summernote-container > img {
-    width: 100% !important;
+.summernote-container img {
+    max-width: 100% !important;
     height: auto !important;
 }
 
