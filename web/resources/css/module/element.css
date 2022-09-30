@@ -1142,6 +1142,7 @@ input.form-control.input-box {
     margin-top: 16px;
     word-break: break-word;
     min-height: 300px;
+    margin-bottom: 16px;
 }
 
 .community-container ._detail ._detail-footer {
