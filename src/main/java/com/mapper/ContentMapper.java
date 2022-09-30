@@ -215,4 +215,12 @@ public interface ContentMapper {
     void updateManual(Manual manual);
 
     void updateMagazine(Magazine magazine);
+
+    void deleteBoard(@Param("community_no") int board_no);
+
+    void deleteQuestion(@Param("community_no") int question_no);
+
+    void deleteTip(@Param("community_no") int tip_no);
+
+    void deleteManual(@Param("community_no") int manual_no);
 }

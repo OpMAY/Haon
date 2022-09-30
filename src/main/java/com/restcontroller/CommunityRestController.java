@@ -685,10 +685,11 @@ public class CommunityRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{type}/content/delete/{no}", method = RequestMethod.POST)
-    public ResponseEntity<String> deleteMyContent(HttpServletRequest request, @PathVariable("type") String type, @PathVariable("no") int no) throws Exception {
+    @RequestMapping(value = "/{type}/content/delete/{community_no}", method = RequestMethod.POST)
+    public ResponseEntity<String> deleteMyContent(HttpServletRequest request, @PathVariable("type") COMMENT_TYPE type, @PathVariable("community_no") Integer community_no) throws Exception {
         Message message = new Message();
-        message.put("example", "example");
+        contentService.deleteContent(type, community_no);
+        message.put("status", true);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
@@ -710,10 +711,10 @@ public class CommunityRestController {
 
     @RequestMapping(value = "/get/{type}/farm/{farm_no}/content/{content_no}", method = RequestMethod.GET)
     public ResponseEntity getFarmContentList(@PathVariable("type") String type,
-                                         @PathVariable("content_no") int content_no,
-                                         @PathVariable("farm_no") int farm_no,
-                                         @RequestParam("category") String category,
-                                         HttpServletRequest request) {
+                                             @PathVariable("content_no") int content_no,
+                                             @PathVariable("farm_no") int farm_no,
+                                             @RequestParam("category") String category,
+                                             HttpServletRequest request) {
         Message message = contentService.getFarmContentList(type, content_no, farm_no, category, request);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }

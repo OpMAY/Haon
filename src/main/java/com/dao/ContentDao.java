@@ -422,4 +422,24 @@ public class ContentDao {
     public void updateMagazine(Magazine magazine) {
         mapper.updateMagazine(magazine);
     }
+
+    public void deleteBoard(int board_no) {
+        mapper.deleteBoard(board_no);
+    }
+
+    public void deleteQuestion(int question_no) {
+        mapper.deleteQuestion(question_no);
+    }
+
+    public void deleteTip(int tip_no) {
+        mapper.deleteTip(tip_no);
+    }
+
+    public void deleteManual(int manual_no) {
+        mapper.deleteManual(manual_no);
+    }
+
+    public void deleteMagazine(int magazine_no) {
+        mapper.deleteManual(magazine_no);
+    }
 }

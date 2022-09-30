@@ -20,5 +20,5 @@ public class ContentForm extends Time {
     private MultipartFile file;
     private COMMENT_TYPE community_type;
     //수정 전용 변수
-    private MFile origin_thumbnail;
+    private String origin_thumbnail;
 }

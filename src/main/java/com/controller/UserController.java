@@ -2,6 +2,7 @@ package com.controller;
 
 import com.aws.file.FileUploadUtility;
 import com.aws.model.CDNUploadPath;
+import com.google.gson.Gson;
 import com.model.User;
 import com.model.common.MFile;
 import com.model.content.board.Board;
@@ -149,7 +150,8 @@ public class UserController {
                     VIEW.addObject("message", "게시글 등록이 완료되었습니다.");
                     VIEW.addObject("status", true);
                 } else {
-                    contentService.updateCommunityThumbnail(contentForm, null);
+                    MFile thumbnail = new Gson().fromJson(contentForm.getOrigin_thumbnail(), MFile.class);
+                    contentService.updateCommunityThumbnail(contentForm, thumbnail);
                     VIEW.addObject("message", "게시글 등록이 완료되었습니다.");
                     VIEW.addObject("status", true);
                 }

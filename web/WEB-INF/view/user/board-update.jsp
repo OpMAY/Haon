@@ -152,6 +152,7 @@
                                                    onchange="loadFile(event, this)">
                                             <input type="text" readonly placeholder="이미지를 업로드해주세요."
                                                    value="${contentForm.thumbnail.name}"
+                                                   name="file_name"
                                                    class="form-control dropdown-input input-no-border medium-h5"
                                                    id="input1">
                                             <input data-name="${contentForm.thumbnail.name}"
@@ -213,14 +214,6 @@
      * */
     $(document).ready(function () {
         console.log('Static JS is ready');
-        if (${status ne null}) {
-            if (${status eq true}) {
-                viewAlert({content: '${message}'});
-                //location.href = '/user/home';
-            } else {
-                viewAlert({content: '${message}'});
-            }
-        }
         let thumbnail_input = document.querySelector('#input1');
         if (thumbnail_input !== undefined && thumbnail_input !== null) {
             thumbnail_input.addEventListener('click', function (event) {
@@ -233,6 +226,9 @@
                 let preview = this.closest('._preview');
                 let text_input = this.closest('._input-header').querySelector('._input input[type="text"]');
                 text_input.value = '';
+                let file_element = this.closest('._input-header').querySelector('._input input[type="file"]');
+                file_element.type = 'text';
+                file_element.type = 'file';
                 $(preview).hide();
                 $(preview).css('background-image', 'none');
             });
@@ -290,6 +286,29 @@
                 }
             });
         });
+
+        if (${status ne null}) {
+            if (${status eq true}) {
+                viewModal({
+                    vCenter: true,
+                    wCenter: true,
+                    btnCount: 1,
+                    backDrop: true,
+                    title: '커뮤니티 게시글', desc: '게시글 수정이 완료되었습니다.',
+                    confirm_text: '확인',
+                    onConfirm: function (e) {
+                        console.log('Confirm Button Click Callback', e.currentTarget);
+                        location.href = '/user/board/update/${contentForm.community_type.name()}/${contentForm.no}';
+                    },
+                    onHidden: function (e) {
+                        console.log('Modal Hide After Callback', e.currentTarget);
+                        location.href = '/user/board/update/${contentForm.community_type.name()}/${contentForm.no}';
+                    }
+                });
+            } else {
+                viewAlert({content: '${message}'});
+            }
+        }
     });
 
     let loadFile = function (event, target) {
@@ -313,6 +332,24 @@
         let return_check = true;
         let content = $('#summernote').summernote('code');
         $('[name="content"]').val(content);
+        if (!inspection({
+            selector: '[name="title"]',
+            isFocus: true,
+            regex_type: '2~50',
+            empty_text: '제목을 입력해주세요.',
+            failed_text: '제목을 정확히 입력해주세요. 10글자 이상, 2000글자 이내',
+        })) {
+            return_check = false;
+        }
+        if (!inspection({
+            selector: '[name="content"]',
+            isFocus: false,
+            regex_type: '10~2000',
+            empty_text: '게시글 내용을 입력해주세요.',
+            failed_text: '게시글 내용을 정확히 입력해주세요. 10글자 이상, 2000글자 이내',
+        })) {
+            return_check = false;
+        }
         let type = $('#board-filter1').data().type;
         let origin_filter_type_value = $('#board-filter1').val();
         $('#board-filter1').attr("disabled", false);
@@ -320,12 +357,30 @@
         $('#board-filter2').attr("disabled", false);
         let category = $('#board-filter2').val();
         if (category === '카테고리 선택') {
+            viewAlert({content: '카테고리를 선택해주세요.'});
             return_check = false;
         }
+        let origin_thumbnail_input = document.querySelector('#origin-thumbnail');
+
+        if (type !== 'BOARD' && type !== 'QUESTION') {
+            if (!inspection({
+                selector: '[name="file_name"]',
+                regex_type: '1~100',
+                isFocus: false,
+                empty_check: true,
+                empty_text: '파일을 등록해주세요.',
+                failed_text: '파일을 등록해주세요.',
+            })) {
+                return_check = false;
+            }
+        }
+
         if (!return_check) {
+            $('[name="content"]').val('');
+            $('#board-filter2').attr("disabled", true);
             $('#board-filter1').val(origin_filter_type_value);
         }
-        let origin_thumbnail_input = document.querySelector('#origin-thumbnail');
+
         if (origin_thumbnail_input !== null && origin_thumbnail_input !== undefined) {
             let origin_thumbnail = {
                 name: origin_thumbnail_input.dataset.name,

@@ -1491,85 +1491,112 @@
         /*
         * Delete Logic
         * */
-        $('#myTabContent .tab-pane ._comment-board-list ._comment_board-item ._delete').click(function () {
-            let container = this.closest('.tab-pane');
-            let button = document.querySelector('._writer-board').querySelector('._title-container .dropdown input[data-type]');
-            let item = this.closest('._comment_board-item');
-            item.remove();
-            let board_comments = container.querySelectorAll('._comment-board-list ._comment_board-item');
-            let type_text = '';
-            switch (button.dataset.type) {
-                case'BOARD':
-                    type_text = '자유 게시판이';
-                    break;
-                case'TIP':
-                    type_text = '팁과 노하우가';
-                    break;
-                case'MANUAL':
-                    type_text = '축산 메뉴얼이';
-                    break;
-                case'QUESTION':
-                    type_text = '질문과 답변이';
-                    break;
-            }
-            if (board_comments.length === 0) {
-                deleteChild(container);
-                $(container).append(`<div class="regular-h5 mt-48" style="text-align: center">
+        let delete_items = document.querySelectorAll('#myTabContent .tab-pane ._comment-board-list ._comment_board-item ._delete');
+        delete_items.forEach(function (delete_item) {
+            delete_item.addEventListener('click', function (event) {
+                let container = this.closest('.tab-pane');
+                let button = document.querySelector('._writer-board').querySelector('._title-container .dropdown input[data-type]');
+                let item = this.closest('._comment_board-item');
+                deleteMyContent(item.querySelector('._board-container').dataset.type, item.querySelector('._board-container').dataset.no).then((result) => {
+                    console.log(result);
+                    if (result.status === 'OK') {
+                        if (result.data.status) {
+                            item.remove();
+                            let board_comments = container.querySelectorAll('._comment-board-list ._comment_board-item');
+                            let type_text = '';
+                            switch (button.dataset.type) {
+                                case'BOARD':
+                                    type_text = '자유 게시판이';
+                                    break;
+                                case'TIP':
+                                    type_text = '팁과 노하우가';
+                                    break;
+                                case'MANUAL':
+                                    type_text = '축산 메뉴얼이';
+                                    break;
+                                case'QUESTION':
+                                    type_text = '질문과 답변이';
+                                    break;
+                            }
+                            if (board_comments.length === 0) {
+                                deleteChild(container);
+                                $(container).append(`<div class="regular-h5 mt-48" style="text-align: center">
                                          <span>등록된 \${type_text} 없습니다.</span>
                                      </div>`);
-            }
+                            }
+                            viewAlert({content: '해당 게시글을 삭제하였습니다.'});
+                        } else {
+                            viewAlert({content: '해당 게시글을 삭제할 수 없습니다.'});
+                        }
+                    } else {
+                        viewAlert({content: '해당 게시글을 삭제할 수 없습니다.'});
+                    }
+                });
+                event.stopPropagation();
+                event.preventDefault();
+            });
         });
-
         /*
         * Click Logic
         * */
-        $('#myTabContent ._comment-board-list ._comment_board-item').click(function () {
-            let type = this.querySelector('._board-container').dataset.type;
-            let no = this.querySelector('._board-container').dataset.no;
-            switch (type) {
-                case'BOARD':
-                    location.href = '/community/board/detail/' + no;
-                    break;
-                case'TIP':
-                    location.href = '/community/tip/detail/' + no;
-                    break;
-                case'MANUAL':
-                    location.href = '/community/manual/detail/' + no;
-                    break;
-                case'QUESTION':
-                    location.href = '/community/question/detail/' + no;
-                    break;
-                case 'FARM':
-                    location.href = '/community/farm/detail/' + no;
-                    break;
-                case 'MAGAZINE':
-                    location.href = '/community/magazine/detail/' + no;
-                    break;
-            }
+        let board_items = document.querySelectorAll('#myTabContent ._comment-board-list ._comment_board-item');
+        board_items.forEach(function (board_item) {
+            board_item.addEventListener('click', function (event) {
+                let type = this.querySelector('._board-container').dataset.type;
+                let no = this.querySelector('._board-container').dataset.no;
+                switch (type) {
+                    case'BOARD':
+                        location.href = '/community/board/detail/' + no;
+                        break;
+                    case'TIP':
+                        location.href = '/community/tip/detail/' + no;
+                        break;
+                    case'MANUAL':
+                        location.href = '/community/manual/detail/' + no;
+                        break;
+                    case'QUESTION':
+                        location.href = '/community/question/detail/' + no;
+                        break;
+                    case 'FARM':
+                        location.href = '/community/farm/detail/' + no;
+                        break;
+                    case 'MAGAZINE':
+                        location.href = '/community/magazine/detail/' + no;
+                        break;
+                }
+                event.stopPropagation();
+                event.preventDefault();
+            });
         });
-        $('.comment-made-me-container ._comment-board-list ._comment_board-item').click(function () {
-            let type = this.querySelector('._board-container').dataset.type;
-            let no = this.querySelector('._board-container').dataset.no;
-            switch (type) {
-                case'BOARD':
-                    location.href = '/community/board/detail/' + no;
-                    break;
-                case'TIP':
-                    location.href = '/community/tip/detail/' + no;
-                    break;
-                case'MANUAL':
-                    location.href = '/community/manual/detail/' + no;
-                    break;
-                case'QUESTION':
-                    location.href = '/community/question/detail/' + no;
-                    break;
-                case 'FARM':
-                    location.href = '/community/farm/detail/' + no;
-                    break;
-                case 'MAGAZINE':
-                    location.href = '/community/magazine/detail/' + no;
-                    break;
-            }
+        let made_me_items = document.querySelectorAll('.comment-made-me-container ._comment-board-list ._comment_board-item');
+        made_me_items.forEach(function (item) {
+            item.addEventListener('click', function (event) {
+                let type = this.querySelector('._board-container').dataset.type;
+                let no = this.querySelector('._board-container').dataset.no;
+                switch (type) {
+                    case'BOARD':
+                        location.href = '/community/board/detail/' + no;
+                        break;
+                    case'TIP':
+                        location.href = '/community/tip/detail/' + no;
+                        break;
+                    case'MANUAL':
+                        location.href = '/community/manual/detail/' + no;
+                        break;
+                    case'QUESTION':
+                        location.href = '/community/question/detail/' + no;
+                        break;
+                    case 'FARM':
+                        location.href = '/community/farm/detail/' + no;
+                        break;
+                    case 'MAGAZINE':
+                        location.href = '/community/magazine/detail/' + no;
+                        break;
+                }
+
+                event.preventDefault();
+                event.stopPropagation();
+            });
         });
 
         /*

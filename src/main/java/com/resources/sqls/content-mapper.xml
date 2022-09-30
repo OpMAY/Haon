@@ -1058,4 +1058,24 @@
         from tips
         where no = #{tips_no};
     </select>
+    <delete id="deleteBoard" parameterType="int">
+        delete
+        from board
+        where no = #{community_no};
+    </delete>
+    <delete id="deleteQuestion" parameterType="int">
+        delete
+        from question
+        where no = #{community_no};
+    </delete>
+    <delete id="deleteTip" parameterType="int">
+        delete
+        from tips
+        where no = #{community_no};
+    </delete>
+    <delete id="deleteManual" parameterType="int">
+        delete
+        from manual
+        where no = #{community_no};
+    </delete>
 </mapper>

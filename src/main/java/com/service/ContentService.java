@@ -3,6 +3,7 @@ package com.service;
 import com.dao.*;
 import com.model.common.MFile;
 import com.model.content.board.Board;
+import com.model.content.common.COMMENT_TYPE;
 import com.model.content.common.ContentForm;
 import com.model.content.magazine.Magazine;
 import com.model.content.question.Question;
@@ -787,4 +788,21 @@ public class ContentService {
         }
     }
 
+    public void deleteContent(COMMENT_TYPE type, int community_no) {
+        switch (type) {
+            case BOARD:
+                contentDao.deleteBoard(community_no);
+                break;
+            case QUESTION:
+                contentDao.deleteQuestion(community_no);
+                break;
+            case TIP:
+                contentDao.deleteTip(community_no);
+                break;
+            case MANUAL:
+                contentDao.deleteManual(community_no);
+                break;
+            default:
+        }
+    }
 }

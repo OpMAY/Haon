@@ -32,3 +32,4 @@ Selector (선택자)의 Length 및 Empty 여부를 예외처리로 해줘야한�
 <script src="/resources/js/api.js?vc=${RESOURCES_VERSION}"></script>
 <script src="/resources/js/plugin/qrcode.js?vc=${RESOURCES_VERSION}"></script>
 <script src="/resources/js/page/trace-tab.js?vc=${RESOURCES_VERSION}"></script>
+<script src="/resources/js/inspection.js?vc=${RESOURCES_VERSION}"></script>
