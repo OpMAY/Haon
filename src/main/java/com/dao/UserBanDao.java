@@ -2,6 +2,7 @@ package com.dao;
 
 import com.mapper.CommunityCategoryMapper;
 import com.mapper.UserBanMapper;
+import com.model.global.UserBan;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -17,4 +18,15 @@ public class UserBanDao {
     }
 
 
+    public boolean isUserBan(int user_no) {
+        return mapper.isUserBan(user_no);
+    }
+
+    public void insertUserBan(UserBan userBan) {
+        mapper.insertUserBan(userBan);
+    }
+
+    public void removeUserBan(int user_no) {
+        mapper.removeUserBan(user_no);
+    }
 }
