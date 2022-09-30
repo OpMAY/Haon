@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -238,6 +239,7 @@ public class UserController {
         ArrayList<Comment> commentsMadeMe = commentService.getCommentsMadeMe(user_no);
         ContentForm contentForm = null;
         for (Comment comment : commentsMadeMe) {
+            Comment originComment = comment;
             switch (comment.getType()) {
                 case BOARD:
                     contentForm = contentService.getContentFormByBoardNo(comment.getCommunity_no());
@@ -268,6 +270,39 @@ public class UserController {
                     comment.setFarm(farmService.getFarmByUserNo(user_no));
                     break;
             }
+            if (comment.getRecomment() != 0) {
+                log.info("comment : {}", comment);
+                Comment mainComment = null;
+                switch (comment.getType()) {
+                    case BOARD:
+                        mainComment = commentService.getBoardCommentByNo(comment.getRecomment());
+                        break;
+                    case QUESTION:
+                        mainComment = commentService.getQuestionCommentByNo(comment.getRecomment());
+                        break;
+                    case MANUAL:
+                        mainComment = commentService.getManualCommentByNo(comment.getRecomment());
+                        break;
+                    case TIP:
+                        mainComment = commentService.getTipsCommentByNo(comment.getRecomment());
+                        break;
+                    case MAGAZINE:
+                        mainComment = commentService.getMagazineCommentByNo(comment.getRecomment());
+                        break;
+                    case FARM:
+                        mainComment = commentService.getFarmCommentByNo(comment.getRecomment());
+                        break;
+                }
+                if (mainComment != null) {
+                    ArrayList<Comment> myComment = new ArrayList<>();
+                    myComment.add(comment);
+                    mainComment.setRecomments(myComment);
+                    mainComment.setContentForm(comment.getContentForm());
+                    mainComment.setType(comment.getType());
+                    comment = mainComment;
+                    commentsMadeMe.set(commentsMadeMe.indexOf(originComment), comment);
+                }
+            }
         }
         /*
          * 나에게 온 댓글
@@ -276,7 +311,9 @@ public class UserController {
         User commented_user = null;
         ArrayList<Comment> recomments = null;
         for (Comment comment : comments) {
-            commented_user = null;
+            if (comment.getUser_no() != null) {
+                commented_user = userService.getUserByNo(comment.getUser_no());
+            }
             User recommented_user = null;
             setComment(comment, commented_user);
             switch (comment.getType()) {
@@ -287,6 +324,9 @@ public class UserController {
                     comment.set_dislike(likeService.isCommentBoardDislikeByUserNo(comment.getNo(), user_no));
                     recomments = commentService.getRecommentByCommentNo(comment);
                     for (Comment recomment : recomments) {
+                        if (recomment.getUser_no() != null) {
+                            recommented_user = userService.getUserByNo(recomment.getUser_no());
+                        }
                         setComment(recomment, recommented_user);
                         if (user_no != null && recommented_user != null && (user_no.intValue() == recommented_user.getNo())) {
                             recomment.setOwner_checked(true);
@@ -309,6 +349,9 @@ public class UserController {
                     comment.set_dislike(likeService.isCommentQuestionDislikeByUserNo(comment.getNo(), user_no));
                     recomments = commentService.getRecommentByCommentNo(comment);
                     for (Comment recomment : recomments) {
+                        if (recomment.getUser_no() != null) {
+                            recommented_user = userService.getUserByNo(recomment.getUser_no());
+                        }
                         setComment(recomment, recommented_user);
                         if (user_no != null && recommented_user != null && (user_no.intValue() == recommented_user.getNo())) {
                             recomment.setOwner_checked(true);
@@ -331,6 +374,9 @@ public class UserController {
                     comment.set_dislike(likeService.isCommentTipsDislikeByUserNo(comment.getNo(), user_no));
                     recomments = commentService.getRecommentByCommentNo(comment);
                     for (Comment recomment : recomments) {
+                        if (recomment.getUser_no() != null) {
+                            recommented_user = userService.getUserByNo(recomment.getUser_no());
+                        }
                         setComment(recomment, recommented_user);
                         if (user_no != null && recommented_user != null && (user_no.intValue() == recommented_user.getNo())) {
                             recomment.setOwner_checked(true);
@@ -353,6 +399,9 @@ public class UserController {
                     comment.set_dislike(likeService.isCommentManualDislikeByUserNo(comment.getNo(), user_no));
                     recomments = commentService.getRecommentByCommentNo(comment);
                     for (Comment recomment : recomments) {
+                        if (recomment.getUser_no() != null) {
+                            recommented_user = userService.getUserByNo(recomment.getUser_no());
+                        }
                         setComment(recomment, recommented_user);
                         if (user_no != null && recommented_user != null && (user_no.intValue() == recommented_user.getNo())) {
                             recomment.setOwner_checked(true);
@@ -375,6 +424,9 @@ public class UserController {
                     comment.set_dislike(likeService.isCommentFarmDislikeByUserNo(comment.getNo(), user_no));
                     recomments = commentService.getRecommentByCommentNo(comment);
                     for (Comment recomment : recomments) {
+                        if (recomment.getUser_no() != null) {
+                            recommented_user = userService.getUserByNo(recomment.getUser_no());
+                        }
                         setComment(recomment, recommented_user);
                         if (user_no != null && recommented_user != null && (user_no.intValue() == recommented_user.getNo())) {
                             recomment.setOwner_checked(true);

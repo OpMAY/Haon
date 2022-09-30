@@ -2,6 +2,7 @@ package com.dao;
 
 import com.mapper.FarmMapper;
 import com.model.common.MFile;
+import com.model.farm.FARM_TYPE;
 import com.model.farm.Farm;
 import com.model.farm.FarmSns;
 import lombok.extern.slf4j.Slf4j;
@@ -48,30 +49,30 @@ public class FarmDao {
         return mapper.getFarmByNo(farm_no);
     }
 
-    public List<Farm> getCommunityFarmsOrderByRecent() {
-        return mapper.getCommunityFarmsOrderByRecent();
+    public List<Farm> getCommunityFarmsOrderByRecent(FARM_TYPE farm_type) {
+        return mapper.getCommunityFarmsOrderByRecent(farm_type);
     }
 
-    public List<Farm> getCommunityFarmsOrderByViews() {
-        return mapper.getCommunityFarmsOrderByViews();
+    public List<Farm> getCommunityFarmsOrderByViews(FARM_TYPE farm_type) {
+        return mapper.getCommunityFarmsOrderByViews(farm_type);
     }
 
-    public List<Farm> getCommunityFarmsOrderByBookmarks() {
-        return mapper.getCommunityFarmsOrderByBookmarks();
+    public List<Farm> getCommunityFarmsOrderByBookmarks(FARM_TYPE farm_type) {
+        return mapper.getCommunityFarmsOrderByBookmarks(farm_type);
     }
 
-    public List<Farm> getCommunityFarmsOrderByRecentReload(int content_no) {
-        return mapper.getCommunityFarmsOrderByRecentReload(content_no);
-
-    }
-
-    public List<Farm> getCommunityFarmsOrderByViewsReload(int content_no) {
-        return mapper.getCommunityFarmsOrderByViewsReload(content_no);
+    public List<Farm> getCommunityFarmsOrderByRecentReload(FARM_TYPE farm_type, int content_no) {
+        return mapper.getCommunityFarmsOrderByRecentReload(farm_type, content_no);
 
     }
 
-    public List<Farm> getCommunityFarmsOrderByBookmarksReload(int content_no) {
-        return mapper.getCommunityFarmsOrderByBookmarksReload(content_no);
+    public List<Farm> getCommunityFarmsOrderByViewsReload(FARM_TYPE farm_type, int content_no) {
+        return mapper.getCommunityFarmsOrderByViewsReload(farm_type, content_no);
+
+    }
+
+    public List<Farm> getCommunityFarmsOrderByBookmarksReload(FARM_TYPE farm_type, int content_no) {
+        return mapper.getCommunityFarmsOrderByBookmarksReload(farm_type, content_no);
     }
 
     public List<Farm> getFarmSearchResult(String query, int last_content_no) {

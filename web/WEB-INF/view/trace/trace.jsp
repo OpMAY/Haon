@@ -106,25 +106,27 @@
                                     <c:forEach var="breed" items="${trace.breed}">
                                         <tr>
                                             <td>${breed.type.keyword}</td>
-                                            <td>${breed.breed_farmer_name}</td>
-                                            <td>${breed.breed_farm_name}
-                                                <svg style="padding-bottom: 2px;" width="20" height="20"
-                                                     viewBox="0 0 20 20"
-                                                     fill="none"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <g clip-path="url(#clip0_375_14409)">
-                                                        <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                              fill="#222222"/>
-                                                    </g>
-                                                    <defs>
-                                                        <clipPath id="clip0_375_14409">
-                                                            <rect width="20" height="20" fill="white"/>
-                                                        </clipPath>
-                                                    </defs>
-                                                </svg>
+                                            <td>${breed.breed_farmer_name eq null ? '-' : breed.breed_farmer_name}</td>
+                                            <td>${breed.breed_farm_name eq null ? '-' : breed.breed_farm_name}
+                                                <c:if test="${breed.breed_farm_name ne null && breed.breed_farm_url ne null}">
+                                                    <svg style="padding-bottom: 2px;" width="20" height="20"
+                                                         viewBox="0 0 20 20"
+                                                         fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <g clip-path="url(#clip0_375_14409)">
+                                                            <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
+                                                                  fill="#222222"/>
+                                                        </g>
+                                                        <defs>
+                                                            <clipPath id="clip0_375_14409">
+                                                                <rect width="20" height="20" fill="white"/>
+                                                            </clipPath>
+                                                        </defs>
+                                                    </svg>
+                                                </c:if>
                                             </td>
-                                            <td>${breed.breed_issue_date}</td>
-                                            <td>${breed.breed_farm_addr}</td>
+                                            <td>${breed.breed_issue_date eq null ? '-' : breed.breed_issue_date}</td>
+                                            <td>${breed.breed_farm_addr eq null ? '-' : breed.breed_farm_addr}</td>
                                         </tr>
                                     </c:forEach>
                                 </c:if>
@@ -162,7 +164,7 @@
                             <c:if test="${trace.butchery.size() > 0}">
                                 <c:forEach var="butchery" items="${trace.butchery}">
                                     <tr>
-                                        <td>${butchery.butchery_result == 'true' ? '합격' : '불합격'}</td>
+                                        <td>${butchery.butchery_result == 'true' || butchery.butchery_result == 'Y' ? '합격' : '불합격'}</td>
                                         <td>${butchery.butchery_corp}
                                             <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
                                                  fill="none"
