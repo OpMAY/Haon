@@ -350,27 +350,27 @@
     </select>
     <select id="getCommentsMadeMe" parameterType="int" resultType="Comment">
         select *
-        from (select no, content, 'BOARD' as type, board_no as community_no, reg_datetime
+        from (select no, content, 'BOARD' as type, board_no as community_no, reg_datetime, recomment
               from board_comment
               WHERE user_no = #{user_no}
               UNION
-              select no, content, 'QUESTION' as type, question_no as community_no, reg_datetime
+              select no, content, 'QUESTION' as type, question_no as community_no, reg_datetime, recomment
               from question_comment
               WHERE user_no = #{user_no}
               UNION
-              select no, content, 'FARM' as type, farm_no as community_no, reg_datetime
+              select no, content, 'FARM' as type, farm_no as community_no, reg_datetime, recomment
               from farm_comment
               WHERE user_no = #{user_no}
               UNION
-              select no, content, 'MAGAZINE' as type, magazine_no as community_no, reg_datetime
+              select no, content, 'MAGAZINE' as type, magazine_no as community_no, reg_datetime, recomment
               from magazine_comment
               WHERE user_no = #{user_no}
               UNION
-              select no, content, 'MANUAL' as type, manual_no as community_no, reg_datetime
+              select no, content, 'MANUAL' as type, manual_no as community_no, reg_datetime, recomment
               from manual_comment
               WHERE user_no = #{user_no}
               UNION
-              select no, content, 'TIP' as type, tips_no as community_no, reg_datetime
+              select no, content, 'TIP' as type, tips_no as community_no, reg_datetime, recomment
               from tips_comment
               WHERE user_no = #{user_no}) as bcqc
         ORDER BY reg_datetime desc;
@@ -379,6 +379,7 @@
         select *
         from (select board_comment.no,
                      board_comment.content,
+                     board_comment.user_no,
                      'BOARD'                as type,
                      board_comment.board_no as community_no,
                      board_comment.reg_datetime
@@ -388,6 +389,7 @@
               UNION
               select question_comment.no,
                      question_comment.content,
+                     question_comment.user_no,
                      'QUESTION'                   as type,
                      question_comment.question_no as community_no,
                      question_comment.reg_datetime
@@ -397,6 +399,7 @@
               UNION
               select farm_comment.no,
                      farm_comment.content,
+                     farm_comment.user_no,
                      'FARM'               as type,
                      farm_comment.farm_no as community_no,
                      farm_comment.reg_datetime
@@ -406,6 +409,7 @@
               UNION
               select manual_comment.no,
                      manual_comment.content,
+                     manual_comment.user_no,
                      'MANUAL'                 as type,
                      manual_comment.manual_no as community_no,
                      manual_comment.reg_datetime
@@ -415,6 +419,7 @@
               UNION
               select tips_comment.no,
                      tips_comment.content,
+                     tips_comment.user_no,
                      'TIP'                as type,
                      tips_comment.tips_no as community_no,
                      tips_comment.reg_datetime

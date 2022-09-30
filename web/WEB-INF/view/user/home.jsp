@@ -647,16 +647,46 @@
                                                                             <div class="_content ellipsis-one-line">
                                                                                 <span class="medium-h4">[${comment.type.korName}] ${comment.contentForm.title}</span>
                                                                                 <div class="_view-comment">
-                                                                                    <svg class="mr-1" width="24"
-                                                                                         height="24"
-                                                                                         viewBox="0 0 24 24"
-                                                                                         fill="none"
-                                                                                         xmlns="http://www.w3.org/2000/svg">
-                                                                                        <path d="M19 15L13 21L11.58 19.58L15.17 16H4V4H6V14H15.17L11.58 10.42L13 9L19 15Z"
-                                                                                              fill="#222222"/>
-                                                                                    </svg>
-                                                                                    <div class="medium-h5 c-gray-dark-low ellipsis-one-line mr-auto">${comment.content}</div>
-                                                                                    <div class="ml-8 regular-h5 c-gray-dark-low">
+                                                                                    <c:choose>
+                                                                                        <c:when test="${comment.recomments.size() > 0}">
+                                                                                            <div class="_comments mr-auto">
+                                                                                                <div class="_main-comment c-gray-medium _comment-content">
+                                                                                                    <svg class="mr-1" width="24"
+                                                                                                         height="24"
+                                                                                                         viewBox="0 0 24 24"
+                                                                                                         fill="none"
+                                                                                                         xmlns="http://www.w3.org/2000/svg">
+                                                                                                        <path d="M19 15L13 21L11.58 19.58L15.17 16H4V4H6V14H15.17L11.58 10.42L13 9L19 15Z"
+                                                                                                              fill="#7D7D7D"/>
+                                                                                                    </svg>
+                                                                                                    <div class="medium-h5 ellipsis-one-line mr-auto">${comment.content}</div>
+                                                                                                </div>
+                                                                                                <div class="_my-recomment _comment-content ml-16">
+                                                                                                    <svg class="mr-1" width="24"
+                                                                                                         height="24"
+                                                                                                         viewBox="0 0 24 24"
+                                                                                                         fill="none"
+                                                                                                         xmlns="http://www.w3.org/2000/svg">
+                                                                                                        <path d="M19 15L13 21L11.58 19.58L15.17 16H4V4H6V14H15.17L11.58 10.42L13 9L19 15Z"
+                                                                                                              fill="#222222"/>
+                                                                                                    </svg>
+                                                                                                    <div class="medium-h5 c-gray-dark-low ellipsis-one-line mr-auto">${comment.recomments.get(0).content}</div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </c:when>
+                                                                                        <c:otherwise>
+                                                                                            <svg class="mr-1" width="24"
+                                                                                                 height="24"
+                                                                                                 viewBox="0 0 24 24"
+                                                                                                 fill="none"
+                                                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                                                <path d="M19 15L13 21L11.58 19.58L15.17 16H4V4H6V14H15.17L11.58 10.42L13 9L19 15Z"
+                                                                                                      fill="#222222"/>
+                                                                                            </svg>
+                                                                                            <div class="medium-h5 c-gray-dark-low ellipsis-one-line mr-auto">${comment.content}</div>
+                                                                                        </c:otherwise>
+                                                                                    </c:choose>
+                                                                                    <div class="ml-8 regular-h5 c-gray-dark-low align-self-end">
                                                                                         <custom:formatDatetime
                                                                                                 value="${comment.reg_datetime}"
                                                                                                 pattern="yyyy.MM.dd"/>

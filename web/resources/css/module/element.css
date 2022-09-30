@@ -537,6 +537,10 @@ input.form-control.input-box {
     margin-top: 12px;
 }
 
+._board-container ._content ._view-comment ._comments > ._main-comment,._my-recomment {
+    display: flex;
+}
+
 ._board-container ._info {
     width: auto;
     display: flex;

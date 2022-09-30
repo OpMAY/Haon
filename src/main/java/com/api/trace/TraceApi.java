@@ -62,7 +62,7 @@ public class TraceApi {
             params.put(URLEncoder.encode("corpNo", "UTF-8"), URLEncoder.encode("", "UTF-8"));
             StringBuilder stringBuilder = ProtocolBuilderHelper.setGetMethodParams(params);
             ProtocolBuilder protocolBuilder = new ProtocolBuilder().url(API_URL + stringBuilder).conn().setRequestMethod("GET");
-            TraceResponse response = protocolBuilder.openXmlReader("UTF-8", TraceResponse.class, false);
+            TraceResponse response = protocolBuilder.openXmlReader("UTF-8", TraceResponse.class, true);
             return response;
         } catch (IOException e) {
             e.printStackTrace();

@@ -224,35 +224,21 @@ public class TraceService {
                 bundle.setBundle_owner_name(traceData.getProcessPlaceNm());
             } else if ((type.getTarget().equals("CATTLE") || type.getTarget().equals("PIG")) && traceData.getInfoType() == 9
                     || (type.getTarget().equals("FOWL") || type.getTarget().equals("DUCK")) && traceData.getInfoType() == 3) {
-                //                switch (type.getTarget()) {
-//                    case "CATTLE":
-//                        trace_code = traceData.getCattleNo();
-//                        break;
-//                    case "PIG":
-//                        trace_code = traceData.getPigNo();
-//                        break;
-//                    case "FOWL":
-//                    case "DUCK":
-//                        trace_code = traceData.getHistNo();
-//                        break;
-//                    default:
-//                        break;
-//                }
                 try {
-                    TraceResponse response = TraceApi.apiRequest(code).getResponse();
+                    String traceCode;
+                    if (type.getTarget().equals("CATTLE")) {
+                        traceCode = traceData.getCattleNo();
+                    } else if (type.getTarget().equals("PIG")) {
+                        traceCode = traceData.getPigNo();
+                    } else {
+                        traceCode = traceData.getLotNo();
+                    }
+                    TraceResponse response = TraceApi.apiRequest(traceCode).getResponse();
                     log.info("{}", response);
                     String resultCode = response.getHeader().getResultCode();
                     if (resultCode.equals("00")) {
                         TraceResponseBody body = response.getBody();
                         if (body.getItems() != null && body.getItems().getItem() != null && !body.getItems().getItem().isEmpty()) {
-                            String traceCode;
-                            if (type.getTarget().equals("CATTLE")) {
-                                traceCode = traceData.getCattleNo();
-                            } else if (type.getTarget().equals("PIG")) {
-                                traceCode = traceData.getPigNo();
-                            } else {
-                                traceCode = traceData.getLotNo();
-                            }
                             Trace trace = getTraceInfo(body.getItems().getItem(), traceCode);
                             traceList.add(trace);
                         }
@@ -291,6 +277,15 @@ public class TraceService {
         entity.setGender(entityData.getSexNm());
         entity.setRate(entityData.getGradeNm());
         trace.setEntity(entity);
+
+        if(target_trace_type.getTarget().equals("PIG")) {
+            // 돼지는 사육 농장 정보가 InfoType 1에 들어감 (사육정보 or 등록 정보로 추정)
+            TraceBreed breed = new TraceBreed();
+            breed.setType(BreedType.REGISTER);
+            breed.setBreed_farm_addr(entityData.getFarmAddr());
+            breed.setBreed_farmer_name(entityData.getFarmerNm());
+            breeds.add(breed);
+        }
 
         // 돼지 OR 소
         if (target_trace_type.getTarget().equals("CATTLE") || target_trace_type.getTarget().equals("PIG")) {

@@ -349,7 +349,7 @@ public class CommunityController {
     @RequestMapping(value = "/farms", method = RequestMethod.GET)
     public ModelAndView communityFarmsPage(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("community/farms");
-        List<Farm> farms = contentService.getCommunityFarmsPage(ORDER_TYPE.RECENT, request);
+        List<Farm> farms = contentService.getCommunityFarmsPage(null, ORDER_TYPE.RECENT, request);
         VIEW.addObject("farms", farms);
         return VIEW;
     }
@@ -389,7 +389,7 @@ public class CommunityController {
         boolean is_bookmark = false;
         if (user_no != null) {
             for (MagazineTransaction like : likes) {
-                if (like.getUser_no().intValue() == user_no.intValue()) {
+                if (like.getUser_no() != null && like.getUser_no().intValue() == user_no.intValue()) {
                     is_like = true;
                 }
             }

@@ -63,6 +63,56 @@
                         </a>
                     </div>
                 </div>
+                <div class="dropdown input-dropdown">
+                    <div data-toggle="dropdown" aria-expanded="false"
+                         class="form-group form-inner-button form-md form-gray">
+                        <input type="text"
+                               class="form-control input-box medium-h5 dropdown-input input-sm"
+                               disabled="disabled"
+                               value="전체"
+                               name="farm_type"
+                               data-type=""
+                               id="farms-filter2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_278_13355)">
+                                <path d="M12 13.1727L16.95 8.22266L18.364 9.63666L12 16.0007L5.636 9.63666L7.05 8.22266L12 13.1727Z"
+                                      fill="#222222"></path>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_278_13355">
+                                    <rect width="24" height="24" fill="white"
+                                          transform="translate(24) rotate(90)"></rect>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu dropdown-md" data-item="farm" data-type="category">
+                        <a class="dropdown-item c-gray-light medium-h5">
+                            <div data-value="">전체</div>
+                        </a>
+                        <a class="dropdown-item c-gray-light medium-h5">
+                            <div data-value="CATTLE">소</div>
+                        </a>
+                        <a class="dropdown-item c-gray-light medium-h5">
+                            <div data-value="PIG">돼지</div>
+                        </a>
+                        <a class="dropdown-item c-gray-light medium-h5">
+                            <div data-value="FOWL">닭</div>
+                        </a>
+                        <a class="dropdown-item c-gray-light medium-h5">
+                            <div data-value="DUCK">오리</div>
+                        </a>
+                        <a class="dropdown-item c-gray-light medium-h5">
+                            <div data-value="RABBIT">토끼</div>
+                        </a>
+                        <a class="dropdown-item c-gray-light medium-h5">
+                            <div data-value="HORSE">말</div>
+                        </a>
+                        <a class="dropdown-item c-gray-light medium-h5">
+                            <div data-value="SHEEP_GOAT">양 & 염소</div>
+                        </a>
+                    </div>
+                </div>
                 <div class="right-filter-dropdown-container">
                     <div class="dropdown input-dropdown">
                         <div data-toggle="dropdown" aria-expanded="false" class="form-group form-inner-button form-sm">
@@ -187,6 +237,13 @@
         $('._content-list').on('click', '._footer button', function () {
             window.location.href = '/community/farm/detail/' + $(this).data().no;
         });
+
+        //자동 Dropdown 클릭
+        let type = getParameter('type');
+        $('[name="farm_type"]').closest('.dropdown').find('.dropdown-menu a div[data-value="' + type + '"]').click();
+
+        //URL 변경
+        history.pushState(null, null, '/community/farms');
     });
 </script>
 </body>
