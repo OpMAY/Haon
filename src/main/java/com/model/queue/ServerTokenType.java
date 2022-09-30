@@ -11,5 +11,10 @@ package com.model.queue;
 public enum ServerTokenType {
     FIND,
     WITHDRAWAL,
-    REGISTER
+    REGISTER,
+    BOARD,
+    MAGAZINE,
+    TIP,
+    QUESTION,
+    MANUAL
 }

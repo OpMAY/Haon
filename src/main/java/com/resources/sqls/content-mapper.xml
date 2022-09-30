@@ -82,6 +82,26 @@
         SET views = views + 1
         WHERE board.no = #{board_no}
     </update>
+    <update id="updateMagazineViews">
+        update magazine
+        SET views = views + 1
+        WHERE magazine.no = #{magazine_no}
+    </update>
+    <update id="updateQuestionViews">
+        update question
+        SET views = views + 1
+        WHERE question.no = #{question_no}
+    </update>
+    <update id="updateTipViews">
+        update tips
+        SET views = views + 1
+        WHERE tips.no = #{tip_no}
+    </update>
+    <update id="updateManualViews">
+        update manual
+        SET views = views + 1
+        WHERE manual.no = #{manual_no}
+    </update>
     <select id="checkQuestionContentExists" resultType="_boolean">
         select EXISTS(select * from question WHERE no = #{question_no})
     </select>

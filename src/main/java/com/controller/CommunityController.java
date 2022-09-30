@@ -24,11 +24,16 @@ import com.model.content.manual.Manual;
 import com.model.content.question.QuestionSummary;
 import com.model.content.tips.Tips;
 import com.model.farm.Farm;
+import com.model.queue.ServerTokenType;
+import com.model.queue.Token;
 import com.service.*;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
+import com.util.TokenGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.parser.TokenQueue;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +43,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +71,7 @@ public class CommunityController {
     private final UserService userService;
     private final FarmService farmService;
     private final GlobalService globalService;
+    private final ServerTokenService serverTokenService;
 
     @RequestMapping(value = "/board/detail/{board_no}", method = RequestMethod.GET)
     public ModelAndView getBoardDetail(HttpServletRequest request, @PathVariable("board_no") int board_no) {
@@ -70,7 +79,29 @@ public class CommunityController {
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         //Get Board Detail Data
         Board board = contentService.getBoard(board_no);
-
+        //Auto Increment View Count
+        String str_token = "user" + request.getSession().getId() + "community" + board.getNo() + "BOARD";
+        Token token = serverTokenService.pop(str_token);
+        if (token != null) {
+            Duration duration = Duration.between(token.getReg_datetime(), LocalDateTime.now());
+            long result = duration.getSeconds();
+            log.info("token -> {}, time -> {}", token, result);
+            if (result > 30) {
+                //VIEW COUNT
+                contentService.updateBoardViews(board_no);
+                serverTokenService.remove(str_token);
+            }
+        } else {
+            serverTokenService.put(str_token, Token.builder()
+                    .user_no(user_no)
+                    .community_no(board.getNo())
+                    .token(str_token)
+                    .type(ServerTokenType.BOARD)
+                    .reg_datetime(LocalDateTime.now())
+                    .update_datetime(LocalDateTime.now())
+                    .build());
+            contentService.updateBoardViews(board_no);
+        }
         //Get Board Like Bookmark Data
         ArrayList<BoardTransaction> likes = likeService.getLikesByBoardNo(board_no);
         boolean is_like = false;
@@ -329,7 +360,29 @@ public class CommunityController {
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         //Get Board Detail Data
         Magazine magazine = contentService.getMagazine(magazine_no);
-
+        //Auto Increment View Count
+        String str_token = "user" + request.getSession().getId() + "community" + magazine.getNo() + "MAGAZINE";
+        Token token = serverTokenService.pop(str_token);
+        if (token != null) {
+            Duration duration = Duration.between(token.getReg_datetime(), LocalDateTime.now());
+            long result = duration.getSeconds();
+            log.info("token -> {}, time -> {}", token, result);
+            if (result > 30) {
+                //VIEW COUNT
+                contentService.updateMagazineViews(magazine_no);
+                serverTokenService.remove(str_token);
+            }
+        } else {
+            serverTokenService.put(str_token, Token.builder()
+                    .user_no(user_no)
+                    .community_no(magazine.getNo())
+                    .token(str_token)
+                    .type(ServerTokenType.MAGAZINE)
+                    .reg_datetime(LocalDateTime.now())
+                    .update_datetime(LocalDateTime.now())
+                    .build());
+            contentService.updateMagazineViews(magazine_no);
+        }
         //Get Board Like Bookmark Data
         ArrayList<MagazineTransaction> likes = likeService.getLikesByMagazineNo(magazine_no);
         boolean is_like = false;
@@ -465,7 +518,29 @@ public class CommunityController {
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         //Get Board Detail Data
         Question question = contentService.getQuestion(question_no);
-
+//Auto Increment View Count
+        String str_token = "user" + request.getSession().getId() + "community" + question.getNo() + "QUESTION";
+        Token token = serverTokenService.pop(str_token);
+        if (token != null) {
+            Duration duration = Duration.between(token.getReg_datetime(), LocalDateTime.now());
+            long result = duration.getSeconds();
+            log.info("token -> {}, time -> {}", token, result);
+            if (result > 30) {
+                //VIEW COUNT
+                contentService.updateQuestionViews(question_no);
+                serverTokenService.remove(str_token);
+            }
+        } else {
+            serverTokenService.put(str_token, Token.builder()
+                    .user_no(user_no)
+                    .community_no(question.getNo())
+                    .token(str_token)
+                    .type(ServerTokenType.QUESTION)
+                    .reg_datetime(LocalDateTime.now())
+                    .update_datetime(LocalDateTime.now())
+                    .build());
+            contentService.updateQuestionViews(question_no);
+        }
         //Get Board Like Bookmark Data
         ArrayList<QuestionTransaction> likes = likeService.getLikesByQuestionNo(question_no);
         boolean is_like = false;
@@ -604,7 +679,29 @@ public class CommunityController {
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         //Get Board Detail Data
         Tips tip = contentService.getTip(tip_no);
-
+        //Auto Increment View Count
+        String str_token = "user" + request.getSession().getId() + "community" + tip.getNo() + "TIP";
+        Token token = serverTokenService.pop(str_token);
+        if (token != null) {
+            Duration duration = Duration.between(token.getReg_datetime(), LocalDateTime.now());
+            long result = duration.getSeconds();
+            log.info("token -> {}, time -> {}", token, result);
+            if (result > 30) {
+                //VIEW COUNT
+                contentService.updateTipViews(tip_no);
+                serverTokenService.remove(str_token);
+            }
+        } else {
+            serverTokenService.put(str_token, Token.builder()
+                    .user_no(user_no)
+                    .community_no(tip.getNo())
+                    .token(str_token)
+                    .type(ServerTokenType.TIP)
+                    .reg_datetime(LocalDateTime.now())
+                    .update_datetime(LocalDateTime.now())
+                    .build());
+            contentService.updateTipViews(tip_no);
+        }
         //Get Board Like Bookmark Data
         ArrayList<TipsTransaction> likes = likeService.getLikesByTipsNo(tip_no);
         boolean is_like = false;
@@ -748,7 +845,29 @@ public class CommunityController {
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         //Get Board Detail Data
         Manual manual = contentService.getManual(manual_no);
-
+        //Auto Increment View Count
+        String str_token = "user" + request.getSession().getId() + "community" + manual.getNo() + "MANUAL";
+        Token token = serverTokenService.pop(str_token);
+        if (token != null) {
+            Duration duration = Duration.between(token.getReg_datetime(), LocalDateTime.now());
+            long result = duration.getSeconds();
+            log.info("token -> {}, time -> {}", token, result);
+            if (result > 30) {
+                //VIEW COUNT
+                contentService.updateManualViews(manual_no);
+                serverTokenService.remove(str_token);
+            }
+        } else {
+            serverTokenService.put(str_token, Token.builder()
+                    .user_no(user_no)
+                    .community_no(manual.getNo())
+                    .token(str_token)
+                    .type(ServerTokenType.MANUAL)
+                    .reg_datetime(LocalDateTime.now())
+                    .update_datetime(LocalDateTime.now())
+                    .build());
+            contentService.updateManualViews(manual_no);
+        }
         //Get Board Like Bookmark Data
         ArrayList<ManualTransaction> likes = likeService.getLikesByManualNo(manual_no);
         boolean is_like = false;

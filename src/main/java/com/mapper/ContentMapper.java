@@ -26,6 +26,10 @@ public interface ContentMapper {
     Board getBoard(@Param("board_no") int board_no);
 
     void updateBoardViews(@Param("board_no") int board_no);
+    void updateQuestionViews(@Param("question_no") int question_no);
+    void updateManualViews(@Param("manual_no") int manual_no);
+    void updateTipViews(@Param("tip_no") int tip_no);
+    void updateMagazineViews(@Param("magazine_no") int magazine_no);
 
     boolean checkQuestionContentExists(@Param("question_no") int question_no);
 

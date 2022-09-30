@@ -9,6 +9,7 @@ import com.model.content.question.Question;
 import com.model.content.question.QuestionSummary;
 import com.model.content.tips.Tips;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -51,6 +52,20 @@ public class ContentDao {
         mapper.updateBoardViews(board_no);
     }
 
+    public void updateMagazineViews(int magazine_no) {
+        mapper.updateMagazineViews(magazine_no);
+    }
+    public void updateManualViews(int manual_no) {
+        mapper.updateManualViews(manual_no);
+    }
+
+    public void updateQuestionViews(int question_no) {
+        mapper.updateQuestionViews(question_no);
+    }
+
+    public void updateTipViews(int tip_no) {
+        mapper.updateTipViews(tip_no);
+    }
     public boolean checkQuestionContentExists(int question_no) {
         return mapper.checkQuestionContentExists(question_no);
     }

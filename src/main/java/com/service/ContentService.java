@@ -61,6 +61,23 @@ public class ContentService {
         contentDao.updateBoardViews(board_no);
     }
 
+    @Transactional
+    public void updateMagazineViews(int magazine_no) {
+        contentDao.updateMagazineViews(magazine_no);
+    }
+    @Transactional
+    public void updateManualViews(int manual_no) {
+        contentDao.updateManualViews(manual_no);
+    }
+    @Transactional
+    public void updateTipViews(int tip_no) {
+        contentDao.updateTipViews(tip_no);
+    }
+    @Transactional
+    public void updateQuestionViews(int question_no) {
+        contentDao.updateQuestionViews(question_no);
+    }
+
     public ArrayList<Board> getBoards(int farm_no) {
         return contentDao.getBoards(farm_no);
     }
