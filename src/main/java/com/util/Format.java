@@ -246,7 +246,11 @@ public class Format {
         log.info(nf.format(n)); // 출력값 : ￦12,345.68
     }
 
-    public static String summernoteHTMLToString(String HTMLString){
+    public static String summernoteHTMLToString(String HTMLString) {
         return Jsoup.parse(HTMLString).text();
+    }
+
+    public static String removeBrackets(String arrayString) {
+        return arrayString.substring(arrayString.indexOf("[") + 1, arrayString.lastIndexOf("]"));
     }
 }

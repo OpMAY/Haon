@@ -12,4 +12,7 @@ public class Banner extends Time {
     private String top_text;
     private String middle_text;
     private String bottom_text;
+
+    //update 전용
+    private String origin_banner_image;
 }

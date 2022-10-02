@@ -1,14 +1,29 @@
 package com.controller;
 
+import com.aws.file.FileUploadUtility;
+import com.aws.model.CDNUploadPath;
+import com.google.gson.Gson;
+import com.model.User;
+import com.model.common.MFile;
+import com.model.global.Banner;
+import com.model.global.keyword.SearchKeyword;
+import com.model.jwt.RootUser;
+import com.service.AdminService;
+import com.service.UserService;
+import com.util.Encryption.EncryptionService;
+import com.util.Encryption.JWTEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 @Slf4j
 @Controller
@@ -16,6 +31,10 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/admin")
 public class AdminController {
     private ModelAndView VIEW;
+    private final EncryptionService encryptionService;
+    private final UserService userService;
+    private final AdminService adminService;
+    private final FileUploadUtility fileUploadUtility;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView getLogin(HttpServletRequest request) {
@@ -24,8 +43,26 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView postLogin(HttpServletRequest request) {
+    public ModelAndView postLogin(HttpServletRequest request, User user) {
         VIEW = new ModelAndView("admin/auth/login");
+        try {
+            String token = encryptionService.encryptSHA256(user.getId());
+            User admin = userService.getUserByNo(user.getNo());
+            if (admin.getEmail().equals(user.getEmail()) && token.equals(admin.getId())) {
+                VIEW.addObject("user", user);
+                VIEW.addObject("status", true);
+                VIEW.addObject("message", "로그인에 성공하셧습니다.");
+                user.setId(admin.getId());
+                request.getSession().setAttribute(JWTEnum.ADMIN.name(), encryptionService.encryptJWT(user));
+                log.info(encryptionService.encryptJWT(user).toString());
+            } else {
+                VIEW.addObject("user", user);
+                VIEW.addObject("status", false);
+                VIEW.addObject("message", "로그인에 실패하였습니다. 이메일과 패스워드를 다시 확인해주세요.");
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         return VIEW;
     }
 
@@ -224,12 +261,56 @@ public class AdminController {
     @RequestMapping(value = "/banners", method = RequestMethod.GET)
     public ModelAndView getBanners(HttpServletRequest request) {
         VIEW = new ModelAndView("admin/banner/banner-manage");
+        ArrayList<Banner> banners = (ArrayList<Banner>) adminService.getBanners();
+        VIEW.addObject("banners", banners);
         return VIEW;
+    }
+
+    @RequestMapping(value = "/banners/banner/update/{no}", method = RequestMethod.POST)
+    public ModelAndView updateBanner(HttpServletRequest request, Banner banner, MultipartFile file) {
+        if (file != null && file.getSize() != 0) {
+            log.info("file -> {}", file.getOriginalFilename());
+            log.info("file -> {}", file.getSize());
+            log.info("file -> {}", file.getName());
+            log.info("file -> {}", file.getContentType());
+            MFile banner_image = fileUploadUtility.uploadFile(file, CDNUploadPath.BANNER.getPath());
+            banner.setBanner_image(banner_image);
+        } else {
+            banner.setBanner_image(new Gson().fromJson(banner.getOrigin_banner_image(), MFile.class));
+        }
+        log.info(banner.toString());
+        adminService.updateBanner(banner);
+        request.setAttribute("status", true);
+        request.setAttribute("message", "해당 배너를 업데이트 하였습니다.");
+        return getBanners(request);
+    }
+
+    @RequestMapping(value = "/banners/banner/create", method = RequestMethod.POST)
+    public ModelAndView createBanner(HttpServletRequest request, Banner banner, MultipartFile file) {
+        if (file != null && file.getSize() != 0) {
+            log.info("file -> {}", file.getOriginalFilename());
+            log.info("file -> {}", file.getSize());
+            log.info("file -> {}", file.getName());
+            log.info("file -> {}", file.getContentType());
+            MFile banner_image = fileUploadUtility.uploadFile(file, CDNUploadPath.BANNER.getPath());
+            banner.setBanner_image(banner_image);
+            adminService.insertBanner(banner);
+            request.setAttribute("status", true);
+            request.setAttribute("message", "배너를 생성 하였습니다.");
+        } else {
+            request.setAttribute("status", false);
+            request.setAttribute("message", "배너를 생성할 수 없습니다.");
+        }
+        log.info(banner.toString());
+        return getBanners(request);
     }
 
     @RequestMapping(value = "/search/keywords", method = RequestMethod.GET)
     public ModelAndView getSearchKeywords(HttpServletRequest request) {
         VIEW = new ModelAndView("admin/search/search");
+        ArrayList<SearchKeyword> searchKeywords = (ArrayList<SearchKeyword>) adminService.getAllKeywords();
+        VIEW.addObject("recommend", searchKeywords.get(0));
+        VIEW.addObject("search", searchKeywords.get(1));
         return VIEW;
     }
 }

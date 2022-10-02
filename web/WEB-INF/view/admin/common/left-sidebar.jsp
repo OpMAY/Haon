@@ -121,13 +121,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/search/keywords">
+                    <a href="/admin/search/keywords">
                         <i data-feather="calendar"></i>
                         <span> 검색 & 키워드 관리 </span>
                     </a>
                 </li>
                 <li>
-                    <a href="/login">
+                    <a href="/admin/login">
                         <i data-feather="calendar"></i>
                         <span> 로그아웃 </span>
                     </a>
