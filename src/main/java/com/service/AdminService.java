@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -90,4 +91,7 @@ public class AdminService {
         return communityCategoryDao.getAllCategories();
     }
 
+    public List<Banner> getBanners() {
+        return bannerDao.getBanners();
+    }
 }

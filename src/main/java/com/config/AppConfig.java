@@ -189,6 +189,8 @@ public class AppConfig implements WebApplicationInitializer, SchedulingConfigure
     @Autowired
     private BaseInterceptor baseInterceptor;
     @Autowired
+    private AdminInterceptor adminInterceptor;
+    @Autowired
     private RecoverInterceptor recoverInterceptor;
     @Autowired
     private AuthInterceptor authInterceptor;
@@ -207,6 +209,11 @@ public class AppConfig implements WebApplicationInitializer, SchedulingConfigure
                 .excludePathPatterns("/files/**");
         registry.addInterceptor(baseInterceptor).order(2)
                 .addPathPatterns("/**")
+                .excludePathPatterns("/resources/**")
+                .excludePathPatterns("/files/**");
+        registry.addInterceptor(adminInterceptor).order(2)
+                .addPathPatterns("/admin/**")
+                .excludePathPatterns("/admin/login")
                 .excludePathPatterns("/resources/**")
                 .excludePathPatterns("/files/**");
         registry.addInterceptor(kakaoInterceptor).order(3).addPathPatterns("/api/kakao/**")

@@ -23,8 +23,7 @@
     </delete>
     <update id="updateBanner">
         update banner
-        SET banner_image = IF(ISNULL(#{banner_image}), banner_image,
-                              #{banner_image, typeHandler=JsonObjectTypeHandler}),
+        SET banner_image = #{banner_image, typeHandler=JsonObjectTypeHandler},
             top_text     = IF(ISNULL(#{top_text}), top_text, #{top_text}),
             middle_text  = IF(ISNULL(#{middle_text}), middle_text, #{middle_text}),
             bottom_text  = IF(ISNULL(#{bottom_text}), bottom_text, #{bottom_text}),
