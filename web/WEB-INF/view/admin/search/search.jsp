@@ -148,6 +148,7 @@
                                             <input type="text"
                                                    class="selectize-close-btn"
                                                    id="selectize-tags-search"
+                                                   placeholder="검색 키워드를 입력해주세요."
                                                    value="<custom:removeBrackets value="${search.keywords.toString()}"/>">
                                         </div>
                                     </div>

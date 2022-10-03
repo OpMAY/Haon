@@ -29,4 +29,8 @@ public class CommunityCategoryDao {
     public List<CommunityCategory> getAllCategories() {
         return mapper.getAllCategories();
     }
+
+    public CommunityCategory getCommunityCategory(CATEGORY_TYPE type) {
+        return mapper.getCommunityCategory(type);
+    }
 }

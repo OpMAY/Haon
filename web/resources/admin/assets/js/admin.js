@@ -6,6 +6,51 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+async function removeCategory(type, category) {
+    function apiRemoveCategory(type, category) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`/admin/api/category/remove/${type}/${category}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiRemoveCategory(type, category);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function addCategory(type, keyword) {
+    function apiAddCategory(type, keyword) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`/admin/api/category/add/${type}/${keyword}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiAddCategory(type, keyword);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 async function removeKeyword(type, keyword) {
     function apiRemoveKeyword(type, keyword) {
@@ -17,7 +62,7 @@ async function removeKeyword(type, keyword) {
             method: 'POST',
             headers: myHeaders,
         };
-        const response = fetch(`/admin/api/remove/${type}/${keyword}`, requestOptions);
+        const response = fetch(`/admin/api/keyword/remove/${type}/${keyword}`, requestOptions);
         return response.then((res) => res.json());
     }
 
@@ -40,7 +85,7 @@ async function addKeyword(type, keyword) {
             method: 'POST',
             headers: myHeaders,
         };
-        const response = fetch(`/admin/api/add/${type}/${keyword}`, requestOptions);
+        const response = fetch(`/admin/api/keyword/add/${type}/${keyword}`, requestOptions);
         return response.then((res) => res.json());
     }
 

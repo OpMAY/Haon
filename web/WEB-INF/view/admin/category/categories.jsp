@@ -1,9 +1,12 @@
+<%@ page import="com.model.global.category.CATEGORY_TYPE" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>Datatables | UBold - Responsive Admin Dashboard Template</title>
+    <title>${HEADER_TITLE}</title>
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc."
@@ -66,7 +69,6 @@
     <link href="/resources/admin/assets/css/icons.min.css"
           rel="stylesheet"
           type="text/css"/>
-
 </head>
 
 <!-- body start -->
@@ -92,7 +94,7 @@
                         <div class="page-title-box">
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="../dashboard.html">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
                                     <li class="breadcrumb-item active">카테고리 관리</li>
                                 </ol>
                             </div>
@@ -116,10 +118,16 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">하위 카테고리</label>
-                                            <input type="text"
-                                                   class="selectize-close-btn"
-                                                   id="selectize-tags-board"
-                                                   value="Awesome, Admin, Dashboard">
+                                            <c:forEach items="${communityCategories}" var="communityCategory"
+                                                       varStatus="status">
+                                                <c:if test="${communityCategory.type eq CATEGORY_TYPE.BOARD}">
+                                                    <input type="text"
+                                                           class="selectize-close-btn"
+                                                           id="selectize-tags-board"
+                                                           placeholder="자유게시판의 카테고리를 입력해주세요."
+                                                           value="<custom:removeBrackets value="${communityCategory.categories}"/>">
+                                                </c:if>
+                                            </c:forEach>
                                         </div>
                                     </div>
                                 </div>
@@ -142,10 +150,16 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">하위 카테고리</label>
-                                            <input type="text"
-                                                   class="selectize-close-btn"
-                                                   id="selectize-tags-tip"
-                                                   value="Awesome, Admin, Dashboard">
+                                            <c:forEach items="${communityCategories}" var="communityCategory"
+                                                       varStatus="status">
+                                                <c:if test="${communityCategory.type eq CATEGORY_TYPE.TIP}">
+                                                    <input type="text"
+                                                           class="selectize-close-btn"
+                                                           placeholder="팁과 노하우의 카테고리를 입력해주세요."
+                                                           id="selectize-tags-tip"
+                                                           value="<custom:removeBrackets value="${communityCategory.categories}"/>">
+                                                </c:if>
+                                            </c:forEach>
                                         </div>
                                     </div>
                                 </div>
@@ -168,10 +182,16 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">하위 카테고리</label>
-                                            <input type="text"
-                                                   class="selectize-close-btn"
-                                                   id="selectize-tags-manual"
-                                                   value="Awesome, Admin, Dashboard">
+                                            <c:forEach items="${communityCategories}" var="communityCategory"
+                                                       varStatus="status">
+                                                <c:if test="${communityCategory.type eq CATEGORY_TYPE.MANUAL}">
+                                                    <input type="text"
+                                                           class="selectize-close-btn"
+                                                           placeholder="메뉴얼의 카테고리를 입력해주세요."
+                                                           id="selectize-tags-manual"
+                                                           value="<custom:removeBrackets value="${communityCategory.categories}"/>">
+                                                </c:if>
+                                            </c:forEach>
                                         </div>
                                     </div>
                                 </div>
@@ -194,10 +214,16 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">하위 카테고리</label>
-                                            <input type="text"
-                                                   class="selectize-close-btn"
-                                                   id="selectize-tags-question"
-                                                   value="Awesome, Admin, Dashboard">
+                                            <c:forEach items="${communityCategories}" var="communityCategory"
+                                                       varStatus="status">
+                                                <c:if test="${communityCategory.type eq CATEGORY_TYPE.QUESTION}">
+                                                    <input type="text"
+                                                           class="selectize-close-btn"
+                                                           id="selectize-tags-question"
+                                                           placeholder="질문과답변의 카테고리를 입력해주세요."
+                                                           value="<custom:removeBrackets value="${communityCategory.categories}"/>">
+                                                </c:if>
+                                            </c:forEach>
                                         </div>
                                     </div>
                                 </div>
@@ -220,10 +246,16 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">하위 카테고리</label>
-                                            <input type="text"
-                                                   class="selectize-close-btn"
-                                                   id="selectize-tags-magazine"
-                                                   value="Awesome, Admin, Dashboard">
+                                            <c:forEach items="${communityCategories}" var="communityCategory"
+                                                       varStatus="status">
+                                                <c:if test="${communityCategory.type eq CATEGORY_TYPE.MAGAZINE}">
+                                                    <input type="text"
+                                                           class="selectize-close-btn"
+                                                           id="selectize-tags-magazine"
+                                                           placeholder="매거진의 카테고리를 입력해주세요."
+                                                           value="<custom:removeBrackets value="${communityCategory.categories}"/>">
+                                                </c:if>
+                                            </c:forEach>
                                         </div>
                                     </div>
                                 </div>
@@ -261,6 +293,7 @@
 
 <!-- App js -->
 <script src="/resources/admin/assets/js/app.min.js"></script>
+<script src="/resources/js/utility.js"></script>
 <script src="/resources/admin/assets/js/admin.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -273,11 +306,42 @@
                     return '<div>"' + a(e.text) + '"</div>'
                 }
             },
+            onItemAdd: function (value, $item) {
+                console.log(value, $item);
+                addCategory('BOARD', value).then((result) => {
+                    console.log(result);
+                    if (result.status === 'OK') {
+                        if (result.data.status) {
+                            return true;
+                        } else {
+                            alert('카테고리를 추가할 수 없습니다.');
+                            return false;
+                        }
+                    } else {
+                        alert('카테고리를 추가할 수 없습니다.');
+                        return false;
+                    }
+                });
+            },
             onDelete: function (e) {
                 if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
                     'Are you sure you want to remove "' + e[0] + '"?')) {
-                    /*TODO Fetch*/
-                    return true;
+                    console.log(e[0]);
+                    removeCategory('BOARD', e[0]).then((result) => {
+                        console.log(result);
+                        if (result.status === 'OK') {
+                            if (result.data.status) {
+                                alert('카테고리를 삭제하였습니다.');
+                                return true;
+                            } else {
+                                alert('카테고리를 삭제할 수 없습니다.');
+                                return false;
+                            }
+                        } else {
+                            alert('카테고리를 삭제할 수 없습니다.');
+                            return false;
+                        }
+                    });
                 } else {
                     return false;
                 }
@@ -292,11 +356,42 @@
                     return '<div>"' + a(e.text) + '"</div>'
                 }
             },
+            onItemAdd: function (value, $item) {
+                console.log(value, $item);
+                addCategory('TIP', value).then((result) => {
+                    console.log(result);
+                    if (result.status === 'OK') {
+                        if (result.data.status) {
+                            return true;
+                        } else {
+                            alert('카테고리를 추가할 수 없습니다.');
+                            return false;
+                        }
+                    } else {
+                        alert('카테고리를 추가할 수 없습니다.');
+                        return false;
+                    }
+                });
+            },
             onDelete: function (e) {
                 if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
                     'Are you sure you want to remove "' + e[0] + '"?')) {
-                    /*TODO Fetch*/
-                    return true;
+                    console.log(e[0]);
+                    removeCategory('TIP', e[0]).then((result) => {
+                        console.log(result);
+                        if (result.status === 'OK') {
+                            if (result.data.status) {
+                                alert('카테고리를 삭제하였습니다.');
+                                return true;
+                            } else {
+                                alert('카테고리를 삭제할 수 없습니다.');
+                                return false;
+                            }
+                        } else {
+                            alert('카테고리를 삭제할 수 없습니다.');
+                            return false;
+                        }
+                    });
                 } else {
                     return false;
                 }
@@ -311,11 +406,42 @@
                     return '<div>"' + a(e.text) + '"</div>'
                 }
             },
+            onItemAdd: function (value, $item) {
+                console.log(value, $item);
+                addCategory('MANUAL', value).then((result) => {
+                    console.log(result);
+                    if (result.status === 'OK') {
+                        if (result.data.status) {
+                            return true;
+                        } else {
+                            alert('카테고리를 추가할 수 없습니다.');
+                            return false;
+                        }
+                    } else {
+                        alert('카테고리를 추가할 수 없습니다.');
+                        return false;
+                    }
+                });
+            },
             onDelete: function (e) {
                 if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
                     'Are you sure you want to remove "' + e[0] + '"?')) {
-                    /*TODO Fetch*/
-                    return true;
+                    console.log(e[0]);
+                    removeCategory('MANUAL', e[0]).then((result) => {
+                        console.log(result);
+                        if (result.status === 'OK') {
+                            if (result.data.status) {
+                                alert('카테고리를 삭제하였습니다.');
+                                return true;
+                            } else {
+                                alert('카테고리를 삭제할 수 없습니다.');
+                                return false;
+                            }
+                        } else {
+                            alert('카테고리를 삭제할 수 없습니다.');
+                            return false;
+                        }
+                    });
                 } else {
                     return false;
                 }
@@ -330,11 +456,42 @@
                     return '<div>"' + a(e.text) + '"</div>'
                 }
             },
+            onItemAdd: function (value, $item) {
+                console.log(value, $item);
+                addCategory('QUESTION', value).then((result) => {
+                    console.log(result);
+                    if (result.status === 'OK') {
+                        if (result.data.status) {
+                            return true;
+                        } else {
+                            alert('카테고리를 추가할 수 없습니다.');
+                            return false;
+                        }
+                    } else {
+                        alert('카테고리를 추가할 수 없습니다.');
+                        return false;
+                    }
+                });
+            },
             onDelete: function (e) {
                 if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
                     'Are you sure you want to remove "' + e[0] + '"?')) {
-                    /*TODO Fetch*/
-                    return true;
+                    console.log(e[0]);
+                    removeCategory('QUESTION', e[0]).then((result) => {
+                        console.log(result);
+                        if (result.status === 'OK') {
+                            if (result.data.status) {
+                                alert('카테고리를 삭제하였습니다.');
+                                return true;
+                            } else {
+                                alert('카테고리를 삭제할 수 없습니다.');
+                                return false;
+                            }
+                        } else {
+                            alert('카테고리를 삭제할 수 없습니다.');
+                            return false;
+                        }
+                    });
                 } else {
                     return false;
                 }
@@ -349,11 +506,42 @@
                     return '<div>"' + a(e.text) + '"</div>'
                 }
             },
+            onItemAdd: function (value, $item) {
+                console.log(value, $item);
+                addCategory('MAGAZINE', value).then((result) => {
+                    console.log(result);
+                    if (result.status === 'OK') {
+                        if (result.data.status) {
+                            return true;
+                        } else {
+                            alert('카테고리를 추가할 수 없습니다.');
+                            return false;
+                        }
+                    } else {
+                        alert('카테고리를 추가할 수 없습니다.');
+                        return false;
+                    }
+                });
+            },
             onDelete: function (e) {
                 if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
                     'Are you sure you want to remove "' + e[0] + '"?')) {
-                    /*TODO Fetch*/
-                    return true;
+                    console.log(e[0]);
+                    removeCategory('MAGAZINE', e[0]).then((result) => {
+                        console.log(result);
+                        if (result.status === 'OK') {
+                            if (result.data.status) {
+                                alert('카테고리를 삭제하였습니다.');
+                                return true;
+                            } else {
+                                alert('카테고리를 삭제할 수 없습니다.');
+                                return false;
+                            }
+                        } else {
+                            alert('카테고리를 삭제할 수 없습니다.');
+                            return false;
+                        }
+                    });
                 } else {
                     return false;
                 }
