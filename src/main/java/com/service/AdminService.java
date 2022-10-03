@@ -3,6 +3,7 @@ package com.service;
 import com.dao.*;
 import com.model.global.Banner;
 import com.model.global.UserBan;
+import com.model.global.category.CATEGORY_TYPE;
 import com.model.global.category.CommunityCategory;
 import com.model.global.keyword.SearchKeyword;
 import com.response.Message;
@@ -11,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -93,5 +93,9 @@ public class AdminService {
 
     public List<Banner> getBanners() {
         return bannerDao.getBanners();
+    }
+
+    public CommunityCategory getCommunityCategory(CATEGORY_TYPE type) {
+        return communityCategoryDao.getCommunityCategory(type);
     }
 }

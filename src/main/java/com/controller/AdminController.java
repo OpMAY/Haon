@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.model.User;
 import com.model.common.MFile;
 import com.model.global.Banner;
+import com.model.global.category.CommunityCategory;
 import com.model.global.keyword.SearchKeyword;
 import com.model.jwt.RootUser;
 import com.service.AdminService;
@@ -219,6 +220,8 @@ public class AdminController {
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
     public ModelAndView getCategories(HttpServletRequest request) {
         VIEW = new ModelAndView("admin/category/categories");
+        ArrayList<CommunityCategory> communityCategories = (ArrayList<CommunityCategory>) adminService.getAllCategories();
+        VIEW.addObject("communityCategories", communityCategories);
         return VIEW;
     }
 

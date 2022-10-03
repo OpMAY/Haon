@@ -20,4 +20,9 @@
         select *
         from community_category
     </select>
+    <select id="getCommunityCategory" resultType="CommunityCategory" resultMap="CommunityCategory">
+        select *
+        from community_category
+        where type = #{type}
+    </select>
 </mapper>

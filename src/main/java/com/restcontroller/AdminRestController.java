@@ -1,6 +1,8 @@
 package com.restcontroller;
 
 import com.api.sns.kakao.KakaoAPI;
+import com.model.global.category.CATEGORY_TYPE;
+import com.model.global.category.CommunityCategory;
 import com.model.global.keyword.SearchKeyword;
 import com.response.DefaultRes;
 import com.response.Message;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -25,7 +28,46 @@ import java.util.ArrayList;
 public class AdminRestController {
     private final AdminService adminService;
 
-    @RequestMapping(value = "/remove/{type}/{keyword}", method = RequestMethod.POST)
+    @RequestMapping(value = "/category/remove/{type}/{category}", method = RequestMethod.POST)
+    public ResponseEntity removeCategory(HttpServletRequest request, @PathVariable String category, @PathVariable CATEGORY_TYPE type) {
+        Message message = new Message();
+        CommunityCategory communityCategory = null;
+        ArrayList<String> categories = new ArrayList<>();
+        communityCategory = adminService.getCommunityCategory(type);
+        if (communityCategory != null) {
+            categories = (ArrayList<String>) communityCategory.getCategories();
+            categories.remove(category.trim());
+            communityCategory.setCategories(categories);
+            adminService.updateCategory(communityCategory);
+            message.put("status", true);
+        } else {
+            message.put("status", false);
+        }
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/category/add/{type}/{category}", method = RequestMethod.POST)
+    public ResponseEntity addCategory(HttpServletRequest request, @PathVariable String category, @PathVariable CATEGORY_TYPE type) {
+        Message message = new Message();
+        log.info("{},{}", category, type);
+        CommunityCategory communityCategory = null;
+        ArrayList<String> categories = new ArrayList<>();
+
+        communityCategory = adminService.getCommunityCategory(type);
+        log.info(communityCategory.toString());
+        if (communityCategory != null) {
+            categories = (ArrayList<String>) communityCategory.getCategories();
+            categories.add(category.trim());
+            communityCategory.setCategories(categories);
+            adminService.updateCategory(communityCategory);
+            message.put("status", true);
+        } else {
+            message.put("status", false);
+        }
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/keyword/remove/{type}/{keyword}", method = RequestMethod.POST)
     public ResponseEntity removeKeyword(HttpServletRequest request, @PathVariable String keyword, @PathVariable String type) {
         Message message = new Message();
         SearchKeyword searchKeyword = null;
@@ -34,12 +76,7 @@ public class AdminRestController {
             case "RECOMMEND":
                 searchKeyword = adminService.getAllKeywords().get(0);
                 keywords = (ArrayList<String>) searchKeyword.getKeywords();
-                keywords.stream().filter((search_keyword) -> {
-                    if (search_keyword.equals(keyword)) {
-                        return false;
-                    }
-                    return true;
-                });
+                keywords.remove(keyword.trim());
                 searchKeyword.setKeywords(keywords);
                 adminService.updateSearchKeyword(searchKeyword);
                 message.put("status", true);
@@ -47,12 +84,7 @@ public class AdminRestController {
             case "SEARCH":
                 searchKeyword = adminService.getAllKeywords().get(1);
                 keywords = (ArrayList<String>) searchKeyword.getKeywords();
-                keywords.stream().filter((search_keyword) -> {
-                    if (search_keyword.equals(keyword)) {
-                        return false;
-                    }
-                    return true;
-                });
+                keywords.remove(keyword.trim());
                 searchKeyword.setKeywords(keywords);
                 adminService.updateSearchKeyword(searchKeyword);
                 message.put("status", true);
@@ -64,7 +96,7 @@ public class AdminRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/add/{type}/{keyword}", method = RequestMethod.POST)
+    @RequestMapping(value = "/keyword/add/{type}/{keyword}", method = RequestMethod.POST)
     public ResponseEntity addKeyword(HttpServletRequest request, @PathVariable String keyword, @PathVariable String type) {
         Message message = new Message();
         SearchKeyword searchKeyword = null;
@@ -73,7 +105,7 @@ public class AdminRestController {
             case "RECOMMEND":
                 searchKeyword = adminService.getAllKeywords().get(0);
                 keywords = (ArrayList<String>) searchKeyword.getKeywords();
-                keywords.add(keyword);
+                keywords.add(keyword.trim());
                 searchKeyword.setKeywords(keywords);
                 adminService.updateSearchKeyword(searchKeyword);
                 message.put("status", true);
@@ -81,7 +113,7 @@ public class AdminRestController {
             case "SEARCH":
                 searchKeyword = adminService.getAllKeywords().get(1);
                 keywords = (ArrayList<String>) searchKeyword.getKeywords();
-                keywords.add(keyword);
+                keywords.add(keyword.trim());
                 searchKeyword.setKeywords(keywords);
                 adminService.updateSearchKeyword(searchKeyword);
                 message.put("status", true);
