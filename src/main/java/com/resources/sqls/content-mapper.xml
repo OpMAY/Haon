@@ -42,7 +42,8 @@
     </select>
     <select id="getMainMagazines" resultType="Magazine" resultMap="Magazine">
         select *
-        from magazine WHERE is_show = true
+        from magazine
+        WHERE is_show = true
         ORDER BY rand(), views DESC
         LIMIT 8
     </select>
@@ -110,6 +111,10 @@
         from board
         where farm_no = #{farm_no}
     </select>
+    <select id="getAllBoards" resultType="Board">
+        select *
+        from board
+    </select>
     <select id="getBookmarkBoards" parameterType="int" resultType="Board">
         select *
         from board
@@ -127,13 +132,15 @@
     <select id="getMagazine" parameterType="int" resultType="Magazine" resultMap="Magazine">
         select *
         from magazine
-        where no = #{magazine_no} AND is_show = true;
+        where no = #{magazine_no}
+          AND is_show = true;
     </select>
     <select id="getBookmarkMagazines" parameterType="int" resultType="Magazine" resultMap="Magazine">
         select *
         from magazine
                  inner join magazine_bookmark mb on mb.user_no = #{user_no}
-        where magazine.no = mb.magazine_no AND is_show = true;
+        where magazine.no = mb.magazine_no
+          AND is_show = true;
     </select>
     <select id="getFameMagazines" resultType="Magazine" resultMap="Magazine">
         select *

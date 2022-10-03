@@ -457,4 +457,8 @@ public class ContentDao {
     public void deleteMagazine(int magazine_no) {
         mapper.deleteManual(magazine_no);
     }
+
+    public ArrayList<Board> getAllBoards() {
+       return mapper.getAllBoards();
+    }
 }

@@ -5,12 +5,15 @@ import com.aws.model.CDNUploadPath;
 import com.google.gson.Gson;
 import com.model.User;
 import com.model.common.MFile;
+import com.model.content.board.Board;
+import com.model.content.board.BoardComment;
+import com.model.content.board.BoardTransaction;
+import com.model.farm.Farm;
 import com.model.global.Banner;
 import com.model.global.category.CommunityCategory;
 import com.model.global.keyword.SearchKeyword;
 import com.model.jwt.RootUser;
-import com.service.AdminService;
-import com.service.UserService;
+import com.service.*;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +38,9 @@ public class AdminController {
     private final EncryptionService encryptionService;
     private final UserService userService;
     private final AdminService adminService;
+    private final FarmService farmService;
+    private final LikeService likeService;
+    private final CommentService commentService;
     private final FileUploadUtility fileUploadUtility;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -88,6 +94,19 @@ public class AdminController {
     @RequestMapping(value = "/boards", method = RequestMethod.GET)
     public ModelAndView getBoards(HttpServletRequest request) {
         VIEW = new ModelAndView("admin/community/boards");
+        ArrayList<Board> boards = adminService.getAllBoards();
+        VIEW.addObject("boards", boards);
+        for (Board board : boards) {
+            //작성자
+            Farm farm = farmService.getFarmByFarmNo(board.getFarm_no());
+            board.setFarm(farm);
+            //좋아요 수
+            ArrayList<BoardTransaction> boardTransactions = likeService.getLikesByBoardNo(board.getNo());
+            board.setLikes(boardTransactions.size());
+            //댓글 수
+            ArrayList<BoardComment> comments = commentService.getBoardComments(board.getNo());
+            board.setComments(comments.size());
+        }
         return VIEW;
     }
 

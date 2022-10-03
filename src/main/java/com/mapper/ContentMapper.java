@@ -227,4 +227,6 @@ public interface ContentMapper {
     void deleteTip(@Param("community_no") int tip_no);
 
     void deleteManual(@Param("community_no") int manual_no);
+
+    ArrayList<Board> getAllBoards();
 }
