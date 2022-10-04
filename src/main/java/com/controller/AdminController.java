@@ -8,6 +8,9 @@ import com.model.common.MFile;
 import com.model.content.board.Board;
 import com.model.content.board.BoardComment;
 import com.model.content.board.BoardTransaction;
+import com.model.content.tips.Tips;
+import com.model.content.tips.TipsComment;
+import com.model.content.tips.TipsTransaction;
 import com.model.farm.Farm;
 import com.model.global.Banner;
 import com.model.global.category.CATEGORY_TYPE;
@@ -323,7 +326,7 @@ public class AdminController {
         board.setFarm_no(farm.getNo());
         board.setContent(Format.summernoteReplaceCharacter(board.getContent()));
         adminService.updateBoard(board);
-        VIEW = getBoardDetail(request, board.getNo());
+        VIEW = getBoardUpdate(request, board.getNo());
         return VIEW;
     }
 
@@ -354,24 +357,234 @@ public class AdminController {
     @RequestMapping(value = "/tips", method = RequestMethod.GET)
     public ModelAndView getTips(HttpServletRequest request) {
         VIEW = new ModelAndView("admin/community/tips");
+        ArrayList<Tips> tips = adminService.getAllTips();
+        VIEW.addObject("tips", tips);
+        for (Tips tip : tips) {
+            //작성자
+            Farm farm = farmService.getFarmByFarmNo(tip.getFarm_no());
+            tip.setFarm(farm);
+            //좋아요 수
+            ArrayList<TipsTransaction> tipsTransactions = likeService.getLikesByTipsNo(tip.getNo());
+            tip.setLikes(tipsTransactions.size());
+            //댓글 수
+            ArrayList<TipsComment> comments = commentService.getTipsComments(tip.getNo());
+            int comment_count = 0;
+            for (TipsComment comment : comments) {
+                comment_count++;
+                ArrayList<TipsComment> recomments = commentService.getTipsRecommentByCommentNo(comment.getNo());
+                for (TipsComment recomment : recomments) {
+                    comment_count++;
+                }
+            }
+            tip.setComments(comment_count);
+        }
         return VIEW;
     }
 
-    @RequestMapping(value = "/tip/detail/{question_no}", method = RequestMethod.GET)
+    @RequestMapping(value = "/tip/detail/{tip_no}", method = RequestMethod.GET)
     public ModelAndView getTipDetail(HttpServletRequest request, @PathVariable("tip_no") int tip_no) {
         VIEW = new ModelAndView("admin/community/tip-detail");
+        Tips tip = contentService.getTip(tip_no);
+        //작성자
+        Farm board_farm = farmService.getFarmByFarmNo(tip.getFarm_no());
+        tip.setFarm(board_farm);
+        //좋아요 수
+        ArrayList<TipsTransaction> tipsTransactions = likeService.getLikesByTipsNo(tip.getNo());
+        tip.setLikes(tipsTransactions.size());
+
+        //Get Comment Logic
+        int comment_count = 0;
+        ArrayList<TipsComment> comments = commentService.getTipsComments(tip_no);
+        for (TipsComment comment : comments) {
+            comment_count++;
+            User commented_user = null;
+            if (comment.getUser_no() != null) {
+                commented_user = userService.getUserByNo(comment.getUser_no());
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    comment.setUser(commented_user);
+                } else {
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    comment.setUser(commented_user);
+                }
+            } else {
+                commented_user = new User();
+                MFile profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+                commented_user.setName("관리자");
+                commented_user.setProfile_img(profile);
+                comment.setContent("삭제된 메세지입니다.");
+                comment.setUser(commented_user);
+            }
+
+            ArrayList<TipsComment> recomments = commentService.getTipsRecommentByCommentNo(comment.getNo());
+            for (TipsComment recomment : recomments) {
+                comment_count++;
+                User recommented_user = null;
+                if (recomment.getUser_no() != null) {
+                    recommented_user = userService.getUserByNo(recomment.getUser_no());
+                    if (globalService.checkFarm(recommented_user.getNo())) {
+                        Farm farm = farmService.getFarmByUserNo(recommented_user.getNo());
+                        recommented_user.setProfile_img(farm.getProfile_image());
+                        recommented_user.setName(farm.getName());
+                        recomment.setUser(recommented_user);
+                    } else {
+                        MFile profile = new MFile();
+                        profile.setUrl(SAMPLE_PROFILE_URL);
+                        profile.setName(SAMPLE_PROFILE_NAME);
+                        profile.setSize(SAMPLE_PROFILE_SIZE);
+                        profile.setType(SAMPLE_PROFILE_TYPE);
+
+                        recommented_user.setProfile_img(profile);
+                        recomment.setUser(recommented_user);
+                    }
+                } else {
+                    recommented_user = new User();
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+                    recommented_user.setName("관리자");
+                    recommented_user.setProfile_img(profile);
+                    recomment.setUser(recommented_user);
+                    recomment.setContent("삭제된 메세지입니다.");
+                }
+            }
+            comment.setComments(recomments);
+        }
+        //댓글 수
+        tip.setComments(comment_count);
+        //댓글
+        VIEW.addObject("comments", comments);
+        VIEW.addObject("tip", tip);
         return VIEW;
     }
 
     @RequestMapping(value = "/tip/update/{tip_no}", method = RequestMethod.GET)
     public ModelAndView getTipUpdate(HttpServletRequest request, @PathVariable("tip_no") int tip_no) {
-        VIEW = new ModelAndView("admin/community/tip-detail");
+        VIEW = new ModelAndView("admin/community/tip-detail-update");
+        Tips tip = contentService.getTip(tip_no);
+        //작성자
+        Farm board_farm = farmService.getFarmByFarmNo(tip.getFarm_no());
+        tip.setFarm(board_farm);
+        //좋아요 수
+        ArrayList<TipsTransaction> tipsTransactions = likeService.getLikesByTipsNo(tip.getNo());
+        tip.setLikes(tipsTransactions.size());
+
+        //Get Comment Logic
+        int comment_count = 0;
+        ArrayList<TipsComment> comments = commentService.getTipsComments(tip_no);
+        for (TipsComment comment : comments) {
+            comment_count++;
+            User commented_user = null;
+            if (comment.getUser_no() != null) {
+                commented_user = userService.getUserByNo(comment.getUser_no());
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    comment.setUser(commented_user);
+                } else {
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    comment.setUser(commented_user);
+                }
+            } else {
+                commented_user = new User();
+                MFile profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+                commented_user.setName("관리자");
+                commented_user.setProfile_img(profile);
+                comment.setContent("삭제된 메세지입니다.");
+                comment.setUser(commented_user);
+            }
+
+            ArrayList<TipsComment> recomments = commentService.getTipsRecommentByCommentNo(comment.getNo());
+            for (TipsComment recomment : recomments) {
+                comment_count++;
+                User recommented_user = null;
+                if (recomment.getUser_no() != null) {
+                    recommented_user = userService.getUserByNo(recomment.getUser_no());
+                    if (globalService.checkFarm(recommented_user.getNo())) {
+                        Farm farm = farmService.getFarmByUserNo(recommented_user.getNo());
+                        recommented_user.setProfile_img(farm.getProfile_image());
+                        recommented_user.setName(farm.getName());
+                        recomment.setUser(recommented_user);
+                    } else {
+                        MFile profile = new MFile();
+                        profile.setUrl(SAMPLE_PROFILE_URL);
+                        profile.setName(SAMPLE_PROFILE_NAME);
+                        profile.setSize(SAMPLE_PROFILE_SIZE);
+                        profile.setType(SAMPLE_PROFILE_TYPE);
+
+                        recommented_user.setProfile_img(profile);
+                        recomment.setUser(recommented_user);
+                    }
+                } else {
+                    recommented_user = new User();
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+                    recommented_user.setName("관리자");
+                    recommented_user.setProfile_img(profile);
+                    recomment.setUser(recommented_user);
+                    recomment.setContent("삭제된 메세지입니다.");
+                }
+            }
+            comment.setComments(recomments);
+        }
+        //댓글 수
+        tip.setComments(comment_count);
+        //댓글
+        VIEW.addObject("comments", comments);
+        VIEW.addObject("tip", tip);
+
+        //카테고리
+        CommunityCategory communityCategory = adminService.getCommunityCategory(CATEGORY_TYPE.TIP);
+        VIEW.addObject("communityCategory", communityCategory);
         return VIEW;
     }
 
-    @RequestMapping(value = "/tip/update/{tip_no}", method = RequestMethod.POST)
-    public ModelAndView postTipUpdate(HttpServletRequest request, @PathVariable("tip_no") int tip_no) {
-        VIEW = new ModelAndView("admin/community/tip-detail-update");
+    @RequestMapping(value = "/tip/update/{no}", method = RequestMethod.POST)
+    public ModelAndView postTipUpdate(HttpServletRequest request, Tips tip, MultipartFile file) {
+        Tips tip_dup = contentService.getTip(tip.getNo());
+        log.info(tip.toString());
+        Farm farm = farmService.getFarmByFarmNo(tip_dup.getFarm_no());
+        tip.setFarm_no(farm.getNo());
+        tip.setContent(Format.summernoteReplaceCharacter(tip.getContent()));
+        MFile mFile = null;
+        if (file != null && file.getSize() != 0) {
+            mFile = fileUploadUtility.uploadFile(tip.getFile(), CDNUploadPath.COMMUNITY.getPath());
+        } else {
+            mFile = new Gson().fromJson(tip.getOrigin_thumbnail(), MFile.class);
+        }
+        log.info("mfile -> {}", mFile.toString());
+        tip.setThumbnail(mFile);
+
+        adminService.updateTip(tip);
+        VIEW = getTipUpdate(request, tip.getNo());
         return VIEW;
     }
 

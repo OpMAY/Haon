@@ -114,6 +114,7 @@
     <select id="getAllBoards" resultType="Board">
         select *
         from board
+        order by reg_datetime desc;
     </select>
     <select id="getBookmarkBoards" parameterType="int" resultType="Board">
         select *
@@ -197,6 +198,11 @@
         select *
         from tips
         where farm_no = #{farm_no}
+    </select>
+    <select id="getAllTips" resultType="Tips" resultMap="Tips">
+        select *
+        from tips
+        order by reg_datetime desc;
     </select>
     <select id="getBookmarkTips" resultType="Tips" resultMap="Tips" parameterType="int">
         select *

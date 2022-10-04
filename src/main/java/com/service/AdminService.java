@@ -2,6 +2,7 @@ package com.service;
 
 import com.dao.*;
 import com.model.content.board.Board;
+import com.model.content.tips.Tips;
 import com.model.global.Banner;
 import com.model.global.UserBan;
 import com.model.global.category.CATEGORY_TYPE;
@@ -118,22 +119,46 @@ public class AdminService {
     }
 
     public void updateQuestionBlockByCommentNo(int comment_no, boolean block) {
-        contentDao.updateBoardBlockByCommentNo(comment_no, block);
+        contentDao.updateQuestionBlockByCommentNo(comment_no, block);
     }
 
     public void updateTipBlockByCommentNo(int comment_no, boolean block) {
-        contentDao.updateBoardBlockByCommentNo(comment_no, block);
+        contentDao.updateTipBlockByCommentNo(comment_no, block);
     }
 
     public void updateManualBlockByCommentNo(int comment_no, boolean block) {
-        contentDao.updateBoardBlockByCommentNo(comment_no, block);
+        contentDao.updateManualBlockByCommentNo(comment_no, block);
     }
 
     public void updateMagazineBlockByCommentNo(int comment_no, boolean block) {
-        contentDao.updateBoardBlockByCommentNo(comment_no, block);
+        contentDao.updateMagazineBlockByCommentNo(comment_no, block);
     }
 
     public void updateFarmBlockByCommentNo(int comment_no, boolean block) {
-        contentDao.updateBoardBlockByCommentNo(comment_no, block);
+        contentDao.updateFarmBlockByCommentNo(comment_no, block);
+    }
+
+    public ArrayList<Tips> getAllTips() {
+        return contentDao.getAllTips();
+    }
+
+    public void updateTip(Tips tip) {
+        contentDao.updateTips(tip);
+    }
+
+    public void deleteQuestion(int question_no) {
+        contentDao.deleteQuestion(question_no);
+    }
+
+    public void deleteTip(int tip_no) {
+        contentDao.deleteTip(tip_no);
+    }
+
+    public void deleteManual(int manual_no) {
+        contentDao.deleteManual(manual_no);
+    }
+
+    public void deleteMagazine(int magazine_no) {
+        contentDao.deleteMagazine(magazine_no);
     }
 }

@@ -245,4 +245,6 @@ public interface ContentMapper {
     void updateMagazineBlockByCommentNo(@Param("comment_no") int comment_no, @Param("block") boolean block);
 
     void updateFarmBlockByCommentNo(@Param("comment_no") int comment_no, @Param("block") boolean block);
+
+    ArrayList<Tips> getAllTips();
 }

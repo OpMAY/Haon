@@ -134,20 +134,24 @@ public class AdminRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/delete/{type}/{board_no}", method = RequestMethod.POST)
-    public ResponseEntity deleteCommunity(HttpServletRequest request, @PathVariable int board_no, @PathVariable COMMENT_TYPE type) {
+    @RequestMapping(value = "/delete/{type}/{no}", method = RequestMethod.POST)
+    public ResponseEntity deleteCommunity(HttpServletRequest request, @PathVariable int no, @PathVariable COMMENT_TYPE type) {
         Message message = new Message();
         switch (type) {
             case BOARD:
-                adminService.deleteBoard(board_no);
+                adminService.deleteBoard(no);
                 break;
             case QUESTION:
+                adminService.deleteQuestion(no);
                 break;
             case TIP:
+                adminService.deleteTip(no);
                 break;
             case MANUAL:
+                adminService.deleteManual(no);
                 break;
             case MAGAZINE:
+                adminService.deleteMagazine(no);
                 break;
         }
         message.put("status", true);

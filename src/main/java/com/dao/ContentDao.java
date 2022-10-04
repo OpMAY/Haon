@@ -483,4 +483,8 @@ public class ContentDao {
     public void updateFarmBlockByCommentNo(int comment_no, boolean block) {
         mapper.updateFarmBlockByCommentNo(comment_no, block);
     }
+
+    public ArrayList<Tips> getAllTips() {
+        return mapper.getAllTips();
+    }
 }
