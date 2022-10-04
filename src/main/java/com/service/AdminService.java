@@ -1,6 +1,7 @@
 package com.service;
 
 import com.dao.*;
+import com.model.content.board.Board;
 import com.model.global.Banner;
 import com.model.global.UserBan;
 import com.model.global.category.CATEGORY_TYPE;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -97,5 +99,41 @@ public class AdminService {
 
     public CommunityCategory getCommunityCategory(CATEGORY_TYPE type) {
         return communityCategoryDao.getCommunityCategory(type);
+    }
+
+    public ArrayList<Board> getAllBoards() {
+        return contentDao.getAllBoards();
+    }
+
+    public void deleteBoard(int board_no) {
+        contentDao.deleteBoard(board_no);
+    }
+
+    public void updateBoard(Board board) {
+        contentDao.updateBoard(board);
+    }
+
+    public void updateBoardBlockByCommentNo(int comment_no, boolean block) {
+        contentDao.updateBoardBlockByCommentNo(comment_no, block);
+    }
+
+    public void updateQuestionBlockByCommentNo(int comment_no, boolean block) {
+        contentDao.updateBoardBlockByCommentNo(comment_no, block);
+    }
+
+    public void updateTipBlockByCommentNo(int comment_no, boolean block) {
+        contentDao.updateBoardBlockByCommentNo(comment_no, block);
+    }
+
+    public void updateManualBlockByCommentNo(int comment_no, boolean block) {
+        contentDao.updateBoardBlockByCommentNo(comment_no, block);
+    }
+
+    public void updateMagazineBlockByCommentNo(int comment_no, boolean block) {
+        contentDao.updateBoardBlockByCommentNo(comment_no, block);
+    }
+
+    public void updateFarmBlockByCommentNo(int comment_no, boolean block) {
+        contentDao.updateBoardBlockByCommentNo(comment_no, block);
     }
 }

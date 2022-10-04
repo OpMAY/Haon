@@ -1,9 +1,11 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>Datatables | UBold - Responsive Admin Dashboard Template</title>
+    <title>${HEADER_TITLE}</title>
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc."
@@ -92,8 +94,8 @@
                         <div class="page-title-box">
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="../dashboard.html">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="../community/boards.html">커뮤니티 관리(자유 게시판)</a>
+                                    <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin/boards">커뮤니티 관리(자유 게시판)</a>
                                     </li>
                                     <li class="breadcrumb-item active">자유게시판</li>
                                 </ol>
@@ -110,20 +112,13 @@
                                 <h4 class="header-title mb-4">게시글 정보
                                     <div class="float-end">
                                         <button type="button"
-                                                data-bs-target="#"
-                                                data-bs-toggle="modal"
-                                                data-bs-no="1"
-                                                class="btn btn-warning waves-effect waves-light text-white">
-                                            비 활성화
-                                        </button>
-                                        <button type="button"
-                                                data-href="../community/board-detail-update.html"
+                                                data-href="/admin/board/update/${board.no}"
                                                 class="btn btn-dark waves-effect waves-light">수정
                                         </button>
                                         <button type="button"
-                                                data-bs-target="#"
+                                                data-bs-target="#delete-modal"
                                                 data-bs-toggle="modal"
-                                                data-bs-no="1"
+                                                data-bs-no="${board.no}"
                                                 class="btn btn-danger waves-effect waves-light">
                                             삭제
                                         </button>
@@ -138,123 +133,148 @@
                                 <div class="row">
                                     <div class="col-auto">
                                         <label class="mb-1">게시글 명</label>
-                                        <p class="text-muted">양& 염소는 어떻게?양& 염소는 어떻게?양& 염소는 어떻게?</p>
+                                        <p class="text-muted">${board.title}</p>
                                     </div>
                                     <div class="col-auto">
                                         <label class="mb-1">카테고리</label>
                                         <p class="text-muted">
-                                            <span class="badge bg-primary">기타</span>
+                                            <span class="badge bg-primary">${board.category}</span>
                                         </p>
                                     </div>
                                     <div class="col-auto">
                                         <label class="mb-1">작성 일자</label>
-                                        <p class="text-muted">2022.12.22</p>
+                                        <p class="text-muted"><custom:formatDatetime value="${board.reg_datetime}"
+                                                                                     pattern="yyyy.MM.dd"/></p>
                                     </div>
                                     <div class="col-auto">
                                         <label class="mb-1">작성자</label>
-                                        <p class="text-muted">김우식</p>
+                                        <p class="text-muted">${board.farm.name}</p>
                                     </div>
                                     <div class="col-auto">
                                         <label class="mb-1">좋아요</label>
-                                        <p class="text-muted">999</p>
+                                        <p class="text-muted">${board.likes}</p>
                                     </div>
                                     <div class="col-auto">
                                         <label class="mb-1">댓글 수</label>
-                                        <p class="text-muted">999</p>
+                                        <p class="text-muted">${board.comments}</p>
                                     </div>
                                     <div class="col-auto">
                                         <label class="mb-1">Views</label>
-                                        <p class="text-muted">999</p>
+                                        <c:choose>
+                                            <c:when test="${board.views > 9999}">
+                                                <p class="text-muted">${board.views}</p>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <p class="text-muted">9999+</p>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                     <div class="col-12 mb-3">
                                         <label class="mb-1">상세 내용(스마트 에디터)</label>
                                         <div class="summernote-container"
                                              style="border: 1px solid #ced4da; border-radius: 0.2rem; padding: 16px;">
-                                            <h2>What is Lorem Ipsum?</h2>
-                                            <p><strong>Lorem Ipsum</strong>
-                                                is simply dummy text of the printing and typesetting industry.
-                                                Lorem Ipsum has been the industry's standard dummy text ever since
-                                                the 1500s, when an unknown printer took a galley of type and
-                                                scrambled it to make a type specimen book. It has survived not
-                                                only five centuries, but also the leap into electronic
-                                                typesetting, remaining essentially unchanged. It was popularised
-                                                in the 1960s with the release of Letraset sheets containing Lorem
-                                                Ipsum passages, and more recently with desktop publishing software
-                                                like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                            <h2>What is Lorem Ipsum?</h2>
-                                            <p><strong>Lorem Ipsum</strong>
-                                                is simply dummy text of the printing and typesetting industry.
-                                                Lorem Ipsum has been the industry's standard dummy text ever since
-                                                the 1500s, when an unknown printer took a galley of type and
-                                                scrambled it to make a type specimen book. It has survived not
-                                                only five centuries, but also the leap into electronic
-                                                typesetting, remaining essentially unchanged. It was popularised
-                                                in the 1960s with the release of Letraset sheets containing Lorem
-                                                Ipsum passages, and more recently with desktop publishing software
-                                                like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                            <h2>What is Lorem Ipsum?</h2>
-                                            <p><strong>Lorem Ipsum</strong>
-                                                is simply dummy text of the printing and typesetting industry.
-                                                Lorem Ipsum has been the industry's standard dummy text ever since
-                                                the 1500s, when an unknown printer took a galley of type and
-                                                scrambled it to make a type specimen book. It has survived not
-                                                only five centuries, but also the leap into electronic
-                                                typesetting, remaining essentially unchanged. It was popularised
-                                                in the 1960s with the release of Letraset sheets containing Lorem
-                                                Ipsum passages, and more recently with desktop publishing software
-                                                like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                            ${board.content}
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <h4 class="mt-0 mb-1">코멘트 (258)</h4>
+                                        <h4 class="mt-0 mb-1">코멘트 (${board.comments})</h4>
                                         <div class="mt-2">
-                                            <div class="d-flex align-items-start">
-                                                <img class="me-2 avatar-sm rounded-circle"
-                                                     src="/resources/admin/assets/images/users/user-3.jpg"
-                                                     alt="Generic placeholder image">
-                                                <div class="w-100">
-                                                    <h5 class="mt-0">
-                                                        <a href="#"
-                                                           class="text-reset">Jeremy Tomlinson</a>
-                                                        <small class="text-muted">3 hours ago</small>
-                                                    </h5>
-                                                    Nice work, makes me think of The Money Pit.
-                                                    <br>
-                                                    <div class="d-flex align-items-start mt-3">
-                                                        <a class="pe-2"
-                                                           href="#">
-                                                            <img src="/resources/admin/assets/images/users/user-4.jpg"
-                                                                 class="avatar-sm rounded-circle"
+                                            <c:forEach items="${comments}" var="comment" varStatus="status">
+                                                <c:choose>
+                                                    <c:when test="${status.first}">
+                                                        <div class="d-flex align-items-start">
+                                                            <img class="me-2 avatar-sm rounded-circle"
+                                                                 src="${comment.user.profile_img.url}"
                                                                  alt="Generic placeholder image">
-                                                        </a>
-                                                        <div class="w-100">
-                                                            <h5 class="mt-0"><a href="contacts-profile.html"
-                                                                                class="text-reset">Kathleen Thomas</a>
-                                                                <small class="text-muted">1
-                                                                    hours
-                                                                    ago</small>
-                                                            </h5>
-                                                            i'm in the middle of a timelapse animation myself! (Very
-                                                            different though.) Awesome stuff.
+                                                            <div class="w-100">
+                                                                <h5 class="mt-0">
+                                                                    <a href="javascript:void(0);"
+                                                                       class="text-reset">${comment.user.name}</a>
+                                                                    <small class="text-muted">
+                                                                        <custom:formatDatetime
+                                                                                value="${comment.reg_datetime}"
+                                                                                pattern="yyyy.MM.dd"/>
+                                                                    </small>
+                                                                </h5>
+                                                                    ${comment.content}
+                                                                <br>
+                                                                <c:if test="${comment.comments.size() ne 0}">
+                                                                    <c:forEach items="${comment.comments}"
+                                                                               var="recomment"
+                                                                               varStatus="recomment_status">
+                                                                        <div class="d-flex align-items-start mt-3">
+                                                                            <a class="pe-2"
+                                                                               href="javascript:void(0);">
+                                                                                <img src="${recomment.user.profile_img.url}"
+                                                                                     class="avatar-sm rounded-circle"
+                                                                                     alt="Generic placeholder image">
+                                                                            </a>
+                                                                            <div class="w-100">
+                                                                                <h5 class="mt-0">
+                                                                                    <a href="javascript:void(0);"
+                                                                                       class="text-reset">${recomment.user.name}</a>
+                                                                                    <small class="text-muted">
+                                                                                        <custom:formatDatetime
+                                                                                                value="${recomment.reg_datetime}"
+                                                                                                pattern="yyyy.MM.dd"/>
+                                                                                    </small>
+                                                                                </h5>
+                                                                                    ${recomment.content}
+                                                                            </div>
+                                                                        </div>
+                                                                    </c:forEach>
+                                                                </c:if>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="d-flex align-items-start mt-3">
-                                                <img class="me-2 avatar-sm rounded-circle"
-                                                     src="/resources/admin/assets/images/users/user-2.jpg"
-                                                     alt="Generic placeholder image">
-                                                <div class="w-100">
-                                                    <h5 class="mt-0">
-                                                        <a href="#"
-                                                           class="text-reset">Jonathan Tiner</a>
-                                                        <small class="text-muted">1 day ago</small>
-                                                    </h5>
-                                                    The parallax is a little odd but O.o that house build is awesome!!
-                                                    <br>
-                                                </div>
-                                            </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="d-flex align-items-start mt-3">
+                                                            <img class="me-2 avatar-sm rounded-circle"
+                                                                 src="${comment.user.profile_img.url}"
+                                                                 alt="Generic placeholder image">
+                                                            <div class="w-100">
+                                                                <h5 class="mt-0">
+                                                                    <a href="javascript:void(0);"
+                                                                       class="text-reset">${comment.user.name}</a>
+                                                                    <small class="text-muted">
+                                                                        <custom:formatDatetime
+                                                                                value="${comment.reg_datetime}"
+                                                                                pattern="yyyy.MM.dd"/>
+                                                                    </small>
+                                                                </h5>
+                                                                    ${comment.content}
+                                                                <br>
+                                                                <c:if test="${comment.comments.size() ne 0}">
+                                                                    <c:forEach items="${comment.comments}"
+                                                                               var="recomment"
+                                                                               varStatus="recomment_status">
+                                                                        <div class="d-flex align-items-start mt-3">
+                                                                            <a class="pe-2"
+                                                                               href="javascript:void(0);">
+                                                                                <img src="${recomment.user.profile_img.url}"
+                                                                                     class="avatar-sm rounded-circle"
+                                                                                     alt="Generic placeholder image">
+                                                                            </a>
+                                                                            <div class="w-100">
+                                                                                <h5 class="mt-0">
+                                                                                    <a href="javascript:void(0);"
+                                                                                       class="text-reset">${recomment.user.name}</a>
+                                                                                    <small class="text-muted">
+                                                                                        <custom:formatDatetime
+                                                                                                value="${recomment.reg_datetime}"
+                                                                                                pattern="yyyy.MM.dd"/>
+                                                                                    </small>
+                                                                                </h5>
+                                                                                    ${recomment.content}
+                                                                            </div>
+                                                                        </div>
+                                                                    </c:forEach>
+                                                                </c:if>
+                                                            </div>
+                                                        </div>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
                                         </div>
                                     </div>
                                 </div>
@@ -278,59 +298,6 @@
 </div>
 <!-- END wrapper -->
 <!-- Modal-->
-<!-- Standard modal content -->
-<div id="suspense-modal"
-     class="modal fade"
-     tabindex="-1"
-     role="dialog"
-     aria-labelledby="suspense-modalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"
-                    id="suspense-modalLabel">회원 정지</h4>
-                <button type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h5 class="mb-3">‘유병준’님을 서비스 이용 정지하시겠어요?</h5>
-                <form id="suspense-form"
-                      action="#"
-                      method="post"
-                      enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="suspense-range-select"
-                               class="form-label">기간 선택</label>
-                        <select class="form-select"
-                                id="suspense-range-select">
-                            <option selected
-                                    value="none">시간 선택
-                            </option>
-                            <option value="week">1주일</option>
-                            <option value="month">1개월</option>
-                            <option value="quater">3개월</option>
-                            <option value="half">6개월</option>
-                            <option value="forever">영구</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button"
-                        class="btn btn-light"
-                        data-bs-dismiss="modal">Close
-                </button>
-                <button type="button"
-                        class="btn btn-primary"
-                        data-action="suspense">Save changes
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 <div id="delete-modal"
      class="modal fade"
      tabindex="-1"
@@ -360,48 +327,26 @@
 
 <!-- App js -->
 <script src="/resources/admin/assets/js/app.min.js"></script>
+<script src="/resources/js/utility.js"></script>
 <script src="/resources/admin/assets/js/admin.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         //event
-        $('[data-action="suspense"]').click(function (event) {
-            let no = this.dataset.no;
-            let form = document.querySelector('#suspense-form');
-            form.action = 'url' + no;
-            /*TODO Fetch or Form Submit*/
-            alert('정지');
-            form.submit();
-        });
-        //fetch get data
-        $('#suspense-modal').on('show.bs.modal', function (event) {
-            let button = event.relatedTarget;
-            let modal = this;
-
-            let modal_success_btn = modal.querySelector('[data-action="suspense"]');
-            modal_success_btn.setAttribute('data-no', button.dataset.bsNo);
-
-            console.log(button, modal);
-        });
-        //initailize modal
-        $('#suspense-modal').on('hide.bs.modal', function (event) {
-            let modal = this;
-
-            let select = document.querySelector('#suspense-range-select');
-            select.value = 'none';
-
-            let modal_success_btn = modal.querySelector('[data-action="suspense"]');
-            modal_success_btn.removeAttribute('data-no');
-
-            console.log(modal);
-        });
-
-        //event
         $('[data-action="delete"]').click(function (event) {
-            console.log(this);
             let no = this.dataset.no;
-            console.log(no);
-            /*TODO Fetch*/
-            alert('삭제');
+            deleteCommunity('BOARD', no).then((result) => {
+                console.log(result);
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        alert('해당 게시글을 삭제하였습니다.');
+                        location.href = '/admin/boards';
+                    } else {
+                        alert('해당 게시글을 삭제할 수 없습니다.');
+                    }
+                } else {
+                    alert('해당 게시글을 삭제할 수 없습니다.');
+                }
+            });
             $('#delete-modal').modal('hide');
         });
         //fetch get data

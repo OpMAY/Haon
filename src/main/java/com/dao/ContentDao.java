@@ -20,6 +20,7 @@ import java.util.List;
 @Repository
 public class ContentDao {
     private ContentMapper mapper;
+
     private ContentDao(SqlSession sqlSession) {
         this.mapper = sqlSession.getMapper(ContentMapper.class);
     }
@@ -55,6 +56,7 @@ public class ContentDao {
     public void updateMagazineViews(int magazine_no) {
         mapper.updateMagazineViews(magazine_no);
     }
+
     public void updateManualViews(int manual_no) {
         mapper.updateManualViews(manual_no);
     }
@@ -66,6 +68,7 @@ public class ContentDao {
     public void updateTipViews(int tip_no) {
         mapper.updateTipViews(tip_no);
     }
+
     public boolean checkQuestionContentExists(int question_no) {
         return mapper.checkQuestionContentExists(question_no);
     }
@@ -105,7 +108,7 @@ public class ContentDao {
     public ArrayList<Manual> getManuals(int farm_no) {
         return mapper.getManuals(farm_no);
     }
-  
+
     // BOARDS
     public List<Board> getCommunityBoardsOrderByRecent(String category) {
         return mapper.getCommunityBoardsOrderByRecent(category);
@@ -341,7 +344,7 @@ public class ContentDao {
     public void insertMagazine(Magazine magazine) {
         mapper.insertMagazine(magazine);
     }
-    
+
     public List<Board> getBoardSearchResult(String query, int last_content_no) {
         return mapper.getBoardSearchResult(query, last_content_no);
     }
@@ -456,5 +459,28 @@ public class ContentDao {
 
     public void deleteMagazine(int magazine_no) {
         mapper.deleteManual(magazine_no);
+    }
+
+    public ArrayList<Board> getAllBoards() {
+        return mapper.getAllBoards();
+    }
+
+    public void updateBoardBlockByCommentNo(int comment_no, boolean block) {
+        mapper.updateBoardBlockByCommentNo(comment_no, block);
+    }
+    public void updateQuestionBlockByCommentNo(int comment_no, boolean block) {
+        mapper.updateQuestionBlockByCommentNo(comment_no, block);
+    }
+    public void updateTipBlockByCommentNo(int comment_no, boolean block) {
+        mapper.updateTipBlockByCommentNo(comment_no, block);
+    }
+    public void updateManualBlockByCommentNo(int comment_no, boolean block) {
+        mapper.updateManualBlockByCommentNo(comment_no, block);
+    }
+    public void updateMagazineBlockByCommentNo(int comment_no, boolean block) {
+        mapper.updateMagazineBlockByCommentNo(comment_no, block);
+    }
+    public void updateFarmBlockByCommentNo(int comment_no, boolean block) {
+        mapper.updateFarmBlockByCommentNo(comment_no, block);
     }
 }

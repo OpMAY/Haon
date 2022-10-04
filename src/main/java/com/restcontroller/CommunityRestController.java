@@ -526,12 +526,11 @@ public class CommunityRestController {
         Message message = new Message();
         COMMENT_TYPE type = COMMENT_TYPE.valueOf(map.get("type").toString());
         Integer comment_no = Integer.valueOf(map.get("no").toString());
-        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         MFile profile = null;
         User user = null;
         switch (type) {
             case BOARD:
-                commentService.deleteBoardCommentByNoAndUserNo(user_no, comment_no);
+                commentService.deleteBoardCommentByNoAndUserNo(0, comment_no);
 
                 profile = new MFile();
                 profile.setUrl(SAMPLE_PROFILE_URL);
@@ -550,7 +549,7 @@ public class CommunityRestController {
                 message.put("status", true);
                 break;
             case MAGAZINE:
-                commentService.deleteMagazineCommentByNoAndUserNo(user_no, comment_no);
+                commentService.deleteMagazineCommentByNoAndUserNo(0, comment_no);
 
                 profile = new MFile();
                 profile.setUrl(SAMPLE_PROFILE_URL);
@@ -569,7 +568,7 @@ public class CommunityRestController {
                 message.put("status", true);
                 break;
             case MANUAL:
-                commentService.deleteManualCommentByNoAndUserNo(user_no, comment_no);
+                commentService.deleteManualCommentByNoAndUserNo(0, comment_no);
 
                 profile = new MFile();
                 profile.setUrl(SAMPLE_PROFILE_URL);
@@ -588,7 +587,7 @@ public class CommunityRestController {
                 message.put("status", true);
                 break;
             case QUESTION:
-                commentService.deleteQuestionCommentByNoAndUserNo(user_no, comment_no);
+                commentService.deleteQuestionCommentByNoAndUserNo(0, comment_no);
 
                 profile = new MFile();
                 profile.setUrl(SAMPLE_PROFILE_URL);
@@ -607,7 +606,7 @@ public class CommunityRestController {
                 message.put("status", true);
                 break;
             case TIP:
-                commentService.deleteTipsCommentByNoAndUserNo(user_no, comment_no);
+                commentService.deleteTipsCommentByNoAndUserNo(0, comment_no);
 
                 profile = new MFile();
                 profile.setUrl(SAMPLE_PROFILE_URL);
@@ -626,7 +625,7 @@ public class CommunityRestController {
                 message.put("status", true);
                 break;
             case FARM:
-                commentService.deleteFarmCommentByNoAndUserNo(user_no, comment_no);
+                commentService.deleteFarmCommentByNoAndUserNo(0, comment_no);
 
                 profile = new MFile();
                 profile.setUrl(SAMPLE_PROFILE_URL);

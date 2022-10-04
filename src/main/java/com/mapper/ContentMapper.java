@@ -26,9 +26,13 @@ public interface ContentMapper {
     Board getBoard(@Param("board_no") int board_no);
 
     void updateBoardViews(@Param("board_no") int board_no);
+
     void updateQuestionViews(@Param("question_no") int question_no);
+
     void updateManualViews(@Param("manual_no") int manual_no);
+
     void updateTipViews(@Param("tip_no") int tip_no);
+
     void updateMagazineViews(@Param("magazine_no") int magazine_no);
 
     boolean checkQuestionContentExists(@Param("question_no") int question_no);
@@ -227,4 +231,18 @@ public interface ContentMapper {
     void deleteTip(@Param("community_no") int tip_no);
 
     void deleteManual(@Param("community_no") int manual_no);
+
+    ArrayList<Board> getAllBoards();
+
+    void updateBoardBlockByCommentNo(@Param("comment_no") int comment_no, @Param("block") boolean block);
+
+    void updateQuestionBlockByCommentNo(@Param("comment_no") int comment_no, @Param("block") boolean block);
+
+    void updateTipBlockByCommentNo(@Param("comment_no") int comment_no, @Param("block") boolean block);
+
+    void updateManualBlockByCommentNo(@Param("comment_no") int comment_no, @Param("block") boolean block);
+
+    void updateMagazineBlockByCommentNo(@Param("comment_no") int comment_no, @Param("block") boolean block);
+
+    void updateFarmBlockByCommentNo(@Param("comment_no") int comment_no, @Param("block") boolean block);
 }

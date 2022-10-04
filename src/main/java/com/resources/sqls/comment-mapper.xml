@@ -260,20 +260,17 @@
     <update id="deleteBoardCommentByNoAndUserNo">
         update board_comment
         set user_no=null
-        where user_no = #{user_no}
-          and no = #{comment_no}
+        where no = #{comment_no}
     </update>
     <update id="deleteMagazineCommentByNoAndUserNo">
         update magazine_comment
         set user_no=null
-        where user_no = #{user_no}
-          and no = #{comment_no}
+        where no = #{comment_no}
     </update>
     <update id="deleteQuestionCommentByNoAndUserNo">
         update question_comment
         set user_no=null
-        where user_no = #{user_no}
-          and no = #{comment_no}
+        where no = #{comment_no}
     </update>
     <update id="deleteManualCommentByNoAndUserNo">
         update manual_comment
@@ -284,14 +281,12 @@
     <update id="deleteTipsCommentByNoAndUserNo">
         update tips_comment
         set user_no=null
-        where user_no = #{user_no}
-          and no = #{comment_no}
+        where no = #{comment_no}
     </update>
     <update id="deleteFarmCommentByNoAndUserNo">
         update farm_comment
         set user_no=null
-        where user_no = #{user_no}
-          and no = #{comment_no}
+        where no = #{comment_no}
     </update>
 
     <select id="checkQuestionLastCommentExists" resultType="_boolean">

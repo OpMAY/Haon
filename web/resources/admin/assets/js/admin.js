@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
 async function removeCategory(type, category) {
     function apiRemoveCategory(type, category) {
         const myHeaders = new Headers();
@@ -115,6 +116,52 @@ async function deleteBanner(no) {
     let result;
     try {
         result = await apiDeleteBanner(no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function deleteCommunity(type, community_no) {
+    function apiDeleteCommunity(type, community_no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`/admin/api/delete/${type}/${community_no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiDeleteCommunity(type, community_no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function blockReview(_type, type, comment_no) {
+    function apiBlockReview(_type, type, comment_no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`/admin/api/${_type}/${type}/${comment_no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiBlockReview(_type, type, comment_no);
         return result;
     } catch (error) {
         console.log(error);
