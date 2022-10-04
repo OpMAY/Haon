@@ -92,7 +92,7 @@
                         <div class="page-title-box">
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="../dashboard.html">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
                                     <li class="breadcrumb-item"><a href="javascript:void(0);">커뮤니티</a></li>
                                     <li class="breadcrumb-item active">자유게시판</li>
                                 </ol>
