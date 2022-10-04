@@ -2,6 +2,7 @@ package com.service;
 
 import com.dao.*;
 import com.model.content.board.Board;
+import com.model.content.manual.Manual;
 import com.model.content.tips.Tips;
 import com.model.global.Banner;
 import com.model.global.UserBan;
@@ -160,5 +161,13 @@ public class AdminService {
 
     public void deleteMagazine(int magazine_no) {
         contentDao.deleteMagazine(magazine_no);
+    }
+
+    public ArrayList<Manual> getAllManuals() {
+        return contentDao.getAllManuals();
+    }
+
+    public void updateManual(Manual manual) {
+        contentDao.updateManual(manual);
     }
 }

@@ -247,4 +247,6 @@ public interface ContentMapper {
     void updateFarmBlockByCommentNo(@Param("comment_no") int comment_no, @Param("block") boolean block);
 
     ArrayList<Tips> getAllTips();
+
+    ArrayList<Manual> getAllManuals();
 }

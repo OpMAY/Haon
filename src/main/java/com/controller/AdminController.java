@@ -8,6 +8,9 @@ import com.model.common.MFile;
 import com.model.content.board.Board;
 import com.model.content.board.BoardComment;
 import com.model.content.board.BoardTransaction;
+import com.model.content.manual.Manual;
+import com.model.content.manual.ManualComment;
+import com.model.content.manual.ManualTransaction;
 import com.model.content.tips.Tips;
 import com.model.content.tips.TipsComment;
 import com.model.content.tips.TipsTransaction;
@@ -477,8 +480,8 @@ public class AdminController {
         VIEW = new ModelAndView("admin/community/tip-detail-update");
         Tips tip = contentService.getTip(tip_no);
         //작성자
-        Farm board_farm = farmService.getFarmByFarmNo(tip.getFarm_no());
-        tip.setFarm(board_farm);
+        Farm tip_farm = farmService.getFarmByFarmNo(tip.getFarm_no());
+        tip.setFarm(tip_farm);
         //좋아요 수
         ArrayList<TipsTransaction> tipsTransactions = likeService.getLikesByTipsNo(tip.getNo());
         tip.setLikes(tipsTransactions.size());
@@ -576,7 +579,7 @@ public class AdminController {
         tip.setContent(Format.summernoteReplaceCharacter(tip.getContent()));
         MFile mFile = null;
         if (file != null && file.getSize() != 0) {
-            mFile = fileUploadUtility.uploadFile(tip.getFile(), CDNUploadPath.COMMUNITY.getPath());
+            mFile = fileUploadUtility.uploadFile(file, CDNUploadPath.COMMUNITY.getPath());
         } else {
             mFile = new Gson().fromJson(tip.getOrigin_thumbnail(), MFile.class);
         }
@@ -591,24 +594,231 @@ public class AdminController {
     @RequestMapping(value = "/manuals", method = RequestMethod.GET)
     public ModelAndView getManuals(HttpServletRequest request) {
         VIEW = new ModelAndView("admin/community/manuals");
+        ArrayList<Manual> manuals = adminService.getAllManuals();
+        VIEW.addObject("manuals", manuals);
+        for (Manual manual : manuals) {
+            //작성자
+            Farm farm = farmService.getFarmByFarmNo(manual.getFarm_no());
+            manual.setFarm(farm);
+            //좋아요 수
+            ArrayList<ManualTransaction> manualTransactions = likeService.getLikesByManualNo(manual.getNo());
+            manual.setLikes(manualTransactions.size());
+            //댓글 수
+            ArrayList<ManualComment> comments = commentService.getManualComments(manual.getNo());
+            int comment_count = 0;
+            for (ManualComment comment : comments) {
+                comment_count++;
+                ArrayList<ManualComment> recomments = commentService.getManualRecommentByCommentNo(comment.getNo());
+                for (ManualComment recomment : recomments) {
+                    comment_count++;
+                }
+            }
+            manual.setComments(comment_count);
+        }
         return VIEW;
     }
 
     @RequestMapping(value = "/manual/detail/{manual_no}", method = RequestMethod.GET)
     public ModelAndView getManualDetail(HttpServletRequest request, @PathVariable("manual_no") int manual_no) {
         VIEW = new ModelAndView("admin/community/manual-detail");
+        Manual manual = contentService.getManual(manual_no);
+        //작성자
+        Farm manual_farm = farmService.getFarmByFarmNo(manual.getFarm_no());
+        manual.setFarm(manual_farm);
+        //좋아요 수
+        ArrayList<ManualTransaction> manualTransactions = likeService.getLikesByManualNo(manual.getNo());
+        manual.setLikes(manualTransactions.size());
+
+        //Get Comment Logic
+        int comment_count = 0;
+        ArrayList<ManualComment> comments = commentService.getManualComments(manual_no);
+        for (ManualComment comment : comments) {
+            comment_count++;
+            User commented_user = null;
+            if (comment.getUser_no() != null) {
+                commented_user = userService.getUserByNo(comment.getUser_no());
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    comment.setUser(commented_user);
+                } else {
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    comment.setUser(commented_user);
+                }
+            } else {
+                commented_user = new User();
+                MFile profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+                commented_user.setName("관리자");
+                commented_user.setProfile_img(profile);
+                comment.setContent("삭제된 메세지입니다.");
+                comment.setUser(commented_user);
+            }
+
+            ArrayList<ManualComment> recomments = commentService.getManualRecommentByCommentNo(comment.getNo());
+            for (ManualComment recomment : recomments) {
+                comment_count++;
+                User recommented_user = null;
+                if (recomment.getUser_no() != null) {
+                    recommented_user = userService.getUserByNo(recomment.getUser_no());
+                    if (globalService.checkFarm(recommented_user.getNo())) {
+                        Farm farm = farmService.getFarmByUserNo(recommented_user.getNo());
+                        recommented_user.setProfile_img(farm.getProfile_image());
+                        recommented_user.setName(farm.getName());
+                        recomment.setUser(recommented_user);
+                    } else {
+                        MFile profile = new MFile();
+                        profile.setUrl(SAMPLE_PROFILE_URL);
+                        profile.setName(SAMPLE_PROFILE_NAME);
+                        profile.setSize(SAMPLE_PROFILE_SIZE);
+                        profile.setType(SAMPLE_PROFILE_TYPE);
+
+                        recommented_user.setProfile_img(profile);
+                        recomment.setUser(recommented_user);
+                    }
+                } else {
+                    recommented_user = new User();
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+                    recommented_user.setName("관리자");
+                    recommented_user.setProfile_img(profile);
+                    recomment.setUser(recommented_user);
+                    recomment.setContent("삭제된 메세지입니다.");
+                }
+            }
+            comment.setComments(recomments);
+        }
+        //댓글 수
+        manual.setComments(comment_count);
+        //댓글
+        VIEW.addObject("comments", comments);
+        VIEW.addObject("manual", manual);
         return VIEW;
     }
 
     @RequestMapping(value = "/manual/update/{manual_no}", method = RequestMethod.GET)
     public ModelAndView getManualUpdate(HttpServletRequest request, @PathVariable("manual_no") int manual_no) {
         VIEW = new ModelAndView("admin/community/manual-detail-update");
+        Manual manual = contentService.getManual(manual_no);
+        //작성자
+        Farm manual_farm = farmService.getFarmByFarmNo(manual.getFarm_no());
+        manual.setFarm(manual_farm);
+        //좋아요 수
+        ArrayList<ManualTransaction> manualTransactions = likeService.getLikesByManualNo(manual.getNo());
+        manual.setLikes(manualTransactions.size());
+
+        //Get Comment Logic
+        int comment_count = 0;
+        ArrayList<ManualComment> comments = commentService.getManualComments(manual_no);
+        for (ManualComment comment : comments) {
+            comment_count++;
+            User commented_user = null;
+            if (comment.getUser_no() != null) {
+                commented_user = userService.getUserByNo(comment.getUser_no());
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    comment.setUser(commented_user);
+                } else {
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    comment.setUser(commented_user);
+                }
+            } else {
+                commented_user = new User();
+                MFile profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+                commented_user.setName("관리자");
+                commented_user.setProfile_img(profile);
+                comment.setContent("삭제된 메세지입니다.");
+                comment.setUser(commented_user);
+            }
+
+            ArrayList<ManualComment> recomments = commentService.getManualRecommentByCommentNo(comment.getNo());
+            for (ManualComment recomment : recomments) {
+                comment_count++;
+                User recommented_user = null;
+                if (recomment.getUser_no() != null) {
+                    recommented_user = userService.getUserByNo(recomment.getUser_no());
+                    if (globalService.checkFarm(recommented_user.getNo())) {
+                        Farm farm = farmService.getFarmByUserNo(recommented_user.getNo());
+                        recommented_user.setProfile_img(farm.getProfile_image());
+                        recommented_user.setName(farm.getName());
+                        recomment.setUser(recommented_user);
+                    } else {
+                        MFile profile = new MFile();
+                        profile.setUrl(SAMPLE_PROFILE_URL);
+                        profile.setName(SAMPLE_PROFILE_NAME);
+                        profile.setSize(SAMPLE_PROFILE_SIZE);
+                        profile.setType(SAMPLE_PROFILE_TYPE);
+
+                        recommented_user.setProfile_img(profile);
+                        recomment.setUser(recommented_user);
+                    }
+                } else {
+                    recommented_user = new User();
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+                    recommented_user.setName("관리자");
+                    recommented_user.setProfile_img(profile);
+                    recomment.setUser(recommented_user);
+                    recomment.setContent("삭제된 메세지입니다.");
+                }
+            }
+            comment.setComments(recomments);
+        }
+        //댓글 수
+        manual.setComments(comment_count);
+        //댓글
+        VIEW.addObject("comments", comments);
+        VIEW.addObject("manual", manual);
+
+        //카테고리
+        CommunityCategory communityCategory = adminService.getCommunityCategory(CATEGORY_TYPE.MANUAL);
+        VIEW.addObject("communityCategory", communityCategory);
         return VIEW;
     }
 
-    @RequestMapping(value = "/manual/update/{manual_no}", method = RequestMethod.POST)
-    public ModelAndView postManualUpdate(HttpServletRequest request, @PathVariable("manual_no") int manual_no) {
-        VIEW = new ModelAndView("admin/community/manual-detail-update");
+    @RequestMapping(value = "/manual/update/{no}", method = RequestMethod.POST)
+    public ModelAndView postManualUpdate(HttpServletRequest request, Manual manual, MultipartFile file) {
+        Manual manual_dup = contentService.getManual(manual.getNo());
+        Farm farm = farmService.getFarmByFarmNo(manual_dup.getFarm_no());
+        manual.setFarm_no(farm.getNo());
+        manual.setContent(Format.summernoteReplaceCharacter(manual.getContent()));
+        MFile mFile = null;
+        if (file != null && file.getSize() != 0) {
+            mFile = fileUploadUtility.uploadFile(file, CDNUploadPath.COMMUNITY.getPath());
+        } else {
+            mFile = new Gson().fromJson(manual.getOrigin_thumbnail(), MFile.class);
+        }
+        manual.setThumbnail(mFile);
+        adminService.updateManual(manual);
+        VIEW = getManualUpdate(request, manual.getNo());
         return VIEW;
     }
 

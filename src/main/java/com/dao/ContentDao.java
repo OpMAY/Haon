@@ -487,4 +487,8 @@ public class ContentDao {
     public ArrayList<Tips> getAllTips() {
         return mapper.getAllTips();
     }
+
+    public ArrayList<Manual> getAllManuals() {
+        return mapper.getAllManuals();
+    }
 }
