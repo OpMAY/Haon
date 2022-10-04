@@ -249,4 +249,6 @@ public interface ContentMapper {
     ArrayList<Tips> getAllTips();
 
     ArrayList<Manual> getAllManuals();
+
+    ArrayList<Question> getAllQuestions();
 }

@@ -491,4 +491,8 @@ public class ContentDao {
     public ArrayList<Manual> getAllManuals() {
         return mapper.getAllManuals();
     }
+
+    public ArrayList<Question> getAllQuestions() {
+        return mapper.getAllQuestions();
+    }
 }

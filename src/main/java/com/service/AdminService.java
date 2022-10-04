@@ -3,6 +3,7 @@ package com.service;
 import com.dao.*;
 import com.model.content.board.Board;
 import com.model.content.manual.Manual;
+import com.model.content.question.Question;
 import com.model.content.tips.Tips;
 import com.model.global.Banner;
 import com.model.global.UserBan;
@@ -169,5 +170,13 @@ public class AdminService {
 
     public void updateManual(Manual manual) {
         contentDao.updateManual(manual);
+    }
+
+    public ArrayList<Question> getAllQuestions() {
+        return contentDao.getAllQuestions();
+    }
+
+    public void updateQuestion(Question question) {
+        contentDao.updateQuestion(question);
     }
 }
