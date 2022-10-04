@@ -211,11 +211,11 @@ public class AppConfig implements WebApplicationInitializer, SchedulingConfigure
                 .addPathPatterns("/**")
                 .excludePathPatterns("/resources/**")
                 .excludePathPatterns("/files/**");
-        registry.addInterceptor(adminInterceptor).order(2)
-                .addPathPatterns("/admin/**")
-                .excludePathPatterns("/admin/login")
-                .excludePathPatterns("/resources/**")
-                .excludePathPatterns("/files/**");
+//        registry.addInterceptor(adminInterceptor).order(2)
+//                .addPathPatterns("/admin/**")
+//                .excludePathPatterns("/admin/login")
+//                .excludePathPatterns("/resources/**")
+//                .excludePathPatterns("/files/**");
         registry.addInterceptor(kakaoInterceptor).order(3).addPathPatterns("/api/kakao/**")
                 .excludePathPatterns("/resources/**")
                 .excludePathPatterns("/files/**");

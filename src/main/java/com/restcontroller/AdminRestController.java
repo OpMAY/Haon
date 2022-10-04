@@ -8,6 +8,7 @@ import com.model.global.keyword.SearchKeyword;
 import com.response.DefaultRes;
 import com.response.Message;
 import com.service.AdminService;
+import com.service.TraceService;
 import com.service.UserService;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/admin/api")
 public class AdminRestController {
     private final AdminService adminService;
+    private final TraceService traceService;
 
     @RequestMapping(value = "/category/remove/{type}/{category}", method = RequestMethod.POST)
     public ResponseEntity removeCategory(HttpServletRequest request, @PathVariable String category, @PathVariable CATEGORY_TYPE type) {
@@ -202,5 +204,17 @@ public class AdminRestController {
         }
         message.put("status", true);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/delete/trace/{trace_no}", method = RequestMethod.POST)
+    public ResponseEntity<String> deleteTrace(@PathVariable Integer trace_no) {
+        traceService.deleteTrace(trace_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/delete/bundle/{bundle_no}", method = RequestMethod.POST)
+    public ResponseEntity<String> deleteBundle(@PathVariable Integer bundle_no) {
+        traceService.deleteBundle(bundle_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK), HttpStatus.OK);
     }
 }

@@ -46,4 +46,8 @@ public class TraceDao {
     public void editTrace(Trace trace) {
         mapper.editTrace(trace);
     }
+
+    public List<Trace> getAllTraces() {
+        return mapper.getAllTraces();
+    }
 }
