@@ -1,6 +1,7 @@
 package com.restcontroller;
 
 import com.api.sns.kakao.KakaoAPI;
+import com.model.content.common.COMMENT_TYPE;
 import com.model.global.category.CATEGORY_TYPE;
 import com.model.global.category.CommunityCategory;
 import com.model.global.keyword.SearchKeyword;
@@ -129,6 +130,76 @@ public class AdminRestController {
     public ResponseEntity deleteBanner(HttpServletRequest request, @PathVariable int banner_no) {
         Message message = new Message();
         adminService.removeBanner(banner_no);
+        message.put("status", true);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/delete/{type}/{board_no}", method = RequestMethod.POST)
+    public ResponseEntity deleteCommunity(HttpServletRequest request, @PathVariable int board_no, @PathVariable COMMENT_TYPE type) {
+        Message message = new Message();
+        switch (type) {
+            case BOARD:
+                adminService.deleteBoard(board_no);
+                break;
+            case QUESTION:
+                break;
+            case TIP:
+                break;
+            case MANUAL:
+                break;
+            case MAGAZINE:
+                break;
+        }
+        message.put("status", true);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{_type}/{type}/{comment_no}", method = RequestMethod.POST)
+    public ResponseEntity blockReview(HttpServletRequest request, @PathVariable String _type, @PathVariable int comment_no, @PathVariable COMMENT_TYPE type) {
+        Message message = new Message();
+        if (_type.equals("LOCK")) {
+            switch (type) {
+                case BOARD:
+                    adminService.updateBoardBlockByCommentNo(comment_no, true);
+                    break;
+                case QUESTION:
+                    adminService.updateQuestionBlockByCommentNo(comment_no, true);
+                    break;
+                case TIP:
+                    adminService.updateTipBlockByCommentNo(comment_no, true);
+                    break;
+                case MANUAL:
+                    adminService.updateManualBlockByCommentNo(comment_no, true);
+                    break;
+                case MAGAZINE:
+                    adminService.updateMagazineBlockByCommentNo(comment_no, true);
+                    break;
+                case FARM:
+                    adminService.updateFarmBlockByCommentNo(comment_no, true);
+                    break;
+            }
+        } else {
+            switch (type) {
+                case BOARD:
+                    adminService.updateBoardBlockByCommentNo(comment_no, false);
+                    break;
+                case QUESTION:
+                    adminService.updateQuestionBlockByCommentNo(comment_no, false);
+                    break;
+                case TIP:
+                    adminService.updateTipBlockByCommentNo(comment_no, false);
+                    break;
+                case MANUAL:
+                    adminService.updateManualBlockByCommentNo(comment_no, false);
+                    break;
+                case MAGAZINE:
+                    adminService.updateMagazineBlockByCommentNo(comment_no, false);
+                    break;
+                case FARM:
+                    adminService.updateFarmBlockByCommentNo(comment_no, false);
+                    break;
+            }
+        }
         message.put("status", true);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }

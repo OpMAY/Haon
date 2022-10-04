@@ -1107,4 +1107,34 @@
         from manual
         where no = #{community_no};
     </delete>
+    <update id="updateBoardBlockByCommentNo">
+        update board_comment
+        set is_blocked=#{block}
+        where no = #{comment_no};
+    </update>
+    <update id="updateQuestionBlockByCommentNo">
+        update question_comment
+        set is_blocked=#{block}
+        where no = #{comment_no};
+    </update>
+    <update id="updateTipBlockByCommentNo">
+        update tips_comment
+        set is_blocked=#{block}
+        where no = #{comment_no};
+    </update>
+    <update id="updateManualBlockByCommentNo">
+        update manual_comment
+        set is_blocked=#{block}
+        where no = #{comment_no};
+    </update>
+    <update id="updateMagazineBlockByCommentNo">
+        update magazine_comment
+        set is_blocked=#{block}
+        where no = #{comment_no};
+    </update>
+    <update id="updateFarmBlockByCommentNo">
+        update farm_comment
+        set is_blocked=#{block}
+        where no = #{comment_no};
+    </update>
 </mapper>

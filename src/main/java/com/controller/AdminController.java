@@ -10,14 +10,16 @@ import com.model.content.board.BoardComment;
 import com.model.content.board.BoardTransaction;
 import com.model.farm.Farm;
 import com.model.global.Banner;
+import com.model.global.category.CATEGORY_TYPE;
 import com.model.global.category.CommunityCategory;
 import com.model.global.keyword.SearchKeyword;
-import com.model.jwt.RootUser;
 import com.service.*;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
+import com.util.Format;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +36,15 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 @RequestMapping("/admin")
 public class AdminController {
+    @Value("${DEFAULT.PROFILE.IMAGE.URL}")
+    private String SAMPLE_PROFILE_URL;
+    @Value("${DEFAULT.PROFILE.IMAGE.NAME}")
+    private String SAMPLE_PROFILE_NAME;
+    @Value("${DEFAULT.PROFILE.IMAGE.SIZE}")
+    private long SAMPLE_PROFILE_SIZE;
+    @Value("${DEFAULT.PROFILE.IMAGE.TYPE}")
+    private String SAMPLE_PROFILE_TYPE;
+
     private ModelAndView VIEW;
     private final EncryptionService encryptionService;
     private final UserService userService;
@@ -42,6 +53,8 @@ public class AdminController {
     private final LikeService likeService;
     private final CommentService commentService;
     private final FileUploadUtility fileUploadUtility;
+    private final ContentService contentService;
+    private final GlobalService globalService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView getLogin(HttpServletRequest request) {
@@ -61,7 +74,6 @@ public class AdminController {
                 VIEW.addObject("message", "로그인에 성공하셧습니다.");
                 user.setId(admin.getId());
                 request.getSession().setAttribute(JWTEnum.ADMIN.name(), encryptionService.encryptJWT(user));
-                log.info(encryptionService.encryptJWT(user).toString());
             } else {
                 VIEW.addObject("user", user);
                 VIEW.addObject("status", false);
@@ -105,7 +117,15 @@ public class AdminController {
             board.setLikes(boardTransactions.size());
             //댓글 수
             ArrayList<BoardComment> comments = commentService.getBoardComments(board.getNo());
-            board.setComments(comments.size());
+            int comment_count = 0;
+            for (BoardComment comment : comments) {
+                comment_count++;
+                ArrayList<BoardComment> recomments = commentService.getBoardRecommentByCommentNo(comment.getNo());
+                for (BoardComment recomment : recomments) {
+                    comment_count++;
+                }
+            }
+            board.setComments(comment_count);
         }
         return VIEW;
     }
@@ -113,18 +133,197 @@ public class AdminController {
     @RequestMapping(value = "/board/detail/{board_no}", method = RequestMethod.GET)
     public ModelAndView getBoardDetail(HttpServletRequest request, @PathVariable("board_no") int board_no) {
         VIEW = new ModelAndView("admin/community/board-detail");
+        Board board = contentService.getBoard(board_no);
+        //작성자
+        Farm board_farm = farmService.getFarmByFarmNo(board.getFarm_no());
+        board.setFarm(board_farm);
+        //좋아요 수
+        ArrayList<BoardTransaction> boardTransactions = likeService.getLikesByBoardNo(board.getNo());
+        board.setLikes(boardTransactions.size());
+
+        //Get Comment Logic
+        int comment_count = 0;
+        ArrayList<BoardComment> comments = commentService.getBoardComments(board_no);
+        for (BoardComment comment : comments) {
+            comment_count++;
+            User commented_user = null;
+            if (comment.getUser_no() != null) {
+                commented_user = userService.getUserByNo(comment.getUser_no());
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    comment.setUser(commented_user);
+                } else {
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    comment.setUser(commented_user);
+                }
+            } else {
+                commented_user = new User();
+                MFile profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+                commented_user.setName("관리자");
+                commented_user.setProfile_img(profile);
+                comment.setContent("삭제된 메세지입니다.");
+                comment.setUser(commented_user);
+            }
+
+            ArrayList<BoardComment> recomments = commentService.getBoardRecommentByCommentNo(comment.getNo());
+            for (BoardComment recomment : recomments) {
+                comment_count++;
+                User recommented_user = null;
+                if (recomment.getUser_no() != null) {
+                    recommented_user = userService.getUserByNo(recomment.getUser_no());
+                    if (globalService.checkFarm(recommented_user.getNo())) {
+                        Farm farm = farmService.getFarmByUserNo(recommented_user.getNo());
+                        recommented_user.setProfile_img(farm.getProfile_image());
+                        recommented_user.setName(farm.getName());
+                        recomment.setUser(recommented_user);
+                    } else {
+                        MFile profile = new MFile();
+                        profile.setUrl(SAMPLE_PROFILE_URL);
+                        profile.setName(SAMPLE_PROFILE_NAME);
+                        profile.setSize(SAMPLE_PROFILE_SIZE);
+                        profile.setType(SAMPLE_PROFILE_TYPE);
+
+                        recommented_user.setProfile_img(profile);
+                        recomment.setUser(recommented_user);
+                    }
+                } else {
+                    recommented_user = new User();
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+                    recommented_user.setName("관리자");
+                    recommented_user.setProfile_img(profile);
+                    recomment.setUser(recommented_user);
+                    recomment.setContent("삭제된 메세지입니다.");
+                }
+            }
+            comment.setComments(recomments);
+        }
+        //댓글 수
+        board.setComments(comment_count);
+        //댓글
+        VIEW.addObject("comments", comments);
+        VIEW.addObject("board", board);
         return VIEW;
     }
 
     @RequestMapping(value = "/board/update/{board_no}", method = RequestMethod.GET)
     public ModelAndView getBoardUpdate(HttpServletRequest request, @PathVariable("board_no") int board_no) {
         VIEW = new ModelAndView("admin/community/board-detail-update");
+        Board board = contentService.getBoard(board_no);
+        //작성자
+        Farm board_farm = farmService.getFarmByFarmNo(board.getFarm_no());
+        board.setFarm(board_farm);
+        //좋아요 수
+        ArrayList<BoardTransaction> boardTransactions = likeService.getLikesByBoardNo(board.getNo());
+        board.setLikes(boardTransactions.size());
+
+        //Get Comment Logic
+        int comment_count = 0;
+        ArrayList<BoardComment> comments = commentService.getBoardComments(board_no);
+        for (BoardComment comment : comments) {
+            comment_count++;
+            User commented_user = null;
+            if (comment.getUser_no() != null) {
+                commented_user = userService.getUserByNo(comment.getUser_no());
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    comment.setUser(commented_user);
+                } else {
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    comment.setUser(commented_user);
+                }
+            } else {
+                commented_user = new User();
+                MFile profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+                commented_user.setName("관리자");
+                commented_user.setProfile_img(profile);
+                comment.setContent("삭제된 메세지입니다.");
+                comment.setUser(commented_user);
+            }
+
+            ArrayList<BoardComment> recomments = commentService.getBoardRecommentByCommentNo(comment.getNo());
+            for (BoardComment recomment : recomments) {
+                comment_count++;
+                User recommented_user = null;
+                if (recomment.getUser_no() != null) {
+                    recommented_user = userService.getUserByNo(recomment.getUser_no());
+                    if (globalService.checkFarm(recommented_user.getNo())) {
+                        Farm farm = farmService.getFarmByUserNo(recommented_user.getNo());
+                        recommented_user.setProfile_img(farm.getProfile_image());
+                        recommented_user.setName(farm.getName());
+                        recomment.setUser(recommented_user);
+                    } else {
+                        MFile profile = new MFile();
+                        profile.setUrl(SAMPLE_PROFILE_URL);
+                        profile.setName(SAMPLE_PROFILE_NAME);
+                        profile.setSize(SAMPLE_PROFILE_SIZE);
+                        profile.setType(SAMPLE_PROFILE_TYPE);
+
+                        recommented_user.setProfile_img(profile);
+                        recomment.setUser(recommented_user);
+                    }
+                } else {
+                    recommented_user = new User();
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+                    recommented_user.setName("관리자");
+                    recommented_user.setProfile_img(profile);
+                    recomment.setUser(recommented_user);
+                    recomment.setContent("삭제된 메세지입니다.");
+                }
+            }
+            comment.setComments(recomments);
+        }
+        //댓글 수
+        board.setComments(comment_count);
+        //댓글
+        VIEW.addObject("comments", comments);
+        VIEW.addObject("board", board);
+
+        //카테고리
+        CommunityCategory communityCategory = adminService.getCommunityCategory(CATEGORY_TYPE.BOARD);
+        VIEW.addObject("communityCategory", communityCategory);
         return VIEW;
     }
 
-    @RequestMapping(value = "/board/update/{board_no}", method = RequestMethod.POST)
-    public ModelAndView postBoardUpdate(HttpServletRequest request, @PathVariable("board_no") int board_no) {
-        VIEW = new ModelAndView("admin/community/board-detail-update");
+    @RequestMapping(value = "/board/update/{no}", method = RequestMethod.POST)
+    public ModelAndView postBoardUpdate(HttpServletRequest request, Board board) {
+        Board board_dup = contentService.getBoard(board.getNo());
+        Farm farm = farmService.getFarmByFarmNo(board_dup.getFarm_no());
+        board.setFarm_no(farm.getNo());
+        board.setContent(Format.summernoteReplaceCharacter(board.getContent()));
+        adminService.updateBoard(board);
+        VIEW = getBoardDetail(request, board.getNo());
         return VIEW;
     }
 
