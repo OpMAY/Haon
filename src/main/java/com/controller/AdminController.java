@@ -8,6 +8,9 @@ import com.model.common.MFile;
 import com.model.content.board.Board;
 import com.model.content.board.BoardComment;
 import com.model.content.board.BoardTransaction;
+import com.model.content.magazine.Magazine;
+import com.model.content.magazine.MagazineComment;
+import com.model.content.magazine.MagazineTransaction;
 import com.model.content.manual.Manual;
 import com.model.content.manual.ManualComment;
 import com.model.content.manual.ManualTransaction;
@@ -783,7 +786,11 @@ public class AdminController {
         if (file != null && file.getSize() != 0) {
             mFile = fileUploadUtility.uploadFile(file, CDNUploadPath.COMMUNITY.getPath());
         } else {
-            mFile = new Gson().fromJson(tip.getOrigin_thumbnail(), MFile.class);
+            try {
+                mFile = new Gson().fromJson(tip.getOrigin_thumbnail(), MFile.class);
+            } catch (Exception e) {
+                mFile = null;
+            }
         }
         log.info("mfile -> {}", mFile.toString());
         tip.setThumbnail(mFile);
@@ -1016,7 +1023,11 @@ public class AdminController {
         if (file != null && file.getSize() != 0) {
             mFile = fileUploadUtility.uploadFile(file, CDNUploadPath.COMMUNITY.getPath());
         } else {
-            mFile = new Gson().fromJson(manual.getOrigin_thumbnail(), MFile.class);
+            try {
+                mFile = new Gson().fromJson(manual.getOrigin_thumbnail(), MFile.class);
+            } catch (Exception e) {
+                mFile = null;
+            }
         }
         manual.setThumbnail(mFile);
         adminService.updateManual(manual);
@@ -1027,36 +1038,267 @@ public class AdminController {
     @RequestMapping(value = "/magazines", method = RequestMethod.GET)
     public ModelAndView getMagazines(HttpServletRequest request) {
         VIEW = new ModelAndView("admin/community/magazines");
+        ArrayList<Magazine> magazines = adminService.getAllMagazines();
+        VIEW.addObject("magazines", magazines);
+        for (Magazine magazine : magazines) {
+            //작성자
+            Farm farm = farmService.getFarmByUserNo(0);
+            magazine.setFarm(farm);
+            //좋아요 수
+            ArrayList<MagazineTransaction> magazineTransactions = likeService.getLikesByMagazineNo(magazine.getNo());
+            magazine.setLikes(magazineTransactions.size());
+            //댓글 수
+            ArrayList<MagazineComment> comments = commentService.getMagazineComments(magazine.getNo());
+            int comment_count = 0;
+            for (MagazineComment comment : comments) {
+                comment_count++;
+                ArrayList<MagazineComment> recomments = commentService.getMagazineRecommentByCommentNo(comment.getNo());
+                for (MagazineComment recomment : recomments) {
+                    comment_count++;
+                }
+            }
+            magazine.setComments(comment_count);
+        }
         return VIEW;
     }
 
     @RequestMapping(value = "/magazine/detail/{magazine_no}", method = RequestMethod.GET)
     public ModelAndView getMagazineDetail(HttpServletRequest request, @PathVariable("magazine_no") int magazine_no) {
         VIEW = new ModelAndView("admin/community/magazine-detail");
+        Magazine magazine = contentService.getMagazineExcludeShow(magazine_no);
+        //작성자
+        Farm magazine_farm = farmService.getFarmByUserNo(0);
+        magazine.setFarm(magazine_farm);
+        //좋아요 수
+        ArrayList<MagazineTransaction> magazineTransactions = likeService.getLikesByMagazineNo(magazine.getNo());
+        magazine.setLikes(magazineTransactions.size());
+
+        //Get Comment Logic
+        int comment_count = 0;
+        ArrayList<MagazineComment> comments = commentService.getMagazineComments(magazine_no);
+        for (MagazineComment comment : comments) {
+            comment_count++;
+            User commented_user = null;
+            if (comment.getUser_no() != null) {
+                commented_user = userService.getUserByNo(comment.getUser_no());
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    comment.setUser(commented_user);
+                } else {
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    comment.setUser(commented_user);
+                }
+            } else {
+                commented_user = new User();
+                MFile profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+                commented_user.setName("관리자");
+                commented_user.setProfile_img(profile);
+                comment.setContent("삭제된 메세지입니다.");
+                comment.setUser(commented_user);
+            }
+
+            ArrayList<MagazineComment> recomments = commentService.getMagazineRecommentByCommentNo(comment.getNo());
+            for (MagazineComment recomment : recomments) {
+                comment_count++;
+                User recommented_user = null;
+                if (recomment.getUser_no() != null) {
+                    recommented_user = userService.getUserByNo(recomment.getUser_no());
+                    if (globalService.checkFarm(recommented_user.getNo())) {
+                        Farm farm = farmService.getFarmByUserNo(recommented_user.getNo());
+                        recommented_user.setProfile_img(farm.getProfile_image());
+                        recommented_user.setName(farm.getName());
+                        recomment.setUser(recommented_user);
+                    } else {
+                        MFile profile = new MFile();
+                        profile.setUrl(SAMPLE_PROFILE_URL);
+                        profile.setName(SAMPLE_PROFILE_NAME);
+                        profile.setSize(SAMPLE_PROFILE_SIZE);
+                        profile.setType(SAMPLE_PROFILE_TYPE);
+
+                        recommented_user.setProfile_img(profile);
+                        recomment.setUser(recommented_user);
+                    }
+                } else {
+                    recommented_user = new User();
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+                    recommented_user.setName("관리자");
+                    recommented_user.setProfile_img(profile);
+                    recomment.setUser(recommented_user);
+                    recomment.setContent("삭제된 메세지입니다.");
+                }
+            }
+            comment.setComments(recomments);
+        }
+        //댓글 수
+        magazine.setComments(comment_count);
+        //댓글
+        VIEW.addObject("comments", comments);
+        VIEW.addObject("magazine", magazine);
         return VIEW;
     }
 
     @RequestMapping(value = "/magazine/update/{magazine_no}", method = RequestMethod.GET)
     public ModelAndView getMagazineUpdate(HttpServletRequest request, @PathVariable("magazine_no") int magazine_no) {
         VIEW = new ModelAndView("admin/community/magazine-detail-update");
+        Magazine magazine = contentService.getMagazineExcludeShow(magazine_no);
+        //작성자
+        Farm magazine_farm = farmService.getFarmByUserNo(0);
+        magazine.setFarm(magazine_farm);
+        //좋아요 수
+        ArrayList<MagazineTransaction> magazineTransactions = likeService.getLikesByMagazineNo(magazine.getNo());
+        magazine.setLikes(magazineTransactions.size());
+
+        //Get Comment Logic
+        int comment_count = 0;
+        ArrayList<MagazineComment> comments = commentService.getMagazineComments(magazine_no);
+        for (MagazineComment comment : comments) {
+            comment_count++;
+            User commented_user = null;
+            if (comment.getUser_no() != null) {
+                commented_user = userService.getUserByNo(comment.getUser_no());
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    comment.setUser(commented_user);
+                } else {
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    comment.setUser(commented_user);
+                }
+            } else {
+                commented_user = new User();
+                MFile profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+                commented_user.setName("관리자");
+                commented_user.setProfile_img(profile);
+                comment.setContent("삭제된 메세지입니다.");
+                comment.setUser(commented_user);
+            }
+
+            ArrayList<MagazineComment> recomments = commentService.getMagazineRecommentByCommentNo(comment.getNo());
+            for (MagazineComment recomment : recomments) {
+                comment_count++;
+                User recommented_user = null;
+                if (recomment.getUser_no() != null) {
+                    recommented_user = userService.getUserByNo(recomment.getUser_no());
+                    if (globalService.checkFarm(recommented_user.getNo())) {
+                        Farm farm = farmService.getFarmByUserNo(recommented_user.getNo());
+                        recommented_user.setProfile_img(farm.getProfile_image());
+                        recommented_user.setName(farm.getName());
+                        recomment.setUser(recommented_user);
+                    } else {
+                        MFile profile = new MFile();
+                        profile.setUrl(SAMPLE_PROFILE_URL);
+                        profile.setName(SAMPLE_PROFILE_NAME);
+                        profile.setSize(SAMPLE_PROFILE_SIZE);
+                        profile.setType(SAMPLE_PROFILE_TYPE);
+
+                        recommented_user.setProfile_img(profile);
+                        recomment.setUser(recommented_user);
+                    }
+                } else {
+                    recommented_user = new User();
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+                    recommented_user.setName("관리자");
+                    recommented_user.setProfile_img(profile);
+                    recomment.setUser(recommented_user);
+                    recomment.setContent("삭제된 메세지입니다.");
+                }
+            }
+            comment.setComments(recomments);
+        }
+        //댓글 수
+        magazine.setComments(comment_count);
+        //댓글
+        VIEW.addObject("comments", comments);
+        VIEW.addObject("magazine", magazine);
+        //카테고리
+        CommunityCategory communityCategory = adminService.getCommunityCategory(CATEGORY_TYPE.MAGAZINE);
+        VIEW.addObject("communityCategory", communityCategory);
         return VIEW;
     }
 
-    @RequestMapping(value = "/magazine/update/{magazine_no}", method = RequestMethod.POST)
-    public ModelAndView postMagazineUpdate(HttpServletRequest request, @PathVariable("magazine_no") int magazine_no) {
-        VIEW = new ModelAndView("admin/community/magazine-detail-create");
+    @RequestMapping(value = "/magazine/update/{no}", method = RequestMethod.POST)
+    public ModelAndView postMagazineUpdate(HttpServletRequest request, Magazine magazine, MultipartFile file) {
+        Farm farm = farmService.getFarmByUserNo(0);
+        magazine.setFarm_no(farm.getNo());
+        magazine.setContent(Format.summernoteReplaceCharacter(magazine.getContent()));
+        MFile mFile = null;
+        if (file != null && file.getSize() != 0) {
+            mFile = fileUploadUtility.uploadFile(file, CDNUploadPath.COMMUNITY.getPath());
+        } else {
+            try {
+                mFile = new Gson().fromJson(magazine.getOrigin_thumbnail(), MFile.class);
+            } catch (Exception e) {
+                mFile = null;
+            }
+        }
+        magazine.setThumbnail(mFile);
+        adminService.updateMagazine(magazine);
+        VIEW = getMagazineUpdate(request, magazine.getNo());
         return VIEW;
     }
 
     @RequestMapping(value = "/magazine/create", method = RequestMethod.GET)
     public ModelAndView getMagazineCreate(HttpServletRequest request) {
         VIEW = new ModelAndView("admin/community/magazine-detail-create");
+        Farm farm = farmService.getFarmByUserNo(0);
+        VIEW.addObject("farm", farm);
+        //카테고리
+        CommunityCategory communityCategory = adminService.getCommunityCategory(CATEGORY_TYPE.MAGAZINE);
+        VIEW.addObject("communityCategory", communityCategory);
         return VIEW;
     }
 
     @RequestMapping(value = "/magazine/create", method = RequestMethod.POST)
-    public ModelAndView postMagazineCreate(HttpServletRequest request) {
+    public ModelAndView postMagazineCreate(HttpServletRequest request, Magazine magazine, MultipartFile file) {
         VIEW = new ModelAndView("admin/community/magazine-detail-create");
+        Farm farm = farmService.getFarmByUserNo(0);
+        magazine.setFarm_no(farm.getNo());
+        magazine.setContent(Format.summernoteReplaceCharacter(magazine.getContent()));
+        MFile mFile = null;
+        if (file != null && file.getSize() != 0) {
+            mFile = fileUploadUtility.uploadFile(file, CDNUploadPath.COMMUNITY.getPath());
+        } else {
+            try {
+                mFile = new Gson().fromJson(magazine.getOrigin_thumbnail(), MFile.class);
+            } catch (Exception e) {
+                mFile = null;
+            }
+        }
+        magazine.setThumbnail(mFile);
+        int created_magazine_no = adminService.createMagazine(magazine);
+        VIEW.addObject("status", true);
+        VIEW.addObject("created_magazine_no", created_magazine_no);
         return VIEW;
     }
 

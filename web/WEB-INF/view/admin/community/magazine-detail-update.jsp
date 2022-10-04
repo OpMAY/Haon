@@ -1,78 +1,80 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <title>Datatables | UBold - Responsive Admin Dashboard Template</title>
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-  <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc."
-        name="description"/>
-  <meta content="Coderthemes"
-        name="author"/>
-  <meta http-equiv="X-UA-Compatible"
-        content="IE=edge"/>
-  <!-- App favicon -->
-  <link rel="shortcut icon"
-        href="/resources/admin/assets/images/favicon.ico">
+    <meta charset="utf-8"/>
+    <title>${HEADER_TITLE}</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc."
+          name="description"/>
+    <meta content="Coderthemes"
+          name="author"/>
+    <meta http-equiv="X-UA-Compatible"
+          content="IE=edge"/>
+    <!-- App favicon -->
+    <link rel="shortcut icon"
+          href="/resources/admin/assets/images/favicon.ico">
 
-  <!-- Plugins css -->
-  <link href="/resources/admin/assets/libs/mohithg-switchery/switchery.min.css"
-        rel="stylesheet"
-        type="text/css"/>
-  <link href="/resources/admin/assets/libs/multiselect/css/multi-select.css"
-        rel="stylesheet"
-        type="text/css"/>
-  <link href="/resources/admin/assets/libs/select2/css/select2.min.css"
-        rel="stylesheet"
-        type="text/css"/>
-  <link href="/resources/admin/assets/libs/selectize/css/selectize.bootstrap3.css"
-        rel="stylesheet"
-        type="text/css"/>
-  <link href="/resources/admin/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css"
-        rel="stylesheet"
-        type="text/css"/>
-  <link href="/resources/admin/assets/libs/dropify/css/dropify.min.css"
-        rel="stylesheet"
-        type="text/css"/>
+    <!-- Plugins css -->
+    <link href="/resources/admin/assets/libs/mohithg-switchery/switchery.min.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <link href="/resources/admin/assets/libs/multiselect/css/multi-select.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <link href="/resources/admin/assets/libs/select2/css/select2.min.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <link href="/resources/admin/assets/libs/selectize/css/selectize.bootstrap3.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <link href="/resources/admin/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <link href="/resources/admin/assets/libs/dropify/css/dropify.min.css"
+          rel="stylesheet"
+          type="text/css"/>
 
-  <!-- App css -->
-  <link href="/resources/admin/assets/css/config/default/bootstrap.min.css"
-        rel="stylesheet"
-        type="text/css"
-        id="bs-default-stylesheet"/>
-  <link href="/resources/admin/assets/css/config/default/app.min.css"
-        rel="stylesheet"
-        type="text/css"
-        id="app-default-stylesheet"/>
+    <!-- App css -->
+    <link href="/resources/admin/assets/css/config/default/bootstrap.min.css"
+          rel="stylesheet"
+          type="text/css"
+          id="bs-default-stylesheet"/>
+    <link href="/resources/admin/assets/css/config/default/app.min.css"
+          rel="stylesheet"
+          type="text/css"
+          id="app-default-stylesheet"/>
 
-  <link href="/resources/admin/assets/css/config/default/bootstrap-dark.min.css"
-        rel="stylesheet"
-        type="text/css"
-        id="bs-dark-stylesheet"/>
-  <link href="/resources/admin/assets/css/config/default/app-dark.min.css"
-        rel="stylesheet"
-        type="text/css"
-        id="app-dark-stylesheet"/>
-  <!-- Custom Css -->
-  <link rel="preconnect"
-        href="https://fonts.googleapis.com">
-  <link rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
-        rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
-        rel="stylesheet">
-  <link href="/resources/css/module/summernote.css"
-        rel="stylesheet">
-  <link href="/resources/admin/assets/css/admin.css"
-        rel="stylesheet"
-        type="text/css"/>
-  <!-- icons -->
-  <link href="/resources/admin/assets/css/icons.min.css"
-        rel="stylesheet"
-        type="text/css"/>
+    <link href="/resources/admin/assets/css/config/default/bootstrap-dark.min.css"
+          rel="stylesheet"
+          type="text/css"
+          id="bs-dark-stylesheet"/>
+    <link href="/resources/admin/assets/css/config/default/app-dark.min.css"
+          rel="stylesheet"
+          type="text/css"
+          id="app-dark-stylesheet"/>
+    <!-- Custom Css -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
+          rel="stylesheet">
+    <link href="/resources/css/module/summernote.css"
+          rel="stylesheet">
+    <link href="/resources/admin/assets/css/admin.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <!-- icons -->
+    <link href="/resources/admin/assets/css/icons.min.css"
+          rel="stylesheet"
+          type="text/css"/>
 
 </head>
 
@@ -82,280 +84,460 @@
 
 <!-- Begin page -->
 <div id="wrapper">
-  <jsp:include page="../common/left-sidebar.jsp"/>
-  <!-- ============================================================== -->
-  <!-- Start Page Content here -->
-  <!-- ============================================================== -->
+    <jsp:include page="../common/left-sidebar.jsp"/>
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
 
-  <div class="content-page">
-    <div class="content">
+    <div class="content-page">
+        <div class="content">
 
-      <!-- Start Content-->
-      <div class="container-fluid">
+            <!-- Start Content-->
+            <div class="container-fluid">
 
-        <!-- start page title -->
-        <div class="row">
-          <div class="col-12">
-            <div class="page-title-box">
-              <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                  <li class="breadcrumb-item"><a href="../dashboard.html">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="../community/magazines.html">커뮤니티 관리(최신 매거진)</a></li>
-                  <li class="breadcrumb-item"><a href="../community/magazine-detail.html">최신 매거진</a></li>
-                  <li class="breadcrumb-item active">최신 매거진 수정</li>
-                </ol>
-              </div>
-              <h4 class="page-title">최신 매거진 수정</h4>
-            </div>
-          </div>
-        </div>
-        <!-- end page title -->
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="header-title mb-4">최신 매거진 수정
-                  <div class="float-end">
-                    <button type="button"
-                            data-bs-target="#"
-                            data-bs-toggle="modal"
-                            data-bs-no="1"
-                            class="btn btn-warning waves-effect waves-light text-white">
-                      비 활성화
-                    </button>
-                    <button type="button"
-                            data-bs-target="#update-modal"
-                            data-bs-toggle="modal"
-                            data-bs-no="1"
-                            class="btn btn-dark waves-effect waves-light">수정
-                    </button>
-                    <button type="button"
-                            data-bs-target="#delete-modal"
-                            data-bs-toggle="modal"
-                            data-bs-no="1"
-                            class="btn btn-danger waves-effect waves-light">
-                      삭제
-                    </button>
-                  </div>
-                </h4>
-                <p class="text-muted font-13 mb-3">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi
-                  atque
-                  consequuntur deserunt ea eveniet id ipsa, molestiae necessitatibus
-                  praesentium quam reiciendis suscipit! Aut blanditiis distinctio
-                  impedit, nulla praesentium quod rem!</p>
-                <form action="#"
-                      method="get"
-                      onsubmit="return false;">
-                  <div class="row">
+                <!-- start page title -->
+                <div class="row">
                     <div class="col-12">
-                      <div class="mb-3">
-                        <label class="form-label">매거진 이미지</label>
-                        <input type="file"
-                               name="file"
-                               data-plugins="dropify"
-                               data-default-file="/resources/admin/assets/images/small/img-2.jpg"
-                               data-max-file-size="10M"/>
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div class="mb-3">
-                        <label class="form-label">게시글 명</label>
-                        <input type="text"
-                               value="양& 염소는 어떻게?양& 염소는 어떻게?양& 염소는 어떻게?"
-                               class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <div class="mb-3">
-                        <label class="form-label">카테고리</label>
-                        <select class="form-select">
-                          <option selected
-                                  value="none">선택 없음
-                          </option>
-                          <option>카테고리1</option>
-                          <option>카테고리2</option>
-                          <option>카테고리3</option>
-                          <option>카테고리4</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <label class="mb-2">작성 일자</label>
-                      <p class="text-muted">2022.12.22</p>
-                    </div>
-                    <div class="col-auto">
-                      <label class="mb-2">작성자</label>
-                      <p class="text-muted">김우식</p>
-                    </div>
-                    <div class="col-auto">
-                      <label class="mb-2">좋아요</label>
-                      <p class="text-muted">999</p>
-                    </div>
-                    <div class="col-auto">
-                      <label class="mb-2">댓글 수</label>
-                      <p class="text-muted">999</p>
-                    </div>
-                    <div class="col-auto">
-                      <label class="mb-2">Views</label>
-                      <p class="text-muted">999</p>
-                    </div>
-                    <div class="col-12 mb-3">
-                      <label class="mb-1">상세 내용(스마트 에디터)</label>
-                      <div id="summernote"></div>
-                    </div>
-                    <div class="col-12">
-                      <h4 class="mt-0 mb-1">코멘트 (258)</h4>
-                      <div class="mt-2">
-                        <div class="d-flex align-items-start">
-                          <img class="me-2 avatar-sm rounded-circle"
-                               src="/resources/admin/assets/images/users/user-3.jpg"
-                               alt="Generic placeholder image">
-                          <div class="w-100">
-                            <h5 class="mt-0">
-                              <a href="#"
-                                 class="text-reset">Jeremy Tomlinson
-                              </a>
-                              <small class="text-muted">3 hours ago</small>
-                              <a class="badge badge-soft-primary"
-                                 href="javascript:void(0);">
-                                <i class="dripicons-lock"></i>
-                              </a>
-                              <a class="badge badge-soft-primary"
-                                 href="javascript:void(0);">
-                                <i class="dripicons-lock-open"></i>
-                              </a>
-                              <a class="badge badge-soft-danger"
-                                 href="javascript:void(0);">
-                                <i class="dripicons-trash"></i>
-                              </a>
-                            </h5>
-                            Nice work, makes me think of The Money Pit.
-                            <br>
-                            <div class="d-flex align-items-start mt-3">
-                              <a class="pe-2"
-                                 href="#">
-                                <img src="/resources/admin/assets/images/users/user-4.jpg"
-                                     class="avatar-sm rounded-circle"
-                                     alt="Generic placeholder image">
-                              </a>
-                              <div class="w-100">
-                                <h5 class="mt-0">
-                                  <a href="contacts-profile.html"
-                                     class="text-reset">Kathleen Thomas</a>
-                                  <small class="text-muted">1 hours ago</small>
-                                  <a class="badge badge-soft-primary"
-                                     href="javascript:void(0);">
-                                    <i class="dripicons-lock"></i>
-                                  </a>
-                                  <a class="badge badge-soft-primary"
-                                     href="javascript:void(0);">
-                                    <i class="dripicons-lock-open"></i>
-                                  </a>
-                                  <a class="badge badge-soft-danger"
-                                     href="javascript:void(0);">
-                                    <i class="dripicons-trash"></i>
-                                  </a>
-                                </h5>
-                                i'm in the middle of a timelapse animation myself! (Very different though.) Awesome
-                                stuff.
-                              </div>
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin/magazines">커뮤니티 관리(최신
+                                        매거진)</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin/magazine/detail/${magazine.no}">최신
+                                        매거진</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">최신 매거진 수정</li>
+                                </ol>
                             </div>
-                          </div>
+                            <h4 class="page-title">최신 매거진 수정</h4>
                         </div>
-                        <div class="d-flex align-items-start mt-3">
-                          <img class="me-2 avatar-sm rounded-circle"
-                               src="/resources/admin/assets/images/users/user-2.jpg"
-                               alt="Generic placeholder image">
-                          <div class="w-100">
-                            <h5 class="mt-0">
-                              <a href="#"
-                                 class="text-reset">Jonathan Tiner</a>
-                              <small class="text-muted">1 day ago</small>
-                              <a class="badge badge-soft-primary"
-                                 href="javascript:void(0);">
-                                <i class="dripicons-lock"></i>
-                              </a>
-                              <a class="badge badge-soft-primary"
-                                 href="javascript:void(0);">
-                                <i class="dripicons-lock-open"></i>
-                              </a>
-                              <a class="badge badge-soft-danger"
-                                 href="javascript:void(0);">
-                                <i class="dripicons-trash"></i>
-                              </a>
-                            </h5>
-                            The parallax is a little odd but O.o that house build is awesome!!
-                            <br>
-                          </div>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-                </form>
-              </div> <!-- end card body-->
-            </div> <!-- end card -->
-          </div><!-- end col-->
+                </div>
+                <!-- end page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="header-title mb-4">최신 매거진 수정
+                                    <div class="float-end">
+                                        <c:choose>
+                                            <c:when test="${magazine._show eq true}">
+                                                <button type="button"
+                                                        data-bs-target="#active-modal"
+                                                        data-bs-type="INACTIVE"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-no="${magazine.no}"
+                                                        class="btn btn-warning waves-effect waves-light text-white">
+                                                    비 활성화
+                                                </button>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <button type="button"
+                                                        data-bs-target="#active-modal"
+                                                        data-bs-type="ACTIVE"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-no="${magazine.no}"
+                                                        class="btn btn-primary waves-effect waves-light text-white">
+                                                    활성화
+                                                </button>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <button type="button"
+                                                data-bs-target="#update-modal"
+                                                data-bs-toggle="modal"
+                                                data-bs-no="${magazine.no}"
+                                                class="btn btn-dark waves-effect waves-light">수정
+                                        </button>
+                                        <button type="button"
+                                                data-bs-target="#delete-modal"
+                                                data-bs-toggle="modal"
+                                                data-bs-no="${magazine.no}"
+                                                class="btn btn-danger waves-effect waves-light">
+                                            삭제
+                                        </button>
+                                    </div>
+                                </h4>
+                                <p class="text-muted font-13 mb-3">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi
+                                    atque
+                                    consequuntur deserunt ea eveniet id ipsa, molestiae necessitatibus
+                                    praesentium quam reiciendis suscipit! Aut blanditiis distinctio
+                                    impedit, nulla praesentium quod rem!</p>
+                                <form action="/admin/magazine/update/${magazine.no}"
+                                      enctype="multipart/form-data"
+                                      method="POST"
+                                      onsubmit="return communitySubmit();">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">매거진 이미지</label>
+                                                <input type="file"
+                                                       name="file"
+                                                       data-plugins="dropify"
+                                                       data-thumbnail-image-url="${magazine.thumbnail.url}"
+                                                       data-thumbnail-image-size="${magazine.thumbnail.size}"
+                                                       data-thumbnail-image-name="${magazine.thumbnail.name}"
+                                                       data-thumbnail-image-type="${magazine.thumbnail.type}"
+                                                       data-default-file="${magazine.thumbnail.url}"
+                                                       data-max-file-size="10M"/>
+                                                <input type="text"
+                                                       class="d-none"
+                                                       name="origin_thumbnail"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">게시글 제목</label>
+                                                <input type="text"
+                                                       placeholder="게시글 제목을 입력해주세요."
+                                                       value="${magazine.title}"
+                                                       name="title"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="mb-3">
+                                                <label class="form-label">카테고리</label>
+                                                <select class="form-select" name="category">
+                                                    <option value="none">선택 없음</option>
+                                                    <c:forEach items="${communityCategory.categories}" var="category">
+                                                        <c:choose>
+                                                            <c:when test="${category eq magazine.category}">
+                                                                <option selected
+                                                                        value="${category}">${category}</option>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <option value="${category}">${category}</option>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <label class="mb-2">작성 일자</label>
+                                            <p class="text-muted">
+                                                <custom:formatDatetime value="${magazine.reg_datetime}"
+                                                                       pattern="yyyy.MM.dd"/>
+                                            </p>
+                                        </div>
+                                        <div class="col-auto">
+                                            <label class="mb-2">작성자</label>
+                                            <p class="text-muted">${magazine.farm.name}</p>
+                                        </div>
+                                        <div class="col-auto">
+                                            <label class="mb-2">좋아요</label>
+                                            <p class="text-muted">${magazine.likes}</p>
+                                        </div>
+                                        <div class="col-auto">
+                                            <label class="mb-2">댓글 수</label>
+                                            <p class="text-muted">${magazine.comments}</p>
+                                        </div>
+                                        <div class="col-auto">
+                                            <label class="mb-2">Views</label>
+                                            <p class="text-muted">${magazine.views}</p>
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <label class="mb-1">상세 내용(스마트 에디터)</label>
+                                            <input type="text" name="content" class="d-none">
+                                            <div id="summernote" class="summernote-container"></div>
+                                        </div>
+                                        <div class="col-12">
+                                            <h4 class="mt-0 mb-1">코멘트 (${magazine.comments})</h4>
+                                            <div class="mt-2">
+                                                <c:forEach items="${comments}" var="comment" varStatus="status">
+                                                    <c:choose>
+                                                        <c:when test="${status.first}">
+                                                            <div class="d-flex align-items-start">
+                                                                <img class="me-2 avatar-sm rounded-circle"
+                                                                     src="${comment.user.profile_img.url}"
+                                                                     alt="Generic placeholder image">
+                                                                <div class="w-100">
+                                                                    <h5 class="mt-0">
+                                                                        <a href="javascript:void(0);"
+                                                                           class="text-reset">${comment.user.name}</a>
+                                                                        <small class="text-muted">
+                                                                            <custom:formatDatetime
+                                                                                    value="${comment.reg_datetime}"
+                                                                                    pattern="yyyy.MM.dd"/>
+                                                                        </small>
+                                                                        <c:choose>
+                                                                            <c:when test="${comment._blocked eq false}">
+                                                                                <a class="badge badge-soft-primary"
+                                                                                   data-action="lock"
+                                                                                   data-no="${comment.no}"
+                                                                                   href="javascript:void(0);">
+                                                                                    <i class="dripicons-lock"></i>
+                                                                                </a>
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                <a class="badge badge-soft-primary"
+                                                                                   data-action="unlock"
+                                                                                   data-no="${comment.no}"
+                                                                                   href="javascript:void(0);">
+                                                                                    <i class="dripicons-lock-open"></i>
+                                                                                </a>
+                                                                            </c:otherwise>
+                                                                        </c:choose>
+                                                                        <c:if test="${comment.user_no ne null}">
+                                                                            <a class="badge badge-soft-danger"
+                                                                               data-action="_delete"
+                                                                               data-no="${comment.no}"
+                                                                               href="javascript:void(0);">
+                                                                                <i class="dripicons-trash"></i>
+                                                                            </a>
+                                                                        </c:if>
+                                                                    </h5>
+                                                                        ${comment.content}
+                                                                    <br>
+                                                                    <c:if test="${comment.comments.size() ne 0}">
+                                                                        <c:forEach items="${comment.comments}"
+                                                                                   var="recomment"
+                                                                                   varStatus="recomment_status">
+                                                                            <div class="d-flex align-items-start mt-3">
+                                                                                <a class="pe-2"
+                                                                                   href="javascript:void(0);">
+                                                                                    <img src="${recomment.user.profile_img.url}"
+                                                                                         class="avatar-sm rounded-circle"
+                                                                                         alt="Generic placeholder image">
+                                                                                </a>
+                                                                                <div class="w-100">
+                                                                                    <h5 class="mt-0">
+                                                                                        <a href="javascript:void(0);"
+                                                                                           class="text-reset">${recomment.user.name}</a>
+                                                                                        <small class="text-muted">
+                                                                                            <custom:formatDatetime
+                                                                                                    value="${recomment.reg_datetime}"
+                                                                                                    pattern="yyyy.MM.dd"/>
+                                                                                        </small>
+                                                                                        <c:choose>
+                                                                                            <c:when test="${recomment._blocked eq false}">
+                                                                                                <a class="badge badge-soft-primary"
+                                                                                                   data-action="lock"
+                                                                                                   data-no="${recomment.no}"
+                                                                                                   href="javascript:void(0);">
+                                                                                                    <i class="dripicons-lock"></i>
+                                                                                                </a>
+                                                                                            </c:when>
+                                                                                            <c:otherwise>
+                                                                                                <a class="badge badge-soft-primary"
+                                                                                                   data-action="unlock"
+                                                                                                   data-no="${recomment.no}"
+                                                                                                   href="javascript:void(0);">
+                                                                                                    <i class="dripicons-lock-open"></i>
+                                                                                                </a>
+                                                                                            </c:otherwise>
+                                                                                        </c:choose>
+                                                                                        <c:if test="${recomment.user_no ne null}">
+                                                                                            <a class="badge badge-soft-danger"
+                                                                                               data-action="_delete"
+                                                                                               data-no="${recomment.no}"
+                                                                                               href="javascript:void(0);">
+                                                                                                <i class="dripicons-trash"></i>
+                                                                                            </a>
+                                                                                        </c:if>
+                                                                                    </h5>
+                                                                                        ${recomment.content}
+                                                                                </div>
+                                                                            </div>
+                                                                        </c:forEach>
+                                                                    </c:if>
+                                                                </div>
+                                                            </div>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <div class="d-flex align-items-start mt-3">
+                                                                <img class="me-2 avatar-sm rounded-circle"
+                                                                     src="${comment.user.profile_img.url}"
+                                                                     alt="Generic placeholder image">
+                                                                <div class="w-100">
+                                                                    <h5 class="mt-0">
+                                                                        <a href="javascript:void(0);"
+                                                                           class="text-reset">${comment.user.name}</a>
+                                                                        <small class="text-muted">
+                                                                            <custom:formatDatetime
+                                                                                    value="${comment.reg_datetime}"
+                                                                                    pattern="yyyy.MM.dd"/>
+                                                                        </small>
+                                                                        <c:choose>
+                                                                            <c:when test="${comment._blocked eq false}">
+                                                                                <a class="badge badge-soft-primary"
+                                                                                   data-action="lock"
+                                                                                   data-no="${comment.no}"
+                                                                                   href="javascript:void(0);">
+                                                                                    <i class="dripicons-lock"></i>
+                                                                                </a>
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                <a class="badge badge-soft-primary"
+                                                                                   data-action="unlock"
+                                                                                   data-no="${comment.no}"
+                                                                                   href="javascript:void(0);">
+                                                                                    <i class="dripicons-lock-open"></i>
+                                                                                </a>
+                                                                            </c:otherwise>
+                                                                        </c:choose>
+                                                                        <c:if test="${comment.user_no ne null}">
+                                                                            <a class="badge badge-soft-danger"
+                                                                               data-action="_delete"
+                                                                               data-no="${comment.no}"
+                                                                               href="javascript:void(0);">
+                                                                                <i class="dripicons-trash"></i>
+                                                                            </a>
+                                                                        </c:if>
+                                                                    </h5>
+                                                                        ${comment.content}
+                                                                    <br>
+                                                                    <c:if test="${comment.comments.size() ne 0}">
+                                                                        <c:forEach items="${comment.comments}"
+                                                                                   var="recomment"
+                                                                                   varStatus="recomment_status">
+                                                                            <div class="d-flex align-items-start mt-3">
+                                                                                <a class="pe-2"
+                                                                                   href="javascript:void(0);">
+                                                                                    <img src="${recomment.user.profile_img.url}"
+                                                                                         class="avatar-sm rounded-circle"
+                                                                                         alt="Generic placeholder image">
+                                                                                </a>
+                                                                                <div class="w-100">
+                                                                                    <h5 class="mt-0">
+                                                                                        <a href="javascript:void(0);"
+                                                                                           class="text-reset">${recomment.user.name}</a>
+                                                                                        <small class="text-muted">
+                                                                                            <custom:formatDatetime
+                                                                                                    value="${recomment.reg_datetime}"
+                                                                                                    pattern="yyyy.MM.dd"/>
+                                                                                        </small>
+                                                                                        <c:choose>
+                                                                                            <c:when test="${recomment._blocked eq false}">
+                                                                                                <a class="badge badge-soft-primary"
+                                                                                                   data-action="lock"
+                                                                                                   data-no="${recomment.no}"
+                                                                                                   href="javascript:void(0);">
+                                                                                                    <i class="dripicons-lock"></i>
+                                                                                                </a>
+                                                                                            </c:when>
+                                                                                            <c:otherwise>
+                                                                                                <a class="badge badge-soft-primary"
+                                                                                                   data-action="unlock"
+                                                                                                   data-no="${recomment.no}"
+                                                                                                   href="javascript:void(0);">
+                                                                                                    <i class="dripicons-lock-open"></i>
+                                                                                                </a>
+                                                                                            </c:otherwise>
+                                                                                        </c:choose>
+                                                                                        <c:if test="${recomment.user_no ne null}">
+                                                                                            <a class="badge badge-soft-danger"
+                                                                                               data-action="_delete"
+                                                                                               data-no="${recomment.no}"
+                                                                                               href="javascript:void(0);">
+                                                                                                <i class="dripicons-trash"></i>
+                                                                                            </a>
+                                                                                        </c:if>
+                                                                                    </h5>
+                                                                                        ${recomment.content}
+                                                                                </div>
+                                                                            </div>
+                                                                        </c:forEach>
+                                                                    </c:if>
+                                                                </div>
+                                                            </div>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div> <!-- end card body-->
+                        </div> <!-- end card -->
+                    </div><!-- end col-->
+                </div>
+                <!-- end row-->
+            </div>
+            <!-- container -->
         </div>
-        <!-- end row-->
-      </div>
-      <!-- container -->
+        <!-- content -->
+        <jsp:include page="../common/footer.jsp"/>
     </div>
-    <!-- content -->
-    <jsp:include page="../common/footer.jsp"/>
-  </div>
 
-  <!-- ============================================================== -->
-  <!-- End Page content -->
-  <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
 
 
 </div>
 <!-- END wrapper -->
 <!-- Modal-->
+<div id="active-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-filled bg-danger">
+            <div class="modal-body p-4">
+                <div class="text-center">
+                    <i class="dripicons-wrong h1 text-white"></i>
+                    <h4 class="mt-2 text-white">Oh snap!</h4>
+                    <p class="mt-3 text-white">Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+                        dapibus ac
+                        facilisis in, egestas eget quam.</p>
+                    <button type="button"
+                            class="btn btn-light my-2"
+                            data-action="active">Continue
+                    </button>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <div id="update-modal"
      class="modal fade"
      tabindex="-1"
      role="dialog"
      aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content modal-filled bg-success">
-      <div class="modal-body p-4">
-        <div class="text-center">
-          <i class="dripicons-to-do h1 text-white"></i>
-          <h4 class="mt-2 text-white">Oh snap!</h4>
-          <p class="mt-3 text-white">Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-                                     facilisis in, egestas eget quam.</p>
-          <button type="button"
-                  class="btn btn-light my-2"
-                  data-action="update">Continue
-          </button>
-        </div>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-filled bg-success">
+            <div class="modal-body p-4">
+                <div class="text-center">
+                    <i class="dripicons-to-do h1 text-white"></i>
+                    <h4 class="mt-2 text-white">Oh snap!</h4>
+                    <p class="mt-3 text-white">Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+                        dapibus ac
+                        facilisis in, egestas eget quam.</p>
+                    <button type="button"
+                            class="btn btn-light my-2"
+                            data-action="update">Continue
+                    </button>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <div id="delete-modal"
      class="modal fade"
      tabindex="-1"
      role="dialog"
      aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content modal-filled bg-danger">
-      <div class="modal-body p-4">
-        <div class="text-center">
-          <i class="dripicons-wrong h1 text-white"></i>
-          <h4 class="mt-2 text-white">Oh snap!</h4>
-          <p class="mt-3 text-white">Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-                                     facilisis in, egestas eget quam.</p>
-          <button type="button"
-                  class="btn btn-light my-2"
-                  data-action="delete">Continue
-          </button>
-        </div>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-filled bg-danger">
+            <div class="modal-body p-4">
+                <div class="text-center">
+                    <i class="dripicons-wrong h1 text-white"></i>
+                    <h4 class="mt-2 text-white">Oh snap!</h4>
+                    <p class="mt-3 text-white">Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+                        dapibus ac
+                        facilisis in, egestas eget quam.</p>
+                    <button type="button"
+                            class="btn btn-light my-2"
+                            data-action="delete">Continue
+                    </button>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- Modal End-->
 <!-- Vendor js -->
@@ -364,10 +546,12 @@
 <!-- App js -->
 <script src="/resources/admin/assets/js/app.min.js"></script>
 <script src="/resources/admin/assets/js/admin.js"></script>
+<script src="/resources/js/api.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script src="/resources/js/plugin/summernote/custom_summernote-bs4.js"></script>
 <script src="/resources/js/plugin/summernote/summernote-ko-KR.js"></script>
 <script src="/resources/admin/assets/libs/dropify/js/dropify.min.js"></script>
+<script src="/resources/js/utility.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         $('[data-plugins="dropify"]').dropify({
@@ -381,11 +565,20 @@
 
         //event
         $('[data-action="delete"]').click(function (event) {
-            console.log(this);
             let no = this.dataset.no;
-            console.log(no);
-            /*TODO Fetch*/
-            alert('삭제');
+            deleteCommunity('MAGAZINE', no).then((result) => {
+                console.log(result);
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        alert('해당 게시글을 삭제하였습니다.');
+                        location.href = '/admin/tips';
+                    } else {
+                        alert('해당 게시글을 삭제할 수 없습니다.');
+                    }
+                } else {
+                    alert('해당 게시글을 삭제할 수 없습니다.');
+                }
+            });
             $('#delete-modal').modal('hide');
         });
         //fetch get data
@@ -407,11 +600,8 @@
         //event
         $('[data-action="update"]').click(function (event) {
             console.log(this);
-            let no = this.dataset.no;
-            console.log(no);
-            /*TODO Fetch*/
-            alert('수정');
-            $('#update-modal').modal('hide');
+            let form = document.querySelector('form');
+            $('form').submit();
         });
         //fetch get data
         $('#update-modal').on('show.bs.modal', function (event) {
@@ -455,8 +645,134 @@
             shortcuts: false,
             placeholder: '게시글 내용을 입력해주세요.'
         });
-        $('#summernote').summernote('code', '<p>test</p>'.replaceAll('&#39;', '\''));
+        $('#summernote').summernote('code', '${magazine.content}'.replaceAll('&#39;', '\''));
+
+        //comment event action
+        $('[data-action="_delete"]').click(function (event) {
+            deleteReviewReply('MAGAZINE', this.dataset.no).then((result) => {
+                console.log(result);
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        alert('코멘트를 삭제하였습니다.');
+                        location.reload();
+                    } else {
+                        alert('코멘트를 삭제할 수 없습니다.');
+                    }
+                } else {
+                    alert('코멘트를 삭제할 수 없습니다.');
+                }
+            });
+        });
+        $('[data-action="lock"]').click(function (event) {
+            blockReview('LOCK', 'MAGAZINE', this.dataset.no).then((result) => {
+                console.log(result);
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        alert('해당 댓글을 비공개 처리 했습니다.');
+                        location.reload();
+                    } else {
+                        alert('해당 댓글을 비공개 처리 할 수 없습니다.');
+                    }
+                } else {
+                    alert('해당 댓글을 비공개 처리 할 수 없습니다.');
+                }
+            });
+        });
+        $('[data-action="unlock"]').click(function (event) {
+            blockReview('UNLOCK', 'MAGAZINE', this.dataset.no).then((result) => {
+                console.log(result);
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        alert('해당 댓글을 공개 처리 했습니다.');
+                        location.reload();
+                    } else {
+                        alert('해당 댓글을 공개 처리 할 수 없습니다.');
+                    }
+                } else {
+                    alert('해당 댓글을 공개 처리 할 수 없습니다.');
+                }
+            });
+        });
+
+        //event
+        $('[data-action="active"]').click(function (event) {
+            let no = this.dataset.no;
+            let type = this.dataset.type;
+            magazineStatusUpdate(type, no).then((result) => {
+                console.log(result);
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        if (type === 'ACTIVE') {
+                            alert('매거진을 활성화 하였습니다.');
+                        } else {
+                            alert('매거진을 비활성화 하였습니다.');
+                        }
+                        location.reload();
+                    } else {
+                        if (type === 'ACTIVE') {
+                            alert('매거진을 활성화 할 수 없습니다.');
+                        } else {
+                            alert('매거진을 비활성화 할 수 없습니다.');
+                        }
+                    }
+                } else {
+                    if (type === 'ACTIVE') {
+                        alert('매거진을 활성화 할 수 없습니다.');
+                    } else {
+                        alert('매거진을 비활성화 할 수 없습니다.');
+                    }
+                }
+            });
+            $('#active-modal').modal('hide');
+        });
+        //fetch get data
+        $('#active-modal').on('show.bs.modal', function (event) {
+            let button = event.relatedTarget;
+            let modal = this;
+            let modal_success_btn = modal.querySelector('[data-action="active"]');
+            modal_success_btn.setAttribute('data-no', button.dataset.bsNo);
+            modal_success_btn.setAttribute('data-type', button.dataset.bsType);
+            console.log(button, modal);
+        });
+        //initailize modal
+        $('#active-modal').on('hide.bs.modal', function (event) {
+            let modal = this;
+            let modal_success_btn = modal.querySelector('[data-action="active"]');
+            modal_success_btn.removeAttribute('data-no');
+            modal_success_btn.removeAttribute('data-type');
+            console.log(modal);
+        });
     });
+
+    const communitySubmit = () => {
+        let return_check = true;
+        let title = $('[name="title"]').val();
+        let content = $('#summernote').summernote('code');
+        $('[name="content"]').val(content);
+        let category = $('[name="category"]').val();
+        let origin_thumbnail = $('[name="origin_thumbnail"]');
+        let origin_dataset = $('[name="file"]')[0].dataset;
+        if ($('.dropify-wrapper.has-preview').length !== 0) {
+            origin_thumbnail.val(JSON.stringify({
+                url: origin_dataset.thumbnailImageUrl,
+                name: origin_dataset.thumbnailImageName,
+                type: origin_dataset.thumbnailImageType,
+                size: origin_dataset.thumbnailImageSize
+            }));
+        } else {
+            origin_thumbnail.val(JSON.stringify({
+                url: null,
+                name: null,
+                type: null,
+                size: null
+            }));
+        }
+        console.log('title', title);
+        console.log('content', content);
+        console.log('category', category);
+        console.log('origin_thumbnail', origin_thumbnail);
+        return return_check;
+    }
 </script>
 </body>
 </html>

@@ -657,12 +657,21 @@
         let category = $('[name="category"]').val();
         let origin_thumbnail = $('[name="origin_thumbnail"]');
         let origin_dataset = $('[name="file"]')[0].dataset;
-        origin_thumbnail.val(JSON.stringify({
-            url: origin_dataset.thumbnailImageUrl,
-            name: origin_dataset.thumbnailImageName,
-            type: origin_dataset.thumbnailImageType,
-            size: origin_dataset.thumbnailImageSize
-        }));
+        if ($('.dropify-wrapper.has-preview').length !== 0) {
+            origin_thumbnail.val(JSON.stringify({
+                url: origin_dataset.thumbnailImageUrl,
+                name: origin_dataset.thumbnailImageName,
+                type: origin_dataset.thumbnailImageType,
+                size: origin_dataset.thumbnailImageSize
+            }));
+        } else {
+            origin_thumbnail.val(JSON.stringify({
+                url: null,
+                name: null,
+                type: null,
+                size: null
+            }));
+        }
         console.log('title', title);
         console.log('content', content);
         console.log('category', category);

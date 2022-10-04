@@ -167,3 +167,26 @@ async function blockReview(_type, type, comment_no) {
         console.log(error);
     }
 }
+
+async function magazineStatusUpdate(status, magazine_no) {
+    function apiMagazineStatusUpdate(status, magazine_no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`/admin/api/magazine/status/update/${magazine_no}/${status}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiMagazineStatusUpdate(status, magazine_no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}

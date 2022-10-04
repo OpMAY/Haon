@@ -207,4 +207,16 @@ public class AdminRestController {
         message.put("status", true);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/magazine/status/update/{magazine_no}/{type}", method = RequestMethod.POST)
+    public ResponseEntity magazineStatusUpdate(HttpServletRequest request, @PathVariable int magazine_no, @PathVariable String type) {
+        Message message = new Message();
+        if (type.equals("ACTIVE")) {
+            adminService.updateMagazineShow(magazine_no, true);
+        } else {
+            adminService.updateMagazineShow(magazine_no, false);
+        }
+        message.put("status", true);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
 }

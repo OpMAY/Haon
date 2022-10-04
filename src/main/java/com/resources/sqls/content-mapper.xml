@@ -136,6 +136,16 @@
         where no = #{magazine_no}
           AND is_show = true;
     </select>
+    <select id="getMagazineExcludeShow" parameterType="int" resultType="Magazine" resultMap="Magazine">
+        select *
+        from magazine
+        where no = #{magazine_no};
+    </select>
+    <select id="getAllMagazines" resultType="Magazine" resultMap="Magazine">
+        select *
+        from magazine
+        order by reg_datetime desc;
+    </select>
     <select id="getBookmarkMagazines" parameterType="int" resultType="Magazine" resultMap="Magazine">
         select *
         from magazine
@@ -899,6 +909,11 @@
             thumbnail=#{thumbnail, typeHandler=JsonObjectTypeHandler}
         where no = #{no}
     </update>
+    <update id="updateMagazineShow">
+        update magazine
+        set is_show=#{status}
+        where no = #{magazine_no};
+    </update>
     <select id="getBoardSearchResult" resultType="Board">
         SET @QUERY = concat('%', #{query}, '%');
         <if test="last_content_no != 0">
@@ -1121,6 +1136,11 @@
     <delete id="deleteManual" parameterType="int">
         delete
         from manual
+        where no = #{community_no};
+    </delete>
+    <delete id="deleteMagazine" parameterType="int">
+        delete
+        from magazine
         where no = #{community_no};
     </delete>
     <update id="updateBoardBlockByCommentNo">

@@ -232,6 +232,8 @@ public interface ContentMapper {
 
     void deleteManual(@Param("community_no") int manual_no);
 
+    void deleteMagazine(@Param("community_no") int magazine_no);
+
     ArrayList<Board> getAllBoards();
 
     void updateBoardBlockByCommentNo(@Param("comment_no") int comment_no, @Param("block") boolean block);
@@ -251,4 +253,11 @@ public interface ContentMapper {
     ArrayList<Manual> getAllManuals();
 
     ArrayList<Question> getAllQuestions();
+
+    ArrayList<Magazine> getAllMagazines();
+
+    void updateMagazineShow(@Param("magazine_no") int magazine_no, @Param("status") boolean status);
+
+    Magazine getMagazineExcludeShow(@Param("magazine_no") int magazine_no);
+
 }

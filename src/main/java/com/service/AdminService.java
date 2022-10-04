@@ -2,6 +2,7 @@ package com.service;
 
 import com.dao.*;
 import com.model.content.board.Board;
+import com.model.content.magazine.Magazine;
 import com.model.content.manual.Manual;
 import com.model.content.question.Question;
 import com.model.content.tips.Tips;
@@ -178,5 +179,22 @@ public class AdminService {
 
     public void updateQuestion(Question question) {
         contentDao.updateQuestion(question);
+    }
+
+    public ArrayList<Magazine> getAllMagazines() {
+        return contentDao.getAllMagazines();
+    }
+
+    public void updateMagazineShow(int magazine_no, boolean status) {
+        contentDao.updateMagazineShow(magazine_no, status);
+    }
+
+    public void updateMagazine(Magazine magazine) {
+        contentDao.updateMagazine(magazine);
+    }
+
+    public int createMagazine(Magazine magazine) {
+        contentDao.insertMagazine(magazine);
+        return magazine.getNo();
     }
 }
