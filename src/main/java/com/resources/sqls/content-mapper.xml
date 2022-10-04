@@ -183,6 +183,11 @@
         from manual
         where farm_no = #{farm_no}
     </select>
+    <select id="getAllManuals" resultType="Manual" resultMap="Manual">
+        select *
+        from manual
+        order by reg_datetime desc;
+    </select>
     <select id="getBookmarkManuals" parameterType="int" resultType="Manual" resultMap="Manual">
         select *
         from manual
@@ -867,7 +872,7 @@
                 #{category});
     </insert>
     <update id="updateManual" parameterType="Manual">
-        update tips
+        update manual
         set title=#{title},
             category=#{category},
             content=#{content},
