@@ -1,69 +1,71 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <title>Datatables | UBold - Responsive Admin Dashboard Template</title>
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-  <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc."
-        name="description"/>
-  <meta content="Coderthemes"
-        name="author"/>
-  <meta http-equiv="X-UA-Compatible"
-        content="IE=edge"/>
-  <!-- App favicon -->
-  <link rel="shortcut icon"
-        href="/resources/admin/assets/images/favicon.ico">
+    <meta charset="utf-8"/>
+    <title>${HEADER_TITLE}</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc."
+          name="description"/>
+    <meta content="Coderthemes"
+          name="author"/>
+    <meta http-equiv="X-UA-Compatible"
+          content="IE=edge"/>
+    <!-- App favicon -->
+    <link rel="shortcut icon"
+          href="/resources/admin/assets/images/favicon.ico">
 
-  <!-- third party css -->
-  <link href="/resources/admin/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css"
-        rel="stylesheet"
-        type="text/css"/>
-  <link href="/resources/admin/assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css"
-        rel="stylesheet"
-        type="text/css"/>
-  <link href="/resources/admin/assets/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css"
-        rel="stylesheet"
-        type="text/css"/>
-  <link href="/resources/admin/assets/libs/datatables.net-select-bs5/css//select.bootstrap5.min.css"
-        rel="stylesheet"
-        type="text/css"/>
-  <!-- third party css end -->
+    <!-- third party css -->
+    <link href="/resources/admin/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <link href="/resources/admin/assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <link href="/resources/admin/assets/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <link href="/resources/admin/assets/libs/datatables.net-select-bs5/css//select.bootstrap5.min.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <!-- third party css end -->
 
-  <!-- App css -->
-  <link href="/resources/admin/assets/css/config/default/bootstrap.min.css"
-        rel="stylesheet"
-        type="text/css"
-        id="bs-default-stylesheet"/>
-  <link href="/resources/admin/assets/css/config/default/app.min.css"
-        rel="stylesheet"
-        type="text/css"
-        id="app-default-stylesheet"/>
+    <!-- App css -->
+    <link href="/resources/admin/assets/css/config/default/bootstrap.min.css"
+          rel="stylesheet"
+          type="text/css"
+          id="bs-default-stylesheet"/>
+    <link href="/resources/admin/assets/css/config/default/app.min.css"
+          rel="stylesheet"
+          type="text/css"
+          id="app-default-stylesheet"/>
 
-  <link href="/resources/admin/assets/css/config/default/bootstrap-dark.min.css"
-        rel="stylesheet"
-        type="text/css"
-        id="bs-dark-stylesheet"/>
-  <link href="/resources/admin/assets/css/config/default/app-dark.min.css"
-        rel="stylesheet"
-        type="text/css"
-        id="app-dark-stylesheet"/>
-  <!-- Custom Css -->
-  <link rel="preconnect"
-        href="https://fonts.googleapis.com">
-  <link rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
-        rel="stylesheet">
-  <link href="/resources/admin/assets/css/admin.css"
-        rel="stylesheet"
-        type="text/css"/>
-  <!-- icons -->
-  <link href="/resources/admin/assets/css/icons.min.css"
-        rel="stylesheet"
-        type="text/css"/>
+    <link href="/resources/admin/assets/css/config/default/bootstrap-dark.min.css"
+          rel="stylesheet"
+          type="text/css"
+          id="bs-dark-stylesheet"/>
+    <link href="/resources/admin/assets/css/config/default/app-dark.min.css"
+          rel="stylesheet"
+          type="text/css"
+          id="app-dark-stylesheet"/>
+    <!-- Custom Css -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+          rel="stylesheet">
+    <link href="/resources/admin/assets/css/admin.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <!-- icons -->
+    <link href="/resources/admin/assets/css/icons.min.css"
+          rel="stylesheet"
+          type="text/css"/>
 
 </head>
 
@@ -73,113 +75,115 @@
 
 <!-- Begin page -->
 <div id="wrapper">
-  <jsp:include page="../common/left-sidebar.jsp"/>
-  <!-- ============================================================== -->
-  <!-- Start Page Content here -->
-  <!-- ============================================================== -->
+    <jsp:include page="../common/left-sidebar.jsp"/>
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
 
-  <div class="content-page">
-    <div class="content">
+    <div class="content-page">
+        <div class="content">
 
-      <!-- Start Content-->
-      <div class="container-fluid">
+            <!-- Start Content-->
+            <div class="container-fluid">
 
-        <!-- start page title -->
-        <div class="row">
-          <div class="col-12">
-            <div class="page-title-box">
-              <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                  <li class="breadcrumb-item"><a href="../dashboard.html">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="javascript: void(0);">커뮤니티</a></li>
-                  <li class="breadcrumb-item active">매거진</li>
-                </ol>
-              </div>
-              <h4 class="page-title">매거진</h4>
-            </div>
-          </div>
-        </div>
-        <!-- end page title -->
-
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
-                <div class="d-flex mb-3">
-                  <h4 class="header-title my-auto">총 424개의 매거진 게시글</h4>
-                  <button type="button" data-href="../community/magazine-detail-create.html"
-                          class="btn btn-primary waves-effect waves-light ms-auto">글쓰기</button>
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">커뮤니티</a></li>
+                                    <li class="breadcrumb-item active">매거진</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">매거진</h4>
+                        </div>
+                    </div>
                 </div>
-                <p class="text-muted font-13 mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi atque
-                                                   consequuntur deserunt ea eveniet id ipsa, molestiae necessitatibus
-                                                   praesentium quam reiciendis suscipit! Aut blanditiis distinctio
-                                                   impedit, nulla praesentium quod rem!</p>
-                <table id="basic-datatable"
-                       class="table dt-responsive nowrap w-100">
-                  <thead>
-                  <tr>
-                    <th>번호</th>
-                    <th>카테고리</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>좋아요 수</th>
-                    <th>댓글 수</th>
-                    <th>Views</th>
-                    <th>작성 일자</th>
-                    <th>게시글 상태</th>
-                    <th>비고</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td><span class="badge bg-dark">기타</span></td>
-                    <td>양& 염소는 어떻게?양& 염소는 어떻게?양& 염소는 어떻게?</td>
-                    <td>하은 축산(유병준)</td>
-                    <td>12</td>
-                    <td>12</td>
-                    <td>23</td>
-                    <td>2022.12.22</td>
-                    <td><span class="badge bg-success">활성화</span></td>
-                    <td>
-                      <button type="button" data-href="../community/magazine-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td><span class="badge bg-dark">기타</span></td>
-                    <td>양& 염소는 어떻게?양& 염소는 어떻게?양& 염소는 어떻게?</td>
-                    <td>하은 축산(유병준)</td>
-                    <td>12</td>
-                    <td>12</td>
-                    <td>23</td>
-                    <td>2022.12.22</td>
-                    <td><span class="badge bg-danger">비활성화</span></td>
-                    <td>
-                      <button type="button" data-href="../community/magazine-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div> <!-- end card body-->
-            </div> <!-- end card -->
-          </div><!-- end col-->
-        </div>
-        <!-- end row-->
-      </div>
-      <!-- container -->
-    </div>
-    <!-- content -->
-    <jsp:include page="../common/footer.jsp"/>
-  </div>
+                <!-- end page title -->
 
-  <!-- ============================================================== -->
-  <!-- End Page content -->
-  <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex mb-3">
+                                    <h4 class="header-title my-auto">총 ${magazines.size()}개의 매거진 게시글</h4>
+                                    <button type="button" data-href="/admin/magazine/create"
+                                            class="btn btn-primary waves-effect waves-light ms-auto">글쓰기
+                                    </button>
+                                </div>
+                                <p class="text-muted font-13 mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing
+                                    elit. Animi atque
+                                    consequuntur deserunt ea eveniet id ipsa, molestiae necessitatibus
+                                    praesentium quam reiciendis suscipit! Aut blanditiis distinctio
+                                    impedit, nulla praesentium quod rem!</p>
+                                <table id="basic-datatable"
+                                       class="table dt-responsive nowrap w-100">
+                                    <thead>
+                                    <tr>
+                                        <th>번호</th>
+                                        <th>카테고리</th>
+                                        <th>제목</th>
+                                        <th>작성자</th>
+                                        <th>좋아요 수</th>
+                                        <th>댓글 수</th>
+                                        <th>Views</th>
+                                        <th>작성 일자</th>
+                                        <th>게시글 상태</th>
+                                        <th>비고</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach items="${magazines}" var="magazine" varStatus="status">
+                                        <tr>
+                                            <td>${status.count}</td>
+                                            <td><span class="badge bg-dark">${magazine.category}</span></td>
+                                            <td>${magazine.title}</td>
+                                            <td>${magazine.farm.name}</td>
+                                            <td>${magazine.likes}</td>
+                                            <td>${magazine.comments}</td>
+                                            <td>${magazine.views}</td>
+                                            <td>
+                                                <custom:formatDatetime value="${magazine.reg_datetime}"
+                                                                       pattern="yyyy.MM.dd"/>
+                                            </td>
+                                            <c:choose>
+                                                <c:when test="${magazine._show eq true}">
+                                                    <td>
+                                                        <span class="badge bg-success">활성화</span>
+                                                    </td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td>
+                                                        <span class="badge bg-danger">비활성화</span>
+                                                    </td>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <td>
+                                                <button type="button" data-href="/admin/magazine/detail/${magazine.no}"
+                                                        class="btn btn-dark waves-effect waves-light">상세 보기
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div> <!-- end card body-->
+                        </div> <!-- end card -->
+                    </div><!-- end col-->
+                </div>
+                <!-- end row-->
+            </div>
+            <!-- container -->
+        </div>
+        <!-- content -->
+        <jsp:include page="../common/footer.jsp"/>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
 
 
 </div>

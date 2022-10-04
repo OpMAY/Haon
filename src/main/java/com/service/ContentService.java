@@ -835,4 +835,8 @@ public class ContentService {
             default:
         }
     }
+
+    public Magazine getMagazineExcludeShow(int magazine_no) {
+        return contentDao.getMagazineExcludeShow(magazine_no);
+    }
 }

@@ -134,9 +134,16 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <label class="mb-1">메인 이미지</label>
-                                        <div class="mb-3 background"
-                                             style="padding-top: 30%; background-image: url('${tip.thumbnail.url}')">
-                                        </div>
+                                        <c:choose>
+                                            <c:when test="${tip.thumbnail ne null}">
+                                                <div class="mb-3 background"
+                                                     style="padding-top: 30%; background-image: url('${tip.thumbnail.url}')">
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <p class="text-muted">메인 이미지가 없습니다.</p>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                     <div class="col-auto">
                                         <label class="mb-1">게시글 명</label>
@@ -150,7 +157,8 @@
                                     </div>
                                     <div class="col-auto">
                                         <label class="mb-1">작성 일자</label>
-                                        <p class="text-muted"><custom:formatDatetime value="${tip.reg_datetime}" pattern="yyyy.MM.dd"/></p>
+                                        <p class="text-muted"><custom:formatDatetime value="${tip.reg_datetime}"
+                                                                                     pattern="yyyy.MM.dd"/></p>
                                     </div>
                                     <div class="col-auto">
                                         <label class="mb-1">작성자</label>

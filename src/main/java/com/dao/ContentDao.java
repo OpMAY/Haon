@@ -458,7 +458,7 @@ public class ContentDao {
     }
 
     public void deleteMagazine(int magazine_no) {
-        mapper.deleteManual(magazine_no);
+        mapper.deleteMagazine(magazine_no);
     }
 
     public ArrayList<Board> getAllBoards() {
@@ -494,5 +494,17 @@ public class ContentDao {
 
     public ArrayList<Question> getAllQuestions() {
         return mapper.getAllQuestions();
+    }
+
+    public ArrayList<Magazine> getAllMagazines() {
+        return mapper.getAllMagazines();
+    }
+
+    public void updateMagazineShow(int magazine_no, boolean status) {
+        mapper.updateMagazineShow(magazine_no,status);
+    }
+
+    public Magazine getMagazineExcludeShow(int magazine_no) {
+        return mapper.getMagazineExcludeShow(magazine_no);
     }
 }
