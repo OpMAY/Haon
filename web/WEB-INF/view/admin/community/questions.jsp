@@ -1,69 +1,71 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <title>Datatables | UBold - Responsive Admin Dashboard Template</title>
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-  <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc."
-        name="description"/>
-  <meta content="Coderthemes"
-        name="author"/>
-  <meta http-equiv="X-UA-Compatible"
-        content="IE=edge"/>
-  <!-- App favicon -->
-  <link rel="shortcut icon"
-        href="/resources/admin/assets/images/favicon.ico">
+    <meta charset="utf-8"/>
+    <title>${HEADER_TITLE}</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc."
+          name="description"/>
+    <meta content="Coderthemes"
+          name="author"/>
+    <meta http-equiv="X-UA-Compatible"
+          content="IE=edge"/>
+    <!-- App favicon -->
+    <link rel="shortcut icon"
+          href="/resources/admin/assets/images/favicon.ico">
 
-  <!-- third party css -->
-  <link href="/resources/admin/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css"
-        rel="stylesheet"
-        type="text/css"/>
-  <link href="/resources/admin/assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css"
-        rel="stylesheet"
-        type="text/css"/>
-  <link href="/resources/admin/assets/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css"
-        rel="stylesheet"
-        type="text/css"/>
-  <link href="/resources/admin/assets/libs/datatables.net-select-bs5/css//select.bootstrap5.min.css"
-        rel="stylesheet"
-        type="text/css"/>
-  <!-- third party css end -->
+    <!-- third party css -->
+    <link href="/resources/admin/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <link href="/resources/admin/assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <link href="/resources/admin/assets/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <link href="/resources/admin/assets/libs/datatables.net-select-bs5/css//select.bootstrap5.min.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <!-- third party css end -->
 
-  <!-- App css -->
-  <link href="/resources/admin/assets/css/config/default/bootstrap.min.css"
-        rel="stylesheet"
-        type="text/css"
-        id="bs-default-stylesheet"/>
-  <link href="/resources/admin/assets/css/config/default/app.min.css"
-        rel="stylesheet"
-        type="text/css"
-        id="app-default-stylesheet"/>
+    <!-- App css -->
+    <link href="/resources/admin/assets/css/config/default/bootstrap.min.css"
+          rel="stylesheet"
+          type="text/css"
+          id="bs-default-stylesheet"/>
+    <link href="/resources/admin/assets/css/config/default/app.min.css"
+          rel="stylesheet"
+          type="text/css"
+          id="app-default-stylesheet"/>
 
-  <link href="/resources/admin/assets/css/config/default/bootstrap-dark.min.css"
-        rel="stylesheet"
-        type="text/css"
-        id="bs-dark-stylesheet"/>
-  <link href="/resources/admin/assets/css/config/default/app-dark.min.css"
-        rel="stylesheet"
-        type="text/css"
-        id="app-dark-stylesheet"/>
-  <!-- Custom Css -->
-  <link rel="preconnect"
-        href="https://fonts.googleapis.com">
-  <link rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
-        rel="stylesheet">
-  <link href="/resources/admin/assets/css/admin.css"
-        rel="stylesheet"
-        type="text/css"/>
-  <!-- icons -->
-  <link href="/resources/admin/assets/css/icons.min.css"
-        rel="stylesheet"
-        type="text/css"/>
+    <link href="/resources/admin/assets/css/config/default/bootstrap-dark.min.css"
+          rel="stylesheet"
+          type="text/css"
+          id="bs-dark-stylesheet"/>
+    <link href="/resources/admin/assets/css/config/default/app-dark.min.css"
+          rel="stylesheet"
+          type="text/css"
+          id="app-dark-stylesheet"/>
+    <!-- Custom Css -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+          rel="stylesheet">
+    <link href="/resources/admin/assets/css/admin.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <!-- icons -->
+    <link href="/resources/admin/assets/css/icons.min.css"
+          rel="stylesheet"
+          type="text/css"/>
 
 </head>
 
@@ -73,109 +75,96 @@
 
 <!-- Begin page -->
 <div id="wrapper">
-  <jsp:include page="../common/left-sidebar.jsp"/>
-  <!-- ============================================================== -->
-  <!-- Start Page Content here -->
-  <!-- ============================================================== -->
+    <jsp:include page="../common/left-sidebar.jsp"/>
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
 
-  <div class="content-page">
-    <div class="content">
+    <div class="content-page">
+        <div class="content">
 
-      <!-- Start Content-->
-      <div class="container-fluid">
+            <!-- Start Content-->
+            <div class="container-fluid">
 
-        <!-- start page title -->
-        <div class="row">
-          <div class="col-12">
-            <div class="page-title-box">
-              <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                  <li class="breadcrumb-item"><a href="../dashboard.html">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="javascript: void(0);">커뮤니티</a></li>
-                  <li class="breadcrumb-item active">질문과 답변</li>
-                </ol>
-              </div>
-              <h4 class="page-title">질문과 답변</h4>
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">커뮤니티</a></li>
+                                    <li class="breadcrumb-item active">질문과 답변</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">질문과 답변</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="header-title">총 ${questions.size()}개의 질문과 답변 게시글</h4>
+                                <p class="text-muted font-13 mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing
+                                    elit. Animi atque
+                                    consequuntur deserunt ea eveniet id ipsa, molestiae necessitatibus
+                                    praesentium quam reiciendis suscipit! Aut blanditiis distinctio
+                                    impedit, nulla praesentium quod rem!</p>
+                                <table id="basic-datatable"
+                                       class="table dt-responsive nowrap w-100">
+                                    <thead>
+                                    <tr>
+                                        <th>번호</th>
+                                        <th>카테고리</th>
+                                        <th>제목</th>
+                                        <th>작성자</th>
+                                        <th>좋아요 수</th>
+                                        <th>댓글 수</th>
+                                        <th>Views</th>
+                                        <th>작성 일자</th>
+                                        <th>비고</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach items="${questions}" var="question" varStatus="status">
+                                        <tr>
+                                            <td>${status.count}</td>
+                                            <td><span class="badge bg-dark">${question.category}</span></td>
+                                            <td>${question.title}</td>
+                                            <td>${question.farm.name}</td>
+                                            <td>${question.likes}</td>
+                                            <td>${question.comments}</td>
+                                            <td>${question.views}</td>
+                                            <td>
+                                                <custom:formatDatetime value="${question.reg_datetime}" pattern="yyyy.MM.dd"/>
+                                            </td>
+                                            <td>
+                                                <button type="button" data-href="/admin/question/detail/${question.no}"
+                                                        class="btn btn-dark waves-effect waves-light">상세 보기
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div> <!-- end card body-->
+                        </div> <!-- end card -->
+                    </div><!-- end col-->
+                </div>
+                <!-- end row-->
             </div>
-          </div>
+            <!-- container -->
         </div>
-        <!-- end page title -->
-
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="header-title">총 424개의 질문과 답변 게시글</h4>
-                <p class="text-muted font-13 mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi atque
-                                                   consequuntur deserunt ea eveniet id ipsa, molestiae necessitatibus
-                                                   praesentium quam reiciendis suscipit! Aut blanditiis distinctio
-                                                   impedit, nulla praesentium quod rem!</p>
-                <table id="basic-datatable"
-                       class="table dt-responsive nowrap w-100">
-                  <thead>
-                  <tr>
-                    <th>번호</th>
-                    <th>카테고리</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>좋아요 수</th>
-                    <th>댓글 수</th>
-                    <th>Views</th>
-                    <th>작성 일자</th>
-                    <th>게시글 상태</th>
-                    <th>비고</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td><span class="badge bg-dark">기타</span></td>
-                    <td>양& 염소는 어떻게?양& 염소는 어떻게?양& 염소는 어떻게?</td>
-                    <td>하은 축산(유병준)</td>
-                    <td>12</td>
-                    <td>12</td>
-                    <td>23</td>
-                    <td>2022.12.22</td>
-                    <td><span class="badge bg-success">활성화</span></td>
-                    <td>
-                      <button type="button" data-href="../community/question-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td><span class="badge bg-dark">기타</span></td>
-                    <td>양& 염소는 어떻게?양& 염소는 어떻게?양& 염소는 어떻게?</td>
-                    <td>하은 축산(유병준)</td>
-                    <td>12</td>
-                    <td>12</td>
-                    <td>23</td>
-                    <td>2022.12.22</td>
-                    <td><span class="badge bg-danger">비활성화</span></td>
-                    <td>
-                      <button type="button" data-href="../community/question-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div> <!-- end card body-->
-            </div> <!-- end card -->
-          </div><!-- end col-->
-        </div>
-        <!-- end row-->
-      </div>
-      <!-- container -->
+        <!-- content -->
+        <jsp:include page="../common/footer.jsp"/>
     </div>
-    <!-- content -->
-    <jsp:include page="../common/footer.jsp"/>
-  </div>
 
-  <!-- ============================================================== -->
-  <!-- End Page content -->
-  <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
 
 
 </div>

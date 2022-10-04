@@ -11,6 +11,9 @@ import com.model.content.board.BoardTransaction;
 import com.model.content.manual.Manual;
 import com.model.content.manual.ManualComment;
 import com.model.content.manual.ManualTransaction;
+import com.model.content.question.Question;
+import com.model.content.question.QuestionComment;
+import com.model.content.question.QuestionTransaction;
 import com.model.content.tips.Tips;
 import com.model.content.tips.TipsComment;
 import com.model.content.tips.TipsTransaction;
@@ -336,24 +339,223 @@ public class AdminController {
     @RequestMapping(value = "/questions", method = RequestMethod.GET)
     public ModelAndView getQuestions(HttpServletRequest request) {
         VIEW = new ModelAndView("admin/community/questions");
+        ArrayList<Question> questions = adminService.getAllQuestions();
+        VIEW.addObject("questions", questions);
+        for (Question question : questions) {
+            //작성자
+            Farm farm = farmService.getFarmByFarmNo(question.getFarm_no());
+            question.setFarm(farm);
+            //좋아요 수
+            ArrayList<QuestionTransaction> questionTransactions = likeService.getLikesByQuestionNo(question.getNo());
+            question.setLikes(questionTransactions.size());
+            //댓글 수
+            ArrayList<QuestionComment> comments = commentService.getQuestionComments(question.getNo());
+            int comment_count = 0;
+            for (QuestionComment comment : comments) {
+                comment_count++;
+                ArrayList<QuestionComment> recomments = commentService.getQuestionRecommentByCommentNo(comment.getNo());
+                for (QuestionComment recomment : recomments) {
+                    comment_count++;
+                }
+            }
+            question.setComments(comment_count);
+        }
         return VIEW;
     }
 
     @RequestMapping(value = "/question/detail/{question_no}", method = RequestMethod.GET)
     public ModelAndView getQuestionDetail(HttpServletRequest request, @PathVariable("question_no") int question_no) {
         VIEW = new ModelAndView("admin/community/question-detail");
+        Question question = contentService.getQuestion(question_no);
+        //작성자
+        Farm question_farm = farmService.getFarmByFarmNo(question.getFarm_no());
+        question.setFarm(question_farm);
+        //좋아요 수
+        ArrayList<QuestionTransaction> questionTransactions = likeService.getLikesByQuestionNo(question.getNo());
+        question.setLikes(questionTransactions.size());
+
+        //Get Comment Logic
+        int comment_count = 0;
+        ArrayList<QuestionComment> comments = commentService.getQuestionComments(question_no);
+        for (QuestionComment comment : comments) {
+            comment_count++;
+            User commented_user = null;
+            if (comment.getUser_no() != null) {
+                commented_user = userService.getUserByNo(comment.getUser_no());
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    comment.setUser(commented_user);
+                } else {
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    comment.setUser(commented_user);
+                }
+            } else {
+                commented_user = new User();
+                MFile profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+                commented_user.setName("관리자");
+                commented_user.setProfile_img(profile);
+                comment.setContent("삭제된 메세지입니다.");
+                comment.setUser(commented_user);
+            }
+
+            ArrayList<QuestionComment> recomments = commentService.getQuestionRecommentByCommentNo(comment.getNo());
+            for (QuestionComment recomment : recomments) {
+                comment_count++;
+                User recommented_user = null;
+                if (recomment.getUser_no() != null) {
+                    recommented_user = userService.getUserByNo(recomment.getUser_no());
+                    if (globalService.checkFarm(recommented_user.getNo())) {
+                        Farm farm = farmService.getFarmByUserNo(recommented_user.getNo());
+                        recommented_user.setProfile_img(farm.getProfile_image());
+                        recommented_user.setName(farm.getName());
+                        recomment.setUser(recommented_user);
+                    } else {
+                        MFile profile = new MFile();
+                        profile.setUrl(SAMPLE_PROFILE_URL);
+                        profile.setName(SAMPLE_PROFILE_NAME);
+                        profile.setSize(SAMPLE_PROFILE_SIZE);
+                        profile.setType(SAMPLE_PROFILE_TYPE);
+
+                        recommented_user.setProfile_img(profile);
+                        recomment.setUser(recommented_user);
+                    }
+                } else {
+                    recommented_user = new User();
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+                    recommented_user.setName("관리자");
+                    recommented_user.setProfile_img(profile);
+                    recomment.setUser(recommented_user);
+                    recomment.setContent("삭제된 메세지입니다.");
+                }
+            }
+            comment.setComments(recomments);
+        }
+        //댓글 수
+        question.setComments(comment_count);
+        //댓글
+        VIEW.addObject("comments", comments);
+        VIEW.addObject("question", question);
         return VIEW;
     }
 
     @RequestMapping(value = "/question/update/{question_no}", method = RequestMethod.GET)
     public ModelAndView getQuestionUpdate(HttpServletRequest request, @PathVariable("question_no") int question_no) {
         VIEW = new ModelAndView("admin/community/question-detail-update");
+        Question question = contentService.getQuestion(question_no);
+        //작성자
+        Farm question_farm = farmService.getFarmByFarmNo(question.getFarm_no());
+        question.setFarm(question_farm);
+        //좋아요 수
+        ArrayList<QuestionTransaction> questionTransactions = likeService.getLikesByQuestionNo(question.getNo());
+        question.setLikes(questionTransactions.size());
+
+        //Get Comment Logic
+        int comment_count = 0;
+        ArrayList<QuestionComment> comments = commentService.getQuestionComments(question_no);
+        for (QuestionComment comment : comments) {
+            comment_count++;
+            User commented_user = null;
+            if (comment.getUser_no() != null) {
+                commented_user = userService.getUserByNo(comment.getUser_no());
+                if (globalService.checkFarm(commented_user.getNo())) {
+                    Farm farm = farmService.getFarmByUserNo(commented_user.getNo());
+                    commented_user.setProfile_img(farm.getProfile_image());
+                    commented_user.setName(farm.getName());
+                    comment.setUser(commented_user);
+                } else {
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+
+                    commented_user.setProfile_img(profile);
+                    comment.setUser(commented_user);
+                }
+            } else {
+                commented_user = new User();
+                MFile profile = new MFile();
+                profile.setUrl(SAMPLE_PROFILE_URL);
+                profile.setName(SAMPLE_PROFILE_NAME);
+                profile.setSize(SAMPLE_PROFILE_SIZE);
+                profile.setType(SAMPLE_PROFILE_TYPE);
+                commented_user.setName("관리자");
+                commented_user.setProfile_img(profile);
+                comment.setContent("삭제된 메세지입니다.");
+                comment.setUser(commented_user);
+            }
+
+            ArrayList<QuestionComment> recomments = commentService.getQuestionRecommentByCommentNo(comment.getNo());
+            for (QuestionComment recomment : recomments) {
+                comment_count++;
+                User recommented_user = null;
+                if (recomment.getUser_no() != null) {
+                    recommented_user = userService.getUserByNo(recomment.getUser_no());
+                    if (globalService.checkFarm(recommented_user.getNo())) {
+                        Farm farm = farmService.getFarmByUserNo(recommented_user.getNo());
+                        recommented_user.setProfile_img(farm.getProfile_image());
+                        recommented_user.setName(farm.getName());
+                        recomment.setUser(recommented_user);
+                    } else {
+                        MFile profile = new MFile();
+                        profile.setUrl(SAMPLE_PROFILE_URL);
+                        profile.setName(SAMPLE_PROFILE_NAME);
+                        profile.setSize(SAMPLE_PROFILE_SIZE);
+                        profile.setType(SAMPLE_PROFILE_TYPE);
+
+                        recommented_user.setProfile_img(profile);
+                        recomment.setUser(recommented_user);
+                    }
+                } else {
+                    recommented_user = new User();
+                    MFile profile = new MFile();
+                    profile.setUrl(SAMPLE_PROFILE_URL);
+                    profile.setName(SAMPLE_PROFILE_NAME);
+                    profile.setSize(SAMPLE_PROFILE_SIZE);
+                    profile.setType(SAMPLE_PROFILE_TYPE);
+                    recommented_user.setName("관리자");
+                    recommented_user.setProfile_img(profile);
+                    recomment.setUser(recommented_user);
+                    recomment.setContent("삭제된 메세지입니다.");
+                }
+            }
+            comment.setComments(recomments);
+        }
+        //댓글 수
+        question.setComments(comment_count);
+        //댓글
+        VIEW.addObject("comments", comments);
+        VIEW.addObject("question", question);
+        //카테고리
+        CommunityCategory communityCategory = adminService.getCommunityCategory(CATEGORY_TYPE.QUESTION);
+        VIEW.addObject("communityCategory", communityCategory);
         return VIEW;
     }
 
-    @RequestMapping(value = "/question/update/{question_no}", method = RequestMethod.POST)
-    public ModelAndView postQuestionUpdate(HttpServletRequest request, @PathVariable("question_no") int question_no) {
-        VIEW = new ModelAndView("admin/community/question-detail-update");
+    @RequestMapping(value = "/question/update/{no}", method = RequestMethod.POST)
+    public ModelAndView postQuestionUpdate(HttpServletRequest request, Question question) {
+        Question question_dup = contentService.getQuestion(question.getNo());
+        Farm farm = farmService.getFarmByFarmNo(question_dup.getFarm_no());
+        question.setFarm_no(farm.getNo());
+        question.setContent(Format.summernoteReplaceCharacter(question.getContent()));
+        adminService.updateQuestion(question);
+        VIEW = getQuestionUpdate(request, question.getNo());
         return VIEW;
     }
 

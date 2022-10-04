@@ -167,6 +167,11 @@
         from question
         where farm_no = #{farm_no}
     </select>
+    <select id="getAllQuestions" resultType="Question" resultMap="Question">
+        select *
+        from question
+        order by reg_datetime desc;
+    </select>
     <select id="getBookmarkQuestions" parameterType="int" resultType="Question" resultMap="Question">
         select *
         from question
