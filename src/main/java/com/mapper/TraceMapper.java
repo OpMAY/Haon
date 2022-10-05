@@ -1,5 +1,6 @@
 package com.mapper;
 
+import com.model.farm.trace.DashBoardTrace;
 import com.model.farm.trace.Trace;
 
 import java.util.List;
@@ -22,4 +23,5 @@ public interface TraceMapper {
     void editTrace(Trace trace);
 
     List<Trace> getAllTraces();
+
 }

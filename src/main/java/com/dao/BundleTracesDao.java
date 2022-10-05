@@ -1,6 +1,7 @@
 package com.dao;
 
 import com.mapper.BundleTracesMapper;
+import com.model.farm.trace.DashBoardTrace;
 import com.model.farm.trace.Trace;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
@@ -32,4 +33,15 @@ public class BundleTracesDao {
         mapper.resetBundleTraces(bundle_no);
     }
 
+    public boolean checkBundleAbleToDisconnect(int bundle_no) {
+        return mapper.checkBundleAbleToDisconnect(bundle_no);
+    }
+
+    public void disconnectTraceBundle(int trace_no, int bundle_no) {
+        mapper.disconnectTraceBundle(trace_no, bundle_no);
+    }
+
+    public List<DashBoardTrace> getNewDashboardTraces() {
+        return mapper.getNewDashboardTraces();
+    }
 }

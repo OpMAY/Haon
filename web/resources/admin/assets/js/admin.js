@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-
     $(document).on('click', '[data-type=qr]', function () {
         let $no = $(this).data().no;
         let $type = $(this).data().type;
@@ -53,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function () {
         a.href = qrCanvas.toDataURL('image/png').replace("image/png", "image/octet-stream");
         a.click();
     })
-
 });
 
 async function removeCategory(type, category) {
@@ -331,6 +329,99 @@ async function deleteBundle(no) {
     }
 }
 
+async function editTrace(trace) {
+    function apiEditTrace(trace) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify(trace),
+        };
+        const response = fetch(`/admin/api/update/trace`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiEditTrace(trace);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function disconnectBundleTrace(trace_no, bundle_no) {
+    function apiDisconnectBundleTrace(trace_no, bundle_no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`/admin/api/disconnect/trace/bundle/${trace_no}/${bundle_no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiDisconnectBundleTrace(trace_no, bundle_no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function searchTrace(code, bundle_no) {
+    function apiSearchTrace(code, bundle_no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+        };
+        const response = fetch(`/admin/api/get/trace/${code}/${bundle_no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiSearchTrace(code, bundle_no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function connectBundleTrace(trace_no, bundle_no) {
+    function apiConnectBundleTrace(trace_no, bundle_no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`/admin/api/connect/trace/bundle/${trace_no}/${bundle_no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiConnectBundleTrace(trace_no, bundle_no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 async function userBan(no, reason, type) {
     function apiUserBan(no, reason, type) {
         const myHeaders = new Headers();
@@ -384,3 +475,5 @@ async function removeUserBan(no) {
         console.log(error);
     }
 }
+
+

@@ -161,7 +161,8 @@
                                                 <div class="d-flex justify-content-between">
                                                     <h5 class="my-auto">총 ${bundle.traceList.size()}개의 이력</h5>
                                                     <c:if test="${farm.type.manual_available}">
-                                                        <button type="button"
+                                                        <button type="button" data-bs-target="#find-modal"
+                                                                data-bs-toggle="modal"
                                                                 class="my-auto btn btn-primary waves-effect waves-light">
                                                             이력 추가하기
                                                         </button>
@@ -208,11 +209,14 @@
                                                                         <tr>
                                                                             <c:if test="${farm.type.manual_available}">
                                                                                 <th scope="row">
-                                                                                    <span class="badge badge-soft-danger cursor-pointer">삭제</span>
+                                                                                    <span class="badge badge-soft-danger cursor-pointer"
+                                                                                          data-no="${item.no}"
+                                                                                          data-bundle="${bundle.no}">삭제</span>
                                                                                 </th>
                                                                             </c:if>
-                                                                            <td class="cursor-pointer" data-href="/admin/trace/detail/trace/${item.no}">
-                                                                                ${item.trace_code}
+                                                                            <td class="cursor-pointer"
+                                                                                data-href="/admin/trace/detail/trace/${item.no}">
+                                                                                    ${item.trace_code}
                                                                             </td>
                                                                             <td><span
                                                                                     class="badge badge-soft-primary">${item.entity.rate == null ? '-' : item.entity.rate}</span>
@@ -283,25 +287,30 @@
 </div><!-- /.modal -->
 <!-- END wrapper -->
 <!-- Modal-->
-<div id="update-modal"
+<div id="find-modal"
      class="modal fade"
      tabindex="-1"
      role="dialog"
      aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content modal-filled bg-success">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-filled">
             <div class="modal-body p-4">
                 <div class="text-center">
-                    <i class="dripicons-to-do h1 text-white"></i>
-                    <h4 class="mt-2 text-white">Oh snap!</h4>
-                    <p class="mt-3 text-white">Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                        dapibus ac
-                        facilisis in, egestas eget quam.</p>
-                    <button type="button"
-                            class="btn btn-light my-2"
-                            data-action="update">Continue
-                    </button>
+                    <p class="mt-3">추가할 이력 번호를 입력하세요.</p>
+                    <input type="text" class="form-control" id="trace-search">
                 </div>
+                <div id="result">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-primary" data-action="find" data-no="${bundle.no}">찾기
+                </button>
+                <button type="button"
+                        class="btn btn-light"
+                        data-bs-dismiss="modal">닫기
+                </button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -345,6 +354,65 @@
 <script src="/resources/js/plugin/summernote/summernote-ko-KR.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+
+        $('#traceCollapse1 table tbody').on('click', '.badge-soft-danger', function () {
+            let trace_no = $(this).data().no;
+            let bundle_no = $(this).data().bundle;
+            if (confirm('해당 내역을 삭제하시겠습니까?')) {
+                if ($('#traceCollapse1 table tbody tr').length <= 2) {
+                    alert('묶음 이력엔 최소 2개 이상의 이력이 존재해야합니다.');
+                    return false;
+                } else {
+                    // TODO FETCH DISCONNECT TRACE
+                    disconnectBundleTrace(trace_no, bundle_no).then((result) => {
+                        if (result.status === 'OK') {
+                            if (result.data.status) {
+                                alert('삭제되었습니다.');
+                                $(this).closest('tr').remove();
+                            } else {
+                                alert('삭제할 수 없습니다, 묶음 이력엔 최소 2개 이상의 이력이 존재해야합니다.');
+                            }
+                        } else {
+                            alert('삭제할 수 없습니다.');
+                        }
+                    })
+                }
+            }
+        })
+
+        $('[data-action="find"]').click(function (event) {
+            let no = this.dataset.no;
+            let code = $('#trace-search').val();
+            if(code.trim().length > 0) {
+                searchTrace(code.trim(), no).then((result) => {
+                    if(result.status === 'OK') {
+                        if(result.data.status) {
+                            if(confirm('연결 가능한 이력을 찾았습니다. 연결하시겠습니까?')) {
+                                connectBundleTrace(result.data.no, no).then((result) => {
+                                    if(result.status === 'OK') {
+                                        if(result.data.status) {
+                                            alert('연결되었습니다.')
+                                            window.location.reload();
+                                        } else {
+                                            alert('연결할 수 없는 이력입니다.');
+                                        }
+                                    } else {
+                                        alert('오류가 발생했습니다.');
+                                    }
+                                })
+                            }
+                        } else {
+                            alert(result.data.text);
+                        }
+                    } else {
+                        alert('오류가 발생했습니다.');
+                    }
+                })
+            } else {
+                alert('찾을 이력 번호를 입력하세요.');
+            }
+        });
+
         //event
         $('[data-action="delete"]').click(function (event) {
             console.log(this);
@@ -352,7 +420,7 @@
             console.log(no);
             /*TODO Fetch*/
             deleteBundle(no).then((result) => {
-                if(result.status === 'OK') {
+                if (result.status === 'OK') {
                     alert('삭제되었습니다.');
                     window.location.href = '/admin/trace/bundles'
                 }
