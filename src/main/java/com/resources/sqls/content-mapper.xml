@@ -1173,4 +1173,26 @@
         set is_blocked=#{block}
         where no = #{comment_no};
     </update>
+    <select id="getNewCommunities" resultType="ContentForm">
+        select *
+        from (select no, title, category, content, 'BOARD' as community_type, farm_no, reg_datetime
+              from board
+              UNION
+              select no, title, category, content, 'QUESTION' as community_type, farm_no, reg_datetime
+              from question
+              UNION
+              select no, title, category, content, 'MANUAL' as community_type, farm_no, reg_datetime
+              from manual
+              UNION
+              select no, title, category, content, 'TIP' as community_type, farm_no, reg_datetime
+              from tips) as community
+        ORDER BY reg_datetime desc
+        limit 5;
+    </select>
+    <select id="getNewMagazines" resultType="Magazine" resultMap="Magazine">
+        select *
+        from magazine
+        order by reg_datetime desc
+        limit 5;
+    </select>
 </mapper>

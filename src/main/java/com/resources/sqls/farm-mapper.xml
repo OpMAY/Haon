@@ -21,6 +21,12 @@
     <select id="getFarm" parameterType="int" resultType="boolean">
         SELECT EXISTS(SELECT * FROM farm WHERE user_no = #{user_no});
     </select>
+    <select id="getNewFarms" resultType="Farm" resultMap="farm">
+        select *
+        from farm
+        order by reg_datetime desc
+        LIMIT 5;
+    </select>
     <insert id="insertFarm" parameterType="Farm" keyProperty="no" useGeneratedKeys="true">
         insert into farm(user_no, `name`, type,
                          profile_image, farm_image,

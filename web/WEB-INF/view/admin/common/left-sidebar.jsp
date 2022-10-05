@@ -127,7 +127,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/login">
+                    <a class="_logout" href="javascript:void(0);">
                         <i data-feather="calendar"></i>
                         <span> 로그아웃 </span>
                     </a>

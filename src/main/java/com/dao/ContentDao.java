@@ -8,6 +8,7 @@ import com.model.content.manual.Manual;
 import com.model.content.question.Question;
 import com.model.content.question.QuestionSummary;
 import com.model.content.tips.Tips;
+import com.model.farm.Farm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
@@ -506,5 +507,13 @@ public class ContentDao {
 
     public Magazine getMagazineExcludeShow(int magazine_no) {
         return mapper.getMagazineExcludeShow(magazine_no);
+    }
+
+    public ArrayList<ContentForm> getNewCommunities() {
+        return mapper.getNewCommunities();
+    }
+
+    public ArrayList<Magazine> getNewMagazines() {
+        return mapper.getNewMagazines();
     }
 }

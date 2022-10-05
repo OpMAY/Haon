@@ -8,6 +8,7 @@ import com.model.common.MFile;
 import com.model.content.board.Board;
 import com.model.content.board.BoardComment;
 import com.model.content.board.BoardTransaction;
+import com.model.content.common.ContentForm;
 import com.model.content.magazine.Magazine;
 import com.model.content.magazine.MagazineComment;
 import com.model.content.magazine.MagazineTransaction;
@@ -21,6 +22,8 @@ import com.model.content.tips.Tips;
 import com.model.content.tips.TipsComment;
 import com.model.content.tips.TipsTransaction;
 import com.model.farm.Farm;
+import com.model.farm.trace.Trace;
+import com.model.farm.trace.TraceEntity;
 import com.model.global.Banner;
 import com.model.global.category.CATEGORY_TYPE;
 import com.model.global.category.CommunityCategory;
@@ -42,6 +45,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Random;
 
 @Slf4j
 @Controller
@@ -100,6 +104,40 @@ public class AdminController {
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public ModelAndView dashboard(HttpServletRequest request) {
         VIEW = new ModelAndView("admin/dashboard");
+        //Banners
+        ArrayList<Banner> banners = (ArrayList<Banner>) adminService.getBanners();
+        VIEW.addObject("banners", banners);
+        //New Farms
+        ArrayList<Farm> farms = adminService.getNewFarms();
+        for (Farm farm : farms) {
+            User user = userService.getUserByNo(farm.getUser_no());
+            if (user != null) {
+                farm.setUser(user);
+            }
+        }
+        VIEW.addObject("farms", farms);
+        //New Community
+        ArrayList<ContentForm> communities = adminService.getNewCommunities();
+        for (ContentForm contentForm : communities) {
+            Farm farm = farmService.getFarmByFarmNo(contentForm.getFarm_no());
+            User user = userService.getUserByNo(farm.getUser_no());
+            farm.setUser(user);
+            contentForm.setFarm(farm);
+        }
+        VIEW.addObject("communities", communities);
+        //New Magazine
+        ArrayList<Magazine> magazines = adminService.getNewMagazines();
+        for (Magazine magazine : magazines) {
+            Farm farm = farmService.getFarmByUserNo(0);
+            User user = userService.getUserByNo(farm.getUser_no());
+            farm.setUser(user);
+            magazine.setFarm(farm);
+        }
+        VIEW.addObject("magazines", magazines);
+        //New Trace
+        /*TODO New Trace Logic*/
+        ArrayList<Trace> traces = new ArrayList<>();
+        VIEW.addObject("traces", traces);
         return VIEW;
     }
 

@@ -11,6 +11,10 @@ body * {
 }
 
 /*common*/
+[data-href] {
+    cursor: pointer;
+}
+
 .background {
     background-position: center;
     background-repeat: no-repeat;
@@ -152,4 +156,9 @@ body * {
     outline: none !important;
     box-shadow: none !important;
     opacity: 0.65;
+}
+
+/*Table*/
+table.table-hover tbody tr {
+    cursor: pointer;
 }

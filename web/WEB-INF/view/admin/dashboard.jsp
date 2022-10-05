@@ -1,9 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>Dashboard 2 | UBold - Responsive Admin Dashboard Template</title>
+    <title>${HEADER_TITLE}</title>
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc."
@@ -108,46 +111,55 @@
                                          class="carousel slide banner-carousel"
                                          data-bs-ride="carousel">
                                         <ol class="carousel-indicators">
-                                            <li data-bs-target="#carouselExampleIndicators"
-                                                data-bs-slide-to="0"
-                                                class="active"></li>
-                                            <li data-bs-target="#carouselExampleIndicators"
-                                                data-bs-slide-to="1"></li>
-                                            <li data-bs-target="#carouselExampleIndicators"
-                                                data-bs-slide-to="2"></li>
+                                            <c:forEach items="${banners}" var="banner" varStatus="status">
+                                                <c:choose>
+                                                    <c:when test="${status.first}">
+                                                        <li data-bs-target="#carouselExampleIndicators"
+                                                            data-bs-slide-to="${status.index}"
+                                                            class="active"></li>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <li data-bs-target="#carouselExampleIndicators"
+                                                            data-bs-slide-to="${status.index}"></li>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
                                         </ol>
                                         <div class="carousel-inner"
                                              role="listbox">
-                                            <div class="carousel-item active">
-                                                <div class="background"
-                                                     style="background-image: url('/resources/admin/assets/images/small/img-3.jpg')">
-                                                </div>
-                                            </div>
-                                            <div class="carousel-item">
-                                                <div class="background"
-                                                     style="background-image: url('/resources/admin/assets/images/small/img-2.jpg')">
-                                                </div>
-                                            </div>
-                                            <div class="carousel-item">
-                                                <div class="background"
-                                                     style="background-image: url('/resources/admin/assets/images/small/img-1.jpg')">
-                                                </div>
-                                            </div>
+                                            <c:forEach items="${banners}" var="banner" varStatus="status">
+                                                <c:choose>
+                                                    <c:when test="${status.first}">
+                                                        <div class="carousel-item active">
+                                                            <div class="background"
+                                                                 style="background-image: url('${banner.banner_image.url}')">
+                                                            </div>
+                                                        </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="carousel-item">
+                                                            <div class="background"
+                                                                 style="background-image: url('${banner.banner_image.url}')">
+                                                            </div>
+                                                        </div>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
                                         </div>
                                         <a class="carousel-control-prev"
                                            href="#carouselExampleIndicators"
                                            role="button"
                                            data-bs-slide="prev">
-                      <span class="carousel-control-prev-icon"
-                            aria-hidden="true"></span>
+                                            <span class="carousel-control-prev-icon"
+                                                  aria-hidden="true"></span>
                                             <span class="visually-hidden">Previous</span>
                                         </a>
                                         <a class="carousel-control-next"
                                            href="#carouselExampleIndicators"
                                            role="button"
                                            data-bs-slide="next">
-                      <span class="carousel-control-next-icon"
-                            aria-hidden="true"></span>
+                                            <span class="carousel-control-next-icon"
+                                                  aria-hidden="true"></span>
                                             <span class="visually-hidden">Next</span>
                                         </a>
                                     </div>
@@ -179,38 +191,27 @@
                                     repudiandae saepe totam voluptatum!
                                 </p>
                                 <div class="table-responsive">
-                                    <table class="table mb-0">
+                                    <table class="table table-hover mb-0">
                                         <thead>
                                         <tr>
                                             <th>농장(사용자)</th>
                                             <th>농장 종류</th>
                                             <th>이메일(ID)</th>
-                                            <th>연락처</th>
                                             <th>가입 일자</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <th scope="row">오키위(유병준)</th>
-                                            <td><span class="badge bg-dark">양 & 염소</span></td>
-                                            <td>asszxc@naver.com</td>
-                                            <td>010-9431-1977</td>
-                                            <td>2022.12.22</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">오키위(유병준)</th>
-                                            <td><span class="badge bg-dark">양 & 염소</span></td>
-                                            <td>asszxc@naver.com</td>
-                                            <td>010-9431-1977</td>
-                                            <td>2022.12.22</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">오키위(유병준)</th>
-                                            <td><span class="badge bg-dark">양 & 염소</span></td>
-                                            <td>asszxc@naver.com</td>
-                                            <td>010-9431-1977</td>
-                                            <td>2022.12.22</td>
-                                        </tr>
+                                        <c:forEach items="${farms}" var="farm" varStatus="status">
+                                            <tr data-href="/admin/user/detail/${farm.user.no}">
+                                                <th scope="row">${farm.name}(${farm.user.name})</th>
+                                                <td><span class="badge bg-dark">${farm.type.korName}</span></td>
+                                                <td>${farm.user.email}</td>
+                                                <td>
+                                                    <custom:formatDatetime value="${farm.reg_datetime}"
+                                                                           pattern="yyyy.MM.dd"/>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
@@ -234,38 +235,30 @@
                                     repudiandae saepe totam voluptatum!
                                 </p>
                                 <div class="table-responsive">
-                                    <table class="table mb-0">
+                                    <table class="table table-hover mb-0">
                                         <thead>
                                         <tr>
                                             <th>농장(사용자)</th>
                                             <th>카테고리</th>
                                             <th>게시글 제목</th>
-                                            <th>상태</th>
                                             <th>작성 일자</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <th scope="row">오키위(유병준)</th>
-                                            <td><span class="badge bg-dark">질문과 답변</span></td>
-                                            <td>게시글 제목 샘플입니다.</td>
-                                            <td><span class="badge bg-success">활성화</span></td>
-                                            <td>2022.12.22</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">오키위(유병준)</th>
-                                            <td><span class="badge bg-dark">질문과 답변</span></td>
-                                            <td>게시글 제목 샘플입니다.</td>
-                                            <td><span class="badge bg-danger">비활성화</span></td>
-                                            <td>2022.12.22</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">오키위(유병준)</th>
-                                            <td><span class="badge bg-dark">질문과 답변</span></td>
-                                            <td>게시글 제목 샘플입니다.</td>
-                                            <td><span class="badge bg-success">활성화</span></td>
-                                            <td>2022.12.22</td>
-                                        </tr>
+                                        <c:forEach items="${communities}" var="community" varStatus="status">
+                                            <c:set var="type" value="${fn:toLowerCase(community.community_type)}"/>
+                                            <tr data-href="/admin/${type}/detail/${community.no}">
+                                                <th scope="row">${community.farm.name}(${community.farm.user.name})</th>
+                                                <td>
+                                                    <span class="badge bg-dark">${community.community_type.korName}</span>
+                                                </td>
+                                                <td>${community.title}</td>
+                                                <td>
+                                                    <custom:formatDatetime value="${community.reg_datetime}"
+                                                                           pattern="yyyy.MM.dd"/>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
@@ -292,7 +285,7 @@
                                     repudiandae saepe totam voluptatum!
                                 </p>
                                 <div class="table-responsive">
-                                    <table class="table mb-0">
+                                    <table class="table table-hover mb-0">
                                         <thead>
                                         <tr>
                                             <th>농장(사용자)</th>
@@ -303,27 +296,25 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <th scope="row">오키위(유병준)</th>
-                                            <td><span class="badge bg-dark">최신 매거진</span></td>
-                                            <td>게시글 제목 샘플입니다.</td>
-                                            <td><span class="badge bg-success">활성화</span></td>
-                                            <td>2022.12.22</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">오키위(유병준)</th>
-                                            <td><span class="badge bg-dark">최신 매거진</span></td>
-                                            <td>게시글 제목 샘플입니다.</td>
-                                            <td><span class="badge bg-danger">비활성화</span></td>
-                                            <td>2022.12.22</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">오키위(유병준)</th>
-                                            <td><span class="badge bg-dark">최신 매거진</span></td>
-                                            <td>게시글 제목 샘플입니다.</td>
-                                            <td><span class="badge bg-success">활성화</span></td>
-                                            <td>2022.12.22</td>
-                                        </tr>
+                                        <c:forEach items="${magazines}" var="magazine" varStatus="status">
+                                            <tr data-href="/admin/magazine/detail/${magazine.no}">
+                                                <th scope="row">${magazine.farm.name}(${magazine.farm.user.name})</th>
+                                                <td><span class="badge bg-dark">최신 매거진</span></td>
+                                                <td>${magazine.title}</td>
+                                                <c:choose>
+                                                    <c:when test="${magazine._show eq true}">
+                                                        <td><span class="badge bg-success">활성화</span></td>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <td><span class="badge bg-danger">비활성화</span></td>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <td>
+                                                    <custom:formatDatetime value="${magazine.reg_datetime}"
+                                                                           pattern="yyyy.MM.dd"/>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
@@ -347,7 +338,7 @@
                                     repudiandae saepe totam voluptatum!
                                 </p>
                                 <div class="table-responsive">
-                                    <table class="table mb-0">
+                                    <table class="table table-hover mb-0">
                                         <thead>
                                         <tr>
                                             <th>농장(사용자)</th>
@@ -404,17 +395,9 @@
 <!-- Vendor js -->
 <script src="/resources/admin/assets/js/vendor.min.js"></script>
 
-<!-- Plugins js-->
-<script src="/resources/admin/assets/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
-<script src="/resources/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="/resources/admin/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"></script>
-
-<!-- Dashboard 2 init -->
-<script src="/resources/admin/assets/js/pages/dashboard-2.init.js"></script>
-
 <!-- App js-->
 <script src="/resources/admin/assets/js/app.min.js"></script>
 <script src="/resources/admin/assets/js/admin.js"></script>
-
+<script src="/resources/js/utility.js"></script>
 </body>
 </html>

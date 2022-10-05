@@ -102,4 +102,8 @@ public class FarmDao {
     public void updateFarmBanner(int farm_no, MFile file) {
         mapper.updateFarmBanner(farm_no, file);
     }
+
+    public ArrayList<Farm> getNewFarms() {
+        return mapper.getNewFarms();
+    }
 }

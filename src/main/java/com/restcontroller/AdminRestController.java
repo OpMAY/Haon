@@ -219,4 +219,12 @@ public class AdminRestController {
         message.put("status", true);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public ResponseEntity logout(HttpServletRequest request) {
+        Message message = new Message();
+        request.getSession().removeAttribute(JWTEnum.ADMIN.name());
+        message.put("status", true);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
 }
