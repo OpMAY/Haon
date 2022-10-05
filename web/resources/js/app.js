@@ -532,44 +532,48 @@ $(document).ready(function () {
             });
         });
     }
-    loginCheck().then((result) => {
-        if (result.status === 'OK') {
-            if (result.data.status) {
-                suspensionCheck().then((result) => {
-                    console.log(result);
-                    if (result.status === 'OK') {
-                        if (result.data.status) {
-                            viewModal({
-                                vCenter: true, btnCount: 1,
-                                backDrop: true,
-                                title: '회원 정지 알림',
-                                desc: '회원 정지 알림',
-                                confirm_text: '확인',
-                                onConfirm: function (e) {
-                                    console.log('Confirm Button Click Callback', e.currentTarget);
-                                },
-                                onCancel: function (e) {
-                                    console.log('Cancel Button Click Callback', e.currentTarget);
-                                },
-                                onShown: function (e) {
-                                    console.log('Modal Show After Callback', e.currentTarget);
-                                },
-                                onHidden: function (e) {
-                                    console.log('Modal Hide After Callback', e.currentTarget);
-                                },
-                                onShow: function (e) {
-                                    console.log('Modal Show Before Callback', e.currentTarget);
-                                },
-                                onHide: function (e) {
-                                    console.log('Modal Hide Before Callback', e.currentTarget);
-                                }
-                            });
+    if (!location.pathname.includes('/auth/register') && !location.pathname.includes('/auth/oauth')) {
+        loginCheck().then((result) => {
+            if (result.status === 'OK') {
+                if (result.data.status) {
+                    suspensionCheck().then((result) => {
+                        console.log(result);
+                        if (result.status === 'OK') {
+                            if (result.data.status) {
+                                viewModal({
+                                    vCenter: true, btnCount: 1,
+                                    backDrop: true,
+                                    title: '회원 정지 알림',
+                                    desc: `<div>회원님께서는 현재 [회원 자격 정지 상태]입니다.</div>
+                                            <div>회원 자격 정지 사유 : ${result.data.user_ban.reason}</div>
+                                            <div>회원 자격 정지 처리일: ${Time.formatLocalDatetime(result.data.user_ban.reg_datetime)}</div>
+                                            <div>회원 자격 정지 기간 : ${result.data.user_ban.days}일</div>
+                                            <div>보다 구체적인 회원 자격 정지 사유가 궁금하시면 관리자에게 문의해주세요.</div>`,
+                                    confirm_text: '확인',
+                                    onConfirm: function (e) {
+                                        console.log('Confirm Button Click Callback', e.currentTarget);
+                                        $('._logout').click();
+                                    },
+                                    onShown: function (e) {
+                                        console.log('Modal Show After Callback', e.currentTarget);
+                                    },
+                                    onHidden: function (e) {
+                                        console.log('Modal Hide After Callback', e.currentTarget);
+                                    },
+                                    onShow: function (e) {
+                                        console.log('Modal Show Before Callback', e.currentTarget);
+                                    },
+                                    onHide: function (e) {
+                                        console.log('Modal Hide Before Callback', e.currentTarget);
+                                    }
+                                });
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
-        }
-    });
+        });
+    }
 });
 
 const getPosition = ($target) => {

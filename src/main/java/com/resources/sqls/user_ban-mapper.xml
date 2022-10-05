@@ -4,15 +4,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.UserBanMapper">
     <select id="isUserBan" resultType="_boolean">
-        select IF(EXISTS(select * from user_ban WHERE user_no = #{user_no}), true, false)
+        select IF(EXISTS(select * from user_ban WHERE user_no = #{user_no} and `status` = true), true, false)
     </select>
     <insert id="insertUserBan">
-        insert into user_ban(user_no, reason, days)
-        VALUES (#{user_no}, #{reason}, #{days})
+        insert into user_ban(user_no, reason, days, `status`)
+        VALUES (#{user_no}, #{reason}, #{days}, true)
     </insert>
     <update id="removeUserBan">
         update user_ban
-        SET status = false
+        SET `status` = false
         WHERE user_no = #{user_no}
     </update>
+    <select id="getActiveUserBan" parameterType="int" resultType="UserBan">
+        select *
+        from user_ban
+        where user_no = #{user_no}
+          and `status` = true
+        order by reg_datetime desc
+        limit 1;
+    </select>
 </mapper>

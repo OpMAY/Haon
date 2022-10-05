@@ -249,4 +249,8 @@ public class AdminService {
         boolean isBan = userBanDao.isUserBan(user.getNo());
         return new AdminUser(user, farm, isBan);
     }
+
+    public UserBan getActiveUserBan(int user_no) {
+        return userBanDao.getActiveUserBan(user_no);
+    }
 }

@@ -12,6 +12,7 @@ import com.model.content.common.BOOKMARK_TYPE;
 import com.model.content.common.COMMENT_TYPE;
 import com.model.farm.Farm;
 import com.model.farm.FarmSns;
+import com.model.global.UserBan;
 import com.response.DefaultRes;
 import com.response.Message;
 import com.service.*;
@@ -43,6 +44,7 @@ public class UserRestController {
     private final FarmService farmService;
     private final FileUploadUtility fileUploadUtility;
     private final UserService userService;
+    private final AdminService adminService;
 
     @RequestMapping(value = "/{type}/bookmark/like/{no}", method = RequestMethod.POST)
     public ResponseEntity<String> insertBookMark(HttpServletRequest request, @PathVariable("type") String type, @PathVariable("no") int no) throws Exception {
@@ -253,7 +255,12 @@ public class UserRestController {
     @RequestMapping(value = "/login/suspension", method = RequestMethod.POST)
     public ResponseEntity<String> checkSuspension(HttpServletRequest request) throws Exception {
         Message message = new Message();
-        message.put("status", false);
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+        boolean user_ban_check = adminService.isUserBan(user_no);
+        message.put("status", user_ban_check);
+        if (user_ban_check) {
+            message.put("user_ban",adminService.getActiveUserBan(user_no));
+        }
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 

@@ -64,9 +64,6 @@
                                         <a data-type="QUESTION" class="dropdown-item">
                                             <div>질문과 답변</div>
                                         </a>
-                                        <a data-type="MAGAZINE" class="dropdown-item">
-                                            <div>최신 매거진</div>
-                                        </a>
                                     </div>
                                 </div>
                                 <div class="dropdown input-dropdown">

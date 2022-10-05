@@ -29,4 +29,8 @@ public class UserBanDao {
     public void removeUserBan(int user_no) {
         mapper.removeUserBan(user_no);
     }
+
+    public UserBan getActiveUserBan(int user_no) {
+        return mapper.getActiveUserBan(user_no);
+    }
 }
