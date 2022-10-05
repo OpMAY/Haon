@@ -17,6 +17,9 @@ public class UserBanDao {
         this.mapper = sqlSession.getMapper(UserBanMapper.class);
     }
 
+    public boolean hasUserBan(int user_no) {
+        return mapper.hasUserBan(user_no);
+    }
 
     public boolean isUserBan(int user_no) {
         return mapper.isUserBan(user_no);
