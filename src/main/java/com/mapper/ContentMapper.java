@@ -7,6 +7,7 @@ import com.model.content.manual.Manual;
 import com.model.content.question.Question;
 import com.model.content.question.QuestionSummary;
 import com.model.content.tips.Tips;
+import com.model.farm.Farm;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
@@ -260,4 +261,7 @@ public interface ContentMapper {
 
     Magazine getMagazineExcludeShow(@Param("magazine_no") int magazine_no);
 
+    ArrayList<ContentForm> getNewCommunities();
+
+    ArrayList<Magazine> getNewMagazines();
 }

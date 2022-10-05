@@ -49,4 +49,6 @@ public interface FarmMapper {
     void updateFarmProfile(@Param("farm_no") int farm_no, @Param("profile") MFile file);
 
     void updateFarmBanner(@Param("farm_no") int farm_no, @Param("banner") MFile file);
+
+    ArrayList<Farm> getNewFarms();
 }

@@ -5,6 +5,17 @@ document.addEventListener('DOMContentLoaded', function () {
             location.href = this.dataset.href;
         });
     });
+    document.querySelector('.left-side-menu ._logout').addEventListener('click', function (event) {
+        logout().then((result) => {
+            console.log(result);
+            if (result.status === 'OK') {
+                alert('관리자에서 로그아웃하였습니다.');
+                location.href = '/admin/login';
+            } else {
+                alert('관리자에서 로그아웃을 할 수 없습니다.');
+            }
+        });
+    });
 });
 
 async function removeCategory(type, category) {
@@ -185,6 +196,29 @@ async function magazineStatusUpdate(status, magazine_no) {
     let result;
     try {
         result = await apiMagazineStatusUpdate(status, magazine_no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function logout() {
+    function apiLogout() {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`/admin/api/logout`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiLogout();
         return result;
     } catch (error) {
         console.log(error);

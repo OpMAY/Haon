@@ -2,10 +2,12 @@ package com.service;
 
 import com.dao.*;
 import com.model.content.board.Board;
+import com.model.content.common.ContentForm;
 import com.model.content.magazine.Magazine;
 import com.model.content.manual.Manual;
 import com.model.content.question.Question;
 import com.model.content.tips.Tips;
+import com.model.farm.Farm;
 import com.model.global.Banner;
 import com.model.global.UserBan;
 import com.model.global.category.CATEGORY_TYPE;
@@ -196,5 +198,17 @@ public class AdminService {
     public int createMagazine(Magazine magazine) {
         contentDao.insertMagazine(magazine);
         return magazine.getNo();
+    }
+
+    public ArrayList<Farm> getNewFarms() {
+        return farmDao.getNewFarms();
+    }
+
+    public ArrayList<ContentForm> getNewCommunities() {
+        return contentDao.getNewCommunities();
+    }
+
+    public ArrayList<Magazine> getNewMagazines() {
+        return contentDao.getNewMagazines();
     }
 }
