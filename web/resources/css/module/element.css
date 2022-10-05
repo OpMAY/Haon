@@ -252,6 +252,10 @@ input.form-control.input-box {
 }
 
 /*Card*/
+._community-module .card.community-card {
+    min-height: auto;
+}
+
 .card.community-card {
     width: 100%;
     position: relative;
@@ -482,6 +486,14 @@ input.form-control.input-box {
 .question-accordion .card-body ._accordion-content > span {
     cursor: pointer;
     display: block;
+    text-overflow: ellipsis;
+    width: 100%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    height: auto;
+    -webkit-line-clamp: 3;
 }
 
 /*board list*/
@@ -537,7 +549,7 @@ input.form-control.input-box {
     margin-top: 12px;
 }
 
-._board-container ._content ._view-comment ._comments > ._main-comment,._my-recomment {
+._board-container ._content ._view-comment ._comments > ._main-comment, ._my-recomment {
     display: flex;
 }
 

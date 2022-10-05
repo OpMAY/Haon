@@ -84,6 +84,7 @@ $(document).ready(function () {
         }, 400);
     });
     $('#header-desc').on('mouseover', function (event) {
+        header_check = true;
         setTimeout(function () {
             if (header_check) {
                 $(this).slideDown(200);

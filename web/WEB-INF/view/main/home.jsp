@@ -46,73 +46,47 @@
     <div class="banner-section">
         <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="background-image _content-banner"
-                         style="background-image: url('../resources/assets/images/sample/background-wallpaper1.png')">
-                        <div class="_text-container">
-                            <div class="_text">
-                                <div class="_top-text bold-h1 c-brand-green">
-                                    Lorem ipsum dolor sit amet
-                                </div>
-                                <div class="_middle-text display-1 font-weight-bold">
-                                    Lorem <span class="c-brand-green">ipsum</span> dolor sit amet
-                                </div>
-                                <div class="_bottom-text bold-h4 font-weight-bold">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem explicabo, harum illo ipsam
-                                    laudantium
-                                    maiores necessitatibus nisi nulla qui quo ratione recusandae reiciendis soluta temporibus totam
-                                    vero? Iste,
-                                    tempore?
+                <c:forEach items="${banners}" var="banner" varStatus="status">
+                    <c:choose>
+                        <c:when test="${status.first}">
+                            <div class="carousel-item active">
+                                <div class="background-image _content-banner"
+                                     style="background-image: url('${banner.banner_image.url}')">
+                                    <div class="_text-container">
+                                        <div class="_text">
+                                            <div class="_top-text bold-h1 c-brand-green">${banner.top_text}</div>
+                                            <div class="_middle-text display-1 font-weight-bold">${banner.middle_text}</div>
+                                            <div class="_bottom-text bold-h4 font-weight-bold">${banner.bottom_text}</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="background-image _content-banner"
-                         style="background-image: url('../resources/assets/images/sample/background-wallpaper1.png')">
-                        <div class="_text-container">
-                            <div class="_text">
-                                <div class="_top-text bold-h1 c-brand-green">
-                                    Lorem ipsum dolor sit amet
-                                </div>
-                                <div class="_middle-text display-1 font-weight-bold">
-                                    Lorem <span class="c-brand-green">ipsum</span> dolor sit amet
-                                </div>
-                                <div class="_bottom-text bold-h4 font-weight-bold">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem explicabo, harum illo ipsam
-                                    laudantium
-                                    maiores necessitatibus nisi nulla qui quo ratione recusandae reiciendis soluta temporibus totam
-                                    vero? Iste,
-                                    tempore?
+                        </c:when>
+                        <c:otherwise>
+                            <div class="carousel-item">
+                                <div class="background-image _content-banner"
+                                     style="background-image: url('${banner.banner_image.url}')">
+                                    <div class="_text-container">
+                                        <div class="_text">
+                                            <div class="_top-text bold-h1 c-brand-green">${banner.top_text}</div>
+                                            <div class="_middle-text display-1 font-weight-bold">${banner.middle_text}</div>
+                                            <div class="_bottom-text bold-h4 font-weight-bold">${banner.bottom_text}</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="background-image _content-banner"
-                         style="background-image: url('../resources/assets/images/sample/background-wallpaper1.png')">
-                        <div class="_text-container">
-                            <div class="_text">
-                                <div class="_top-text bold-h1 c-brand-green">
-                                    Lorem ipsum dolor sit amet
-                                </div>
-                                <div class="_middle-text display-1 font-weight-bold">
-                                    Lorem <span class="c-brand-green">ipsum</span> dolor sit amet
-                                </div>
-                                <div class="_bottom-text bold-h4 font-weight-bold">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem explicabo, harum illo ipsam
-                                    laudantium
-                                    maiores necessitatibus nisi nulla qui quo ratione recusandae reiciendis soluta temporibus totam
-                                    vero? Iste,
-                                    tempore?
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
             </div>
+            <button class="carousel-control-prev" type="button" data-target="#carouselExampleSlidesOnly" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-target="#carouselExampleSlidesOnly" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </button>
         </div>
         <div class="_recommend-container">
             <div class="_recommend bold-h4 c-basic-white">
@@ -790,11 +764,11 @@
                                      data-no="${questions[i].question.no}"
                                      style="">
                                     <div class="card-body pl-40 pt-0">
-                                        <div class="_accordion-content ellipsis-one-line">
+                                        <div class="_accordion-content">
                                             <span class="regular-h5"
                                                   data-comment-no="${questions[i].best_comment_no}"><c:choose><c:when
                                                     test="${questions[i].best_comment ne null}">
-                                                [베스트] ${questions[i].best_comment}
+                                                <span class="c-brand-green">[베스트]</span> ${questions[i].best_comment}
                                             </c:when><c:otherwise>등록된 답변이 없습니다. 지금 바로 답변을 등록해보세요.</c:otherwise></c:choose></span>
                                         </div>
                                         <div class="_accordion-option mt-16">
@@ -858,7 +832,7 @@
                                             <span class="regular-h5"
                                                   data-comment-no="${questions[i].best_comment_no}"><c:choose><c:when
                                                     test="${questions[i].best_comment ne null}">
-                                                [베스트] ${questions[i].best_comment}
+                                                <span class="c-brand-green">[베스트]</span> ${questions[i].best_comment}
                                             </c:when><c:otherwise>등록된 답변이 없습니다. 지금 바로 답변을 등록해보세요.</c:otherwise></c:choose></span>
                                             </div>
                                             <div class="_accordion-option mt-16">
