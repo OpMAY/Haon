@@ -509,7 +509,6 @@ $(document).ready(function () {
         latest_buttons.forEach(function (latest_button) {
             latest_button.querySelector('svg').addEventListener('click', function (event) {
                 let list_item = this.closest('.list-group-item');
-                list_item.remove();
                 let searches = getCookie('searches');
                 let text = list_item.querySelector('[data-href]').innerText.trim();
                 if (searches !== null) {
@@ -521,6 +520,10 @@ $(document).ready(function () {
                             return true;
                         }
                     });
+                    if (searches.length === 0) {
+                        list_item.closest('.list-group').parentElement.remove();
+                    }
+                    list_item.remove();
                     deleteCookie('searches');
                     setCookie({key: 'searches', value: JSON.stringify(searches)});
                 }

@@ -1,4 +1,5 @@
 <%@ page import="com.model.content.common.ContentForm" %>
+<%@ page import="com.model.global.category.CATEGORY_TYPE" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
@@ -86,51 +87,11 @@
                                         </svg>
                                     </div>
                                     <div class="dropdown-menu dropdown-sm" data-label="CATEGORY">
-                                        <a data-type="BOARD" class="dropdown-item">
-                                            <div>관리자 지정1</div>
-                                        </a>
-                                        <a data-type="BOARD" class="dropdown-item">
-                                            <div>관리자 지정2</div>
-                                        </a>
-                                        <a data-type="BOARD" class="dropdown-item">
-                                            <div>관리자 지정3</div>
-                                        </a>
-                                        <a data-type="BOARD" class="dropdown-item">
-                                            <div>관리자 지정1</div>
-                                        </a>
-                                        <a data-type="BOARD" class="dropdown-item">
-                                            <div>관리자 지정1</div>
-                                        </a>
-                                        <a data-type="TIP" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정2</div>
-                                        </a>
-                                        <a data-type="TIP" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정2</div>
-                                        </a>
-                                        <a data-type="TIP" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정2</div>
-                                        </a>
-                                        <a data-type="TIP" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정2</div>
-                                        </a>
-                                        <a data-type="MANUAL" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정3</div>
-                                        </a>
-                                        <a data-type="MANUAL" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정3</div>
-                                        </a>
-                                        <a data-type="QUESTION" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정4</div>
-                                        </a>
-                                        <a data-type="QUESTION" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정4</div>
-                                        </a>
-                                        <a data-type="QUESTION" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정4</div>
-                                        </a>
-                                        <a data-type="MAGAZINE" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정5</div>
-                                        </a>
+                                        <c:forEach items="${category.categories}" var="child_category">
+                                            <a data-type="${category.type}" class="dropdown-item">
+                                                <div>${child_category}</div>
+                                            </a>
+                                        </c:forEach>
                                     </div>
                                 </div>
                                 <button onclick="boardWriteCancel();" type="button"
@@ -141,42 +102,63 @@
                                     게시
                                 </button>
                             </div>
-                            <c:if test="${contentForm.thumbnail ne null && contentForm.thumbnail.url ne null}">
-                                <div class="_header _input-header">
-                                    <div class="_form">
-                                        <div class="_text c-gray-dark-low medium-h5">
-                                            썸네일
+                            <c:choose>
+                                <c:when test="${category.type eq CATEGORY_TYPE.MAGAZINE || category.type eq CATEGORY_TYPE.MANUAL || category.type eq CATEGORY_TYPE.TIP}">
+                                    <div class="_header _input-header">
+                                        <div class="_form">
+                                            <div class="_text c-gray-dark-low medium-h5">
+                                                썸네일
+                                            </div>
+                                            <div class="_input form-group form-inner-button">
+                                                <input name="file" id="file1" type="file" class="d-none"
+                                                       onchange="loadFile(event, this)">
+                                                <input type="text" readonly placeholder="이미지를 업로드해주세요."
+                                                       value="${contentForm.thumbnail.name}"
+                                                       name="file_name"
+                                                       class="form-control dropdown-input input-no-border medium-h5"
+                                                       id="input1">
+                                                <input data-name="${contentForm.thumbnail.name}"
+                                                       data-url="${contentForm.thumbnail.url}"
+                                                       data-size="${contentForm.thumbnail.size}"
+                                                       data-type="${contentForm.thumbnail.type}" type="text"
+                                                       id="origin-thumbnail" name="origin_thumbnail" class="d-none"/>
+                                            </div>
                                         </div>
-                                        <div class="_input form-group form-inner-button">
-                                            <input name="file" id="file1" type="file" class="d-none"
-                                                   onchange="loadFile(event, this)">
-                                            <input type="text" readonly placeholder="이미지를 업로드해주세요."
-                                                   value="${contentForm.thumbnail.name}"
-                                                   name="file_name"
-                                                   class="form-control dropdown-input input-no-border medium-h5"
-                                                   id="input1">
-                                            <input data-name="${contentForm.thumbnail.name}"
-                                                   data-url="${contentForm.thumbnail.url}"
-                                                   data-size="${contentForm.thumbnail.size}"
-                                                   data-type="${contentForm.thumbnail.type}" type="text"
-                                                   id="origin-thumbnail" name="origin_thumbnail" class="d-none"/>
-                                        </div>
+                                        <c:choose>
+                                            <c:when test="${contentForm.thumbnail ne null}">
+                                                <div class="_preview background-image"
+                                                     style="background-image: url('${contentForm.thumbnail.url}')">
+                                                    <div class="_cancel">
+                                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <circle cx="16" cy="16" r="14" fill="white"/>
+                                                            <path fill-rule="evenodd"
+                                                                  clip-rule="evenodd"
+                                                                  d="M16.0002 1.33398C7.90016 1.33398 1.3335 7.90065 1.3335 16.0007C1.3335 24.1007 7.90016 30.6673 16.0002 30.6673C24.1002 30.6673 30.6668 24.1007 30.6668 16.0007C30.6668 7.90065 24.1002 1.33398 16.0002 1.33398ZM20.9428 12.9433C21.1857 12.6918 21.3201 12.355 21.3171 12.0055C21.314 11.6559 21.1738 11.3214 20.9266 11.0742C20.6794 10.827 20.345 10.6868 19.9954 10.6838C19.6458 10.6807 19.309 10.8151 19.0575 11.058L16.0002 14.1153L12.9428 11.058C12.8198 10.9306 12.6727 10.8291 12.51 10.7592C12.3474 10.6893 12.1724 10.6525 11.9954 10.651C11.8183 10.6494 11.6428 10.6832 11.4789 10.7502C11.315 10.8173 11.1662 10.9163 11.041 11.0415C10.9158 11.1666 10.8168 11.3155 10.7497 11.4794C10.6827 11.6432 10.649 11.8188 10.6505 11.9959C10.652 12.1729 10.6888 12.3479 10.7587 12.5105C10.8286 12.6732 10.9302 12.8203 11.0575 12.9433L14.1148 16.0007L11.0575 19.058C10.9302 19.181 10.8286 19.3281 10.7587 19.4908C10.6888 19.6535 10.652 19.8284 10.6505 20.0055C10.649 20.1825 10.6827 20.3581 10.7497 20.5219C10.8168 20.6858 10.9158 20.8347 11.041 20.9598C11.1662 21.085 11.315 21.184 11.4789 21.2511C11.6428 21.3181 11.8183 21.3519 11.9954 21.3503C12.1724 21.3488 12.3474 21.312 12.51 21.2421C12.6727 21.1722 12.8198 21.0707 12.9428 20.9433L16.0002 17.886L19.0575 20.9433C19.309 21.1862 19.6458 21.3206 19.9954 21.3176C20.345 21.3145 20.6794 21.1743 20.9266 20.9271C21.1738 20.6799 21.314 20.3454 21.3171 19.9959C21.3201 19.6463 21.1857 19.3095 20.9428 19.058L17.8855 16.0007L20.9428 12.9433Z"
+                                                                  fill="#A9CC52"/>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="_preview background-image"
+                                                     style="display: none; background-image: url('${contentForm.thumbnail.url}')">
+                                                    <div class="_cancel">
+                                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <circle cx="16" cy="16" r="14" fill="white"/>
+                                                            <path fill-rule="evenodd"
+                                                                  clip-rule="evenodd"
+                                                                  d="M16.0002 1.33398C7.90016 1.33398 1.3335 7.90065 1.3335 16.0007C1.3335 24.1007 7.90016 30.6673 16.0002 30.6673C24.1002 30.6673 30.6668 24.1007 30.6668 16.0007C30.6668 7.90065 24.1002 1.33398 16.0002 1.33398ZM20.9428 12.9433C21.1857 12.6918 21.3201 12.355 21.3171 12.0055C21.314 11.6559 21.1738 11.3214 20.9266 11.0742C20.6794 10.827 20.345 10.6868 19.9954 10.6838C19.6458 10.6807 19.309 10.8151 19.0575 11.058L16.0002 14.1153L12.9428 11.058C12.8198 10.9306 12.6727 10.8291 12.51 10.7592C12.3474 10.6893 12.1724 10.6525 11.9954 10.651C11.8183 10.6494 11.6428 10.6832 11.4789 10.7502C11.315 10.8173 11.1662 10.9163 11.041 11.0415C10.9158 11.1666 10.8168 11.3155 10.7497 11.4794C10.6827 11.6432 10.649 11.8188 10.6505 11.9959C10.652 12.1729 10.6888 12.3479 10.7587 12.5105C10.8286 12.6732 10.9302 12.8203 11.0575 12.9433L14.1148 16.0007L11.0575 19.058C10.9302 19.181 10.8286 19.3281 10.7587 19.4908C10.6888 19.6535 10.652 19.8284 10.6505 20.0055C10.649 20.1825 10.6827 20.3581 10.7497 20.5219C10.8168 20.6858 10.9158 20.8347 11.041 20.9598C11.1662 21.085 11.315 21.184 11.4789 21.2511C11.6428 21.3181 11.8183 21.3519 11.9954 21.3503C12.1724 21.3488 12.3474 21.312 12.51 21.2421C12.6727 21.1722 12.8198 21.0707 12.9428 20.9433L16.0002 17.886L19.0575 20.9433C19.309 21.1862 19.6458 21.3206 19.9954 21.3176C20.345 21.3145 20.6794 21.1743 20.9266 20.9271C21.1738 20.6799 21.314 20.3454 21.3171 19.9959C21.3201 19.6463 21.1857 19.3095 20.9428 19.058L17.8855 16.0007L20.9428 12.9433Z"
+                                                                  fill="#A9CC52"/>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
-                                    <div class="_preview background-image"
-                                         style="background-image: url('${contentForm.thumbnail.url}')">
-                                        <div class="_cancel">
-                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <circle cx="16" cy="16" r="14" fill="white"/>
-                                                <path fill-rule="evenodd"
-                                                      clip-rule="evenodd"
-                                                      d="M16.0002 1.33398C7.90016 1.33398 1.3335 7.90065 1.3335 16.0007C1.3335 24.1007 7.90016 30.6673 16.0002 30.6673C24.1002 30.6673 30.6668 24.1007 30.6668 16.0007C30.6668 7.90065 24.1002 1.33398 16.0002 1.33398ZM20.9428 12.9433C21.1857 12.6918 21.3201 12.355 21.3171 12.0055C21.314 11.6559 21.1738 11.3214 20.9266 11.0742C20.6794 10.827 20.345 10.6868 19.9954 10.6838C19.6458 10.6807 19.309 10.8151 19.0575 11.058L16.0002 14.1153L12.9428 11.058C12.8198 10.9306 12.6727 10.8291 12.51 10.7592C12.3474 10.6893 12.1724 10.6525 11.9954 10.651C11.8183 10.6494 11.6428 10.6832 11.4789 10.7502C11.315 10.8173 11.1662 10.9163 11.041 11.0415C10.9158 11.1666 10.8168 11.3155 10.7497 11.4794C10.6827 11.6432 10.649 11.8188 10.6505 11.9959C10.652 12.1729 10.6888 12.3479 10.7587 12.5105C10.8286 12.6732 10.9302 12.8203 11.0575 12.9433L14.1148 16.0007L11.0575 19.058C10.9302 19.181 10.8286 19.3281 10.7587 19.4908C10.6888 19.6535 10.652 19.8284 10.6505 20.0055C10.649 20.1825 10.6827 20.3581 10.7497 20.5219C10.8168 20.6858 10.9158 20.8347 11.041 20.9598C11.1662 21.085 11.315 21.184 11.4789 21.2511C11.6428 21.3181 11.8183 21.3519 11.9954 21.3503C12.1724 21.3488 12.3474 21.312 12.51 21.2421C12.6727 21.1722 12.8198 21.0707 12.9428 20.9433L16.0002 17.886L19.0575 20.9433C19.309 21.1862 19.6458 21.3206 19.9954 21.3176C20.345 21.3145 20.6794 21.1743 20.9266 20.9271C21.1738 20.6799 21.314 20.3454 21.3171 19.9959C21.3201 19.6463 21.1857 19.3095 20.9428 19.058L17.8855 16.0007L20.9428 12.9433Z"
-                                                      fill="#A9CC52"/>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:if>
+                                </c:when>
+                            </c:choose>
                             <div class="_header _input-header">
                                 <div class="_form w-100">
                                     <div class="_text c-gray-dark-low medium-h5">
@@ -361,34 +343,29 @@
             return_check = false;
         }
         let origin_thumbnail_input = document.querySelector('#origin-thumbnail');
-
-        if (type !== 'BOARD' && type !== 'QUESTION') {
-            if (!inspection({
-                selector: '[name="file_name"]',
-                regex_type: '1~100',
-                isFocus: false,
-                empty_check: true,
-                empty_text: '파일을 등록해주세요.',
-                failed_text: '파일을 등록해주세요.',
-            })) {
-                return_check = false;
-            }
-        }
-
         if (!return_check) {
             $('[name="content"]').val('');
             $('#board-filter2').attr("disabled", true);
             $('#board-filter1').val(origin_filter_type_value);
         }
 
-        if (origin_thumbnail_input !== null && origin_thumbnail_input !== undefined) {
-            let origin_thumbnail = {
-                name: origin_thumbnail_input.dataset.name,
-                size: origin_thumbnail_input.dataset.size * 1,
-                url: origin_thumbnail_input.dataset.url,
-                type: origin_thumbnail_input.dataset.type,
+        let thumbnail_file_input = document.querySelector('#file1');
+        if (thumbnail_file_input !== null && thumbnail_file_input !== undefined) {
+            if (thumbnail_file_input.files.length !== 0) {
+                origin_thumbnail_input.value = JSON.stringify({
+                    name: origin_thumbnail_input.dataset.name,
+                    size: origin_thumbnail_input.dataset.size * 1,
+                    url: origin_thumbnail_input.dataset.url,
+                    type: origin_thumbnail_input.dataset.type,
+                });
+            } else {
+                origin_thumbnail_input.value = JSON.stringify({
+                    name: null,
+                    size: null,
+                    url: null,
+                    type: null,
+                });
             }
-            origin_thumbnail_input.value = JSON.stringify(origin_thumbnail);
         }
         return return_check;
     }

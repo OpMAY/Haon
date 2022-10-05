@@ -10,7 +10,7 @@ public class MFile {
 
     private String url;
     private String name;
-    private long size;
+    private Long size;
     private String type;
     private MultipartFile file;
 

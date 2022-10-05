@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.eclipse.core.internal.jobs.ObjectMap;
+import org.json.JSONObject;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
@@ -24,7 +25,11 @@ public class JsonObjectTypeHandler<T> extends BaseTypeHandler<T> {
 
     @Override
     public void setNonNullParameter(PreparedStatement preparedStatement, int i, T t, JdbcType jdbcType) throws SQLException {
-        preparedStatement.setString(i, new Gson().toJson(t));
+        if (new Gson().toJson(t).trim().equals(new JSONObject().toString())) {
+            preparedStatement.setString(i, null);
+        } else {
+            preparedStatement.setString(i, new Gson().toJson(t));
+        }
     }
 
     @Override

@@ -1,3 +1,4 @@
+<%@ page import="com.model.global.category.CATEGORY_TYPE" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
@@ -92,51 +93,23 @@
                                         </svg>
                                     </div>
                                     <div class="dropdown-menu dropdown-sm" data-label="CATEGORY">
-                                        <a data-type="BOARD" class="dropdown-item">
-                                            <div>관리자 지정1</div>
-                                        </a>
-                                        <a data-type="BOARD" class="dropdown-item">
-                                            <div>관리자 지정2</div>
-                                        </a>
-                                        <a data-type="BOARD" class="dropdown-item">
-                                            <div>관리자 지정3</div>
-                                        </a>
-                                        <a data-type="BOARD" class="dropdown-item">
-                                            <div>관리자 지정1</div>
-                                        </a>
-                                        <a data-type="BOARD" class="dropdown-item">
-                                            <div>관리자 지정1</div>
-                                        </a>
-                                        <a data-type="TIP" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정2</div>
-                                        </a>
-                                        <a data-type="TIP" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정2</div>
-                                        </a>
-                                        <a data-type="TIP" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정2</div>
-                                        </a>
-                                        <a data-type="TIP" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정2</div>
-                                        </a>
-                                        <a data-type="MANUAL" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정3</div>
-                                        </a>
-                                        <a data-type="MANUAL" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정3</div>
-                                        </a>
-                                        <a data-type="QUESTION" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정4</div>
-                                        </a>
-                                        <a data-type="QUESTION" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정4</div>
-                                        </a>
-                                        <a data-type="QUESTION" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정4</div>
-                                        </a>
-                                        <a data-type="MAGAZINE" class="dropdown-item" style="display: none;">
-                                            <div>관리자 지정5</div>
-                                        </a>
+                                        <c:forEach items="${categories}" var="category" varStatus="status">
+                                            <c:forEach items="${category.categories}" var="child_category">
+                                                <c:choose>
+                                                    <c:when test="${category.type eq CATEGORY_TYPE.BOARD}">
+                                                        <a data-type="${category.type}" class="dropdown-item">
+                                                            <div>${child_category}</div>
+                                                        </a>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <a data-type="${category.type}" class="dropdown-item"
+                                                           style="display: none;">
+                                                            <div>${child_category}</div>
+                                                        </a>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </c:forEach>
                                     </div>
                                 </div>
                                 <button onclick="boardWriteCancel();" type="button"
@@ -343,7 +316,7 @@
             return_check = false;
         }
 
-        if (type !== 'BOARD' && type !== 'QUESTION') {
+        /*if (type !== 'BOARD' && type !== 'QUESTION') {
             if (!inspection({
                 selector: '[name="file_name"]',
                 regex_type: '1~100',
@@ -354,7 +327,7 @@
             })) {
                 return_check = false;
             }
-        }
+        }*/
 
         if (!return_check) {
             $('[name="content"]').val('');

@@ -15,6 +15,7 @@ import com.model.content.question.Question;
 import com.model.content.tips.Tips;
 import com.model.farm.Farm;
 import com.model.global.category.CATEGORY_TYPE;
+import com.model.global.category.CommunityCategory;
 import com.service.*;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
@@ -56,7 +57,7 @@ public class UserController {
     private final LikeService likeService;
 
     private final TraceService traceService;
-    private final CommunityCategoryDao communityCategoryDao;
+    private final AdminService adminService;
 
     @RequestMapping(value = "/alarm", method = RequestMethod.GET)
     public ModelAndView getAlarm() {
@@ -65,9 +66,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/board/write", method = RequestMethod.GET)
-    public ModelAndView getBoardWrite(CATEGORY_TYPE type) {
+    public ModelAndView getBoardWrite() {
         ModelAndView VIEW = new ModelAndView("user/board-write");
-        VIEW.addObject("categories", communityCategoryDao.getCategories(type));
+        VIEW.addObject("categories", adminService.getAllCategories());
         return VIEW;
     }
 
@@ -94,8 +95,9 @@ public class UserController {
                     VIEW.addObject("message", "게시글 등록이 완료되었습니다.");
                     VIEW.addObject("status", true);
                 } else {
-                    VIEW.addObject("message", "섬네일을 올바르게 설정해주세요.");
-                    VIEW.addObject("status", false);
+                    contentService.insertCommunityThumbnail(contentForm, null);
+                    VIEW.addObject("message", "게시글 등록이 완료되었습니다.");
+                    VIEW.addObject("status", true);
                 }
                 break;
             default:
@@ -113,18 +115,23 @@ public class UserController {
         switch (type) {
             case BOARD:
                 contentForm = contentService.getContentFormByBoardNo(no);
+                VIEW.addObject("category", adminService.getCommunityCategory(CATEGORY_TYPE.BOARD));
                 break;
             case QUESTION:
                 contentForm = contentService.getContentFormByQuestionNo(no);
+                VIEW.addObject("category", adminService.getCommunityCategory(CATEGORY_TYPE.QUESTION));
                 break;
             case MAGAZINE:
                 contentForm = contentService.getContentFormByMagazineNo(no);
+                VIEW.addObject("category", adminService.getCommunityCategory(CATEGORY_TYPE.MAGAZINE));
                 break;
             case MANUAL:
                 contentForm = contentService.getContentFormByManualNo(no);
+                VIEW.addObject("category", adminService.getCommunityCategory(CATEGORY_TYPE.MANUAL));
                 break;
             case TIP:
                 contentForm = contentService.getContentFormByTipNo(no);
+                VIEW.addObject("category", adminService.getCommunityCategory(CATEGORY_TYPE.TIP));
                 break;
         }
         contentForm.setCommunity_type(type);
@@ -139,6 +146,7 @@ public class UserController {
         Farm farm = farmService.getFarmByUserNo(user_no);
         contentForm.setFarm_no(farm.getNo());
         contentForm.setContent(Format.summernoteReplaceCharacter(contentForm.getContent()));
+        MFile thumbnail = null;
         switch (contentForm.getCommunity_type()) {
             case BOARD:
             case QUESTION:
@@ -150,12 +158,16 @@ public class UserController {
             case MANUAL:
             case MAGAZINE:
                 if (contentForm.getFile() != null && contentForm.getFile().getSize() != 0) {
-                    MFile thumbnail = fileUploadUtility.uploadFile(contentForm.getFile(), CDNUploadPath.COMMUNITY.getPath() + "/" + contentForm.getCommunity_type().name() + "/" + farm.getNo());
+                    thumbnail = fileUploadUtility.uploadFile(contentForm.getFile(), CDNUploadPath.COMMUNITY.getPath() + "/" + contentForm.getCommunity_type().name() + "/" + farm.getNo());
                     contentService.updateCommunityThumbnail(contentForm, thumbnail);
                     VIEW.addObject("message", "게시글 등록이 완료되었습니다.");
                     VIEW.addObject("status", true);
                 } else {
-                    MFile thumbnail = new Gson().fromJson(contentForm.getOrigin_thumbnail(), MFile.class);
+                    try {
+                        thumbnail = new Gson().fromJson(contentForm.getOrigin_thumbnail(), MFile.class);
+                    } catch (Exception e) {
+                        thumbnail = null;
+                    }
                     contentService.updateCommunityThumbnail(contentForm, thumbnail);
                     VIEW.addObject("message", "게시글 등록이 완료되었습니다.");
                     VIEW.addObject("status", true);
