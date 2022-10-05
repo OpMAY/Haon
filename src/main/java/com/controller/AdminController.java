@@ -22,8 +22,12 @@ import com.model.content.tips.Tips;
 import com.model.content.tips.TipsComment;
 import com.model.content.tips.TipsTransaction;
 import com.model.farm.Farm;
+
 import com.model.farm.trace.Trace;
-import com.model.farm.trace.TraceEntity;
+
+import com.model.farm.trace.AdminFarmBundle;
+import com.model.farm.trace.AdminFarmTrace;
+import com.model.farm.trace.Bundle;
 import com.model.global.Banner;
 import com.model.global.category.CATEGORY_TYPE;
 import com.model.global.category.CommunityCategory;
@@ -45,7 +49,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -71,6 +75,7 @@ public class AdminController {
     private final FileUploadUtility fileUploadUtility;
     private final ContentService contentService;
     private final GlobalService globalService;
+    private final TraceService traceService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView getLogin(HttpServletRequest request) {
@@ -1351,12 +1356,27 @@ public class AdminController {
     @RequestMapping(value = "/trace/traces", method = RequestMethod.GET)
     public ModelAndView getTraces(HttpServletRequest request) {
         VIEW = new ModelAndView("admin/trace/traces");
+        List<AdminFarmTrace> traces = new ArrayList<>();
+        List<Trace> traceList = adminService.getAllTraces();
+        for(Trace trace: traceList) {
+            AdminFarmTrace farmTrace = new AdminFarmTrace();
+            farmTrace.setTrace(trace);
+            farmTrace.setFarm(farmService.getFarmByFarmNo(trace.getFarm_no()));
+            traces.add(farmTrace);
+        }
+        VIEW.addObject("traces", traces);
         return VIEW;
     }
 
     @RequestMapping(value = "/trace/detail/trace/{trace_no}", method = RequestMethod.GET)
     public ModelAndView getTraceDetail(HttpServletRequest request, @PathVariable("trace_no") int trace_no) {
         VIEW = new ModelAndView("admin/trace/trace-detail");
+        Trace trace = traceService.getTracePage(trace_no);
+        Farm farm = farmService.getFarmByFarmNo(trace.getFarm_no());
+        User user = userService.getUserByNo(farm.getUser_no());
+        VIEW.addObject("trace", trace);
+        VIEW.addObject("farm", farm);
+        VIEW.addObject("user", user);
         return VIEW;
     }
 
@@ -1375,12 +1395,26 @@ public class AdminController {
     @RequestMapping(value = "/trace/bundles", method = RequestMethod.GET)
     public ModelAndView getBundles(HttpServletRequest request) {
         VIEW = new ModelAndView("admin/trace/trace-bundles");
+        List<AdminFarmBundle> farmBundle = new ArrayList<>();
+        List<Bundle> bundles = adminService.getAllBundles();
+        for(Bundle bundle : bundles) {
+            AdminFarmBundle adminFarmBundle = new AdminFarmBundle();
+            adminFarmBundle.setBundle(bundle);
+            adminFarmBundle.setFarm(farmService.getFarmByFarmNo(bundle.getFarm_no()));
+            farmBundle.add(adminFarmBundle);
+        }
+        VIEW.addObject("bundles", farmBundle);
         return VIEW;
     }
 
     @RequestMapping(value = "/trace/detail/bundle/{bundle_no}", method = RequestMethod.GET)
     public ModelAndView getBundleDetail(HttpServletRequest request, @PathVariable("bundle_no") int bundle_no) {
         VIEW = new ModelAndView("admin/trace/trace-bundle-detail");
+        Bundle bundle = traceService.getTracePackagePage(bundle_no);
+        Farm farm = farmService.getFarmByFarmNo(bundle.getFarm_no());
+        VIEW.addObject("bundle", bundle);
+        VIEW.addObject("farm", farm);
+        VIEW.addObject("user", userService.getUserByNo(farm.getUser_no()));
         return VIEW;
     }
 

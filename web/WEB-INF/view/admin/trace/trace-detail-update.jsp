@@ -823,7 +823,7 @@
             modal_success_btn.removeAttribute('data-no');
             console.log(modal);
         });
-    });
+    });n.js
 </script>
 </body>
 </html>

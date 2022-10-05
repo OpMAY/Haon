@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
             location.href = this.dataset.href;
         });
     });
+
     document.querySelector('.left-side-menu ._logout').addEventListener('click', function (event) {
         logout().then((result) => {
             console.log(result);
@@ -16,6 +17,43 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+
+    $(document).on('click', '[data-type=qr]', function () {
+        let $no = $(this).data().no;
+        let $type = $(this).data().type;
+        let url = `${window.location.origin}/trace/${$type}/${$no}`;
+        let $modal = $('#qrcode-modal');
+
+        $modal.find('.modal-body').children().remove();
+
+        $modal.find('.modal-body').append(`<div class="d-flex flex-column align-items-center">
+                        <div class="_qrArea" style="margin-bottom: 24px">아래 이미지를 저장하여 QR 코드를 공유하세요.</div>
+                        <div id="trace-qr" style="margin-bottom: 24px"><a download="qrCode.png"></a></div>
+                        <button class="btn btn-primary" id="download-qr">QR 다운로드</button>
+                    </div>`)
+        new QRCode(document.getElementById('trace-qr'), {
+            text: url,
+            width: 256,
+            height: 256,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H,
+            alt: '스캔하세요.',
+        });
+
+        $modal.modal('show');
+    })
+
+    $(document.body).on('click', '#download-qr', function () {
+        let qr = document.getElementById('trace-qr')
+        let qrCanvas = qr.querySelector('canvas');
+        let a = qr.querySelector('a');
+        a.download = 'HAON_QR_' + tokenGenerator() + '.png';
+        a.href = qrCanvas.toDataURL('image/png').replace("image/png", "image/octet-stream");
+        a.click();
+    })
+
 });
 
 async function removeCategory(type, category) {
@@ -179,8 +217,12 @@ async function blockReview(_type, type, comment_no) {
     }
 }
 
+
 async function magazineStatusUpdate(status, magazine_no) {
     function apiMagazineStatusUpdate(status, magazine_no) {
+
+
+
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
         myHeaders.append('Content-Api', tokenGenerator(8));
@@ -189,21 +231,29 @@ async function magazineStatusUpdate(status, magazine_no) {
             method: 'POST',
             headers: myHeaders,
         };
+
         const response = fetch(`/admin/api/magazine/status/update/${magazine_no}/${status}`, requestOptions);
+
+
+
         return response.then((res) => res.json());
     }
 
     let result;
     try {
+
         result = await apiMagazineStatusUpdate(status, magazine_no);
+
+
+
         return result;
     } catch (error) {
         console.log(error);
     }
 }
 
-async function logout() {
-    function apiLogout() {
+async function deleteTrace(no) {
+    function apiDeleteTrace(no) {
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
         myHeaders.append('Content-Api', tokenGenerator(8));
@@ -212,13 +262,71 @@ async function logout() {
             method: 'POST',
             headers: myHeaders,
         };
+    const response = fetch(`/admin/api/delete/trace/${no}`, requestOptions);
+    return response.then((res) => res.json());
+    }
+let result;
+try {
+    result = await apiDeleteTrace(no);
+    return result;
+} catch (error) {
+    console.log(error);
+}
+
+}
+
+async function logout() {
+    function apiLogout() {
+
+
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+
         const response = fetch(`/admin/api/logout`, requestOptions);
+
+
         return response.then((res) => res.json());
     }
 
     let result;
     try {
+
         result = await apiLogout();
+
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function deleteBundle(no) {
+    function apiDeleteBundle(no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`/admin/api/delete/bundle/${no}`, requestOptions);
+
+        return response.then((res) => res.json());
+    }
+
+
+    let result;
+    try {
+
+
+        result = await apiDeleteBundle(no);
+
         return result;
     } catch (error) {
         console.log(error);
