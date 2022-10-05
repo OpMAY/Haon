@@ -251,6 +251,24 @@ public class AdminRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/connect/trace/bundle/{trace_no}/{bundle_no}", method = RequestMethod.POST)
+    public ResponseEntity<String> connectTraceBundle( @PathVariable Integer trace_no, @PathVariable Integer bundle_no) {
+        Message message = traceService.connectTraceBundle(trace_no, bundle_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/disconnect/trace/bundle/{trace_no}/{bundle_no}", method = RequestMethod.POST)
+    public ResponseEntity<String> disconnectTraceBundle(@PathVariable Integer trace_no, @PathVariable Integer bundle_no) {
+        Message message = traceService.disconnectTraceBundle(trace_no, bundle_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/get/trace/{code}/{bundle_no}", method = RequestMethod.GET)
+    public ResponseEntity<String> getAvailableTraceFromBundleFarm(@PathVariable String code, @PathVariable Integer bundle_no) {
+        Message message = traceService.getAvailableTraceFromBundleFarm(code, bundle_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/user/ban/{user_no}", method = RequestMethod.POST)
     public ResponseEntity<String> userBan(@PathVariable Integer user_no, @RequestBody Map<String, Object> body) {
         Integer days = (Integer) body.get("type");

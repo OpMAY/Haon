@@ -30,4 +30,15 @@
         from bundle_traces
         WHERE bundle_no = #{bundle_no}
     </delete>
+    <delete id="disconnectTraceBundle">
+        delete
+        from bundle_traces
+        where trace_no = #{trace_no}
+          AND bundle_no = #{bundle_no};
+    </delete>
+    <select id="checkBundleAbleToDisconnect" resultType="_boolean">
+        select COUNT(*) > 2
+        from bundle_traces
+        WHERE bundle_no = #{bundle_no}
+    </select>
 </mapper>

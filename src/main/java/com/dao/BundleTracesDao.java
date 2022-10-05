@@ -32,4 +32,11 @@ public class BundleTracesDao {
         mapper.resetBundleTraces(bundle_no);
     }
 
+    public boolean checkBundleAbleToDisconnect(int bundle_no) {
+        return mapper.checkBundleAbleToDisconnect(bundle_no);
+    }
+
+    public void disconnectTraceBundle(int trace_no, int bundle_no) {
+        mapper.disconnectTraceBundle(trace_no, bundle_no);
+    }
 }
