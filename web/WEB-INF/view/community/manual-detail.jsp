@@ -438,7 +438,7 @@
                                     <div class="col-xl-12 col-lg-6 col-sm-6 col-12">
                                         <div class="_community-module">
                                             <div class="_title bold-h5 c-gray-dark-low">
-                                                오키위가 작성한 다른 메뉴얼
+                                                    ${farm.name}님이 작성한 다른 메뉴얼
                                             </div>
                                             <div class="row row-cols-1 community-container-deck">
                                                 <c:forEach items="${other_manuals}" var="other_manual"

@@ -227,32 +227,32 @@
     </insert>
 
     <select id="getBoardCommentByNo" parameterType="int" resultType="BoardComment">
-        select *
+        select *, board_comment.board_no as community_no
         from board_comment
         where no = #{comment_no};
     </select>
     <select id="getMagazineCommentByNo" parameterType="int" resultType="MagazineComment">
-        select *
+        select *, magazine_comment.magazine_no as community_no
         from magazine_comment
         where no = #{comment_no};
     </select>
     <select id="getQuestionCommentByNo" parameterType="int" resultType="QuestionComment">
-        select *
+        select *, question_comment.question_no as community_no
         from question_comment
         where no = #{comment_no};
     </select>
     <select id="getManualCommentByNo" parameterType="int" resultType="ManualComment">
-        select *
+        select *, manual_comment.manual_no as community_no
         from manual_comment
         where no = #{comment_no};
     </select>
     <select id="getTipsCommentByNo" parameterType="int" resultType="TipsComment">
-        select *
+        select *, tips_comment.tips_no as community_no
         from tips_comment
         where no = #{comment_no};
     </select>
     <select id="getFarmCommentByNo" parameterType="int" resultType="FarmComment">
-        select *
+        select *, farm_comment.farm_no as community_no
         from farm_comment
         where no = #{comment_no};
     </select>

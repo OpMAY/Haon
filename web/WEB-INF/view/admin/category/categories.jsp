@@ -308,6 +308,12 @@
             },
             onItemAdd: function (value, $item) {
                 console.log(value, $item);
+                let category_regex = /^[가-힣a-zA-Z\d\s]{2,10}$/;
+                if (!category_regex.test(value.trim())) {
+                    alert('카테고리는 2글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
+                    $item.remove();
+                    return false;
+                }
                 addCategory('BOARD', value).then((result) => {
                     console.log(result);
                     if (result.status === 'OK') {
@@ -358,6 +364,12 @@
             },
             onItemAdd: function (value, $item) {
                 console.log(value, $item);
+                let category_regex = /^[가-힣a-zA-Z\d\s]{2,10}$/;
+                if (!category_regex.test(value.trim())) {
+                    alert('카테고리는 2글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
+                    $item.remove();
+                    return false;
+                }
                 addCategory('TIP', value).then((result) => {
                     console.log(result);
                     if (result.status === 'OK') {
@@ -408,6 +420,12 @@
             },
             onItemAdd: function (value, $item) {
                 console.log(value, $item);
+                let category_regex = /^[가-힣a-zA-Z\d\s]{2,10}$/;
+                if (!category_regex.test(value.trim())) {
+                    alert('카테고리는 2글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
+                    $item.remove();
+                    return false;
+                }
                 addCategory('MANUAL', value).then((result) => {
                     console.log(result);
                     if (result.status === 'OK') {
@@ -458,6 +476,12 @@
             },
             onItemAdd: function (value, $item) {
                 console.log(value, $item);
+                let category_regex = /^[가-힣a-zA-Z\d\s]{2,10}$/;
+                if (!category_regex.test(value.trim())) {
+                    alert('카테고리는 2글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
+                    $item.remove();
+                    return false;
+                }
                 addCategory('QUESTION', value).then((result) => {
                     console.log(result);
                     if (result.status === 'OK') {
@@ -508,6 +532,12 @@
             },
             onItemAdd: function (value, $item) {
                 console.log(value, $item);
+                let category_regex = /^[가-힣a-zA-Z\d\s]{2,10}$/;
+                if (!category_regex.test(value.trim())) {
+                    alert('카테고리는 2글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
+                    $item.remove();
+                    return false;
+                }
                 addCategory('MAGAZINE', value).then((result) => {
                     console.log(result);
                     if (result.status === 'OK') {

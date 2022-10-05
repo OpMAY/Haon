@@ -468,7 +468,7 @@
                                                         </c:when>
                                                         <c:otherwise>
                                                             <div class="col p-8"
-                                                                 data-href="/community/magazine/detail/${other_tip.no}">
+                                                                 data-href="/community/tip/detail/${other_tip.no}">
                                                                 <div class="card community-card is-empty">
                                                                     <div class="background-image _profile"
                                                                          style="background-image:url('${farm.profile_image.url}')"></div>

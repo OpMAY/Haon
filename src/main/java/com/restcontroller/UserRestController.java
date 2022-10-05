@@ -250,6 +250,13 @@ public class UserRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/login/suspension", method = RequestMethod.POST)
+    public ResponseEntity<String> checkSuspension(HttpServletRequest request) throws Exception {
+        Message message = new Message();
+        message.put("status", false);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/login/check", method = RequestMethod.POST)
     public ResponseEntity<String> checkLogin(HttpServletRequest request) throws Exception {
         Message message = new Message();

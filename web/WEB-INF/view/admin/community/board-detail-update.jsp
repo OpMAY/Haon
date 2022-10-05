@@ -619,12 +619,24 @@
     const communitySubmit = () => {
         let return_check = true;
         let title = $('[name="title"]').val();
+        let title_regex = /^.{2,100}$/gm;
+        if (!title_regex.test(title)) {
+            alert('제목을 정확히 입력해주세요. 2글자 이상, 50글자 이내');
+            return_check = false;
+        }
         let content = $('#summernote').summernote('code');
+        let content_regex = /^.{10,4000}$/gm;
+        if (!content_regex.test($(content).text())) {
+            alert('게시글 내용을 정확히 입력해주세요. 10글자 이상, 2000글자 이내');
+            return_check = false;
+        }
         $('[name="content"]').val(content);
         let category = $('[name="category"]').val();
-        console.log('title', title);
-        console.log('content', content);
-        console.log('category', category);
+        if (category === null || category === undefined || category.length === 0 || category === 'none') {
+            alert('카테고리를 선택해주세요.');
+            return_check = false;
+        }
+        $('#update-modal').modal('hide');
         return return_check;
     }
 </script>
