@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -239,6 +240,21 @@ public class AdminRestController {
     @RequestMapping(value = "/delete/bundle/{bundle_no}", method = RequestMethod.POST)
     public ResponseEntity<String> deleteBundle(@PathVariable Integer bundle_no) {
         traceService.deleteBundle(bundle_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/user/ban/{user_no}", method = RequestMethod.POST)
+    public ResponseEntity<String> userBan(@PathVariable Integer user_no, @RequestBody Map<String, Object> body) {
+        Integer days = (Integer) body.get("type");
+        String reason = (String) body.get("reason");
+        log.info("type : {}, reason : {}", days, reason);
+        Message message = adminService.userBan(user_no, days, reason);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/user/unban/{user_no}", method = RequestMethod.POST)
+    public ResponseEntity<String> userUnBan(@PathVariable Integer user_no) {
+        adminService.userUnBan(user_no);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK), HttpStatus.OK);
     }
 }

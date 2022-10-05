@@ -10,4 +10,14 @@ public class UserBan extends Time {
     private String reason;
     private int days;
     private boolean status;
+
+    public UserBan() {
+
+    }
+
+    public UserBan(int user_no, String reason, int days){
+        this.user_no = user_no;
+        this.reason = reason;
+        this.days = days;
+    }
 }

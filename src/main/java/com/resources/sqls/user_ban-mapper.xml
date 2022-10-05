@@ -3,6 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.UserBanMapper">
+    <select id="hasUserBan" resultType="_boolean">
+        select EXISTS(select * from user_ban WHERE user_no = #{user_no})
+    </select>
     <select id="isUserBan" resultType="_boolean">
         select IF(EXISTS(select * from user_ban WHERE user_no = #{user_no} and `status` = true), true, false)
     </select>

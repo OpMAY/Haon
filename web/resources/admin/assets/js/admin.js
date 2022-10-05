@@ -222,7 +222,6 @@ async function magazineStatusUpdate(status, magazine_no) {
     function apiMagazineStatusUpdate(status, magazine_no) {
 
 
-
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
         myHeaders.append('Content-Api', tokenGenerator(8));
@@ -235,7 +234,6 @@ async function magazineStatusUpdate(status, magazine_no) {
         const response = fetch(`/admin/api/magazine/status/update/${magazine_no}/${status}`, requestOptions);
 
 
-
         return response.then((res) => res.json());
     }
 
@@ -243,7 +241,6 @@ async function magazineStatusUpdate(status, magazine_no) {
     try {
 
         result = await apiMagazineStatusUpdate(status, magazine_no);
-
 
 
         return result;
@@ -262,16 +259,17 @@ async function deleteTrace(no) {
             method: 'POST',
             headers: myHeaders,
         };
-    const response = fetch(`/admin/api/delete/trace/${no}`, requestOptions);
-    return response.then((res) => res.json());
+        const response = fetch(`/admin/api/delete/trace/${no}`, requestOptions);
+        return response.then((res) => res.json());
     }
-let result;
-try {
-    result = await apiDeleteTrace(no);
-    return result;
-} catch (error) {
-    console.log(error);
-}
+
+    let result;
+    try {
+        result = await apiDeleteTrace(no);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
 
 }
 
@@ -327,6 +325,60 @@ async function deleteBundle(no) {
 
         result = await apiDeleteBundle(no);
 
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function userBan(no, reason, type) {
+    function apiUserBan(no, reason, type) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const body = JSON.stringify({
+            reason,
+            type
+        });
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: body,
+        };
+        const response = fetch(`/admin/api/user/ban/${no}`, requestOptions);
+
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiUserBan(no, reason, type);
+
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function removeUserBan(no) {
+    function apiRemoveUserBan(no) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`/admin/api/user/unban/${no}`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiRemoveUserBan(no);
         return result;
     } catch (error) {
         console.log(error);
