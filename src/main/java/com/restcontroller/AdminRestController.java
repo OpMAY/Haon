@@ -2,6 +2,7 @@ package com.restcontroller;
 
 import com.api.sns.kakao.KakaoAPI;
 import com.model.content.common.COMMENT_TYPE;
+import com.model.farm.trace.Trace;
 import com.model.global.category.CATEGORY_TYPE;
 import com.model.global.category.CommunityCategory;
 import com.model.global.keyword.SearchKeyword;
@@ -241,6 +242,12 @@ public class AdminRestController {
     public ResponseEntity<String> deleteBundle(@PathVariable Integer bundle_no) {
         traceService.deleteBundle(bundle_no);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/update/trace", method = RequestMethod.POST)
+    public ResponseEntity<String> updateTrace(@RequestBody Trace trace) {
+        Message message = traceService.editTrace(trace, 0, true);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/user/ban/{user_no}", method = RequestMethod.POST)

@@ -76,20 +76,31 @@ public class TraceService {
     }
 
     @Transactional
-    public Message editTrace(Trace trace, int user_no) {
+    public Message editTrace(Trace trace, int user_no, boolean isAdmin) {
         Message message = new Message();
-        Farm farm = farmDao.getFarmByUserNo(user_no);
-        if (farm != null) {
-            if (trace.getFarm_no() != farm.getNo()) {
+        if (isAdmin) {
+            log.info("trace : {}", trace);
+            Farm farm = farmDao.getFarmByFarmNo(trace.getFarm_no());
+            if (farm == null) {
                 message.put("status", false);
-                message.put("type", 401);
             } else {
-                if (!farm.getType().isManual_available()) {
+//                traceDao.editTrace(trace);
+                message.put("status", true);
+            }
+        } else {
+            Farm farm = farmDao.getFarmByUserNo(user_no);
+            if (farm != null) {
+                if (trace.getFarm_no() != farm.getNo()) {
                     message.put("status", false);
-                    message.put("type", 400);
+                    message.put("type", 401);
                 } else {
-                    traceDao.editTrace(trace);
-                    message.put("status", true);
+                    if (!farm.getType().isManual_available()) {
+                        message.put("status", false);
+                        message.put("type", 400);
+                    } else {
+                        traceDao.editTrace(trace);
+                        message.put("status", true);
+                    }
                 }
             }
         }
@@ -278,7 +289,7 @@ public class TraceService {
         entity.setRate(entityData.getGradeNm());
         trace.setEntity(entity);
 
-        if(target_trace_type.getTarget().equals("PIG")) {
+        if (target_trace_type.getTarget().equals("PIG")) {
             // 돼지는 사육 농장 정보가 InfoType 1에 들어감 (사육정보 or 등록 정보로 추정)
             TraceBreed breed = new TraceBreed();
             breed.setType(BreedType.REGISTER);
@@ -637,15 +648,15 @@ public class TraceService {
     public Message updateBundle(List<Integer> traceList, int bundle_no, int user_no) {
         Message message = new Message();
         boolean b = false;
-        for(Integer trace_no : traceList) {
-            if(traceDao.getTraceByNo(trace_no) == null){
+        for (Integer trace_no : traceList) {
+            if (traceDao.getTraceByNo(trace_no) == null) {
                 b = true;
                 break;
             }
         }
-        if(!b) {
+        if (!b) {
             bundleTracesDao.resetBundleTraces(bundle_no);
-            for(Integer trace_no : traceList) {
+            for (Integer trace_no : traceList) {
                 bundleTracesDao.connectBundleTrace(bundle_no, trace_no);
             }
             message.put("status", true);

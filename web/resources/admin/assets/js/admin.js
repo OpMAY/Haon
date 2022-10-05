@@ -331,6 +331,30 @@ async function deleteBundle(no) {
     }
 }
 
+async function editTrace(trace) {
+    function apiEditTrace(trace) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify(trace),
+        };
+        const response = fetch(`/admin/api/update/trace`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiEditTrace(trace);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 async function userBan(no, reason, type) {
     function apiUserBan(no, reason, type) {
         const myHeaders = new Headers();
@@ -384,3 +408,4 @@ async function removeUserBan(no) {
         console.log(error);
     }
 }
+
