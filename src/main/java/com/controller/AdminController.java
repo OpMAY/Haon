@@ -23,11 +23,8 @@ import com.model.content.tips.Tips;
 import com.model.content.tips.TipsComment;
 import com.model.content.tips.TipsTransaction;
 import com.model.farm.Farm;
-import com.model.farm.trace.Trace;
+import com.model.farm.trace.*;
 
-import com.model.farm.trace.AdminFarmBundle;
-import com.model.farm.trace.AdminFarmTrace;
-import com.model.farm.trace.Bundle;
 import com.model.global.Banner;
 import com.model.global.category.CATEGORY_TYPE;
 import com.model.global.category.CommunityCategory;
@@ -141,7 +138,7 @@ public class AdminController {
         VIEW.addObject("magazines", magazines);
         //New Trace
         /*TODO New Trace Logic*/
-        ArrayList<Trace> traces = new ArrayList<>();
+        List<DashBoardTrace> traces = traceService.getNewDashboardTraces();
         VIEW.addObject("traces", traces);
         return VIEW;
     }

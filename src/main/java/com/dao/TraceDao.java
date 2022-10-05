@@ -1,6 +1,7 @@
 package com.dao;
 
 import com.mapper.TraceMapper;
+import com.model.farm.trace.DashBoardTrace;
 import com.model.farm.trace.Trace;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
@@ -50,4 +51,5 @@ public class TraceDao {
     public List<Trace> getAllTraces() {
         return mapper.getAllTraces();
     }
+
 }

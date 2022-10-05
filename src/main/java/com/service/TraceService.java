@@ -722,6 +722,10 @@ public class TraceService {
         return message;
     }
 
+    public List<DashBoardTrace> getNewDashboardTraces() {
+        return bundleTracesDao.getNewDashboardTraces();
+    }
+
 
     /**
      * 1. 이력번호

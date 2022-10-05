@@ -41,4 +41,28 @@
         from bundle_traces
         WHERE bundle_no = #{bundle_no}
     </select>
+    <select id="getNewDashboardTraces" resultType="DashBoardTrace">
+        select *
+        from (select trace_code         as code,
+                     u.name             as name,
+                     f.name             as farm_name,
+                     false              as is_bundle,
+                     f.type             as type,
+                     trace.reg_datetime as reg_datetime
+              from trace
+                       left join farm f on trace.farm_no = f.no
+                       left join user u on f.user_no = u.no
+              UNION
+              select bundle_code         as code,
+                     u.name              as name,
+                     f.name              as farm_name,
+                     true                as is_bundle,
+                     f.type              as type,
+                     bundle.reg_datetime as reg_datetime
+              from bundle
+                       left join farm f on bundle.farm_no = f.no
+                       left join user u on f.user_no = u.no) as tcbc
+        ORDER BY reg_datetime
+        LIMIT 6
+    </select>
 </mapper>
