@@ -202,6 +202,12 @@
             },
             onItemAdd: function (value, $item) {
                 console.log(value, $item);
+                let category_regex = /^[가-힣a-zA-Z\d\s]{2,10}$/;
+                if (!category_regex.test(value.trim())) {
+                    alert('추천 검색은 2글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
+                    $item.remove();
+                    return false;
+                }
                 addKeyword('RECOMMEND', value).then((result) => {
                     console.log(result);
                     if (result.status === 'OK') {
@@ -251,6 +257,12 @@
             },
             onItemAdd: function (value, $item) {
                 console.log(value, $item);
+                let category_regex = /^[가-힣a-zA-Z\d\s]{2,10}$/;
+                if (!category_regex.test(value.trim())) {
+                    alert('검색 키워드는 2글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
+                    $item.remove();
+                    return false;
+                }
                 addKeyword('SEARCH', value).then((result) => {
                     console.log(result);
                     if (result.status === 'OK') {

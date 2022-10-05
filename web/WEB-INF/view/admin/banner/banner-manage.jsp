@@ -277,6 +277,7 @@
                 <form id="update-form"
                       action="/admin/api/update/banner"
                       method="post"
+                      onsubmit="return updateBannerSubmit()"
                       enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="file"
@@ -285,6 +286,7 @@
                                id="file"
                                name="file"
                                data-plugins="dropify"
+                               data-allowed-file-extensions='["jpeg/jfif", "tiff","gif","bmp","png","ppm","pgm","pbm","pnm","svg","jpg","jpeg"]'
                                data-max-file-size="10M"
                                data-default-file="/resources/admin/assets/images/small/img-2.jpg"/>
                         <input type="text"
@@ -361,6 +363,7 @@
                 <form id="create-form"
                       action="/admin/banners/banner/create"
                       method="POST"
+                      onsubmit="return createBannerSubmit()"
                       enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="file"
@@ -368,6 +371,7 @@
                         <input type="file"
                                name="file"
                                data-plugins="dropify"
+                               data-allowed-file-extensions='["jpeg/jfif", "tiff","gif","bmp","png","ppm","pgm","pbm","pnm","svg","jpg","jpeg"]'
                                data-max-file-size="10M"/>
                     </div>
                     <div class="mb-3">
@@ -498,7 +502,9 @@
                     size: input_file.dataset.bannerImageSize,
                 });
             }
-            form.submit();
+            if (updateBannerSubmit()) {
+                form.submit();
+            }
         });
         //fetch get data
         $('#update-modal').on('show.bs.modal', function (event) {
@@ -552,7 +558,9 @@
         $('[data-action="create"]').click(function (event) {
             let form = document.querySelector('#create-form');
             form.action = '/admin/banners/banner/create';
-            form.submit();
+            if (createBannerSubmit()) {
+                form.submit();
+            }
         });
 
         //fetch get data
@@ -621,6 +629,68 @@
             console.log(modal);
         });
     });
+
+    function updateBannerSubmit() {
+        let return_check = true;
+        let modal = document.querySelector('#update-modal');
+        let top = modal.querySelector('[name="top_text"]');
+        let top_regex = /^.{2,25}$/gm;
+        if (!top_regex.test(top.value)) {
+            alert('상단 텍스트는 2글자 이상 25글자 이내로 작성해주세요.');
+            return_check = false;
+        }
+        let middle = modal.querySelector('[name="middle_text"]');
+        let middle_regex = /^.{2,25}$/gm;
+        if (!middle_regex.test(middle.value)) {
+            alert('중단 텍스트는 2글자 이상 25글자 이내로 작성해주세요.');
+            return_check = false;
+        }
+        let bottom = modal.querySelector('[name="bottom_text"]');
+        let bottom_regex = /^.{2,255}$/gm;
+        if (!bottom_regex.test(bottom.value)) {
+            alert('하단 텍스트는 2글자 이상 255글자 이내로 작성해주세요.');
+            return_check = false;
+        }
+        let link = modal.querySelector('[name="link"]');
+        if (link.value.trim().length === 0) {
+            alert('연결 링크를 작성해주세요.');
+            return_check = false;
+        }
+        return return_check;
+    }
+
+    function createBannerSubmit() {
+        let return_check = true;
+        let modal = document.querySelector('#create-modal');
+        let file = modal.querySelector('[name="file"][data-plugins="dropify"]');
+        if (file.files.length === 0) {
+            alert('이미지 파일을 넣어주세요.');
+        }
+        let top = modal.querySelector('[name="top_text"]');
+        let top_regex = /^.{2,25}$/gm;
+        if (!top_regex.test(top.value)) {
+            alert('상단 텍스트는 2글자 이상 25글자 이내로 작성해주세요.');
+            return_check = false;
+        }
+        let middle = modal.querySelector('[name="middle_text"]');
+        let middle_regex = /^.{2,25}$/gm;
+        if (!middle_regex.test(middle.value)) {
+            alert('중단 텍스트는 2글자 이상 25글자 이내로 작성해주세요.');
+            return_check = false;
+        }
+        let bottom = modal.querySelector('[name="bottom_text"]');
+        let bottom_regex = /^.{2,255}$/gm;
+        if (!bottom_regex.test(bottom.value)) {
+            alert('하단 텍스트는 2글자 이상 255글자 이내로 작성해주세요.');
+            return_check = false;
+        }
+        let link = modal.querySelector('[name="link"]');
+        if (link.value.trim().length === 0) {
+            alert('연결 링크를 작성해주세요.');
+            return_check = false;
+        }
+        return return_check;
+    }
 </script>
 </body>
 </html>

@@ -532,6 +532,44 @@ $(document).ready(function () {
             });
         });
     }
+    loginCheck().then((result) => {
+        if (result.status === 'OK') {
+            if (result.data.status) {
+                suspensionCheck().then((result) => {
+                    console.log(result);
+                    if (result.status === 'OK') {
+                        if (result.data.status) {
+                            viewModal({
+                                vCenter: true, btnCount: 1,
+                                backDrop: true,
+                                title: '회원 정지 알림',
+                                desc: '회원 정지 알림',
+                                confirm_text: '확인',
+                                onConfirm: function (e) {
+                                    console.log('Confirm Button Click Callback', e.currentTarget);
+                                },
+                                onCancel: function (e) {
+                                    console.log('Cancel Button Click Callback', e.currentTarget);
+                                },
+                                onShown: function (e) {
+                                    console.log('Modal Show After Callback', e.currentTarget);
+                                },
+                                onHidden: function (e) {
+                                    console.log('Modal Hide After Callback', e.currentTarget);
+                                },
+                                onShow: function (e) {
+                                    console.log('Modal Show Before Callback', e.currentTarget);
+                                },
+                                onHide: function (e) {
+                                    console.log('Modal Hide Before Callback', e.currentTarget);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    });
 });
 
 const getPosition = ($target) => {

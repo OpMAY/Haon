@@ -253,6 +253,7 @@ public class UserController {
          * 내가 작성한 댓글
          * */
         ArrayList<Comment> commentsMadeMe = commentService.getCommentsMadeMe(user_no);
+        log.info(commentsMadeMe.toString());
         ContentForm contentForm = null;
         for (Comment comment : commentsMadeMe) {
             Comment originComment = comment;

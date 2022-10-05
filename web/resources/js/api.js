@@ -802,6 +802,29 @@ async function loginCheck() {
     }
 }
 
+async function suspensionCheck() {
+    function apiSuspensionCheck() {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Api', tokenGenerator(8));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+        };
+        const response = fetch(`${host}/api/login/suspension`, requestOptions);
+        return response.then((res) => res.json());
+    }
+
+    let result;
+    try {
+        result = await apiSuspensionCheck();
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 async function updateBookmark(type, no) {
     function apiUpdateBookMark(type, no) {
         const myHeaders = new Headers();
@@ -913,6 +936,7 @@ async function loadMoreFarmContents(type, farm_no, content_no, category) {
         const response = fetch(`${host}/api/get/${type}/farm/${farm_no}/content/${content_no}?category=${category === undefined ? '' : category}`, requestOptions);
         return response.then((res) => res.json());
     }
+
     let result;
     try {
         result = await apiLoadMoreContents(type, farm_no, content_no, category);
@@ -1140,7 +1164,7 @@ async function createManualBundle(list) {
         myHeaders.append('Content-Type', 'application/json');
         myHeaders.append('Content-Api', tokenGenerator(8));
 
-        let raw = {'list' : list};
+        let raw = {'list': list};
 
         const requestOptions = {
             method: 'POST',
@@ -1285,7 +1309,7 @@ async function updateManualBundle(list, no) {
         myHeaders.append('Content-Type', 'application/json');
         myHeaders.append('Content-Api', tokenGenerator(8));
 
-        let raw = {'list' : list, 'no' : no};
+        let raw = {'list': list, 'no': no};
 
         const requestOptions = {
             method: 'POST',

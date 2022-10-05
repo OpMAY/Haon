@@ -319,7 +319,7 @@
             isFocus: true,
             regex_type: '2~50',
             empty_text: '제목을 입력해주세요.',
-            failed_text: '제목을 정확히 입력해주세요. 10글자 이상, 2000글자 이내',
+            failed_text: '제목을 정확히 입력해주세요. 2글자 이상, 50글자 이내',
         })) {
             return_check = false;
         }

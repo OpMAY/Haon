@@ -7,13 +7,13 @@
             <a href="/admin/dashboard"
                class="logo logo-dark text-center">
                 <span class="logo-sm">
-                    <img src="/resources/admin/assets/images/logo-sm.png"
+                    <img src="/resources/assets/images/icon/logo-black-theme.png"
                          alt=""
                          height="22">
                     <!-- <span class="logo-lg-text-light">UBold</span> -->
                 </span>
                 <span class="logo-lg">
-                    <img src="/resources/admin/assets/images/logo-dark.png"
+                    <img src="/resources/assets/images/icon/logo-black-theme.png"
                          alt=""
                          height="20">
                     <!-- <span class="logo-lg-text-light">U</span> -->
@@ -23,12 +23,12 @@
             <a href="/admin/dashboard"
                class="logo logo-light text-center">
                 <span class="logo-sm">
-                    <img src="/resources/admin/assets/images/logo-sm.png"
+                    <img src="/resources/assets/images/icon/logo-black-theme.png"
                          alt=""
                          height="22">
                 </span>
                 <span class="logo-lg">
-                    <img src="/resources/admin/assets/images/logo-light.png"
+                    <img src="/resources/assets/images/icon/logo-black-theme.png"
                          alt=""
                          height="20">
                 </span>
