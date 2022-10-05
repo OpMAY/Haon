@@ -220,9 +220,9 @@ public class AdminService {
         return traceDao.getAllTraces();
     }
 
-    public List<Bundle> getAllBundles(){
-        List<Bundle> bundles =  bundleDao.getAllBundles();
-        for(Bundle bundle : bundles) {
+    public List<Bundle> getAllBundles() {
+        List<Bundle> bundles = bundleDao.getAllBundles();
+        for (Bundle bundle : bundles) {
             List<Trace> traces = bundleTracesDao.getBundleTraces(bundle.getNo());
             bundle.setTraceList(traces);
         }
@@ -233,11 +233,15 @@ public class AdminService {
     public List<AdminUser> getAdminUsers() {
         List<AdminUser> users = new ArrayList<>();
         List<User> farmUsers = userDao.getFarmUsers();
-        for(User user : farmUsers) {
+        for (User user : farmUsers) {
             AdminUser adminUser = new AdminUser();
             adminUser.setUser(user);
             adminUser.setFarm(farmDao.getFarmByUserNo(user.getNo()));
-            adminUser.setBan(userBanDao.isUserBan(user.getNo()));
+            if (userBanDao.hasUserBan(user.getNo())) {
+                adminUser.setBan(userBanDao.isUserBan(user.getNo()));
+            } else {
+                adminUser.setBan(false);
+            }
             users.add(adminUser);
         }
         return users;
@@ -246,7 +250,29 @@ public class AdminService {
     public AdminUser getAdminUserDetail(Integer user_no) {
         User user = userDao.getUserByNo(user_no);
         Farm farm = farmDao.getFarmByUserNo(user.getNo());
-        boolean isBan = userBanDao.isUserBan(user.getNo());
+        boolean isBan;
+        if (userBanDao.hasUserBan(user.getNo())) {
+            isBan = userBanDao.isUserBan(user.getNo());
+        } else {
+            isBan = false;
+        }
         return new AdminUser(user, farm, isBan);
+    }
+
+    @Transactional
+    public Message userBan(Integer user_no, int days, String reason) {
+        Message message = new Message();
+        if (userBanDao.hasUserBan(user_no) && userBanDao.isUserBan(user_no)) {
+            message.put("status", false);
+        } else {
+            userBanDao.insertUserBan(new UserBan(user_no, reason, days));
+            message.put("status", true);
+        }
+        return message;
+    }
+
+    @Transactional
+    public void userUnBan(Integer user_no) {
+        userBanDao.removeUserBan(user_no);
     }
 }
