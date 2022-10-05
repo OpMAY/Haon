@@ -3,6 +3,8 @@ package com.mapper;
 import com.model.User;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface UserMapper {
     boolean isRegistered(@Param("id") String id);
 
@@ -17,4 +19,6 @@ public interface UserMapper {
     void unregister(@Param("user_no") int user_no);
 
     void updateAgree(User user);
+
+    List<User> getFarmUsers();
 }

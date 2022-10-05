@@ -1,10 +1,13 @@
 package com.dao;
 
 import com.mapper.UserMapper;
+import com.model.AdminUser;
 import com.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Slf4j
 @Repository
@@ -40,5 +43,9 @@ public class UserDao {
 
     public void updateAgree(User user) {
         mapper.updateAgree(user);
+    }
+
+    public List<User> getFarmUsers() {
+        return mapper.getFarmUsers();
     }
 }

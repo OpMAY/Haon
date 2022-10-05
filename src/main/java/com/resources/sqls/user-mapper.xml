@@ -50,4 +50,9 @@
         set agree=#{agree, typeHandler=JsonObjectTypeHandler}
         where no = #{no}
     </update>
+    <select id="getFarmUsers" resultType="User" resultMap="user">
+        select *
+        from user
+        WHERE EXISTS(select * from farm WHERE farm.user_no = user.no)
+    </select>
 </mapper>

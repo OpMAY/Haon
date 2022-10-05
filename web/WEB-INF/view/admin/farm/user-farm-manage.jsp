@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -104,11 +106,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-body">
-                <h4 class="header-title">총 30명의 가입 사용자(농장)</h4>
-                <p class="text-muted font-13 mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi atque
-                                                   consequuntur deserunt ea eveniet id ipsa, molestiae necessitatibus
-                                                   praesentium quam reiciendis suscipit! Aut blanditiis distinctio
-                                                   impedit, nulla praesentium quod rem!</p>
+                <h4 class="header-title">총 ${users.size()}명의 가입 사용자(농장)</h4>
                 <table id="basic-datatable"
                        class="table dt-responsive nowrap w-100">
                   <thead>
@@ -128,198 +126,35 @@
 
 
                   <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>하은축산</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>유병준입니다...</td>
-                    <td>유병준</td>
-                    <td>asszxc@naver.com</td>
-                    <td>010-9431-1977</td>
-                    <td>2022.12.22</td>
-                    <td><span class="badge bg-danger">정지 중</span></td>
-                    <td>
-                      <button type="button" data-href="../farm/user-farm-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>하은축산</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>유병준입니다...</td>
-                    <td>유병준</td>
-                    <td>asszxc@naver.com</td>
-                    <td>010-9431-1977</td>
-                    <td>2022.12.22</td>
-                    <td><span class="badge bg-success">이용 중</span></td>
-                    <td>
-                      <button type="button" data-href="../farm/user-farm-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>하은축산</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>유병준입니다...</td>
-                    <td>유병준</td>
-                    <td>asszxc@naver.com</td>
-                    <td>010-9431-1977</td>
-                    <td>2022.12.22</td>
-                    <td><span class="badge bg-danger">정지 중</span></td>
-                    <td>
-                      <button type="button" data-href="../farm/user-farm-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>하은축산</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>유병준입니다...</td>
-                    <td>유병준</td>
-                    <td>asszxc@naver.com</td>
-                    <td>010-9431-1977</td>
-                    <td>2022.12.22</td>
-                    <td><span class="badge bg-success">이용 중</span></td>
-                    <td>
-                      <button type="button" data-href="../farm/user-farm-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>하은축산</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>유병준입니다...</td>
-                    <td>유병준</td>
-                    <td>asszxc@naver.com</td>
-                    <td>010-9431-1977</td>
-                    <td>2022.12.22</td>
-                    <td><span class="badge bg-danger">정지 중</span></td>
-                    <td>
-                      <button type="button" data-href="../farm/user-farm-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>하은축산</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>유병준입니다...</td>
-                    <td>유병준</td>
-                    <td>asszxc@naver.com</td>
-                    <td>010-9431-1977</td>
-                    <td>2022.12.22</td>
-                    <td><span class="badge bg-success">이용 중</span></td>
-                    <td>
-                      <button type="button" data-href="../farm/user-farm-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>하은축산</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>유병준입니다...</td>
-                    <td>유병준</td>
-                    <td>asszxc@naver.com</td>
-                    <td>010-9431-1977</td>
-                    <td>2022.12.22</td>
-                    <td><span class="badge bg-danger">정지 중</span></td>
-                    <td>
-                      <button type="button" data-href="../farm/user-farm-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>하은축산</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>유병준입니다...</td>
-                    <td>유병준</td>
-                    <td>asszxc@naver.com</td>
-                    <td>010-9431-1977</td>
-                    <td>2022.12.22</td>
-                    <td><span class="badge bg-success">이용 중</span></td>
-                    <td>
-                      <button type="button" data-href="../farm/user-farm-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>하은축산</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>유병준입니다...</td>
-                    <td>유병준</td>
-                    <td>asszxc@naver.com</td>
-                    <td>010-9431-1977</td>
-                    <td>2022.12.22</td>
-                    <td><span class="badge bg-danger">정지 중</span></td>
-                    <td>
-                      <button type="button" data-href="../farm/user-farm-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>하은축산</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>유병준입니다...</td>
-                    <td>유병준</td>
-                    <td>asszxc@naver.com</td>
-                    <td>010-9431-1977</td>
-                    <td>2022.12.22</td>
-                    <td><span class="badge bg-success">이용 중</span></td>
-                    <td>
-                      <button type="button" data-href="../farm/user-farm-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>하은축산</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>유병준입니다...</td>
-                    <td>유병준</td>
-                    <td>asszxc@naver.com</td>
-                    <td>010-9431-1977</td>
-                    <td>2022.12.22</td>
-                    <td><span class="badge bg-danger">정지 중</span></td>
-                    <td>
-                      <button type="button" data-href="../farm/user-farm-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>하은축산</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>유병준입니다...</td>
-                    <td>유병준</td>
-                    <td>asszxc@naver.com</td>
-                    <td>010-9431-1977</td>
-                    <td>2022.12.22</td>
-                    <td><span class="badge bg-success">이용 중</span></td>
-                    <td>
-                      <button type="button" data-href="../farm/user-farm-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
+                  <c:forEach var="item" varStatus="status" items="${users}">
+                    <tr>
+                      <td>${status.count}</td>
+                      <td>${item.farm.name}</td>
+                      <td><span class="badge bg-dark">${item.farm.type.korName}</span></td>
+                      <td>${item.farm.description}</td>
+                      <td>${item.user.name}</td>
+                      <td>${item.user.email}</td>
+                      <td>전화번호 받기 필요</td>
+                      <td><custom:formatDatetime value="${item.user.reg_datetime}" pattern="yyyy.MM.dd"/> </td>
+                      <td>
+                        <c:choose>
+                          <c:when test="">
+                            <span class="badge bg-danger">정지 중</span>
+                          </c:when>
+                          <c:otherwise>
+                            <span class="badge bg-success">이용 중</span>
+                          </c:otherwise>
+                        </c:choose>
+                      </td>
+                      <td>
+                        <a href="/admin/user/detail/${item.user.no}">
+                          <button type="button"
+                                  class="btn btn-dark waves-effect waves-light">상세 보기
+                          </button>
+                        </a>
+                      </td>
+                    </tr>
+                  </c:forEach>
                   </tbody>
                 </table>
 

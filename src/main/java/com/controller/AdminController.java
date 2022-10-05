@@ -3,6 +3,7 @@ package com.controller;
 import com.aws.file.FileUploadUtility;
 import com.aws.model.CDNUploadPath;
 import com.google.gson.Gson;
+import com.model.AdminUser;
 import com.model.User;
 import com.model.common.MFile;
 import com.model.content.board.Board;
@@ -149,12 +150,16 @@ public class AdminController {
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public ModelAndView getUserFarms(HttpServletRequest request) {
         VIEW = new ModelAndView("admin/farm/user-farm-manage");
+        List<AdminUser> users = adminService.getAdminUsers();
+        VIEW.addObject("users", users);
         return VIEW;
     }
 
     @RequestMapping(value = "/user/detail/{user_no}", method = RequestMethod.GET)
     public ModelAndView getUserDetail(HttpServletRequest request, @PathVariable("user_no") Integer user_no) {
         VIEW = new ModelAndView("admin/farm/user-farm-detail");
+        AdminUser user = adminService.getAdminUserDetail(user_no);
+        VIEW.addObject("user", user);
         return VIEW;
     }
 
