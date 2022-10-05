@@ -1,9 +1,11 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>Datatables | UBold - Responsive Admin Dashboard Template</title>
+  <title>축산 이력 관리 페이지</title>
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
   <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc."
@@ -106,12 +108,8 @@
             <div class="card">
               <div class="card-body">
                 <div class="d-flex mb-3">
-                  <h4 class="header-title my-auto">총 2개의 축산 이력</h4>
+                  <h4 class="header-title my-auto">총 ${traces.size()}개의 축산 이력</h4>
                 </div>
-                <p class="text-muted font-13 mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi atque
-                                                   consequuntur deserunt ea eveniet id ipsa, molestiae necessitatibus
-                                                   praesentium quam reiciendis suscipit! Aut blanditiis distinctio
-                                                   impedit, nulla praesentium quod rem!</p>
                 <table id="basic-datatable"
                        class="table dt-responsive nowrap w-100">
                   <thead>
@@ -120,8 +118,8 @@
                     <th>농장(사용자)</th>
                     <th>개체 종류</th>
                     <th>이력 번호</th>
-                    <th>등급 수</th>
-                    <th>성별 수</th>
+                    <th>등급</th>
+                    <th>성별</th>
                     <th>출생일자</th>
                     <th>작성 일자</th>
                     <th>QR 코드</th>
@@ -129,126 +127,30 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>하은 축산(유병준)</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>0111-1222-2222</td>
-                    <td>1등급</td>
-                    <td><span class="badge bg-warning">거세</span></td>
-                    <td>2022.12.22</td>
-                    <td>2022.12.22</td>
-                    <td>
-                      <button type="button"
-                              class="btn btn-dark waves-effect waves-light">다운로드
-                      </button>
-                    </td>
-                    <td>
-                      <button type="button" data-href="../trace/trace-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>하은 축산(유병준)</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>0111-1222-2222</td>
-                    <td>1등급</td>
-                    <td><span class="badge bg-danger">암컷</span></td>
-                    <td>2022.12.22</td>
-                    <td>2022.12.22</td>
-                    <td>
-                      <button type="button"
-                              class="btn btn-dark waves-effect waves-light">다운로드
-                      </button>
-                    </td>
-                    <td>
-                      <button type="button" data-href="../trace/trace-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>하은 축산(유병준)</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>0111-1222-2222</td>
-                    <td>1등급</td>
-                    <td><span class="badge bg-blue">수컷</span></td>
-                    <td>2022.12.22</td>
-                    <td>2022.12.22</td>
-                    <td>
-                      <button type="button"
-                              class="btn btn-dark waves-effect waves-light">다운로드
-                      </button>
-                    </td>
-                    <td>
-                      <button type="button" data-href="../trace/trace-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>하은 축산(유병준)</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>0111-1222-2222</td>
-                    <td>1등급</td>
-                    <td><span class="badge bg-warning">거세</span></td>
-                    <td>2022.12.22</td>
-                    <td>2022.12.22</td>
-                    <td>
-                      <button type="button"
-                              class="btn btn-dark waves-effect waves-light">다운로드
-                      </button>
-                    </td>
-                    <td>
-                      <button type="button" data-href="../trace/trace-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>하은 축산(유병준)</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>0111-1222-2222</td>
-                    <td>1등급</td>
-                    <td><span class="badge bg-danger">암컷</span></td>
-                    <td>2022.12.22</td>
-                    <td>2022.12.22</td>
-                    <td>
-                      <button type="button"
-                              class="btn btn-dark waves-effect waves-light">다운로드
-                      </button>
-                    </td>
-                    <td>
-                      <button type="button" data-href="../trace/trace-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>하은 축산(유병준)</td>
-                    <td><span class="badge bg-dark">양 & 염소</span></td>
-                    <td>0111-1222-2222</td>
-                    <td>1등급</td>
-                    <td><span class="badge bg-blue">수컷</span></td>
-                    <td>2022.12.22</td>
-                    <td>2022.12.22</td>
-                    <td>
-                      <button type="button"
-                              class="btn btn-dark waves-effect waves-light">다운로드
-                      </button>
-                    </td>
-                    <td>
-                      <button type="button" data-href="../trace/trace-detail.html"
-                              class="btn btn-dark waves-effect waves-light">상세 보기
-                      </button>
-                    </td>
-                  </tr>
+                  <c:forEach var="item" varStatus="status" items="${traces}">
+                    <tr>
+                      <td>${status.count}</td>
+                      <td>${item.farm.name}</td>
+                      <td><span class="badge bg-dark">${item.farm.type.korName}</span></td>
+                      <td>${item.trace.trace_code}</td>
+                      <td>${item.trace.entity.rate == null ? '-' : item.trace.entity.rate}</td>
+                      <td><span class="badge bg-warning">${item.trace.entity.gender == null ? '-' : item.trace.entity.gender}</span></td>
+                      <td>${item.trace.entity.birth == null ? '-' : item.trace.entity.birth}</td>
+                      <td><custom:formatDatetime value="${item.trace.reg_datetime}" pattern="yyyy.MM.dd"/></td>
+                      <td>
+                        <button type="button" data-type="qr" data-trace-type="single" data-no="${item.trace.no}"
+                                class="btn btn-dark waves-effect waves-light">다운로드
+                        </button>
+                      </td>
+                      <td>
+                        <a href="/admin/trace/detail/trace/${item.trace.no}">
+                          <button type="button"
+                                  class="btn btn-dark waves-effect waves-light">상세 보기
+                          </button>
+                        </a>
+                      </td>
+                    </tr>
+                  </c:forEach>
                   </tbody>
                 </table>
               </div> <!-- end card body-->
@@ -266,9 +168,35 @@
   <!-- ============================================================== -->
   <!-- End Page content -->
   <!-- ============================================================== -->
-
-
 </div>
+<div id="qrcode-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="create-modalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"
+            id="create-modalLabel">이력 QR 코드</h4>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-light"
+                data-bs-dismiss="modal">닫기
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <!-- END wrapper -->
 <!-- Vendor js -->
 <script src="/resources/admin/assets/js/vendor.min.js"></script>
@@ -294,6 +222,8 @@
 
 <!-- App js -->
 <script src="/resources/admin/assets/js/app.min.js"></script>
+<script src="/resources/js/plugin/qrcode.js?vc=${RESOURCES_VERSION}"></script>
+<script src="/resources/js/utility.js?vc=${RESOURCES_VERSION}"></script>
 <script src="/resources/admin/assets/js/admin.js"></script>
 
 </body>

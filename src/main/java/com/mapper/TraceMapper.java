@@ -20,4 +20,6 @@ public interface TraceMapper {
     Trace getTracePage(int trace_no);
 
     void editTrace(Trace trace);
+
+    List<Trace> getAllTraces();
 }

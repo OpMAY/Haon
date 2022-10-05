@@ -35,4 +35,9 @@
         from bundle
         WHERE no = #{bundle_no}
     </select>
+    <select id="getAllBundles" resultType="Bundle">
+        select *
+        from bundle
+        ORDER BY reg_datetime DESC
+    </select>
 </mapper>

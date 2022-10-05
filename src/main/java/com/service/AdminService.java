@@ -1,6 +1,8 @@
 package com.service;
 
 import com.dao.*;
+import com.model.AdminUser;
+import com.model.User;
 import com.model.content.board.Board;
 import com.model.content.common.ContentForm;
 import com.model.content.magazine.Magazine;
@@ -8,6 +10,8 @@ import com.model.content.manual.Manual;
 import com.model.content.question.Question;
 import com.model.content.tips.Tips;
 import com.model.farm.Farm;
+import com.model.farm.trace.Bundle;
+import com.model.farm.trace.Trace;
 import com.model.global.Banner;
 import com.model.global.UserBan;
 import com.model.global.category.CATEGORY_TYPE;
@@ -210,5 +214,39 @@ public class AdminService {
 
     public ArrayList<Magazine> getNewMagazines() {
         return contentDao.getNewMagazines();
+    }
+
+    public List<Trace> getAllTraces() {
+        return traceDao.getAllTraces();
+    }
+
+    public List<Bundle> getAllBundles(){
+        List<Bundle> bundles =  bundleDao.getAllBundles();
+        for(Bundle bundle : bundles) {
+            List<Trace> traces = bundleTracesDao.getBundleTraces(bundle.getNo());
+            bundle.setTraceList(traces);
+        }
+        return bundles;
+    }
+
+
+    public List<AdminUser> getAdminUsers() {
+        List<AdminUser> users = new ArrayList<>();
+        List<User> farmUsers = userDao.getFarmUsers();
+        for(User user : farmUsers) {
+            AdminUser adminUser = new AdminUser();
+            adminUser.setUser(user);
+            adminUser.setFarm(farmDao.getFarmByUserNo(user.getNo()));
+            adminUser.setBan(userBanDao.isUserBan(user.getNo()));
+            users.add(adminUser);
+        }
+        return users;
+    }
+
+    public AdminUser getAdminUserDetail(Integer user_no) {
+        User user = userDao.getUserByNo(user_no);
+        Farm farm = farmDao.getFarmByUserNo(user.getNo());
+        boolean isBan = userBanDao.isUserBan(user.getNo());
+        return new AdminUser(user, farm, isBan);
     }
 }
