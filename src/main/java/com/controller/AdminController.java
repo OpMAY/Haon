@@ -1383,12 +1383,15 @@ public class AdminController {
     @RequestMapping(value = "/trace/update/{trace_no}", method = RequestMethod.GET)
     public ModelAndView getTraceUpdate(HttpServletRequest request, @PathVariable("trace_no") int trace_no) {
         VIEW = new ModelAndView("admin/trace/trace-detail-update");
-        return VIEW;
-    }
-
-    @RequestMapping(value = "/trace/update/{trace_no}", method = RequestMethod.POST)
-    public ModelAndView postTraceUpdate(HttpServletRequest request, @PathVariable("trace_no") int trace_no) {
-        VIEW = new ModelAndView("admin/trace/trace-detail-update");
+        Trace trace = traceService.getTracePage(trace_no);
+        Farm farm = farmService.getFarmByFarmNo(trace.getFarm_no());
+        User user = userService.getUserByNo(farm.getUser_no());
+        VIEW.addObject("trace", trace);
+        VIEW.addObject("farm", farm);
+        VIEW.addObject("user", user);
+        if(!farm.getType().isManual_available()) {
+            // TODO 잘못된 접근
+        }
         return VIEW;
     }
 

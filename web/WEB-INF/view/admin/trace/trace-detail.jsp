@@ -124,7 +124,7 @@
                                         </button>
                                         <c:if test="${farm.type.manual_available}">
                                             <button type="button"
-                                                    data-href="../trace/trace-detail-update.html"
+                                                    data-href="/admin/trace/update/${trace.no}"
                                                     class="btn btn-dark waves-effect waves-light">수정
                                             </button>
                                         </c:if>
@@ -179,7 +179,7 @@
                                                             <span class="badge badge-soft-primary">${trace.entity.rate == null ? '' : trace.entity.rate}</span>
                                                             <span class="badge badge-soft-dark">${trace.entity.gender == null ? '' : trace.entity.gender}</span>
                                                         </p>
-                                                        <small class="text-muted">${trace.entity.birth == null ? '' : trace.entity.birth + ' 출생'}</small>
+                                                        <small class="text-muted">${trace.entity.birth == null ? '' : trace.entity.birth}${trace.entity.birth == null ? '' : ' 출생'}</small>
                                                     </a>
                                                     <div id="traceCollapse1"
                                                          class="collapse show">
@@ -265,7 +265,7 @@
                                                                             </c:if>
                                                                             <td>
                                                                                 <c:choose>
-                                                                                    <c:when test="${item.butchery_result == '합격' || item.butchery_result == 'Y'}"><span
+                                                                                    <c:when test="${item.butchery_result == '합격' || item.butchery_result == 'Y' || item.butchery_result == 'true'}"><span
                                                                                             class="badge badge-soft-success cursor-pointer">합격</span></c:when>
                                                                                     <c:otherwise><span
                                                                                             class="badge badge-soft-danger cursor-pointer">불합격</span></c:otherwise>
