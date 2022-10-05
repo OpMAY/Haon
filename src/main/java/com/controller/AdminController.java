@@ -23,7 +23,6 @@ import com.model.content.tips.Tips;
 import com.model.content.tips.TipsComment;
 import com.model.content.tips.TipsTransaction;
 import com.model.farm.Farm;
-
 import com.model.farm.trace.Trace;
 
 import com.model.farm.trace.AdminFarmBundle;

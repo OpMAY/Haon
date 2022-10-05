@@ -244,6 +244,7 @@ public class AdminRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK), HttpStatus.OK);
     }
 
+
     @RequestMapping(value = "/update/trace", method = RequestMethod.POST)
     public ResponseEntity<String> updateTrace(@RequestBody Trace trace) {
         Message message = traceService.editTrace(trace, 0, true);
@@ -264,4 +265,5 @@ public class AdminRestController {
         adminService.userUnBan(user_no);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK), HttpStatus.OK);
     }
+
 }

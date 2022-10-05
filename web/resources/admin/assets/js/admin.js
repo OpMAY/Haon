@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-
     $(document).on('click', '[data-type=qr]', function () {
         let $no = $(this).data().no;
         let $type = $(this).data().type;
@@ -53,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function () {
         a.href = qrCanvas.toDataURL('image/png').replace("image/png", "image/octet-stream");
         a.click();
     })
-
 });
 
 async function removeCategory(type, category) {
@@ -408,4 +406,5 @@ async function removeUserBan(no) {
         console.log(error);
     }
 }
+
 

@@ -1037,7 +1037,6 @@
                 })
             }
         })
-
     });
 
     function dateStringToKor(date) {
