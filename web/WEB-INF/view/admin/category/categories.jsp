@@ -301,6 +301,7 @@
             plugins: ["remove_button"],
             persist: !1,
             create: !0,
+            maxItems: 10,
             render: {
                 item: function (e, a) {
                     return '<div>"' + a(e.text) + '"</div>'
@@ -357,6 +358,7 @@
             plugins: ["remove_button"],
             persist: !1,
             create: !0,
+            maxItems: 10,
             render: {
                 item: function (e, a) {
                     return '<div>"' + a(e.text) + '"</div>'
@@ -413,6 +415,7 @@
             plugins: ["remove_button"],
             persist: !1,
             create: !0,
+            maxItems: 10,
             render: {
                 item: function (e, a) {
                     return '<div>"' + a(e.text) + '"</div>'
@@ -469,6 +472,7 @@
             plugins: ["remove_button"],
             persist: !1,
             create: !0,
+            maxItems: 10,
             render: {
                 item: function (e, a) {
                     return '<div>"' + a(e.text) + '"</div>'
@@ -525,6 +529,7 @@
             plugins: ["remove_button"],
             persist: !1,
             create: !0,
+            maxItems: 10,
             render: {
                 item: function (e, a) {
                     return '<div>"' + a(e.text) + '"</div>'

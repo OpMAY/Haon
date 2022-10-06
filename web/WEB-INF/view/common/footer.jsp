@@ -67,7 +67,7 @@
                             <li><a>영업 시간</a></li>
                             <li><a>평일 10:00 ~ 18:00<br/>(주말 및 공휴일 휴무)</a></li>
                             <li class="btn-menu">
-                                <button type="button" class="btn btn-sm btn-brand bold-h5">
+                                <button onclick="javascript:window.open('https://solid-toaster-a80.notion.site/Haun-c0b2323224924f7ab2f67f6c6b02bf2a')" type="button" class="btn btn-sm btn-brand bold-h5">
                                     문의하기
                                 </button>
                             </li>
