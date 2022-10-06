@@ -4,6 +4,8 @@
 <%
     FARM_TYPE type = (FARM_TYPE) request.getAttribute("type");
     request.setAttribute("type", type);
+    String default_profile_url = (String) request.getAttribute("default_profile_url");
+    request.setAttribute("default_profile_url", default_profile_url);
 %>
 <html lang="ko">
 <jsp:include page="../common/head.jsp"/>
@@ -30,7 +32,7 @@
                             <div class="_profile mt-32">
                                 <div class="background-image mx-auto" id="profile-preview"
                                      style="width: 120px; height: 120px; border-radius: var(--radius-circle); background-image:
-                   url('../../../resources/assets/images/sample/background-wallpaper1.png')">
+                                             url('${default_profile_url}')">
                                     <svg class="_writer" width="40" height="40" viewBox="0 0 40 40" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <circle cx="20" cy="20" r="19" fill="white" stroke="#F2F2F2" stroke-width="2"/>
@@ -241,7 +243,7 @@
         let inputs = $('.form-group input[data-checked="input"]');
         let checkArgs = false;
         inputs.each((index, element) => {
-            if(element.id !== 'farm-profile') {
+            if (element.id !== 'farm-profile') {
                 // 프로필 이미지 검사 제외 ADDED On 221006
                 if ($(element).val().trim() === '' || $(element).val().length === 0) {
                     checkArgs = true;
