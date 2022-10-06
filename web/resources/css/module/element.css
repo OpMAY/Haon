@@ -318,6 +318,10 @@ input.form-control.input-box {
     max-height: 48px;
 }
 
+.card.community-card ._description iframe {
+    display: none;
+}
+
 .card.community-card ._description {
     height: auto;
     overflow: hidden;
