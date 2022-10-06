@@ -129,7 +129,7 @@ public class TraceRestController {
     @RequestMapping(value = "/update/trace", method = RequestMethod.POST)
     public ResponseEntity<String> updateTrace(@RequestBody Trace trace, HttpServletRequest request) {
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
-        Message message = traceService.editTrace(trace, user_no);
+        Message message = traceService.editTrace(trace, user_no, false);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
 

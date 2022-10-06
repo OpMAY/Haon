@@ -349,27 +349,24 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <th scope="row">오키위(유병준)</th>
-                                            <td><span class="badge bg-primary">묶음</span></td>
-                                            <td><span class="badge bg-dark">양 & 염소</span></td>
-                                            <td>0111-1222-2222333</td>
-                                            <td>2022.12.22</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">오키위(유병준)</th>
-                                            <td><span class="badge bg-blue">이력</span></td>
-                                            <td><span class="badge bg-dark">양 & 염소</span></td>
-                                            <td>0111-1222-2222</td>
-                                            <td>2022.12.22</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">오키위(유병준)</th>
-                                            <td><span class="badge bg-blue">이력</span></td>
-                                            <td><span class="badge bg-dark">양 & 염소</span></td>
-                                            <td>0111-1222-2222</td>
-                                            <td>2022.12.22</td>
-                                        </tr>
+                                        <c:forEach var="item" items="${traces}">
+                                            <tr>
+                                                <th scope="row">${item.farm_name}(${item.name})</th>
+                                                <td>
+                                                    <c:choose>
+                                                        <c:when test="${item._bundle}">
+                                                            <span class="badge bg-primary">묶음</span>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <span class="badge bg-success">이력</span>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </td>
+                                                <td><span class="badge bg-dark">${item.type.korName}</span></td>
+                                                <td>${item.code}</td>
+                                                <td><custom:formatDatetime value="${item.reg_datetime}" pattern="yyyy.MM.dd"/></td>
+                                            </tr>
+                                        </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>

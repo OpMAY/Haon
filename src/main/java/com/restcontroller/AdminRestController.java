@@ -2,6 +2,7 @@ package com.restcontroller;
 
 import com.api.sns.kakao.KakaoAPI;
 import com.model.content.common.COMMENT_TYPE;
+import com.model.farm.trace.Trace;
 import com.model.global.category.CATEGORY_TYPE;
 import com.model.global.category.CommunityCategory;
 import com.model.global.keyword.SearchKeyword;
@@ -243,6 +244,31 @@ public class AdminRestController {
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK), HttpStatus.OK);
     }
 
+
+    @RequestMapping(value = "/update/trace", method = RequestMethod.POST)
+    public ResponseEntity<String> updateTrace(@RequestBody Trace trace) {
+        Message message = traceService.editTrace(trace, 0, true);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/connect/trace/bundle/{trace_no}/{bundle_no}", method = RequestMethod.POST)
+    public ResponseEntity<String> connectTraceBundle( @PathVariable Integer trace_no, @PathVariable Integer bundle_no) {
+        Message message = traceService.connectTraceBundle(trace_no, bundle_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/disconnect/trace/bundle/{trace_no}/{bundle_no}", method = RequestMethod.POST)
+    public ResponseEntity<String> disconnectTraceBundle(@PathVariable Integer trace_no, @PathVariable Integer bundle_no) {
+        Message message = traceService.disconnectTraceBundle(trace_no, bundle_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/get/trace/{code}/{bundle_no}", method = RequestMethod.GET)
+    public ResponseEntity<String> getAvailableTraceFromBundleFarm(@PathVariable String code, @PathVariable Integer bundle_no) {
+        Message message = traceService.getAvailableTraceFromBundleFarm(code, bundle_no);
+        return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/user/ban/{user_no}", method = RequestMethod.POST)
     public ResponseEntity<String> userBan(@PathVariable Integer user_no, @RequestBody Map<String, Object> body) {
         Integer days = (Integer) body.get("type");
@@ -257,4 +283,5 @@ public class AdminRestController {
         adminService.userUnBan(user_no);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK), HttpStatus.OK);
     }
+
 }
