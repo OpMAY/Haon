@@ -42,7 +42,11 @@ public class AdminRestController {
         if (communityCategory != null) {
             categories = (ArrayList<String>) communityCategory.getCategories();
             categories.remove(category.trim());
-            communityCategory.setCategories(categories);
+            if (categories.size() != 0) {
+                communityCategory.setCategories(categories);
+            } else {
+                communityCategory.setCategories(null);
+            }
             adminService.updateCategory(communityCategory);
             message.put("status", true);
         } else {
@@ -82,7 +86,11 @@ public class AdminRestController {
                 searchKeyword = adminService.getAllKeywords().get(0);
                 keywords = (ArrayList<String>) searchKeyword.getKeywords();
                 keywords.remove(keyword.trim());
-                searchKeyword.setKeywords(keywords);
+                if (keywords.size() != 0) {
+                    searchKeyword.setKeywords(keywords);
+                } else {
+                    searchKeyword.setKeywords(null);
+                }
                 adminService.updateSearchKeyword(searchKeyword);
                 message.put("status", true);
                 break;
@@ -90,7 +98,11 @@ public class AdminRestController {
                 searchKeyword = adminService.getAllKeywords().get(1);
                 keywords = (ArrayList<String>) searchKeyword.getKeywords();
                 keywords.remove(keyword.trim());
-                searchKeyword.setKeywords(keywords);
+                if (keywords.size() != 0) {
+                    searchKeyword.setKeywords(keywords);
+                } else {
+                    searchKeyword.setKeywords(null);
+                }
                 adminService.updateSearchKeyword(searchKeyword);
                 message.put("status", true);
                 break;
@@ -118,6 +130,7 @@ public class AdminRestController {
             case "SEARCH":
                 searchKeyword = adminService.getAllKeywords().get(1);
                 keywords = (ArrayList<String>) searchKeyword.getKeywords();
+                log.info(keywords.toString());
                 keywords.add(keyword.trim());
                 searchKeyword.setKeywords(keywords);
                 adminService.updateSearchKeyword(searchKeyword);
@@ -252,7 +265,7 @@ public class AdminRestController {
     }
 
     @RequestMapping(value = "/connect/trace/bundle/{trace_no}/{bundle_no}", method = RequestMethod.POST)
-    public ResponseEntity<String> connectTraceBundle( @PathVariable Integer trace_no, @PathVariable Integer bundle_no) {
+    public ResponseEntity<String> connectTraceBundle(@PathVariable Integer trace_no, @PathVariable Integer bundle_no) {
         Message message = traceService.connectTraceBundle(trace_no, bundle_no);
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }

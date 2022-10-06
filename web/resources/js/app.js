@@ -560,7 +560,7 @@ $(document).ready(function () {
                                     desc: `<div>회원님께서는 현재 [회원 자격 정지 상태]입니다.</div>
                                             <div>회원 자격 정지 사유 : ${result.data.user_ban.reason}</div>
                                             <div>회원 자격 정지 처리일: ${Time.formatLocalDatetime(result.data.user_ban.reg_datetime)}</div>
-                                            <div>회원 자격 정지 기간 : ${result.data.user_ban.days}일</div>
+                                            <div>회원 자격 정지 기간 : ${result.data.user_ban.days!==-1?result.data.user_ban.days+'일':'영구정지'}</div>
                                             <div>보다 구체적인 회원 자격 정지 사유가 궁금하시면 관리자에게 문의해주세요.</div>`,
                                     confirm_text: '확인',
                                     onConfirm: function (e) {
