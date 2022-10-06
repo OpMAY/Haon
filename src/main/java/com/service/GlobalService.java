@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 @Slf4j
 @Service
@@ -95,6 +96,10 @@ public class GlobalService {
         view.addObject("magazines", magazines);
         view.addObject("questions", questions);
         view.addObject("farms", farms);
+        if(!magazines.isEmpty()) {
+            int magazineSize = magazines.size() - 1;
+            view.addObject("randomMagazine", magazines.get((new Random().nextInt(magazineSize - 1) + 1)));
+        }
         return view;
     }
 

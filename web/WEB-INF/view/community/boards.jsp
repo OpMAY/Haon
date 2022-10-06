@@ -86,16 +86,14 @@
                         </svg>
                     </div>
                     <div class="dropdown-menu dropdown-md _category" data-item="board" data-type="category">
-                        <%-- TODO 카테고리 삽입 --%>
                         <a class="dropdown-item c-gray-light medium-h5">
                             <div data-value="">전체</div>
                         </a>
-                        <a class="dropdown-item c-gray-light medium-h5">
-                            <div data-value="관리자가 선택한 카테고리 1">관리자가 선택한 카테고리 1</div>
-                        </a>
-                        <a class="dropdown-item c-gray-light medium-h5">
-                            <div data-value="관리자가 선택한 카테고리 2">관리자가 선택한 카테고리 2</div>
-                        </a>
+                        <c:forEach var="category" items="${categories.categories}">
+                            <a class="dropdown-item c-gray-light medium-h5">
+                                <div data-value="${category}">${category}</div>
+                            </a>
+                        </c:forEach>
                     </div>
                 </div>
                 <div class="right-filter-dropdown-container">

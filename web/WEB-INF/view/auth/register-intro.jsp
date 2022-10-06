@@ -241,8 +241,11 @@
         let inputs = $('.form-group input[data-checked="input"]');
         let checkArgs = false;
         inputs.each((index, element) => {
-            if ($(element).val().trim() === '' || $(element).val().length === 0) {
-                checkArgs = true;
+            if(element.id !== 'farm-profile') {
+                // 프로필 이미지 검사 제외 ADDED On 221006
+                if ($(element).val().trim() === '' || $(element).val().length === 0) {
+                    checkArgs = true;
+                }
             }
         });
         if (checkArgs) {
