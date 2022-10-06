@@ -100,7 +100,7 @@
             </div>
             <div id="collapseThree" class="collapse show" aria-labelledby="headingThree">
                 <div class="card-body">
-                    <div class="regular-h5 c-gray-dark-low">이력 안내</div>
+                    <div class="regular-h5 c-gray-dark-low" target="_blank" data-href="https://solid-toaster-a80.notion.site/Haun-c0b2323224924f7ab2f67f6c6b02bf2a">이력 안내</div>
                     <div class="regular-h5 c-gray-dark-low _trace-search">이력 조회</div>
                     <div class="regular-h5 c-gray-dark-low _trace-register">이력 등록</div>
                 </div>

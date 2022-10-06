@@ -27,7 +27,7 @@
         </li>
     </ul>
     <ul class="list-group">
-        <li class="list-group-item regular-h5">이력 안내</li>
+        <li class="list-group-item regular-h5" target="_blank" data-href="https://solid-toaster-a80.notion.site/Haun-c0b2323224924f7ab2f67f6c6b02bf2a">이력 안내</li>
         <li class="list-group-item regular-h5 _trace-search">이력 조회</li>
         <li class="list-group-item regular-h5 _trace-register">이력 등록</li>
     </ul>
