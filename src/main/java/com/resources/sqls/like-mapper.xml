@@ -56,11 +56,11 @@
                           WHERE manual_no = #{manual_no}
                             and user_no = #{user_no}), true, false)
     </select>
-    <select id="isTipsLikeByUserNo" resultType="boolean">
+    <select id="isTipLikeByUserNo" resultType="boolean">
         SELECT IF(EXISTS(
                           SELECT *
                           FROM tips_like
-                          WHERE tips_no = #{tips_no}
+                          WHERE tips_no = #{tip_no}
                             and user_no = #{user_no}), true, false)
     </select>
     <select id="isCommentBoardLikeByUserNo" resultType="boolean">
@@ -163,9 +163,9 @@
         insert into manual_like(manual_no, user_no)
         VALUES (#{question_no}, #{user_no});
     </insert>
-    <insert id="insertTipsLike">
+    <insert id="insertTipLike">
         insert into tips_like(tips_no, user_no)
-        VALUES (#{tips_no}, #{user_no});
+        VALUES (#{tip_no}, #{user_no});
     </insert>
     <delete id="deleteBoardLike">
         delete
@@ -191,10 +191,10 @@
         where manual_no = #{manual_no}
           and user_no = #{user_no};
     </select>
-    <select id="deleteTipsLike">
+    <select id="deleteTipLike">
         delete
         from tips_like
-        where tips_no = #{tips_no}
+        where tips_no = #{tip_no}
           and user_no = #{user_no};
     </select>
     <delete id="deleteBoardCommentLike">
