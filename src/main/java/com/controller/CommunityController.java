@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dao.CommunityCategoryDao;
 import com.model.FarmComment;
 import com.model.User;
 import com.model.common.MFile;
@@ -24,6 +25,7 @@ import com.model.content.manual.Manual;
 import com.model.content.question.QuestionSummary;
 import com.model.content.tips.Tips;
 import com.model.farm.Farm;
+import com.model.global.category.CATEGORY_TYPE;
 import com.model.queue.ServerTokenType;
 import com.model.queue.Token;
 import com.service.*;
@@ -72,6 +74,7 @@ public class CommunityController {
     private final FarmService farmService;
     private final GlobalService globalService;
     private final ServerTokenService serverTokenService;
+    private final CommunityCategoryDao categoryDao;
 
     @RequestMapping(value = "/board/detail/{board_no}", method = RequestMethod.GET)
     public ModelAndView getBoardDetail(HttpServletRequest request, @PathVariable("board_no") int board_no) {
@@ -231,6 +234,7 @@ public class CommunityController {
         ModelAndView VIEW = new ModelAndView("community/boards");
         List<Board> boards = contentService.getCommunityBoardsPage(null, ORDER_TYPE.RECENT);
         VIEW.addObject("boards", boards);
+        VIEW.addObject("categories", categoryDao.getCommunityCategory(CATEGORY_TYPE.BOARD));
         return VIEW;
     }
 
@@ -509,6 +513,7 @@ public class CommunityController {
         ModelAndView VIEW = new ModelAndView("community/magazines");
         List<Magazine> magazines = contentService.getCommunityMagazinesPage(null, ORDER_TYPE.RECENT, request);
         VIEW.addObject("magazines", magazines);
+        VIEW.addObject("categories", categoryDao.getCommunityCategory(CATEGORY_TYPE.MAGAZINE));
         return VIEW;
     }
 
@@ -670,6 +675,7 @@ public class CommunityController {
         ModelAndView VIEW = new ModelAndView("community/questions");
         List<QuestionSummary> questions = contentService.getCommunityQuestionsPage(null, ORDER_TYPE.RECENT);
         VIEW.addObject("questions", questions);
+        VIEW.addObject("categories", categoryDao.getCommunityCategory(CATEGORY_TYPE.QUESTION));
         return VIEW;
     }
 
@@ -828,6 +834,7 @@ public class CommunityController {
         ModelAndView VIEW = new ModelAndView("community/tips");
         List<Tips> tips = contentService.getCommunityTipsPage(null, ORDER_TYPE.RECENT, request);
         VIEW.addObject("tips", tips);
+        VIEW.addObject("categories", categoryDao.getCommunityCategory(CATEGORY_TYPE.TIP));
         return VIEW;
     }
 
@@ -836,6 +843,7 @@ public class CommunityController {
         ModelAndView VIEW = new ModelAndView("community/manuals");
         List<Manual> manuals = contentService.getCommunityManualsPage(null, ORDER_TYPE.RECENT, request);
         VIEW.addObject("manuals", manuals);
+        VIEW.addObject("categories", categoryDao.getCommunityCategory(CATEGORY_TYPE.MANUAL));
         return VIEW;
     }
 

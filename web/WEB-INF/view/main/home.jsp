@@ -31,6 +31,9 @@
     List<Farm> farms = (List<Farm>) request.getAttribute("farms");
     request.setAttribute("farms", farms);
 
+    Magazine magazine = (Magazine) request.getAttribute("randomMagazine");
+    request.setAttribute("randomMagazine", magazine);
+
 %>
 <html lang="ko">
 <jsp:include page="../common/head.jsp"/>
@@ -91,7 +94,7 @@
         <div class="_recommend-container">
             <div class="_recommend bold-h4 c-basic-white">
                 <span>추천 게시글</span>
-                <span class="ellipsis-one-line">양 & 염소는 풀을 너무 많이 먹이면 안됩니다. 건강에 해로워요...양 & 염소는 풀을 너무 많이 먹이면 안됩니다. 건강에 해로워요...양 & 염소는 풀을 너무 많이 먹이면 안됩니다. 건강에 해로워요...양 & 염소는 풀을 너무 많이 먹이면 안됩니다. 건강에 해로워요...</span>
+                <span class="ellipsis-one-line cursor-pointer" <c:if test="${randomMagazine != null}">data-href="/community/magazine/detail/${randomMagazine.no}"</c:if>>${randomMagazine != null ? randomMagazine.title : '-'}</span>
                 <svg width="169" height="169" viewBox="0 0 169 169" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_289_14357)">
                         <path d="M98.5261 41.0924C93.0059 39.2484 90.0148 33.2565 91.8587 27.7363C93.7027 22.2161 99.6949 19.2251 105.215 21.069C110.735 22.9129 113.726 28.9049 111.882 34.4251C110.038 39.9453 104.046 42.9364 98.5261 41.0924ZM103.877 25.0737C100.565 23.9672 96.9699 25.7617 95.8634 29.0741C94.757 32.3864 96.5515 35.9813 99.8638 37.0877C103.176 38.1942 106.771 36.3997 107.877 33.0873C108.984 29.775 107.189 26.1802 103.877 25.0737Z"

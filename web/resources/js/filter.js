@@ -69,7 +69,7 @@ function listFormatOnResult(result, item, is_new) {
     if (result.status === 'OK') {
         let contents_elem = $('._content-list');
         if (is_new) {
-            contents_elem.children(':not(.no-data)').remove();
+            contents_elem.children().remove();
         }
         let data = result.data.list;
         if (data !== undefined && data !== null && data.length > 0) {
@@ -95,7 +95,7 @@ function listFormatOnResult(result, item, is_new) {
                 case 'tip':
                     data.forEach((elem, idx) => {
                         let component;
-                        if (elem.thumbnail?.url === null) {
+                        if (elem.thumbnail === null || elem.thumbnail.url === undefined || elem.thumbnail.url === null) {
                             component =
                                 `<div class="col p-8 d-flex align-items-stretch" data-no="${elem.no}">
                                         <div class="card community-card is-empty">
@@ -184,7 +184,7 @@ function listFormatOnResult(result, item, is_new) {
                 case 'magazine':
                     data.forEach((elem, idx) => {
                         let component;
-                        if (elem.thumbnail?.url === null) {
+                        if (elem.thumbnail === null || elem.thumbnail.url === undefined || elem.thumbnail.url === null) {
                             component =
                                 `<div class="col p-8 d-flex align-items-stretch" data-no="${elem.no}">
                                         <div class="card community-card is-empty">
@@ -273,7 +273,7 @@ function listFormatOnResult(result, item, is_new) {
                 case 'manual':
                     data.forEach((elem, idx) => {
                         let component;
-                        if (elem.thumbnail?.url === null) {
+                        if (elem.thumbnail === null || elem.thumbnail.url === undefined || elem.thumbnail.url === null) {
                             component =
                                 `<div class="col p-8 d-flex align-items-stretch" data-no="${elem.no}">
                                         <div class="card community-card is-empty">

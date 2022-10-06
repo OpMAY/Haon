@@ -288,13 +288,13 @@ $(document).ready(function () {
         let type = $this.data().type;
         let $content_list = $('._content-list');
         let $contents = $content_list.find('.col');
+        let category = type === 'farm' ? '' : $('[data-type="category"]').closest('.dropdown').find('[data-toggle="dropdown"] .dropdown-input').data().type;
+        let order = $('[data-type="order"]').closest('.dropdown').find('[data-toggle="dropdown"] .dropdown-input').data().type;
         if ($contents.length > 0) {
             let last_elem = $contents[$contents.length - 1];
-            let category = type === 'farm' ? '' : $('[data-type="category"]').closest('.dropdown').find('[data-toggle="dropdown"] .dropdown-input').data().type;
-            let order = $('[data-type="order"]').closest('.dropdown').find('[data-toggle="dropdown"] .dropdown-input').data().type;
             loadMoreContents(type, last_elem.dataset.no, order, category).then((result) => listFormatOnResult(result, type, false))
         } else {
-            viewAlert({content: '잘못된 접근입니다.'});
+            loadMoreContents(type, 0, order, category).then((result) => listFormatOnResult(result, type, false))
         }
     })
 

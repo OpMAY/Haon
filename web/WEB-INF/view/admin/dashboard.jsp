@@ -99,13 +99,6 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">광고 배너</h4>
-                                <p class="sub-header">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum, itaque, voluptas.
-                                    Eaque earum, eos
-                                    exercitationem labore nisi nobis quidem voluptatem voluptates. Aliquam ea earum et
-                                    exercitationem
-                                    fugit iste voluptate voluptates!
-                                </p>
                                 <div class="carousel-container">
                                     <div id="carouselExampleIndicators"
                                          class="carousel slide banner-carousel"
@@ -183,13 +176,6 @@
                                             class="btn btn-dark waves-effect waves-light ms-auto">더 보기
                                     </button>
                                 </div>
-                                <p class="sub-header">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At atque delectus dolor
-                                    enim eveniet
-                                    expedita explicabo facilis fuga impedit labore modi, nemo odio qui recusandae
-                                    reprehenderit,
-                                    repudiandae saepe totam voluptatum!
-                                </p>
                                 <div class="table-responsive">
                                     <table class="table table-hover mb-0">
                                         <thead>
@@ -227,13 +213,6 @@
                                             class="btn btn-dark waves-effect waves-light ms-auto">더 보기
                                     </button>
                                 </div>
-                                <p class="sub-header">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At atque delectus dolor
-                                    enim eveniet
-                                    expedita explicabo facilis fuga impedit labore modi, nemo odio qui recusandae
-                                    reprehenderit,
-                                    repudiandae saepe totam voluptatum!
-                                </p>
                                 <div class="table-responsive">
                                     <table class="table table-hover mb-0">
                                         <thead>
@@ -277,13 +256,6 @@
                                             class="btn btn-dark waves-effect waves-light ms-auto">더 보기
                                     </button>
                                 </div>
-                                <p class="sub-header">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At atque delectus dolor
-                                    enim eveniet
-                                    expedita explicabo facilis fuga impedit labore modi, nemo odio qui recusandae
-                                    reprehenderit,
-                                    repudiandae saepe totam voluptatum!
-                                </p>
                                 <div class="table-responsive">
                                     <table class="table table-hover mb-0">
                                         <thead>
@@ -330,13 +302,6 @@
                                             class="btn btn-dark waves-effect waves-light ms-auto">더 보기
                                     </button>
                                 </div>
-                                <p class="sub-header">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At atque delectus dolor
-                                    enim eveniet
-                                    expedita explicabo facilis fuga impedit labore modi, nemo odio qui recusandae
-                                    reprehenderit,
-                                    repudiandae saepe totam voluptatum!
-                                </p>
                                 <div class="table-responsive">
                                     <table class="table table-hover mb-0">
                                         <thead>
