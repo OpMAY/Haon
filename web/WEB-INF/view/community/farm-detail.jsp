@@ -147,7 +147,7 @@
                             <!--TODO Dropdown Setting-->
                             <div class="dropdown input-dropdown">
                                 <div data-toggle="dropdown" aria-expanded="false"
-                                     class="form-group form-inner-button form-sm">
+                                     class="form-group form-inner-button form-sm min-content">
                                     <input type="text"
                                            class="form-control input-box medium-h5 dropdown-input"
                                            disabled="disabled"
@@ -251,7 +251,7 @@
                             <!--TODO Dropdown Setting-->
                             <div class="dropdown input-dropdown">
                                 <div data-toggle="dropdown" aria-expanded="false"
-                                     class="form-group form-inner-button form-sm">
+                                     class="form-group form-inner-button form-sm min-content">
                                     <input type="text"
                                            class="form-control input-box medium-h5 dropdown-input"
                                            disabled="disabled"
@@ -320,7 +320,8 @@
                         <div class="row row-cols-2 _manual-deck">
                             <c:forEach var="item" items="${tips}">
                                 <c:if test="${item.thumbnail.url ne null}">
-                                    <div class="col p-8 d-flex align-items-stretch" data-no="${item.no}" data-type="tip">
+                                    <div class="col p-8 d-flex align-items-stretch" data-no="${item.no}"
+                                         data-type="tip">
                                         <div class="card community-card">
                                             <div class="background-image _thumbnail"
                                                  style="background-image:url('${item.thumbnail.url}')">
@@ -370,7 +371,8 @@
                                     </div>
                                 </c:if>
                                 <c:if test="${item.thumbnail.url eq null}">
-                                    <div class="col p-8 d-flex align-items-stretch" data-no="${item.no}" data-type="tip">
+                                    <div class="col p-8 d-flex align-items-stretch" data-no="${item.no}"
+                                         data-type="tip">
                                         <div class="card community-card is-empty">
                                             <div class="background-image _profile"
                                                  style="background-image:url('${item.profile_image.url}')"></div>

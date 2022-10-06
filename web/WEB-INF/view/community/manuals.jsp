@@ -27,7 +27,7 @@
                 <!--TODO Filter -->
                 <div class="dropdown input-dropdown">
                     <div data-toggle="dropdown" aria-expanded="false"
-                         class="form-group form-inner-button form-md form-green">
+                         class="form-group form-inner-button form-md form-green min-content">
                         <input type="text" class="form-control input-box medium-h5 dropdown-input input-sm"
                                disabled="disabled"
                                value="축산 메뉴얼"
@@ -98,7 +98,7 @@
                 </div>
                 <div class="right-filter-dropdown-container">
                     <div class="dropdown input-dropdown">
-                        <div data-toggle="dropdown" aria-expanded="false" class="form-group form-inner-button form-sm">
+                        <div data-toggle="dropdown" aria-expanded="false" class="form-group form-inner-button form-sm min-content">
                             <input type="text"
                                    class="form-control input-box medium-h5 dropdown-input"
                                    disabled="disabled"

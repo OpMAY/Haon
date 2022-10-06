@@ -278,7 +278,12 @@ $(document).ready(function () {
     });
 
     $('[data-href]').on('click', function (event) {
-        location.href = this.dataset.href;
+        let target = this.getAttribute('target');
+        if (target !== null && target !== undefined) {
+            window.open(this.dataset.href);
+        } else {
+            location.href = this.dataset.href;
+        }
         event.preventDefault();
         event.stopPropagation();
     });
@@ -316,6 +321,13 @@ $(document).ready(function () {
         } else {
             input.value = text;
         }
+    });
+
+    $('.dropdown').on('show.bs.dropdown', function (event) {
+        // do something...
+        console.log($(event.target).width());
+        let dropdown_menu = event.target.querySelector('.dropdown-menu');
+        dropdown_menu.style.width = $(event.target).width() + 'px';
     });
 
     $('._logout').click(function (event) {
