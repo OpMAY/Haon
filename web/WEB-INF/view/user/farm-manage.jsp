@@ -116,7 +116,7 @@
                     <div class="_desc">
                         <c:choose>
                             <c:when test="${farm.description ne null}">
-                                <div class="summernote-container" style="min-width: 100%;">
+                                <div class="summernote-container">
                                         ${farm.description}
                                 </div>
                             </c:when>
