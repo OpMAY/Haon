@@ -261,15 +261,15 @@
     const communitySubmit = () => {
         let return_check = true;
         let title = $('[name="title"]').val();
-        let title_regex = /^.{2,100}$/gm;
+        let title_regex = /^.{2,50}$/gm;
         if (!title_regex.test(title)) {
             alert('제목을 정확히 입력해주세요. 2글자 이상, 50글자 이내');
             return_check = false;
         }
         let content = $('#summernote').summernote('code');
-        let content_regex = /^.{10,4000}$/gm;
+        let content_regex = /^.{10,8000}$/gm;
         if (!content_regex.test($(content).text())) {
-            alert('게시글 내용을 정확히 입력해주세요. 10글자 이상, 2000글자 이내');
+            alert('게시글 내용을 정확히 입력해주세요. 10글자 이상, 8000글자 이내');
             return_check = false;
         }
         $('[name="content"]').val(content);
