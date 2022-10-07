@@ -280,11 +280,13 @@
                     confirm_text: '확인',
                     onConfirm: function (e) {
                         console.log('Confirm Button Click Callback', e.currentTarget);
-                        location.href = '/user/board/update/${contentForm.community_type.name()}/${contentForm.no}';
+                        let type = '${contentForm.community_type.name()}'.toLowerCase();
+                        location.href = '/community/' + type + '/detail/${contentForm.no}';
                     },
                     onHidden: function (e) {
                         console.log('Modal Hide After Callback', e.currentTarget);
-                        location.href = '/user/board/update/${contentForm.community_type.name()}/${contentForm.no}';
+                        let type = '${contentForm.community_type.name()}'.toLowerCase();
+                        location.href = '/community/' + type + '/detail/${contentForm.no}';
                     }
                 });
             } else {
@@ -326,9 +328,9 @@
         if (!inspection({
             selector: '[name="content"]',
             isFocus: false,
-            regex_type: '10~2000',
+            regex_type: '10~8000',
             empty_text: '게시글 내용을 입력해주세요.',
-            failed_text: '게시글 내용을 정확히 입력해주세요. 10글자 이상, 2000글자 이내',
+            failed_text: '게시글 내용을 정확히 입력해주세요. 10글자 이상, 8000글자 이내',
         })) {
             return_check = false;
         }
