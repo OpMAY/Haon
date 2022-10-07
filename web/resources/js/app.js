@@ -280,8 +280,8 @@ $(document).ready(function () {
     $('[data-href]').on('click', function (event) {
         let target = this.getAttribute('target');
         let url = this.dataset.href;
-        if(isValidUrl(url)) {
-            if(!(url.includes("http://") || url.includes("https://"))) {
+        if (isValidUrl(url)) {
+            if (!(url.includes("http://") || url.includes("https://"))) {
                 url = 'http://' + url;
             }
             if (target !== null && target !== undefined) {
@@ -513,11 +513,17 @@ $(document).ready(function () {
                     if (searches.hasOwnProperty(index) && index < 5) {
                         // your code
                         $(list_container).append(`<li class="list-group-item">
-                                                  <div data-href="/search/${encodeURI(searches[index])}">${searches[index]}</div>
+                                                  <div data-id="${index}" data-href="/search/${encodeURI(searches[index])}">${searches[index]}</div>
                                                   <svg class="my-auto" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                       <path d="M6 18L18 6M6 6L18 18" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                                                   </svg>
                                               </li>`);
+                        let items = list_container.querySelectorAll('.list-group-item [data-id]');
+                        items.forEach(function (item) {
+                            item.addEventListener('click', function (event) {
+                                location.href = this.dataset.href;
+                            });
+                        });
                     }
                 }
             } else {
@@ -568,7 +574,7 @@ $(document).ready(function () {
                                     desc: `<div>회원님께서는 현재 [회원 자격 정지 상태]입니다.</div>
                                             <div>회원 자격 정지 사유 : ${result.data.user_ban.reason}</div>
                                             <div>회원 자격 정지 처리일: ${Time.formatLocalDatetime(result.data.user_ban.reg_datetime)}</div>
-                                            <div>회원 자격 정지 기간 : ${result.data.user_ban.days!==-1?result.data.user_ban.days+'일':'영구정지'}</div>
+                                            <div>회원 자격 정지 기간 : ${result.data.user_ban.days !== -1 ? result.data.user_ban.days + '일' : '영구정지'}</div>
                                             <div>보다 구체적인 회원 자격 정지 사유가 궁금하시면 관리자에게 문의해주세요.</div>`,
                                     confirm_text: '확인',
                                     onConfirm: function (e) {
