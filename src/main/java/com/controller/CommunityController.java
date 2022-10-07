@@ -26,7 +26,6 @@ import com.model.content.question.QuestionSummary;
 import com.model.content.tips.Tips;
 import com.model.farm.Farm;
 import com.model.global.category.CATEGORY_TYPE;
-import com.model.global.category.CommunityCategory;
 import com.model.queue.ServerTokenType;
 import com.model.queue.Token;
 import com.service.*;
@@ -247,16 +246,6 @@ public class CommunityController {
         if (user_no != null) {
             farm.set_bookmark(farmService.isFarmBookmark(farm.getNo(), user_no));
         }
-
-        CommunityCategory board_categories = categoryDao.getCommunityCategory(CATEGORY_TYPE.BOARD);
-        CommunityCategory tip_categories = categoryDao.getCommunityCategory(CATEGORY_TYPE.TIP);
-        CommunityCategory manual_categories = categoryDao.getCommunityCategory(CATEGORY_TYPE.MANUAL);
-        CommunityCategory question_categories = categoryDao.getCommunityCategory(CATEGORY_TYPE.QUESTION);
-
-        VIEW.addObject("board_categories", board_categories);
-        VIEW.addObject("tip_categories", tip_categories);
-        VIEW.addObject("manual_categories", manual_categories);
-        VIEW.addObject("question_categories", question_categories);
 
         // GET BOARDS
         List<Board> boards = contentService.getFarmBoards(farm_no, 0, null);
