@@ -6,7 +6,6 @@
 <%@ page import="com.model.content.tips.Tips" %>
 <%@ page import="com.model.global.Banner" %>
 <%@ page import="com.model.farm.Farm" %>
-<%@ page import="com.model.global.keyword.SearchKeyword" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -34,9 +33,6 @@
 
     Magazine magazine = (Magazine) request.getAttribute("randomMagazine");
     request.setAttribute("randomMagazine", magazine);
-
-    List<SearchKeyword> searchKeywordList = (List<SearchKeyword>) request.getAttribute("keywords");
-    request.setAttribute("keywords", searchKeywordList);
 
 %>
 <html lang="ko">
@@ -138,11 +134,36 @@
                 <button type="button" class="btn btn-md btn-brand bold-h4">
                     전체
                 </button>
-                <c:forEach var="keyword" items="${keywords.get(1).keywords}">
-                    <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                        ${keyword}
-                    </button>
-                </c:forEach>
+                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
+                    기타
+                </button>
+                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
+                    퀘스트
+                </button>
+                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
+                    아이템
+                </button>
+                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
+                    사료
+                </button>
+                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
+                    도축&가공
+                </button>
+                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
+                    기타
+                </button>
+                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
+                    퀘스트
+                </button>
+                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
+                    아이템
+                </button>
+                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
+                    사료
+                </button>
+                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
+                    도축&가공
+                </button>
             </div>
         </section>
         <!--실시간 자유 게시판-->

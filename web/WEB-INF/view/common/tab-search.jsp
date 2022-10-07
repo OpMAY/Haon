@@ -1,11 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.model.global.keyword.SearchKeyword" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    List<SearchKeyword> searchKeywordList = (List<SearchKeyword>) request.getAttribute("RECOMMEND_KEYWORDS");
-    request.setAttribute("RECOMMEND_KEYWORDS", searchKeywordList);
-%>
 <div id="tab-search" style="display: none;">
     <div class="form-group d-flex">
         <input type="text"
@@ -69,11 +62,18 @@
     <div class="mt-24">
         <label class="c-gray-dark-low bold-h5">추천 검색어</label>
         <div class="mt-16 _buttons">
-            <c:forEach var="keyword" items="${RECOMMEND_KEYWORDS.get(0).keywords}">
-                <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1" data-href="/search/${keyword}">
-                    ${keyword}
-                </button>
-            </c:forEach>
+            <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1" data-href="/search/자유게시판">
+                자유게시판
+            </button>
+            <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1" data-href="/search/매거진">
+                매거진
+            </button>
+            <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1" data-href="/search/질문">
+                질문
+            </button>
+            <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1" data-href="/search/테스트">
+                테스트
+            </button>
         </div>
     </div>
 </div>

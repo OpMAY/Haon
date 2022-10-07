@@ -80,13 +80,13 @@
                                 </span>
                             </c:otherwise>
                         </c:choose>
-                        <span class="_item _sns" data-href-custom="${farm.sns.instagram}">
+                        <span class="_item" data-href="${farm.sns.instagram}">
                             <img src="/resources/assets/images/icon/instagram.png"/>
                         </span>
-                        <span class="_item _sns" data-href-custom="${farm.sns.blog}">
+                        <span class="_item" data-href="${farm.sns.blog}">
                             <img src="/resources/assets/images/icon/blog.png"/>
                         </span>
-                        <span class="_item _sns" data-href-custom="${farm.sns.homepage}">
+                        <span class="_item" data-href="${farm.sns.homepage}">
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path d="M1.77778 0H30.2222C30.6937 0 31.1459 0.187301 31.4793 0.520699C31.8127 0.854097 32 1.30628 32 1.77778V30.2222C32 30.6937 31.8127 31.1459 31.4793 31.4793C31.1459 31.8127 30.6937 32 30.2222 32H1.77778C1.30628 32 0.854097 31.8127 0.520699 31.4793C0.187301 31.1459 0 30.6937 0 30.2222V1.77778C0 1.30628 0.187301 0.854097 0.520699 0.520699C0.854097 0.187301 1.30628 0 1.77778 0V0ZM7.08978 19.6711C6.98311 20.1458 6.92978 20.6578 6.92978 21.0756C6.92978 22.7236 7.78667 23.8169 9.61067 23.8169C11.1236 23.8169 12.3502 22.8818 13.2338 21.3724L12.6951 23.6249H15.6996L17.4169 16.4587C17.8453 14.6453 18.6791 13.7031 19.9396 13.7031C20.9316 13.7031 21.5484 14.3431 21.5484 15.4044C21.5484 15.712 21.5218 16.0462 21.4151 16.4089L20.5298 19.7031C20.4032 20.1574 20.3398 20.627 20.3413 21.0987C20.3413 22.6631 21.2267 23.8062 23.0791 23.8062C24.6613 23.8062 25.9236 22.7467 26.6204 20.2062L25.44 19.7316C24.8498 21.4347 24.3378 21.7404 23.936 21.7404C23.5342 21.7404 23.3191 21.4631 23.3191 20.9049C23.3191 20.6542 23.3724 20.3751 23.4542 20.0391L24.3129 16.8302C24.5262 16.0764 24.608 15.408 24.608 14.7947C24.608 12.3947 23.2124 11.1413 21.5218 11.1413C19.9396 11.1413 18.3289 12.6258 17.5253 14.1902L18.1138 11.3831H13.5271L12.8818 13.8542H15.0293L13.7067 19.3618C12.6702 21.7618 10.7627 21.8009 10.5244 21.744C10.1298 21.6533 9.87911 21.4969 9.87911 20.9653C9.87911 20.6596 9.93244 20.2187 10.0676 19.6889L12.08 11.3831H6.98133L6.33778 13.8542H8.45689L7.088 19.6711H7.08978ZM10 10C10.5304 10 11.0391 9.78929 11.4142 9.41421C11.7893 9.03914 12 8.53043 12 8C12 7.46957 11.7893 6.96086 11.4142 6.58579C11.0391 6.21071 10.5304 6 10 6C9.46957 6 8.96086 6.21071 8.58579 6.58579C8.21071 6.96086 8 7.46957 8 8C8 8.53043 8.21071 9.03914 8.58579 9.41421C8.96086 9.78929 9.46957 10 10 10V10Z"
@@ -203,11 +203,12 @@
                                     <a class="dropdown-item">
                                         <div data-value="">전체</div>
                                     </a>
-                                    <c:forEach var="category" items="${board_categories.categories}">
-                                        <a class="dropdown-item">
-                                            <div data-value="${category}">${category}</div>
-                                        </a>
-                                    </c:forEach>
+                                    <a class="dropdown-item">
+                                        <div data-value="관리자가 선택한 카테고리 1">관리자가 선택한 카테고리 1</div>
+                                    </a>
+                                    <a class="dropdown-item">
+                                        <div data-value="관리자가 선택한 카테고리 2">관리자가 선택한 카테고리 2</div>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -307,11 +308,12 @@
                                     <a class="dropdown-item">
                                         <div data-value="">전체</div>
                                     </a>
-                                    <c:forEach var="category" items="${tip_categories.categories}">
-                                        <a class="dropdown-item">
-                                            <div data-value="${category}">${category}</div>
-                                        </a>
-                                    </c:forEach>
+                                    <a class="dropdown-item">
+                                        <div data-value="관리자가 선택한 카테고리 1">관리자가 선택한 카테고리 1</div>
+                                    </a>
+                                    <a class="dropdown-item">
+                                        <div data-value="관리자가 선택한 카테고리 2">관리자가 선택한 카테고리 2</div>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -745,15 +747,6 @@
                 }
             });
         });
-
-        $('._sns').on('click', function () {
-            let href = $(this).data().hrefCustom;
-            if(href.trim().length > 0) {
-                window.location.href = href;
-            } else {
-                viewAlert({content : '농장주가 SNS 주소를 등록하지 않았습니다.'});
-            }
-        })
     });
 </script>
 </body>

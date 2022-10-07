@@ -94,7 +94,7 @@
                                                                 <span class="bold-h5 my-auto">수정</span>
                                                             </button>
                                                         </c:if>
-                                                        <button type="button" data-no="${trace.no}" data-code="${trace.trace_code}"
+                                                        <button type="button" data-no="${trace.no}"
                                                                 class="_qr btn btn-brand-opacity btn-block bold-h5">
                                                             QR
                                                         </button>
@@ -105,7 +105,7 @@
                                                     <span class="regular-h5 p-2">${trace.entity.rate}</span>
                                                     <span class="regular-h5 p-2">${trace.entity.gender}</span>
                                                     <span class="regular-h5 p-2"><c:if
-                                                            test="${trace.entity.birth ne null}"><custom:numberDateFormat value="${trace.entity.birth}"/> 출생</c:if></span>
+                                                            test="${trace.entity.birth ne null}">${trace.entity.birth} 출생</c:if></span>
                                                     <span class="regular-h5 _date ml-auto p-2"><custom:formatDatetime
                                                             value="${trace.reg_datetime}" pattern="yyyy.MM.dd"/></span>
                                                 </div>
@@ -157,7 +157,7 @@
                                                                 <span class="bold-h5 my-auto">수정</span>
                                                             </button>
                                                         </c:if>
-                                                        <button type="button" data-no="${bundle.no}" data-code="${bundle.bundle_code}"
+                                                        <button type="button" data-no="${bundle.no}"
                                                                 class="_qr btn btn-brand-opacity btn-block bold-h5">
                                                             QR
                                                         </button>
@@ -203,7 +203,7 @@
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/bottom.jsp"/>
 <!-- Modal -->
-<div class="modal fade" id="trace-created" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="trace-created" tabindex="-1" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-md-max">
         <div class="modal-content">
             <div class="modal-header">
@@ -585,7 +585,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="package-trace-created" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="package-trace-created" tabindex="-1" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
