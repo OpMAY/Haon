@@ -114,9 +114,20 @@
                         </span>
                     </div>
                     <div class="_desc">
-                        <div class="summernote-container">
-                            ${farm.description}
-                        </div>
+                        <c:choose>
+                            <c:when test="${farm.description ne null}">
+                                <div class="summernote-container" style="min-width: 100%;">
+                                        ${farm.description}
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="summernote-container">
+                                    <div class="regular-h4 c-gray-light" style="text-align: center">
+                                        <span>농장 소개가 없습니다.</span>
+                                    </div>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
                         <div class="summernote-inner-container">
                             <div class="_edit" data-modal-id="mypage-intro-changed">
                                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
