@@ -3,6 +3,13 @@ $(document).ready(function () {
         let target = this;
         let modal = target.closest('.modal');
         let description = $('#summernote').summernote('code');
+        let description_regex = /^.{10,8000}$/gm;
+        if (!description_regex.test($(description).text())) {
+            viewAlert({content: '게시글 내용을 정확히 입력해주세요. 10글자 이상, 8000글자 이내'});
+            $(modal).modal('hide');
+            return false;
+        }
+
         updateFarmHouseDetails(description).then((result) => {
             if (result.status === 'OK') {
                 if (result.data.status) {
