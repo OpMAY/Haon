@@ -59,36 +59,11 @@
                 <button type="button" class="btn btn-md btn-brand bold-h4">
                     전체
                 </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    기타
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    퀘스트
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    아이템
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    사료
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    도축&가공
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    기타
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    퀘스트
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    아이템
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    사료
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    도축&가공
-                </button>
+                <c:forEach var="keyword" items="${keywords.get(1).keywords}">
+                    <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
+                        ${keyword}
+                    </button>
+                </c:forEach>
             </div>
         </section>
         <!--실시간 자유 게시판-->

@@ -9,6 +9,7 @@ import com.model.content.question.QuestionSummary;
 import com.model.content.tips.Tips;
 import com.model.farm.Farm;
 import com.model.global.Banner;
+import com.model.global.keyword.SearchKeyword;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class GlobalService {
     private final ContentDao contentDao;
     private final LikeDao likeDao;
     private final BookmarkDao bookmarkDao;
+    private final SearchKeywordDao searchKeywordDao;
 
     private final EncryptionService encryptionService;
 
@@ -38,8 +40,8 @@ public class GlobalService {
         ModelAndView view = new ModelAndView("main/home");
         /**
          * 1. 배너 O
-         * 2. 추천 게시글
-         * 3. 키워드
+         * 2. 추천 게시글 O
+         * 3. 키워드 O
          * 4. board O
          * 5. tips O
          * 6. manual O
@@ -48,8 +50,7 @@ public class GlobalService {
          * 9. farms O
          * **/
         List<Banner> banners = bannerDao.getBanners();
-        // TODO 추천 게시글 Format?
-        // TODO Keywords
+        List<SearchKeyword> keywords = searchKeywordDao.getAllKeywords();
         List<Board> live_boards = contentDao.getLiveBoards();
         List<Tips> tips = contentDao.getMainTips();
         List<Manual> manuals = contentDao.getMainManuals();
@@ -96,6 +97,7 @@ public class GlobalService {
         view.addObject("magazines", magazines);
         view.addObject("questions", questions);
         view.addObject("farms", farms);
+        view.addObject("keywords", keywords);
         if(!magazines.isEmpty()) {
             int magazineSize = magazines.size() - 1;
             view.addObject("randomMagazine", magazines.get((new Random().nextInt(magazineSize - 1) + 1)));

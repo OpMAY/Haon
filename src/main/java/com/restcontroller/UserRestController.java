@@ -259,7 +259,7 @@ public class UserRestController {
         boolean user_ban_check = adminService.isUserBan(user_no);
         message.put("status", user_ban_check);
         if (user_ban_check) {
-            message.put("user_ban",adminService.getActiveUserBan(user_no));
+            message.put("user_ban", adminService.getActiveUserBan(user_no));
         }
         return new ResponseEntity(DefaultRes.res(HttpStatus.OK, message, true), HttpStatus.OK);
     }
@@ -397,7 +397,17 @@ public class UserRestController {
                 message.put("type", "insert");
             }
         } else if (BOOKMARK_TYPE.TIP == type) {
-
+            if (likeService.isTipLikeByUserNo(no, user_no)) {
+                //좋아요 해제
+                likeService.deleteTipLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "delete");
+            } else {
+                //좋아요 등록
+                likeService.insertTipLike(no, user_no);
+                message.put("status", true);
+                message.put("type", "insert");
+            }
         } else if (BOOKMARK_TYPE.QUESTION == type) {
             if (likeService.isQuestionLikeByUserNo(no, user_no)) {
                 //좋아요 해제

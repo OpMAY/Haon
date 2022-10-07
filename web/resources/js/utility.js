@@ -589,3 +589,13 @@ const getURLParamByPrevAndNext = (find_first_slash_string, find_last_slash_strin
   const path_name = location.pathname;
   return path_name.substring(path_name.indexOf(find_first_slash_string) + (find_first_slash_string.length + 1), path_name.lastIndexOf(find_last_slash_string) - 1);
 };
+
+const isValidUrl = urlString=> {
+  let urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
+      '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
+  return !!urlPattern.test(urlString);
+}
