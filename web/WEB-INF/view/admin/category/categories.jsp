@@ -331,8 +331,7 @@
                 });
             },
             onDelete: function (e) {
-                if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
-                    'Are you sure you want to remove "' + e[0] + '"?')) {
+                if (confirm('\'' + e[0] + '\'' + '를 삭제하시겠습니까?')) {
                     console.log(e[0]);
                     removeCategory('BOARD', e[0]).then((result) => {
                         console.log(result);
@@ -388,8 +387,7 @@
                 });
             },
             onDelete: function (e) {
-                if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
-                    'Are you sure you want to remove "' + e[0] + '"?')) {
+                if (confirm('\'' + e[0] + '\'' + '를 삭제하시겠습니까?')) {
                     console.log(e[0]);
                     removeCategory('TIP', e[0]).then((result) => {
                         console.log(result);
@@ -445,8 +443,7 @@
                 });
             },
             onDelete: function (e) {
-                if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
-                    'Are you sure you want to remove "' + e[0] + '"?')) {
+                if (confirm('\'' + e[0] + '\'' + '를 삭제하시겠습니까?')) {
                     console.log(e[0]);
                     removeCategory('MANUAL', e[0]).then((result) => {
                         console.log(result);
@@ -502,8 +499,7 @@
                 });
             },
             onDelete: function (e) {
-                if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
-                    'Are you sure you want to remove "' + e[0] + '"?')) {
+                if (confirm('\'' + e[0] + '\'' + '를 삭제하시겠습니까?')) {
                     console.log(e[0]);
                     removeCategory('QUESTION', e[0]).then((result) => {
                         console.log(result);
@@ -559,8 +555,7 @@
                 });
             },
             onDelete: function (e) {
-                if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
-                    'Are you sure you want to remove "' + e[0] + '"?')) {
+                if (confirm('\'' + e[0] + '\'' + '를 삭제하시겠습니까?')) {
                     console.log(e[0]);
                     removeCategory('MAGAZINE', e[0]).then((result) => {
                         console.log(result);

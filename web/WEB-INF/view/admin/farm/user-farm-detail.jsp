@@ -178,29 +178,38 @@
                                     </div>
                                     <div class="col-auto">
                                         <label class="mb-1">해시태그</label>
-                                        <div>
-                                            <c:forEach var="hash" items="${user.farm.hashtag}">
-                                                <span class="badge badge-outline-success text-success me-1">${hash}</span>
-                                            </c:forEach>
-                                        </div>
+                                        <c:choose>
+                                            <c:when test="${user.farm.hashtag.size() !=0}">
+                                                <div>
+                                                    <c:forEach var="hash" items="${user.farm.hashtag}">
+                                                        <span class="badge badge-outline-success text-success me-1">${hash}</span>
+                                                    </c:forEach>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div>
+                                                    <p class="text-muted">해시태그 미설정</p>
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                     <div class="col-auto">
                                         <label class="mb-1">인스타그램 주소</label>
-                                        <p class="text-muted">${user.farm.sns.instagram}</p>
+                                        <p class="text-muted">${user.farm.sns.instagram ne null?user.farm.sns.instagram:'인스타그램 미설정'}</p>
                                     </div>
                                     <div class="col-auto">
                                         <label class="mb-1">네이버 블로그 주소</label>
-                                        <p class="text-muted">${user.farm.sns.blog}</p>
+                                        <p class="text-muted">${user.farm.sns.blog ne null?user.farm.sns.blog:'네이버 블로그 미설정'}</p>
                                     </div>
                                     <div class="col-auto">
                                         <label class="mb-1">홈페이지 주소</label>
-                                        <p class="text-muted">${user.farm.sns.homepage}</p>
+                                        <p class="text-muted">${user.farm.sns.homepage ne null? user.farm.sns.homepage:'홈페이지 미설정'}</p>
                                     </div>
                                     <div class="col-12">
                                         <label class="mb-2">농장 설명</label>
-                                        <div class="summernote-container" style="border: 1px solid #ced4da; border-radius: 0.2rem;
-                    padding: 16px;">
-                                            ${user.farm.description}
+                                        <div class="summernote-container"
+                                             style="border: 1px solid #ced4da; border-radius: 0.2rem; padding: 16px;">
+                                            ${user.farm.description ne null? user.farm.description:'농장 설명 미설정'}
                                         </div>
                                     </div>
                                 </div>

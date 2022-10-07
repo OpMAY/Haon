@@ -224,11 +224,11 @@
         }
         $('[data-plugins="dropify"]').dropify({
             messages: {
-                default: "Drag and drop a file here or click",
-                replace: "Drag and drop or click to replace",
-                remove: "Remove",
-                error: "Ooops, something wrong appended."
-            }, error: {fileSize: "The file size is too big (1M max)."}
+                default: "파일을 넣거나 클릭해주세요.",
+                replace: "파일을 넣거나 클릭해주세요.",
+                remove: "삭제",
+                error: "에러입니다. 관리자에게 문의해주세요."
+            }, error: {fileSize: "파일 사이즈가 너무 큽니다. (10MB 미만)"}
         });
         $('#summernote').summernote({
             popover: {
