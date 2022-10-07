@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
 <jsp:include page="../common/head.jsp"/>
@@ -23,7 +24,7 @@
 
                     <div class="col-6">
                         <div class="form-group form-inner-button">
-                            <input type="text" placeholder="이력 번호 또는 묶음 번호 입력"
+                            <input type="text" placeholder="이력 번호 또는 묶음 번호 입력" id="trace-search"
                                    class="form-control input-box medium-h5">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -133,6 +134,28 @@
         console.log('Static JS is ready');
         $('._trace-detail').on('click', function () {
             window.open('/trace/single/' + $(this).data().no, '_blank');
+        })
+
+        $('#trace-search').next().on('click', function () {
+            let value = $('#trace-search').val();
+            if (value.trim().length <= 0) {
+                viewAlert({content: '검색할 이력 번호를 입력하세요.'});
+            } else {
+                searchByCode(value).then((result) => {
+                    if(result.status === 'OK') {
+                        if(result.data.status) {
+                            let no = result.data.data.no;
+                            if(result.data.type === 'trace') {
+                                window.location.href = '/trace/single/' + no;
+                            } else if (result.data.type === 'bundle'){
+                                window.location.href = '/trace/package/' + no;
+                            }
+                        } else {
+                            viewAlert({content: '일치하는 이력이 없습니다.'});
+                        }
+                    }
+                })
+            }
         })
     });
 </script>
