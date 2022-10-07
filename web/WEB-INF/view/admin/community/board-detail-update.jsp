@@ -435,13 +435,11 @@
             <div class="modal-body p-4">
                 <div class="text-center">
                     <i class="dripicons-to-do h1 text-white"></i>
-                    <h4 class="mt-2 text-white">Oh snap!</h4>
-                    <p class="mt-3 text-white">Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                        dapibus ac
-                        facilisis in, egestas eget quam.</p>
+                    <h4 class="mt-2 text-white">게시물 수정</h4>
+                    <p class="mt-3 text-white">게시물을 수정하시겠습니까?</p>
                     <button type="button"
                             class="btn btn-light my-2"
-                            data-action="update">Continue
+                            data-action="update">수정
                     </button>
                 </div>
             </div>
@@ -458,13 +456,11 @@
             <div class="modal-body p-4">
                 <div class="text-center">
                     <i class="dripicons-wrong h1 text-white"></i>
-                    <h4 class="mt-2 text-white">Oh snap!</h4>
-                    <p class="mt-3 text-white">Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                        dapibus ac
-                        facilisis in, egestas eget quam.</p>
+                    <h4 class="mt-2 text-white">게시물 삭제</h4>
+                    <p class="mt-3 text-white">해당 게시물을 삭제하면 좋아요 및 댓글수, 조회수는 같이 삭제됩니다.</p>
                     <button type="button"
                             class="btn btn-light my-2"
-                            data-action="delete">Continue
+                            data-action="delete">삭제하기
                     </button>
                 </div>
             </div>
