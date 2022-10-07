@@ -259,13 +259,17 @@ $(document).ready(function () {
         let check = tab_overlay.css('display') === 'block' ? true : false;
 
         if (check) {
-            if ($(event.target.closest('#header-left-sidebar')).length === 0 && $(event.target.closest('#header-right-sidebar')).length === 0 && $(event.target.closest('#tab-search')).length === 0 && $(event.target.closest('#tab-trace')).length === 0) {
+            if ($(event.target.closest('#header-left-sidebar')).length === 0 &&
+                $(event.target.closest('#header-right-sidebar')).length === 0 &&
+                $(event.target.closest('#tab-search')).length === 0 &&
+                $(event.target.closest('#tab-trace')).length === 0 &&
+                $('#search-trace-qr-modal').length === 0) {
                 tab_overlay.hide();
             }
             if ($(event.target.closest('#tab-search')).length === 0) {
                 search_tab.slideUp(200);
             }
-            if ($(event.target.closest('#tab-trace')).length === 0) {
+            if ($(event.target.closest('#tab-trace')).length === 0 && $('#search-trace-qr-modal').length === 0) {
                 trace_tab.slideUp(200);
             }
             if ($(event.target.closest('#header-left-sidebar')).length === 0) {

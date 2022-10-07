@@ -79,6 +79,7 @@ $('#tab-trace').on('click', '._traces ._tab ._qr', function (e) {
         url = `${window.location.origin}/trace/package/${$(this).data().no}`;
     }
     viewModal({
+        id:'search-trace-qr-modal',
         title: '이력 QR',
         desc: `<div class="d-flex flex-column align-items-center">
                         <div class="_qrArea mb-24">아래 이미지를 저장하여 QR 코드를 공유하세요.</div>
