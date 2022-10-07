@@ -310,7 +310,7 @@ public class UserController {
                         mainComment = commentService.getFarmCommentByNo(comment.getRecomment());
                         break;
                 }
-                if (mainComment != null) {
+                if (mainComment != null && !mainComment.is_blocked()) {
                     ArrayList<Comment> myComment = new ArrayList<>();
                     myComment.add(comment);
                     mainComment.setRecomments(myComment);

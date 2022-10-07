@@ -180,12 +180,12 @@
                                         <thead>
                                         <tr>
                                             <th>번호</th>
-                                            <th>배너 이미지</th>
-                                            <th>상단 텍스트</th>
-                                            <th>중단 텍스트</th>
+                                            <th class="text-nowrap">배너 이미지</th>
+                                            <th class="text-nowrap">상단 텍스트</th>
+                                            <th class="text-nowrap">중단 텍스트</th>
                                             <th>하단 텍스트</th>
-                                            <th>연결 링크</th>
-                                            <th>비고</th>
+                                            <th class="text-nowrap">연결 링크</th>
+                                            <th class="text-nowrap">비고</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -204,7 +204,7 @@
                                                 <td data-banner-middle-text>${banner.middle_text}</td>
                                                 <td data-banner-bottom-text>${banner.bottom_text}</td>
                                                 <td data-banner-link>${banner.link}</td>
-                                                <td>
+                                                <td class="text-nowrap">
                                                     <button type="button"
                                                             class="btn btn-primary waves-effect waves-light"
                                                             data-bs-toggle="modal"
@@ -297,28 +297,28 @@
                         <label class="form-label">상단 텍스트</label>
                         <input type="text"
                                name="top_text"
-                               placeholder="상단 텍스트"
+                               placeholder="상단 텍스트를 입력해주세요."
                                class="form-control">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">중단 텍스트</label>
                         <input type="text"
                                name="middle_text"
-                               placeholder="중단 텍스트"
+                               placeholder="중단 텍스트를 입력해주세요."
                                class="form-control">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">하단 텍스트</label>
                         <input type="text"
                                name="bottom_text"
-                               placeholder="하단 텍스트"
+                               placeholder="하단 텍스트를 입력해주세요."
                                class="form-control">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">연결 링크</label>
                         <input type="text"
                                name="link"
-                               placeholder="연결 링크"
+                               placeholder="연결 링크를 입력해주세요."
                                class="form-control">
                     </div>
                 </form>
@@ -427,13 +427,11 @@
             <div class="modal-body p-4">
                 <div class="text-center">
                     <i class="dripicons-wrong h1 text-white"></i>
-                    <h4 class="mt-2 text-white">Oh snap!</h4>
-                    <p class="mt-3 text-white">Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                        dapibus ac
-                        facilisis in, egestas eget quam.</p>
+                    <h4 class="mt-2 text-white">게시물 삭제</h4>
+                    <p class="mt-3 text-white">해당 게시물을 삭제하면 좋아요 및 댓글수, 조회수는 같이 삭제됩니다.</p>
                     <button type="button"
                             class="btn btn-light my-2"
-                            data-action="delete">Continue
+                            data-action="delete">삭제하기
                     </button>
                 </div>
             </div>
@@ -481,11 +479,11 @@
         }
         $('[data-plugins="dropify"]').dropify({
             messages: {
-                default: "Drag and drop a file here or click",
-                replace: "Drag and drop or click to replace",
-                remove: "Remove",
-                error: "Ooops, something wrong appended."
-            }, error: {fileSize: "The file size is too big (1M max)."}
+                default: "파일을 넣거나 클릭해주세요.",
+                replace: "파일을 넣거나 클릭해주세요.",
+                remove: "삭제",
+                error: "에러입니다. 관리자에게 문의해주세요."
+            }, error: {fileSize: "파일 사이즈가 너무 큽니다. (10MB 미만)"}
         });
         //event
         $('[data-action="update"]').click(function (event) {

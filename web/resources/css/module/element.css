@@ -198,6 +198,7 @@ input.form-control.input-box {
     padding-top: 5px;
     padding-bottom: 5px;
 }
+
 [data-toggle="dropdown"].form-group.form-inner-button {
     min-width: 140px;
     max-width: 200px;
@@ -887,6 +888,11 @@ input.form-control.input-box {
     -webkit-line-clamp: 4; /* 라인수 */
     -webkit-box-orient: vertical;
     word-wrap: break-word;
+}
+
+.farm-detail ._desc .summernote-container iframe {
+    width: 640px;
+    max-width: 640px;
 }
 
 .farm-detail ._desc ._edit {

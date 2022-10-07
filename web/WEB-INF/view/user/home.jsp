@@ -1375,7 +1375,7 @@
             switch (type) {
                 case'ALL':
                     comments.forEach(function (comment) {
-                        if (!comment.dataset.blocked) {
+                        if (toBoolean(comment.dataset.blocked)) {
                             if (comment.dataset.more === 'showing') {
                                 $(comment).show();
                             }
@@ -1386,7 +1386,7 @@
                         }
                     });
                     recomments.forEach(function (comment) {
-                        if (!comment.dataset.blocked) {
+                        if (toBoolean(comment.dataset.blocked)) {
                             $(comment).show();
                         } else {
                             $(comment).show();
@@ -1395,7 +1395,8 @@
                     break;
                 case'PUBLIC':
                     comments.forEach(function (comment) {
-                        if (!comment.dataset.blocked) {
+                        console.log(comment.dataset.blocked);
+                        if (toBoolean(comment.dataset.blocked)) {
                             if (comment.dataset.more === 'showing') {
                                 $(comment).hide();
                             }
@@ -1406,7 +1407,7 @@
                         }
                     });
                     recomments.forEach(function (comment) {
-                        if (!comment.dataset.blocked) {
+                        if (toBoolean(comment.dataset.blocked)) {
                             $(comment).hide();
                         } else {
                             $(comment).show();
@@ -1415,7 +1416,8 @@
                     break;
                 case'SECRET':
                     comments.forEach(function (comment) {
-                        if (!comment.dataset.blocked) {
+                        console.log(comment.dataset.blocked);
+                        if (toBoolean(comment.dataset.blocked)) {
                             if (comment.dataset.more === 'showing') {
                                 $(comment).show();
                             }
@@ -1426,7 +1428,7 @@
                         }
                     });
                     recomments.forEach(function (comment) {
-                        if (!comment.dataset.blocked) {
+                        if (toBoolean(comment.dataset.blocked)) {
                             $(comment).show();
                         } else {
                             $(comment).hide();

@@ -345,34 +345,41 @@
     </select>
     <select id="getCommentsMadeMe" parameterType="int" resultType="Comment">
         select *
-        from (select no, content, 'BOARD' as type, board_no as community_no, reg_datetime, recomment
+        from (select no, content, is_blocked, 'BOARD' as type, board_no as community_no, reg_datetime, recomment
               from board_comment
               WHERE user_no = #{user_no}
+                and is_blocked = false
               UNION
-              select no, content, 'QUESTION' as type, question_no as community_no, reg_datetime, recomment
+              select no, content, is_blocked, 'QUESTION' as type, question_no as community_no, reg_datetime, recomment
               from question_comment
               WHERE user_no = #{user_no}
+                and is_blocked = false
               UNION
-              select no, content, 'FARM' as type, farm_no as community_no, reg_datetime, recomment
+              select no, content, is_blocked, 'FARM' as type, farm_no as community_no, reg_datetime, recomment
               from farm_comment
               WHERE user_no = #{user_no}
+                and is_blocked = false
               UNION
-              select no, content, 'MAGAZINE' as type, magazine_no as community_no, reg_datetime, recomment
+              select no, content, is_blocked, 'MAGAZINE' as type, magazine_no as community_no, reg_datetime, recomment
               from magazine_comment
               WHERE user_no = #{user_no}
+                and is_blocked = false
               UNION
-              select no, content, 'MANUAL' as type, manual_no as community_no, reg_datetime, recomment
+              select no, content, is_blocked, 'MANUAL' as type, manual_no as community_no, reg_datetime, recomment
               from manual_comment
               WHERE user_no = #{user_no}
+                and is_blocked = false
               UNION
-              select no, content, 'TIP' as type, tips_no as community_no, reg_datetime, recomment
+              select no, content, is_blocked, 'TIP' as type, tips_no as community_no, reg_datetime, recomment
               from tips_comment
-              WHERE user_no = #{user_no}) as bcqc
+              WHERE user_no = #{user_no}
+                and is_blocked = false) as bcqc
         ORDER BY reg_datetime desc;
     </select>
     <select id="getCommentsByMe" parameterType="int" resultType="Comment">
         select *
         from (select board_comment.no,
+                     board_comment.is_blocked,
                      board_comment.content,
                      board_comment.user_no,
                      'BOARD'                as type,
@@ -383,6 +390,7 @@
               where board_comment.recomment is null
               UNION
               select question_comment.no,
+                     question_comment.is_blocked,
                      question_comment.content,
                      question_comment.user_no,
                      'QUESTION'                   as type,
@@ -393,6 +401,7 @@
               where question_comment.recomment is null
               UNION
               select farm_comment.no,
+                     farm_comment.is_blocked,
                      farm_comment.content,
                      farm_comment.user_no,
                      'FARM'               as type,
@@ -403,6 +412,7 @@
               where farm_comment.recomment is null
               UNION
               select manual_comment.no,
+                     manual_comment.is_blocked,
                      manual_comment.content,
                      manual_comment.user_no,
                      'MANUAL'                 as type,
@@ -413,6 +423,7 @@
               where manual_comment.recomment is null
               UNION
               select tips_comment.no,
+                     tips_comment.is_blocked,
                      tips_comment.content,
                      tips_comment.user_no,
                      'TIP'                as type,

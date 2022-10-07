@@ -27,51 +27,15 @@
     <div class="mt-24">
         <label class="c-gray-dark-low bold-h5">최근 검색어</label>
         <ul class="list-group">
-            <li class="list-group-item">
-                <div data-href="/search/테스트">테스트</div>
-                <svg class="my-auto" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 18L18 6M6 6L18 18"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"/>
-                </svg>
-            </li>
-            <li class="list-group-item">
-                <div data-href="/search/메뉴얼">메뉴얼</div>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 18L18 6M6 6L18 18"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"/>
-                </svg>
-            </li>
-            <li class="list-group-item">
-                <div data-href="/search/매거진">매거진</div>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 18L18 6M6 6L18 18"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"/>
-                </svg>
-            </li>
-            <li class="list-group-item">
-                <div data-href="/search/테스트">테스트</div>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 18L18 6M6 6L18 18"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"/>
-                </svg>
-            </li>
         </ul>
     </div>
     <div class="mt-24">
         <label class="c-gray-dark-low bold-h5">추천 검색어</label>
         <div class="mt-16 _buttons">
             <c:forEach var="keyword" items="${RECOMMEND_KEYWORDS.get(0).keywords}">
-                <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1" data-href="/search/${keyword}">
-                    ${keyword}
+                <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1"
+                        data-href="/search/${keyword}">
+                        ${keyword}
                 </button>
             </c:forEach>
         </div>
