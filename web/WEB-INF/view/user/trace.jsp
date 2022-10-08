@@ -113,7 +113,7 @@
                                         </c:forEach>
                                     </c:if>
                                     <c:if test="${traces.size() <= 0}">
-                                        <div class="bold-h2 c-gray-light" style="text-align: center">
+                                        <div class="bold-h4 c-gray-light" style="text-align: center">
                                             <span>등록된 이력이 없어요.</span>
                                         </div>
                                     </c:if>
@@ -187,7 +187,7 @@
                                         </c:forEach>
                                     </c:if>
                                     <c:if test="${bundles.size() <= 0}">
-                                        <div class="bold-h2 c-gray-light" style="text-align: center">
+                                        <div class="bold-h4 c-gray-light" style="text-align: center">
                                             <span>등록된 묶음 이력이 없어요.</span>
                                         </div>
                                     </c:if>

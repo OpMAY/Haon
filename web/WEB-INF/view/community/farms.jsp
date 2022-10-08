@@ -232,18 +232,22 @@
      * Static JS는 특정 페이지 에서만 작동하는 부분으로 Event 및 Element 생성 및 화면에 진입했을 때의
      * 해당 화면만의 특정 로직을 수행하는 Javascript를 Static JS라고 한다.
      * */
-    $(document).ready(function () {
-        console.log('Static JS is ready');
-        $('._content-list').on('click', '._footer button', function () {
-            window.location.href = '/community/farm/detail/' + $(this).data().no;
-        });
-
+    document.addEventListener("DOMContentLoaded", () => {
         //자동 Dropdown 클릭
         let type = getParameter('type');
         $('[name="farm_type"]').closest('.dropdown').find('.dropdown-menu a div[data-value="' + type + '"]').click();
 
         //URL 변경
         history.pushState(null, null, '/community/farms');
+    });
+
+    $(document).ready(function () {
+        console.log('Static JS is ready');
+        $('._content-list').on('click', '._footer button', function () {
+            window.location.href = '/community/farm/detail/' + $(this).data().no;
+        });
+
+
     });
 </script>
 </body>

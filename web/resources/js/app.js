@@ -284,18 +284,13 @@ $(document).ready(function () {
     $('[data-href]').on('click', function (event) {
         let target = this.getAttribute('target');
         let url = this.dataset.href;
-        if (isValidUrl(url)) {
-            if (!(url.includes("http://") || url.includes("https://"))) {
-                url = 'http://' + url;
-            }
-            if (target !== null && target !== undefined) {
-                window.open(url);
-            } else {
-                window.location.href = url;
-            }
+
+        if (target !== null && target !== undefined) {
+            window.open(url);
         } else {
-            viewAlert({content: '등록된 주소가 올바르지 않습니다.'});
+            window.location.href = url;
         }
+
         event.preventDefault();
         event.stopPropagation();
     });
