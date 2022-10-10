@@ -11,4 +11,5 @@ public class DashBoardTrace extends Time {
     private boolean is_bundle;
     private FARM_TYPE type;
     private String code;
+    private int no;
 }
