@@ -517,8 +517,21 @@
         let hashtag_input = document.querySelector('#input-hashtag');
         hashtag_input.addEventListener('keypress', function (event) {
             let hash_container = document.querySelector('#mypage-hashtag-changed .btn-hashtag-container');
+            let checked_value = this.value;
             if (event.keyCode === 13) {
-                $(hash_container).append(createHashtagElement(this.value));
+                let hashtags = hash_container.querySelectorAll('.btn-hashtag');
+                let duplicate_check = false;
+                hashtags.forEach(function (tag) {
+                    console.log(tag.textContent.trim() === checked_value);
+                    if (tag.textContent.trim() === checked_value) {
+                        duplicate_check = true;
+                    }
+                });
+                if (!duplicate_check) {
+                    $(hash_container).append(createHashtagElement(checked_value));
+                } else {
+                    viewAlert({content: '해시태그는 중복이 불가능 합니다.', zIndex: 9999});
+                }
                 this.value = '';
             }
         });
