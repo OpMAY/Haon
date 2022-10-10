@@ -48,6 +48,7 @@
                      f.name             as farm_name,
                      false              as is_bundle,
                      f.type             as type,
+                     trace.no,
                      trace.reg_datetime as reg_datetime
               from trace
                        left join farm f on trace.farm_no = f.no
@@ -58,6 +59,7 @@
                      f.name              as farm_name,
                      true                as is_bundle,
                      f.type              as type,
+                     bundle.no,
                      bundle.reg_datetime as reg_datetime
               from bundle
                        left join farm f on bundle.farm_no = f.no

@@ -315,22 +315,44 @@
                                         </thead>
                                         <tbody>
                                         <c:forEach var="item" items="${traces}">
-                                            <tr>
-                                                <th scope="row">${item.farm_name}(${item.name})</th>
-                                                <td>
-                                                    <c:choose>
-                                                        <c:when test="${item._bundle}">
-                                                            <span class="badge bg-primary">묶음</span>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <span class="badge bg-success">이력</span>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </td>
-                                                <td><span class="badge bg-dark">${item.type.korName}</span></td>
-                                                <td>${item.code}</td>
-                                                <td><custom:formatDatetime value="${item.reg_datetime}" pattern="yyyy.MM.dd"/></td>
-                                            </tr>
+                                            <c:choose>
+                                                <c:when test="${item._bundle}">
+                                                    <tr data-href="/admin/trace/detail/bundle/${item.no}">
+                                                        <th scope="row">${item.farm_name}(${item.name})</th>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${item._bundle}">
+                                                                    <span class="badge bg-primary">묶음</span>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <span class="badge bg-success">이력</span>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                        <td><span class="badge bg-dark">${item.type.korName}</span></td>
+                                                        <td>${item.code}</td>
+                                                        <td><custom:formatDatetime value="${item.reg_datetime}" pattern="yyyy.MM.dd"/></td>
+                                                    </tr>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <tr data-href="/admin/trace/detail/trace/${item.no}">
+                                                        <th scope="row">${item.farm_name}(${item.name})</th>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${item._bundle}">
+                                                                    <span class="badge bg-primary">묶음</span>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <span class="badge bg-success">이력</span>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                        <td><span class="badge bg-dark">${item.type.korName}</span></td>
+                                                        <td>${item.code}</td>
+                                                        <td><custom:formatDatetime value="${item.reg_datetime}" pattern="yyyy.MM.dd"/></td>
+                                                    </tr>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </c:forEach>
                                         </tbody>
                                     </table>

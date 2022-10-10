@@ -56,9 +56,6 @@
                 </div>
             </div>
             <div class="theme-keyword">
-                <button type="button" class="btn btn-md btn-brand bold-h4">
-                    전체
-                </button>
                 <c:forEach var="keyword" items="${keywords.get(1).keywords}">
                     <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
                         ${keyword}
