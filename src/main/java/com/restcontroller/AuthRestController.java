@@ -62,11 +62,14 @@ public class AuthRestController {
      */
     @RequestMapping(value = "/kakao/disconnect")
     public void disconnectKakao(HttpServletRequest request, String user_id, String referrer_type) {
+        log.info("disconnectKakao Logic Start");
         log.info("{},{}", user_id, referrer_type);
         Integer user_no = userService.getUserById(user_id);
-        if (user_no != null) {
+        if (user_no != null && referrer_type.equals("UNLINK_FROM_APPS")) {
+            log.info("disconnectKakao Logic Unregister");
             userService.unregister(user_no);
         }
+        log.info("disconnectKakao Logic End");
     }
 
     @RequestMapping(value = "/auth/withdrawal")
