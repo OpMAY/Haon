@@ -50,7 +50,7 @@
     </select>
     <update id="editTrace">
         update trace
-        SET entity           = #{entity, typeHandler=JsonArrayObjectTypeHandler},
+        SET entity           = #{entity, typeHandler=JsonObjectTypeHandler},
             breed            = #{breed, typeHandler=JsonArrayObjectTypeHandler},
             butchery         = #{butchery, typeHandler=JsonArrayObjectTypeHandler},
             process          = #{process, typeHandler=JsonArrayObjectTypeHandler},

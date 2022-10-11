@@ -119,13 +119,13 @@
                                         <button type="button"
                                                 data-bs-target="#update-modal"
                                                 data-bs-toggle="modal"
-                                                data-bs-no="1"
+                                                data-bs-no="${trace.no}"
                                                 class="btn btn-dark waves-effect waves-light">수정
                                         </button>
                                         <button type="button"
                                                 data-bs-target="#delete-modal"
                                                 data-bs-toggle="modal"
-                                                data-bs-no="1"
+                                                data-bs-no="${trace.no}"
                                                 class="btn btn-danger waves-effect waves-light">
                                             삭제
                                         </button>
@@ -179,19 +179,6 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="mb-2">
-                                                        <label class="form-label">등급</label>
-                                                        <select id="rate" class="form-select">
-                                                            <option value="none" class="d-none">등급 선택</option>
-                                                            <option selected>1++</option>
-                                                            <option>1+</option>
-                                                            <option>1등급</option>
-                                                            <option>2등급</option>
-                                                            <option>3등급</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="mb-2">
                                                         <label class="form-label">출생 일자</label>
                                                         <input class="form-control"
                                                                id="birth"
@@ -204,15 +191,25 @@
                                                     <div class="mb-2">
                                                         <label class="mb-2">성별</label>
                                                         <div class="d-flex">
+                                                            <div class="form-check me-2 form-check-blue">
+                                                                <input class="form-check-input"
+                                                                       type="radio"
+                                                                       name="sex"
+                                                                       id="sex-zero"
+                                                                       value="거세"
+                                                                       <c:if test="${trace.entity.gender == '거세'}">checked</c:if>>
+                                                                <label class="form-check-label"
+                                                                       for="sex-zero">거세</label>
+                                                            </div>
                                                             <div class="form-check me-2">
                                                                 <input class="form-check-input"
                                                                        type="radio"
                                                                        name="sex"
                                                                        id="sex-man"
                                                                        value="수컷"
-                                                                       <c:if test="${trace.entity.gender == '수컷'}">checked</c:if>>
+                                                                       <c:if test="${trace.entity.gender == '비거세'}">checked</c:if>>
                                                                 <label class="form-check-label"
-                                                                       for="sex-man">수컷</label>
+                                                                       for="sex-man">비거세</label>
                                                             </div>
                                                             <div class="form-check me-2 form-check-success">
                                                                 <input class="form-check-input"
@@ -223,16 +220,6 @@
                                                                        <c:if test="${trace.entity.gender == '암컷'}">checked</c:if>>
                                                                 <label class="form-check-label"
                                                                        for="sex-woman">암컷</label>
-                                                            </div>
-                                                            <div class="form-check me-2 form-check-warning">
-                                                                <input class="form-check-input"
-                                                                       type="radio"
-                                                                       name="sex"
-                                                                       id="sex-zero"
-                                                                       value="거세"
-                                                                       <c:if test="${trace.entity.gender == '거세'}">checked</c:if>>
-                                                                <label class="form-check-label"
-                                                                       for="sex-zero">거세</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -373,11 +360,11 @@
                                                                 </div>
                                                                 <div class="col-12 <c:if test="${trace.butchery.size() == 0}">d-none</c:if>">
                                                                     <div class="mb-2">
-                                                                        <label class="form-label">농장 링크</label>
+                                                                        <label class="form-label">사업장 링크</label>
                                                                         <input type="text"
-                                                                               placeholder="농장 링크를 입력해주세요."
+                                                                               placeholder="사업장 링크를 입력해주세요."
                                                                                id="slaughter-link"
-                                                                               value=""
+                                                                               value="${trace.butchery.get(0).butchery_url}"
                                                                                <c:if test="${trace.butchery.size() == 0}">disabled</c:if>
                                                                                class="form-control">
                                                                     </div>
@@ -404,7 +391,7 @@
                                                                                class="form-control">
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-auto <c:if test="${trace.butchery.size() == 0}">d-none</c:if>">
+                                                                <div class="col-6 <c:if test="${trace.butchery.size() == 0}">d-none</c:if>">
                                                                     <div class="mb-2">
                                                                         <label class="mb-2">도축 결과</label>
                                                                         <div class="d-flex">
@@ -429,6 +416,19 @@
                                                                                        for="sex-zero">불합격</label>
                                                                             </div>
                                                                         </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 <c:if test="${trace.butchery.size() == 0}">d-none</c:if>">
+                                                                    <div class="mb-2">
+                                                                        <label class="form-label">등급</label>
+                                                                        <select id="rate" class="form-select">
+                                                                            <option value="none" class="d-none">등급 선택</option>
+                                                                            <option <c:if test="${trace.entity.rate == '1++'}">selected</c:if>>1++</option>
+                                                                            <option <c:if test="${trace.entity.rate == '1+'}">selected</c:if>>1+</option>
+                                                                            <option <c:if test="${trace.entity.rate == '1등급'}">selected</c:if>>1등급</option>
+                                                                            <option <c:if test="${trace.entity.rate == '2등급'}">selected</c:if>>2등급</option>
+                                                                            <option <c:if test="${trace.entity.rate == '3등급'}">selected</c:if>>3등급</option>
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -537,16 +537,19 @@
      tabindex="-1"
      role="dialog"
      aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-filled bg-danger">
             <div class="modal-body p-4">
                 <div class="text-center">
                     <i class="dripicons-wrong h1 text-white"></i>
-                    <h4 class="mt-2 text-white">게시물 삭제</h4>
-                    <p class="mt-3 text-white">해당 게시물을 삭제하면 좋아요 및 댓글수, 조회수는 같이 삭제됩니다.</p>
+                    <h4 class="mt-2 text-white">주의!</h4>
+                    <p class="mb-0 mt-3 text-white">해당 이력을 삭제하는 것을 농장 소유주는 알 수 없으며</p>
+                    <p class="mb-0 text-white">삭제 전 이에 대해 꼭 알리시길 바랍니다.</p>
+                    <p class="mb-0 text-white">삭제 후 복구하려면 해당 이력을 다시 입력해야 합니다.</p>
+                    <p class="text-white">정말 삭제하시겠습니까?</p>
                     <button type="button"
                             class="btn btn-light my-2"
-                            data-action="delete">삭제하기
+                            data-action="delete">삭제
                     </button>
                 </div>
             </div>
@@ -573,8 +576,12 @@
             let no = this.dataset.no;
             console.log(no);
             /*TODO Fetch*/
-            alert('삭제');
-            $('#delete-modal').modal('hide');
+            deleteTrace(no).then((result) => {
+                if(result.status === 'OK') {
+                    alert('삭제되었습니다.');
+                    window.location.href = '/admin/trace/traces'
+                }
+            })
         });
         //fetch get data
         $('#delete-modal').on('show.bs.modal', function (event) {
@@ -594,6 +601,7 @@
 
         //event
         $('[data-action="update"]').click(function (event) {
+            let use_butchery = $('#butchery-use-checkbox').is(':checked');
             let no = this.dataset.no;
             const trace = {};
             trace.no = no;
@@ -602,7 +610,12 @@
             // Entity
             const entity = {};
             entity.entity_type = $('input[name=farmType]').data().type;
-            entity.rate = $('#rate option:selected').val();
+            entity.rate = use_butchery ? $('#rate option:selected').val() : null;
+            if($('#birth').val().trim().length <= 0) {
+                alert('출생 일자를 선택해주세요.');
+                $('#update-modal').modal('hide');
+                return false;
+            }
             entity.birth = dateStringToKor($('#birth').val());
             entity.gender = $('input[name=sex]:checked').attr('value');
             const breeds = [];
@@ -638,7 +651,6 @@
                 return false;
             }
             // BUTCHERY
-            let use_butchery = $('#butchery-use-checkbox').is(':checked');
             if (use_butchery) {
                 let butcheryData = {};
                 butcheryData.butchery_result = $('#slaughter-success:checked').attr('value');
@@ -646,6 +658,8 @@
                 butcheryData.butchery_date = dateStringToKor($('#slaughter-datetime').val());
                 butcheryData.butchery_addr = $('#slaughter-addr').val();
                 butcheryData.butchery_addr_spec = $('#slaughter-addr-spec').val();
+                butcheryData.butchery_rate = $('#rate option:selected').val();
+                butcheryData.butchery_url = $('#slaughter-link').val();
                 if (butcheryData.butchery_result === undefined || butcheryData.butchery_result === null || butcheryData.butchery_result.length <= 0) {
                     alert('도축 합격 여부를 입력해주세요.');
                     $('#update-modal').modal('hide');
@@ -668,6 +682,11 @@
                 }
                 if (butcheryData.butchery_addr_spec.trim().length <= 0) {
                     alert('도축 소재지 상세 주소를 입력해주세요.');
+                    $('#update-modal').modal('hide');
+                    return false;
+                }
+                if(butcheryData.butchery_rate.trim().length <= 0) {
+                    alert('도축 등급을 입력해주세요.');
                     $('#update-modal').modal('hide');
                     return false;
                 }

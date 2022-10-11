@@ -84,7 +84,7 @@ public class TraceService {
             if (farm == null) {
                 message.put("status", false);
             } else {
-//                traceDao.editTrace(trace);
+                traceDao.editTrace(trace);
                 message.put("status", true);
             }
         } else {
