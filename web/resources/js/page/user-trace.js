@@ -1345,6 +1345,27 @@ $(document).ready(function () {
             }
         })
     })
+        .on('hidden.bs.modal', function () {
+            const user_type = $('._animals ._animal input').data().category;
+            let modal = $(this);
+            if (!availableFarmTypes.includes(user_type)) {
+                // 직접 입력 X
+                modal.find('input').val('');
+            } else {
+
+            }
+        })
+
+    $('#package-trace-created').on('hidden.bs.modal', function () {
+        const user_type = $('._animals ._animal input').data().category;
+        let modal = $(this);
+        if (!availableFarmTypes.includes(user_type)) {
+            // 직접 입력 X
+            modal.find('input').val('');
+        } else {
+
+        }
+    })
 
     $('#package-trace-created').find('input#bundle-trace-search').next().on('click', function () {
         let input = $('#bundle-trace-search');
@@ -2211,6 +2232,7 @@ $(document).ready(function () {
             }
         })
     })
+
 });
 
 

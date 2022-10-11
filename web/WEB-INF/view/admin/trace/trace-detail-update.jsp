@@ -939,6 +939,7 @@
                 $(this).addClass('d-none');
                 $('#breed-add-cancel').addClass('d-none');
                 $('#breed-add').removeClass('d-none');
+                alert('정보를 최종 반영하려면 화면 상단의 수정 버튼을 눌러야 수정 완료됩니다.');
             }
         })
             .on('click', '#breed-addr', function () {
@@ -991,6 +992,7 @@
                 $(this).addClass('d-none');
                 $('#process-add-cancel').addClass('d-none');
                 $('#process-add').removeClass('d-none');
+                alert('정보를 최종 반영하려면 화면 상단의 수정 버튼을 눌러야 수정 완료됩니다.');
             }
         }).on('click', '#process-addr', function () {
             let $input = $(this);
