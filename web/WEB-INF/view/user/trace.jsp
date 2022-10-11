@@ -340,9 +340,17 @@
                             <div class="col-12 d-flex flex-row">
                                 <div class="mt-16">
                                     <label data-label="checkbox" class="radio-item">
-                                        <input data-type="radio" data-value="수컷" type="radio" name="gender">
+                                        <input data-type="radio" data-value="거세" type="radio" name="gender">
                                         <span class="design"></span>
-                                        <span class="ml-16">수컷</span>
+                                        <span class="ml-16">거세</span>
+                                    </label>
+                                </div>
+
+                                <div class="mt-16 ml-24">
+                                    <label data-label="checkbox" class="radio-item">
+                                        <input data-type="radio" data-value="비거세" type="radio" name="gender">
+                                        <span class="design"></span>
+                                        <span class="ml-16">비거세</span>
                                     </label>
                                 </div>
 
