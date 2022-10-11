@@ -668,7 +668,7 @@
                                             };
                                             let kakaoLink = new KakaoLink(result.data.key, Kakao, {
                                                 container: '#kakao-share', // 카카오 공유하기 btn element ID
-                                                templateId: 83468,// TEMPLATE ID 기본 세팅 값
+                                                templateId: 84087,// TEMPLATE ID 기본 세팅 값
                                                 // 디자인 페이지에서 해당 값들에 맞게 가지고오면 됩니다 (제목, 사진 등)
                                                 templateArgs,
                                                 callback: () => {
