@@ -1,3 +1,4 @@
+<%@ page import="com.model.farm.trace.Trace" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
@@ -10,6 +11,10 @@
 <jsp:include page="../common/tab-overlay.jsp"/>
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
+<%
+    Trace trace = (Trace) request.getAttribute("trace");
+    System.out.println("up log : " + trace.getOther_info());
+%>
 <div id="content-wrapper" class="c-bg-gray">
     <div class="container">
         <!--테마별 키워드-->
@@ -67,6 +72,7 @@
                                     <th scope="col">출생 년 월일</th>
                                     <th scope="col">성별</th>
                                     <th scope="col">등급</th>
+                                    <th scope="col">백신 접종 유무</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -75,14 +81,20 @@
                                     <td>${trace.entity.birth eq null ? '-' : trace.entity.birth}</td>
                                     <td>${trace.entity.gender eq null ? '-' : trace.entity.gender}</td>
                                     <td>${trace.entity.rate eq null ? '-' : trace.entity.rate}</td>
+                                    <td>${trace.vaccine.vaccine_used ? '접종' : '접종 안함'}</td>
                                 </tr>
+                                <c:if test="${trace.vaccine.vaccine_used}">
+                                    <tr>
+                                        <td colspan="5">백신 정보 : ${trace.vaccine.vaccine_info}</td>
+                                    </tr>
+                                </c:if>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
 
-                <div class="row row pt-16 pl-16 pr-16">
+                <div class="row pt-16 pl-16 pr-16">
                     <div class="col-12 medium-h4 c-gray-dark-low">
                         사육 정보
                     </div>
@@ -143,7 +155,7 @@
                     </div>
                 </div>
 
-                <div class="row row pt-16 pl-16 pr-16">
+                <div class="row pt-16 pl-16 pr-16">
                     <div class="col-12 medium-h4 c-gray-dark-low">
                         도축 정보
                     </div>
@@ -166,22 +178,24 @@
                                     <tr>
                                         <td>${butchery.butchery_result == 'true' || butchery.butchery_result == 'Y' ? '합격' : '불합격'}</td>
                                         <td>${butchery.butchery_corp}
-                                            <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
-                                                 fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <g clip-path="url(#clip0_375_14409)">
-                                                    <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                          fill="#222222"/>
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_375_14409">
-                                                        <rect width="20" height="20" fill="white"/>
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
+                                            <c:if test="${butchery.butchery_url ne null}">
+                                                <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
+                                                     fill="none" class="cursor-pointer" data-href="${butchery.butchery_url}"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <g clip-path="url(#clip0_375_14409)">
+                                                        <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
+                                                              fill="#222222"/>
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_375_14409">
+                                                            <rect width="20" height="20" fill="white"/>
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                            </c:if>
                                         </td>
-                                        <td>${butchery.butchery_date}</td>
-                                        <td>${butchery.butchery_addr}</td>
+                                        <td><custom:numberDateFormat value="${butchery.butchery_date}"/></td>
+                                        <td>${butchery.butchery_addr} ${butchery.butchery_addr_spec}</td>
                                     </tr>
                                 </c:forEach>
                             </c:if>
@@ -197,7 +211,7 @@
                     </div>
                 </div>
 
-                <div class="row row pt-16 pl-16 pr-16">
+                <div class="row pt-16 pl-16 pr-16">
                     <div class="col-12 medium-h4 c-gray-dark-low">
                         가공 정보
                     </div>
@@ -244,6 +258,20 @@
                             </c:if>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+
+                <div class="row pt-16 pl-16 pr-16">
+                    <div class="col-12 medium-h4 c-gray-dark-low">
+                        기타 정보
+                    </div>
+                </div>
+
+                <div class="row p-16">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <textarea rows="8" readonly placeholder="기타 정보가 입력되지 않았습니다." class="form-control textarea-underline medium-h5 c-dark-gray-low">${trace.other_info}</textarea>
+                        </div>
                     </div>
                 </div>
             </div>

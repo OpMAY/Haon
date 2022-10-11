@@ -233,3 +233,11 @@ svg.bookmark.is-active path {
 ._bundle:hover {
     background-color: var(--gray-high-light);
 }
+
+textarea.form-control:disabled {
+    background-color: var(--gray-high-light);
+}
+
+textarea.form-control:read-only {
+    background-color: var(--gray-high-light);
+}

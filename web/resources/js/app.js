@@ -318,7 +318,7 @@ $(document).ready(function () {
     })
 
     /** Dropdown */
-    $('.dropdown-menu').on('click', 'a.dropdown-item', function (event) {
+    $(document).on('click', '.dropdown-menu a.dropdown-item', function (event) {
         let dropdown_item = this;
         let input = dropdown_item.closest('.dropdown').querySelector('[data-toggle="dropdown"] .dropdown-input');
         let text = dropdown_item.textContent.trim();

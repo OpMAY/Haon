@@ -1537,3 +1537,15 @@ input.form-control.input-box {
         transform: rotate(360deg);
     }
 }
+
+.form-group > textarea {
+    color: var(--gray-dark-low);
+    background-color: var(--basic-white);
+    padding: 12px 16px;
+}
+
+textarea.form-control.textarea-underline {
+    border-radius: 0;
+    border: var(--border-1px) var(--gray-high-light);
+    resize: none;
+}

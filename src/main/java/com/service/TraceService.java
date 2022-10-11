@@ -84,7 +84,7 @@ public class TraceService {
             if (farm == null) {
                 message.put("status", false);
             } else {
-//                traceDao.editTrace(trace);
+                traceDao.editTrace(trace);
                 message.put("status", true);
             }
         } else {
@@ -330,6 +330,7 @@ public class TraceService {
                         butchery.setButchery_corp(traceData.getButcheryPlaceNm());
                         butchery.setButchery_addr(traceData.getButcheryPlaceAddr());
                         butchery.setButchery_date(traceData.getButcheryYmd());
+                        butchery.setButchery_rate(entityData.getGradeNm());
                         butcheries.add(butchery);
                     } else if (info_type == 4) {
                         // 가공 및 포장 정보

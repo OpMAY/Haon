@@ -60,7 +60,7 @@ public class TraceCodeGenerator {
                     rateCode = "0";
                     break;
             }
-            switch (trace.getEntity().getRate()) {
+            switch (trace.getEntity().getGender()) {
                 case "수컷" :
                     genderCode = "1";
                     break;
@@ -85,7 +85,7 @@ public class TraceCodeGenerator {
             } else {
                 workCode = workCode.substring(0, 3);
             }
-            return workCode + rateCode + trace.getEntity().getEntity_type().getSpeciesCode() + genderCode + TokenGenerator.RandomIntegerToken(5);
+            return trace.getEntity().getEntity_type().getSpeciesCode() + rateCode + genderCode + workCode + TokenGenerator.RandomIntegerToken(5);
         }
     }
 
