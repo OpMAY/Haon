@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<div hidden id="haon_spinner"></div>
 <footer id="footer" class="container-fluid bg-dark">
     <div class="container">
         <div class="row">

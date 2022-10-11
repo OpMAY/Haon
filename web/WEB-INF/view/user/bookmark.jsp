@@ -479,6 +479,7 @@
             let type = this.dataset.type;
             let no = this.dataset.no;
             updateBookmark(type, no).then((result) => {
+            setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {

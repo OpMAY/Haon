@@ -518,6 +518,7 @@
         $('[data-action="delete"]').click(function (event) {
             let no = this.dataset.no;
             deleteCommunity('MANUAL', no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -601,6 +602,7 @@
         //comment event action
         $('[data-action="_delete"]').click(function (event) {
             deleteReviewReply('MANUAL', this.dataset.no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -616,6 +618,7 @@
         });
         $('[data-action="lock"]').click(function (event) {
             blockReview('LOCK', 'MANUAL', this.dataset.no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -631,6 +634,7 @@
         });
         $('[data-action="unlock"]').click(function (event) {
             blockReview('UNLOCK', 'MANUAL', this.dataset.no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {

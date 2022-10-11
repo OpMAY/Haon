@@ -233,6 +233,7 @@
             let last_comment_no = last_comment.dataset.commentNo * 1;
             console.log(last_comment_no);
             loadMoreComments('question', question_no, last_comment_no).then((result) => {
+                setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         result.data.comments.forEach((element, index) => {

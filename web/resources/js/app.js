@@ -239,6 +239,7 @@ $(document).ready(function () {
     register_buttons.forEach(function (register_button) {
         register_button.addEventListener('click', function (event) {
             loginCheck().then((result) => {
+            setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         location.href = '/user/trace';
@@ -304,9 +305,15 @@ $(document).ready(function () {
         let order = $('[data-type="order"]').closest('.dropdown').find('[data-toggle="dropdown"] .dropdown-input').data().type;
         if ($contents.length > 0) {
             let last_elem = $contents[$contents.length - 1];
-            loadMoreContents(type, last_elem.dataset.no, order, category).then((result) => listFormatOnResult(result, type, false))
+            loadMoreContents(type, last_elem.dataset.no, order, category).then((result) => {
+                setLoading(false);
+                listFormatOnResult(result, type, false)
+            })
         } else {
-            loadMoreContents(type, 0, order, category).then((result) => listFormatOnResult(result, type, false))
+            loadMoreContents(type, 0, order, category).then((result) => {
+                setLoading(false);
+                listFormatOnResult(result, type, false)
+            })
         }
     })
 
@@ -339,6 +346,7 @@ $(document).ready(function () {
 
     $('._logout').click(function (event) {
         logout().then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 viewModal({
                     vCenter: true,
@@ -376,9 +384,11 @@ $(document).ready(function () {
         let type = this.dataset.bookmark;
         let size = this.dataset.size;
         loginCheck().then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 if (result.data.status) {
                     updateBookmark(type, no).then((result) => {
+            setLoading(false);
                         console.log(result);
                         if (result.status === 'OK') {
                             if (result.data.status) {
@@ -560,9 +570,11 @@ $(document).ready(function () {
     }
     if (!location.pathname.includes('/auth/register') && !location.pathname.includes('/auth/oauth')) {
         loginCheck().then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 if (result.data.status) {
                     suspensionCheck().then((result) => {
+                        setLoading(false);
                         console.log(result);
                         if (result.status === 'OK') {
                             if (result.data.status) {
