@@ -491,8 +491,9 @@ $(document).ready(function () {
                                  * */
                                 let slaughter_tab = $editModal.find('#pills-slaughter-edit');
                                 let result = slaughter_tab.find('input[name=amniotic-edit-success]:checked');
+                                let butchery_use = $('input[name=use-amniotic]').is(':checked');
                                 const butcheries = [];
-                                if (result.length > 0) {
+                                if (butchery_use) {
                                     // 도축 정보가 입력 되었을 때
                                     console.log(result);
                                     if (breeds.length <= 0) {
@@ -1532,8 +1533,20 @@ $(document).ready(function () {
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="row">
+                                        
+                                        <div class="row mt-16">
+                                            <div class="col-12">
+                                                <label data-label="checkbox" class="radio-item">
+                                                    <input data-type="checkbox" data-value="true" type="checkbox"
+                                                           name="use-amniotic">
+                                                    <span class="checkbox"></span>
+                                                    <span class="text">도축 정보 사용</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="d-none" id="amniotic-div">
+                                            <div class="row mt-16">
                                             <div class="col-12 d-flex flex-row">
                                                 <div class="mt-16">
                                                     <label data-label="checkbox" class="radio-item">
@@ -1628,6 +1641,9 @@ $(document).ready(function () {
                                                 </div>
                                             </div>
                                         </div>
+                                        </div>
+
+                                        
 
 
                                     </div>
@@ -1641,7 +1657,7 @@ $(document).ready(function () {
                                                 <table class="table table-bordered trace-register-table">
                                                     <thead>
                                                     <tr>
-                                                        <th scope="col">업소 명</th>
+                                                        <th scope="col">사업자 명</th>
                                                         <th scope="col">소재지</th>
                                                         <th scope="col">가공 일자</th>
                                                         <th scope="col">삭제</th>
@@ -1650,7 +1666,7 @@ $(document).ready(function () {
                                                     <tbody>
                                                     <tr data-type="empty">
                                                         <td colspan="6">
-                                                            <span class="c-gray-light">가공 정보를 추가하세요.</span>
+                                                            <span class="c-gray-light">포장/가공 정보를 추가하세요.</span>
                                                         </td>
                                                     </tr>
                                                     </tbody>
@@ -1661,7 +1677,7 @@ $(document).ready(function () {
                                         <div class="row mt-32">
                                             <div class="col-12">
                                                 <span class="card-text _farm-type bold-h5 c-brand-green _add-new cursor-pointer">
-                                                    가공 정보 추가 +
+                                                    포장/가공 정보 추가 +
                                                 </span>
                                             </div>
                                         </div>
@@ -1678,6 +1694,19 @@ $(document).ready(function () {
                 defaultViewDate: 'today',
                 autoclose: true
             }).datepicker('setDate', 'now');
+        }
+    })
+    $('#trace-created').on('change', 'input[name=use-amniotic]', function () {
+        console.log('changed');
+        let modal = $(this).closest('.modal');
+        if ($(this).is(':checked')) {
+            modal.find('#amniotic-div').removeClass('d-none');
+        } else {
+            modal.find('#amniotic-div').addClass('d-none');
+            let inputs = modal.find('#amniotic-div').find('input');
+            inputs.each((idx, elem) => {
+                $(elem).val('');
+            })
         }
     })
 
@@ -2273,7 +2302,7 @@ $(document).ready(function () {
                 }
             }).open();
         })
-        .on('click', '#make-trace',function () {
+        .on('click', '#make-trace', function () {
             /** TODO
              * 1. 사육 -> 출하 정보 없이는 도축 정보 불가
              * 2. 도축 정보 없이는 가공 정보 입력 불가
@@ -2337,8 +2366,9 @@ $(document).ready(function () {
              * */
             let slaughter_tab = $('#pills-slaughter');
             let result = slaughter_tab.find('input[name=amniotic-success]:checked');
+            let butchery_use = $('input[name=use-amniotic]').is(':checked');
             const butcheries = [];
-            if (result.length > 0) {
+            if (butchery_use) {
                 // 도축 정보가 입력 되었을 때
                 if (breeds.length <= 0) {
                     viewAlert({content: '도축 정보를 등록하기 위해선 사육 정보는 필수입니다.', zIndex: MODAL_ALERT_ZINDEX});
@@ -2348,7 +2378,6 @@ $(document).ready(function () {
                     return false;
                 } else {
                     let butchery = {};
-                    let result = slaughter_tab.find('input[name=amniotic-success]');
                     let farm = slaughter_tab.find('input[name=amniotic-farm]').val();
                     let date = slaughter_tab.find('input[name=amniotic-date]').val();
                     let addr = slaughter_tab.find('input[name=amniotic-addr]').val();
@@ -2451,6 +2480,7 @@ $(document).ready(function () {
                 }
             })
         })
+
     function createProcessMakeTab($button) {
         let parent = $button.parent().parent();
         if (parent.prev().hasClass('_slaughter-table')) {
@@ -2458,16 +2488,16 @@ $(document).ready(function () {
                                             <div class="row mt-24">
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <label class="medium-h6 c-gray-dark-low">농장 명</label>
+                                                        <label class="medium-h6 c-gray-dark-low">사업장 명</label>
                                                         <input type="text"
-                                                               placeholder="농장 명 입력" name="slaughter-farm"
+                                                               placeholder="사업장 명 입력" name="slaughter-farm"
                                                                class="form-control input-underline input-brand-green medium-h4">
                                                     </div>
                                                 </div>
 
                                                 <div class="col-6">
                                                     <div class="form-group form-inner-button form-inner-label">
-                                                        <label class="medium-h6 c-gray-dark-low">가공 일자</label>
+                                                        <label class="medium-h6 c-gray-dark-low">포장/가공 일자</label>
                                                         <input type="text"
                                                                data-provide="datepicker"
                                                                readonly
@@ -2492,9 +2522,9 @@ $(document).ready(function () {
                                             <div class="row mt-32">
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                        <label class="medium-h6 c-gray-dark-low">농장 링크</label>
+                                                        <label class="medium-h6 c-gray-dark-low">사업장 링크</label>
                                                         <input type="text"
-                                                               placeholder="농장 링크 입력" name="slaughter-url"
+                                                               placeholder="사업장 링크 입력" name="slaughter-url"
                                                                class="form-control input-underline input-brand-green medium-h4">
                                                     </div>
                                                 </div>
