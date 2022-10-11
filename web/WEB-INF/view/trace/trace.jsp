@@ -167,19 +167,21 @@
                                     <tr>
                                         <td>${butchery.butchery_result == 'true' || butchery.butchery_result == 'Y' ? '합격' : '불합격'}</td>
                                         <td>${butchery.butchery_corp}
-<%--                                            <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"--%>
-<%--                                                 fill="none"--%>
-<%--                                                 xmlns="http://www.w3.org/2000/svg">--%>
-<%--                                                <g clip-path="url(#clip0_375_14409)">--%>
-<%--                                                    <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"--%>
-<%--                                                          fill="#222222"/>--%>
-<%--                                                </g>--%>
-<%--                                                <defs>--%>
-<%--                                                    <clipPath id="clip0_375_14409">--%>
-<%--                                                        <rect width="20" height="20" fill="white"/>--%>
-<%--                                                    </clipPath>--%>
-<%--                                                </defs>--%>
-<%--                                            </svg>--%>
+                                            <c:if test="${butchery.butchery_url ne null}">
+                                                <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
+                                                     fill="none" class="cursor-pointer" data-href="${butchery.butchery_url}"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <g clip-path="url(#clip0_375_14409)">
+                                                        <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
+                                                              fill="#222222"/>
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_375_14409">
+                                                            <rect width="20" height="20" fill="white"/>
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                            </c:if>
                                         </td>
                                         <td><custom:numberDateFormat value="${butchery.butchery_date}"/></td>
                                         <td>${butchery.butchery_addr}</td>

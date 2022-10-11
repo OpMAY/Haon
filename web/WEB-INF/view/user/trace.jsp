@@ -102,7 +102,9 @@
                                                 </div>
                                                 <div class="_bundle-body d-flex">
                                                     <span class="_livestock regular-h5 p-2">${trace.entity.entity_type.typeName}</span>
-                                                    <span class="regular-h5 p-2">${trace.entity.rate}</span>
+                                                    <c:if test="${trace.entity.rate ne null}">
+                                                        <span class="regular-h5 p-2">${trace.entity.rate}</span>
+                                                    </c:if>
                                                     <span class="regular-h5 p-2">${trace.entity.gender}</span>
                                                     <span class="regular-h5 p-2"><c:if
                                                             test="${trace.entity.birth ne null}"><custom:numberDateFormat value="${trace.entity.birth}"/> 출생</c:if></span>
@@ -260,45 +262,39 @@
                     <div class="_self-create-area">
                         <div class="row mt-32">
                             <div class="col-6">
-                                <div class="dropdown input-dropdown">
-                                    <div data-toggle="dropdown" aria-expanded="false"
-                                         class="form-group form-inner-button form-inner-label">
-                                        <label class="medium-h6 c-gray-dark-low">등급</label>
-                                        <input type="text"
-                                               placeholder="등급을 선택해주세요."
-                                               data-category="rate"
-                                               class="form-control input-box medium-h5 dropdown-input"
-                                               disabled>
-                                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_224_6214)">
-                                                <path d="M15.3673 13.9999L9.59235 8.22489L11.242 6.57523L18.6667 13.9999L11.242 21.4246L9.59235 19.7749L15.3673 13.9999Z"
-                                                      fill="#A9CC52"/>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_224_6214">
-                                                    <rect width="28" height="28" fill="white"
-                                                          transform="translate(0 28) rotate(-90)"/>
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="medium-h6 c-gray-dark-low">성별</label>
+                                        </div>
                                     </div>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item">
-                                            <div>1++</div>
-                                        </a>
-                                        <a class="dropdown-item">
-                                            <div>1+</div>
-                                        </a>
-                                        <a class="dropdown-item">
-                                            <div>1등급</div>
-                                        </a>
-                                        <a class="dropdown-item">
-                                            <div>2등급</div>
-                                        </a>
-                                        <a class="dropdown-item">
-                                            <div>3등급</div>
-                                        </a>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 d-flex flex-row">
+                                        <div class="mt-16">
+                                            <label data-label="checkbox" class="radio-item">
+                                                <input data-type="radio" data-value="거세" type="radio" name="gender">
+                                                <span class="design"></span>
+                                                <span class="ml-16">거세</span>
+                                            </label>
+                                        </div>
+
+                                        <div class="mt-16 ml-24">
+                                            <label data-label="checkbox" class="radio-item">
+                                                <input data-type="radio" data-value="비거세" type="radio" name="gender">
+                                                <span class="design"></span>
+                                                <span class="ml-16">비거세</span>
+                                            </label>
+                                        </div>
+
+                                        <div class="mt-16 ml-24">
+                                            <label data-label="checkbox" class="radio-item">
+                                                <input data-type="radio" data-value="암컷" type="radio" name="gender">
+                                                <span class="design"></span>
+                                                <span class="ml-16">암컷</span>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -327,43 +323,6 @@
                             </div>
 
                         </div>
-
-                        <div class="row mt-32">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label class="medium-h6 c-gray-dark-low">성별</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-12 d-flex flex-row">
-                                <div class="mt-16">
-                                    <label data-label="checkbox" class="radio-item">
-                                        <input data-type="radio" data-value="거세" type="radio" name="gender">
-                                        <span class="design"></span>
-                                        <span class="ml-16">거세</span>
-                                    </label>
-                                </div>
-
-                                <div class="mt-16 ml-24">
-                                    <label data-label="checkbox" class="radio-item">
-                                        <input data-type="radio" data-value="비거세" type="radio" name="gender">
-                                        <span class="design"></span>
-                                        <span class="ml-16">비거세</span>
-                                    </label>
-                                </div>
-
-                                <div class="mt-16 ml-24">
-                                    <label data-label="checkbox" class="radio-item">
-                                        <input data-type="radio" data-value="암컷" type="radio" name="gender">
-                                        <span class="design"></span>
-                                        <span class="ml-16">암컷</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="row mt-32">
                             <div class="col-12 p-20">
                                 <ul class="nav nav-pills mb-3" role="tablist">
@@ -449,24 +408,78 @@
                                         </div>
 
                                         <div class="d-none" id="amniotic-div">
-                                            <div class="row mt-16">
-                                                <div class="col-12 d-flex flex-row">
-                                                    <div class="mt-16">
-                                                        <label data-label="checkbox" class="radio-item">
-                                                            <input data-type="radio" data-value="true" type="radio"
-                                                                   name="amniotic-success">
-                                                            <span class="design"></span>
-                                                            <span class="ml-16">합격</span>
-                                                        </label>
+                                            <div class="row mt-32">
+                                                <div class="col-6">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label class="medium-h6 c-gray-dark-low">합격 여부</label>
+                                                            </div>
+                                                        </div>
                                                     </div>
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex flex-row">
+                                                            <div class="mt-16">
+                                                                <label data-label="checkbox" class="radio-item">
+                                                                    <input data-type="radio" data-value="true" type="radio"
+                                                                           name="amniotic-success">
+                                                                    <span class="design"></span>
+                                                                    <span class="ml-16">합격</span>
+                                                                </label>
+                                                            </div>
 
-                                                    <div class="mt-16 ml-24">
-                                                        <label data-label="checkbox" class="radio-item">
-                                                            <input data-type="radio" data-value="false" type="radio"
-                                                                   name="amniotic-success">
-                                                            <span class="design"></span>
-                                                            <span class="ml-16">불합격</span>
-                                                        </label>
+                                                            <div class="mt-16 ml-24">
+                                                                <label data-label="checkbox" class="radio-item">
+                                                                    <input data-type="radio" data-value="false" type="radio"
+                                                                           name="amniotic-success">
+                                                                    <span class="design"></span>
+                                                                    <span class="ml-16">불합격</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="dropdown input-dropdown">
+                                                        <div data-toggle="dropdown" aria-expanded="false"
+                                                             class="form-group form-inner-button form-inner-label" style="max-width: 100%">
+                                                            <label class="medium-h6 c-gray-dark-low">등급</label>
+                                                            <input type="text"
+                                                                   placeholder="등급을 선택해주세요."
+                                                                   data-category="rate"
+                                                                   class="form-control input-box medium-h5 dropdown-input"
+                                                                   disabled>
+                                                            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                <g clip-path="url(#clip0_224_6214)">
+                                                                    <path d="M15.3673 13.9999L9.59235 8.22489L11.242 6.57523L18.6667 13.9999L11.242 21.4246L9.59235 19.7749L15.3673 13.9999Z"
+                                                                          fill="#A9CC52"/>
+                                                                </g>
+                                                                <defs>
+                                                                    <clipPath id="clip0_224_6214">
+                                                                        <rect width="28" height="28" fill="white"
+                                                                              transform="translate(0 28) rotate(-90)"/>
+                                                                    </clipPath>
+                                                                </defs>
+                                                            </svg>
+                                                        </div>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item">
+                                                                <div>1++</div>
+                                                            </a>
+                                                            <a class="dropdown-item">
+                                                                <div>1+</div>
+                                                            </a>
+                                                            <a class="dropdown-item">
+                                                                <div>1등급</div>
+                                                            </a>
+                                                            <a class="dropdown-item">
+                                                                <div>2등급</div>
+                                                            </a>
+                                                            <a class="dropdown-item">
+                                                                <div>3등급</div>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -512,7 +525,7 @@
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">사업장 링크</label>
                                                         <input type="text"
-                                                               placeholder="사업장 링크 입력"
+                                                               placeholder="사업장 링크 입력" name="amniotic-url"
                                                                class="form-control input-underline input-brand-green medium-h4">
                                                     </div>
                                                 </div>
