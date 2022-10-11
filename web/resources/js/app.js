@@ -283,11 +283,14 @@ $(document).ready(function () {
 
     $('[data-href]').on('click', function (event) {
         let target = this.getAttribute('target');
+        let url = this.dataset.href;
+
         if (target !== null && target !== undefined) {
-            window.open(this.dataset.href);
+            window.open(url);
         } else {
-            location.href = this.dataset.href;
+            window.location.href = url;
         }
+
         event.preventDefault();
         event.stopPropagation();
     });

@@ -77,36 +77,45 @@ function commentDislikeClickEventListener() {
 }
 
 function deleteClickEventListener(event) {
-    let comment_element = this.closest('._comment');
-    deleteReviewReply(this.dataset.type, this.dataset.no).then((result) => {
-        console.log(result);
-        if (result.status === 'OK') {
-            if (result.data.status) {
-                let comment = result.data.comment;
-                console.log(comment_element);
-                /*TODO _comment-text 바꾸고, _info 바꾸고, _profile-img 바꾸고, 삭제 버튼 지우기*/
-                let comment_text = comment_element.querySelector('._comment-text');
-                comment_text.querySelector('._content').innerHTML = `${comment.content}`;
+    viewModal({
+        title: '댓글',
+        desc: '정말 댓글을 삭제하시겠습니까?',
+        backDrop: true,
+        btnCount: 2,
+        onConfirm: () => {
+            let comment_element = this.closest('._comment');
+            deleteReviewReply(this.dataset.type, this.dataset.no).then((result) => {
+                console.log(result);
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        let comment = result.data.comment;
+                        console.log(comment_element);
+                        /*TODO _comment-text 바꾸고, _info 바꾸고, _profile-img 바꾸고, 삭제 버튼 지우기*/
+                        let comment_text = comment_element.querySelector('._comment-text');
+                        comment_text.querySelector('._content').innerHTML = `${comment.content}`;
 
-                let comment_info = comment_element.querySelector('._info');
-                comment_info.querySelector('._name').innerHTML = `${comment.user.name}`;
+                        let comment_info = comment_element.querySelector('._info');
+                        comment_info.querySelector('._name').innerHTML = `${comment.user.name}`;
 
-                let comment_profile = comment_element.querySelector('._profile-img');
-                comment_profile.querySelector('img').src = `${comment.user.profile_img.url}`;
+                        let comment_profile = comment_element.querySelector('._profile-img');
+                        comment_profile.querySelector('img').src = `${comment.user.profile_img.url}`;
 
-                let transactions = comment_element.querySelector('._transactions');
-                let reply_parent = comment_element.closest('.reply-comment-container');
-                let reply_check = reply_parent !== null && reply_parent !== undefined ? true : false;
-                if (reply_check) {
-                    transactions.remove();
-                } else {
-                    transactions.querySelector('._reply ._delete').remove();
+                        let transactions = comment_element.querySelector('._transactions');
+                        let reply_parent = comment_element.closest('.reply-comment-container');
+                        let reply_check = reply_parent !== null && reply_parent !== undefined ? true : false;
+                        if (reply_check) {
+                            transactions.remove();
+                        } else {
+                            transactions.querySelector('._reply ._delete').remove();
+                        }
+
+                        viewAlert({content: '해당 메세지가 삭제되었습니다.'});
+                    }
                 }
-
-                viewAlert({content: '해당 메세지가 삭제되었습니다.'});
-            }
+            });
         }
-    });
+    })
+
 }
 
 function cancelClickEventListener() {
