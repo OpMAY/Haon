@@ -700,9 +700,11 @@
             let no = this.dataset.no;
             let type = this.dataset.commentLike;
             loginCheck().then((result) => {
+            setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         updateCommentLike(type, no).then((result) => {
+            setLoading(false);
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {
@@ -734,9 +736,11 @@
             let no = this.dataset.no;
             let type = this.dataset.commentDislike;
             loginCheck().then((result) => {
+            setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         updateCommentDislike(type, no).then((result) => {
+            setLoading(false);
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {

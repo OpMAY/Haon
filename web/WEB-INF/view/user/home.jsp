@@ -1541,6 +1541,7 @@
                 let button = document.querySelector('._writer-board').querySelector('._title-container .dropdown input[data-type]');
                 let item = this.closest('._comment_board-item');
                 deleteMyContent(item.querySelector('._board-container').dataset.type, item.querySelector('._board-container').dataset.no).then((result) => {
+                    setLoading(false);
                     console.log(result);
                     if (result.status === 'OK') {
                         if (result.data.status) {
@@ -1650,9 +1651,11 @@
             let no = this.dataset.no;
             let type = this.dataset.commentLike;
             loginCheck().then((result) => {
+            setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         updateCommentLike(type, no).then((result) => {
+            setLoading(false);
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {
@@ -1684,9 +1687,11 @@
             let no = this.dataset.no;
             let type = this.dataset.commentDislike;
             loginCheck().then((result) => {
+            setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         updateCommentDislike(type, no).then((result) => {
+            setLoading(false);
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {

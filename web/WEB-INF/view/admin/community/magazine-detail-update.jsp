@@ -564,6 +564,7 @@
         $('[data-action="delete"]').click(function (event) {
             let no = this.dataset.no;
             deleteCommunity('MAGAZINE', no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -647,6 +648,7 @@
         //comment event action
         $('[data-action="_delete"]').click(function (event) {
             deleteReviewReply('MAGAZINE', this.dataset.no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -662,6 +664,7 @@
         });
         $('[data-action="lock"]').click(function (event) {
             blockReview('LOCK', 'MAGAZINE', this.dataset.no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -677,6 +680,7 @@
         });
         $('[data-action="unlock"]').click(function (event) {
             blockReview('UNLOCK', 'MAGAZINE', this.dataset.no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -696,6 +700,7 @@
             let no = this.dataset.no;
             let type = this.dataset.type;
             magazineStatusUpdate(type, no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {

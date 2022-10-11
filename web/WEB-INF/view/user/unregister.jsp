@@ -69,6 +69,7 @@
         $('[data-action="unregister"]').on('click', function () {
             if ($('#agree').is(':checked')) {
                 withdrawal().then((result) => {
+                    setLoading(false);
                     console.log(result);
                     if (result.status === 'OK') {
                         if (result.data.status) {

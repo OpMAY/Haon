@@ -1183,6 +1183,7 @@
             let last_comment = display_comment_list[last_idx];
             let last_comment_no = last_comment.dataset.commentNo * 1;
             loadMoreComments('question', question_no, last_comment_no).then((result) => {
+                setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         result.data.comments.forEach((element, index) => {
@@ -1234,6 +1235,7 @@
 
         $('#question-section .section-title ._title button').on('click', function () {
             loginCheck().then((result) => {
+            setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         viewAlert({content: '질문하기 화면으로 넘어가기'});

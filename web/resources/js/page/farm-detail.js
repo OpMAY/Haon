@@ -30,6 +30,7 @@ $(document).ready(function () {
                     }
                 })
                 loadMoreFarmContents(dropdown_item.querySelector('div').dataset.type, farmNo, 0, $(category).data().type).then((result) => {
+                    setLoading(false);
                     console.log(result);
                     if (result.status === 'OK') {
                         if (item === 'boards') {
@@ -78,6 +79,7 @@ $(document).ready(function () {
                 let contentType = dropdown_item.closest('.dropdown').previousElementSibling.querySelector('[data-toggle="dropdown"] .dropdown-input');
                 console.log(dropdown_item.querySelector('div').dataset.value);
                 loadMoreFarmContents($(contentType).data().type, farmNo, 0, dropdown_item.querySelector('div').dataset.value).then((result) => {
+                    setLoading(false);
                     console.log(result);
                     if (result.status === 'OK') {
                         if (item === 'boards') {
@@ -135,6 +137,7 @@ $(document).ready(function () {
         if (!isNaN(last_comment_no)) {
             console.log(last_comment_no);
             loadMoreComments('question', question_no, last_comment_no).then((result) => {
+                setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         result.data.comments.forEach((element, index) => {
@@ -170,6 +173,7 @@ $(document).ready(function () {
             contentNo = $('._manual-deck').find('.col:last-child').data().no;
         }
         loadMoreFarmContents(contentType, farmNo, contentNo, categoryType).then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 let data = result.data.list;
                 if (data !== undefined && data !== null && data.length > 0) {

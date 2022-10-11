@@ -15,7 +15,10 @@ $('.dropdown-menu').on('click', 'a.dropdown-item', function (event) {
                     // 카테고리에 맞춰 새로 불러오기
                     let order = $('[data-type="order"]').closest('.dropdown').find('[data-toggle="dropdown"] .dropdown-input').data().type;
                     let category = dropdown_item.querySelector('div').dataset.value;
-                    loadMoreContents(item, 0, order, category).then((result) => listFormatOnResult(result, item, true))
+                    loadMoreContents(item, 0, order, category).then((result) => {
+                        setLoading(false);
+                        listFormatOnResult(result, item, true)
+                    })
                     if (item === 'farm') {
                         let header_farm_list_group = document.getElementById('header-desc').querySelector('.list-group:first-child');
                         let now_selected = header_farm_list_group.querySelector('.is-active');
@@ -43,7 +46,10 @@ $('.dropdown-menu').on('click', 'a.dropdown-item', function (event) {
                     // 순서에 맞춰 새로 불러오기
                     let category = $('[data-type="category"]').closest('.dropdown').find('[data-toggle="dropdown"] .dropdown-input').data().type;
                     let order = dropdown_item.querySelector('div').dataset.value;
-                    loadMoreContents(item, 0, order, category).then((result) => listFormatOnResult(result, item, true))
+                    loadMoreContents(item, 0, order, category).then((result) => {
+                        setLoading(false);
+                        listFormatOnResult(result, item, true)
+                    })
                 }
             }
             let text = dropdown_item.textContent.trim();

@@ -4,6 +4,7 @@ $('#tab-trace-search').next().on('click', function () {
         viewAlert({content: '검색할 이력 번호를 입력하세요.'});
     } else {
         searchByCode(value).then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 let showDiv = $('#tab-trace ._traces');
                 showDiv.children('._trace').remove();

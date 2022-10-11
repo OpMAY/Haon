@@ -603,3 +603,14 @@ const isValidUrl = urlString => {
         '(\\#[-a-z\\d_]*)?$', 'i'); // validate fragment locator
     return !!urlPattern.test(urlString);
 }
+
+const setLoading = (boolean) =>  {
+    const spinner = document.getElementById('haon_spinner');
+    if(spinner !== undefined && spinner !== null) {
+        if(boolean) {
+            spinner.removeAttribute('hidden');
+        } else {
+            spinner.setAttribute('hidden', 'hidden');
+        }
+    }
+}
