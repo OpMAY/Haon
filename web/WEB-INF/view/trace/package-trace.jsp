@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
 <jsp:include page="../common/head.jsp"/>
@@ -24,7 +23,7 @@
 
                     <div class="col-6">
                         <div class="form-group form-inner-button">
-                            <input type="text" placeholder="이력 번호 또는 묶음 번호 입력" id="trace-search"
+                            <input type="text" placeholder="이력 번호 또는 묶음 번호 입력"
                                    class="form-control input-box medium-h5">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -135,7 +134,6 @@
         $('._trace-detail').on('click', function () {
             window.open('/trace/single/' + $(this).data().no, '_blank');
         })
-
         $('#trace-search').next().on('click', function () {
             let value = $('#trace-search').val();
             if (value.trim().length <= 0) {

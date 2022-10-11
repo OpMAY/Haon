@@ -12,7 +12,7 @@ $(document).ready(function () {
             title: '이력 QR',
             desc: `<div class="d-flex flex-column align-items-center">
                         <div class="_qrArea mb-24">아래 이미지를 저장하여 QR 코드를 공유하세요.</div>
-                        <div id="trace-qr" class="mb-24"><a download="qrCode.png" data-code="${$(this).data().code}"></a></div>
+                        <div id="trace-qr" class="mb-24"><a download="qrCode.png"></a></div>
                         <button class="btn btn-brand-opacity btn-block" id="download-qr">QR 다운로드</button>
                     </div>`,
             confirm_text: '닫기',
@@ -1029,7 +1029,7 @@ $(document).ready(function () {
             backDrop: true,
             desc: `<div class="d-flex flex-column align-items-center">
                         <div class="_qrArea mb-24">아래 이미지를 저장하여 QR 코드를 공유하세요.</div>
-                        <div id="trace-qr" class="mb-24"><a download="qrCode.png" data-code="${$(this).data().code}"></a></div>
+                        <div id="trace-qr" class="mb-24"><a download="qrCode.png"></a></div>
                         <button class="btn btn-brand-opacity btn-block" id="download-qr">QR 다운로드</button>
                     </div>`,
             confirm_text: '닫기'
@@ -2803,7 +2803,7 @@ function getBreedTypeKor(type) {
             str = '등록';
             break;
         case 'AMNIOTIC' :
-            str = '양도';
+            str = '도축';
             break;
         case 'SLAUGHTER':
             str = '출하';

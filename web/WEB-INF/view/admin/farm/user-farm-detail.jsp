@@ -113,9 +113,9 @@
                                 <div class="row align-items-center">
                                     <div class="col-auto">
                                         <div class="avatar-lg">
-                                            <div class="background"
-                                                 style="padding-top: 100%; background-image: url('${user.farm.profile_image.url}'); border-radius: 50%;">
-                                            </div>
+                                            <img src="${user.farm.profile_image.url}"
+                                                 class="img-fluid rounded-circle"
+                                                 alt="user-img">
                                         </div>
                                     </div>
                                     <div class="col">
@@ -320,11 +320,11 @@
             let no = this.dataset.no;
             let reason = $('#suspend-reason').val();
             let type = $('#suspense-range-select option:selected').val();
-            if (type * 1 === 0) {
+            if(type * 1 === 0) {
                 alert('정지 기간을 선택해주세요.');
                 return false;
             }
-            if (reason.trim().length <= 0) {
+            if(reason.trim().length <= 0) {
                 alert('정지 사유를 입력해주세요.');
                 return false;
             } else if (reason.length > 255) {
@@ -332,8 +332,8 @@
                 return false;
             }
             userBan(no, reason, type * 1).then((result) => {
-                if (result.status === 'OK') {
-                    if (result.data.status) {
+                if(result.status === 'OK') {
+                    if(result.data.status) {
                         alert('해당 유저를 정지시켰습니다.');
                         window.location.reload();
                     } else {
@@ -371,7 +371,7 @@
         $('[data-action="delete"]').click(function (event) {
             let no = this.dataset.no;
             removeUserBan(no).then((result) => {
-                if (result.status === 'OK') {
+                if(result.status === 'OK') {
                     alert('해당 회원의 정지를 해제했습니다.');
                     window.location.reload();
                 }
