@@ -349,7 +349,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-auto">
+                                                                <div class="col-auto <c:if test="${trace.butchery.size() == 0}">d-none</c:if>">
                                                                     <div class="mb-2">
                                                                         <label class="form-label">도축장</label>
                                                                         <input type="text"
@@ -360,7 +360,7 @@
                                                                                class="form-control">
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-auto">
+                                                                <div class="col-auto <c:if test="${trace.butchery.size() == 0}">d-none</c:if>">
                                                                     <div class="mb-2">
                                                                         <label class="form-label">도축 일자</label>
                                                                         <input class="form-control"
@@ -371,7 +371,7 @@
                                                                                name="date">
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-12">
+                                                                <div class="col-12 <c:if test="${trace.butchery.size() == 0}">d-none</c:if>">
                                                                     <div class="mb-2">
                                                                         <label class="form-label">농장 링크</label>
                                                                         <input type="text"
@@ -382,7 +382,7 @@
                                                                                class="form-control">
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-6">
+                                                                <div class="col-6 <c:if test="${trace.butchery.size() == 0}">d-none</c:if>">
                                                                     <div class="mb-2">
                                                                         <label class="form-label">소재지</label>
                                                                         <input type="text"
@@ -393,7 +393,7 @@
                                                                                class="form-control">
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-auto">
+                                                                <div class="col-auto <c:if test="${trace.butchery.size() == 0}">d-none</c:if>">
                                                                     <div class="mb-2">
                                                                         <label class="form-label">상세 주소</label>
                                                                         <input type="text"
@@ -404,7 +404,7 @@
                                                                                class="form-control">
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-auto">
+                                                                <div class="col-auto <c:if test="${trace.butchery.size() == 0}">d-none</c:if>">
                                                                     <div class="mb-2">
                                                                         <label class="mb-2">도축 결과</label>
                                                                         <div class="d-flex">
@@ -634,6 +634,7 @@
             })
             if (!checkBreedCorrect(registerCount, amnioticCount, slaughterCount)) {
                 alert('사육 정보가 올바르지 않습니다.');
+                $('#update-modal').modal('hide');
                 return false;
             }
             // BUTCHERY
@@ -645,24 +646,29 @@
                 butcheryData.butchery_date = dateStringToKor($('#slaughter-datetime').val());
                 butcheryData.butchery_addr = $('#slaughter-addr').val();
                 butcheryData.butchery_addr_spec = $('#slaughter-addr-spec').val();
-                if (butcheryData.butchery_result.length <= 0) {
+                if (butcheryData.butchery_result === undefined || butcheryData.butchery_result === null || butcheryData.butchery_result.length <= 0) {
                     alert('도축 합격 여부를 입력해주세요.');
+                    $('#update-modal').modal('hide');
                     return false;
                 }
                 if (butcheryData.butchery_corp.trim().length <= 0) {
                     alert('도축장 명을 입력해주세요.');
+                    $('#update-modal').modal('hide');
                     return false;
                 }
                 if (butcheryData.butchery_date.trim().length <= 0) {
                     alert('도축 일자를 입력해주세요.');
+                    $('#update-modal').modal('hide');
                     return false;
                 }
                 if (butcheryData.butchery_addr.trim().length <= 0) {
                     alert('도축 소재지를 입력해주세요.');
+                    $('#update-modal').modal('hide');
                     return false;
                 }
                 if (butcheryData.butchery_addr_spec.trim().length <= 0) {
                     alert('도축 소재지 상세 주소를 입력해주세요.');
+                    $('#update-modal').modal('hide');
                     return false;
                 }
                 butchery.push(butcheryData);
@@ -673,6 +679,7 @@
             let p_datas = processTableBody.find('tr');
             if (!use_butchery && p_datas.length > 0) {
                 alert('도축 정보를 사용하지 않으면 가공 정보를 입력할 수 없습니다.');
+                $('#update-modal').modal('hide');
                 return false;
             }
             p_datas.each((index, item) => {
@@ -701,7 +708,6 @@
                     }
                 }
             })
-            // $('#update-modal').modal('hide');
         });
         //fetch get data
         $('#update-modal').on('show.bs.modal', function (event) {
@@ -934,20 +940,21 @@
                 $('#breed-add-cancel').addClass('d-none');
                 $('#breed-add').removeClass('d-none');
             }
-        }).on('click', '#breed-addr', function () {
-            console.log('clicked')
-            let $input = $(this);
-            new daum.Postcode({
-                oncomplete: function (data) {
-                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-                    // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-                    $input.val(data.address);
-                }
-            }).open();
         })
+            .on('click', '#breed-addr', function () {
+                console.log('clicked')
+                let $input = $(this);
+                new daum.Postcode({
+                    oncomplete: function (data) {
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+                        // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+                        $input.val(data.address);
+                    }
+                }).open();
+            })
 
         $('#process-make-div').on('click', '#process-add-confirm', function () {
-            if(confirm('가공 이력을 등록하시겠어요?')) {
+            if (confirm('가공 이력을 등록하시겠어요?')) {
                 let makeDiv = $('#process-make-div');
                 let table = $('#processing-b1 table tbody');
                 let corp = makeDiv.find('#process-corp').val();
@@ -1028,10 +1035,12 @@
             if ($(this).is(':checked')) {
                 divs.each((idx, elem) => {
                     $(elem).removeClass('d-none');
+                    $(elem).find('input').removeAttr('disabled');
                 })
             } else {
                 divs.each((idx, elem) => {
                     $(elem).addClass('d-none');
+                    $(elem).find('input').attr('disabled', 'disabled');
                 })
             }
         })
