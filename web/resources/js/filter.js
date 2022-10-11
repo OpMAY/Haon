@@ -76,6 +76,7 @@ function listFormatOnResult(result, item, is_new) {
             if(contents_elem.find('.no-data').length > 0){
                 contents_elem.find('.no-data').remove();
             }
+            $('._load').removeClass('d-none');
             switch (item) {
                 case 'board':
                     data.forEach((elem, idx) => {
@@ -516,6 +517,7 @@ function listFormatOnResult(result, item, is_new) {
             } else {
                 viewAlert({content: '더이상 불러올 데이터가 없습니다.'});
             }
+            $('._load').addClass('d-none');
         }
     }
 }

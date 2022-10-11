@@ -89,7 +89,7 @@
                                                 <div class="_board-list _comment-board-list">
                                                     <c:forEach items="${boards}" var="board" varStatus="status">
                                                         <div class="_comment_board-item">
-                                                            <div class="_board-container" data-no="${board.no}"
+                                                            <div class="_board-container" data-no="${board.no}" data-href="/community/board/detail/${board.no}"
                                                                  data-type="BOARD">
                                                                 <div class="_content ellipsis-one-line">
                                                                     <span class="medium-h4">[자유게시판] ${board.title}</span>
@@ -131,7 +131,7 @@
                                                         <c:choose>
                                                             <c:when test="${tip.thumbnail.url ne null}">
                                                                 <div class="col p-8 d-flex align-items-stretch">
-                                                                    <div class="card community-card" data-no="${tip.no}"
+                                                                    <div class="card community-card" data-no="${tip.no}" data-href="/community/tip/detail/${tip.no}"
                                                                          data-type="TIP">
                                                                         <div class="_close" data-no="${tip.no}"
                                                                              data-type="TIP">
@@ -168,7 +168,7 @@
                                                             <c:otherwise>
                                                                 <div class="col p-8 d-flex align-items-stretch">
                                                                     <div class="card community-card is-empty"
-                                                                         data-no="${tip.no}" data-type="TIP">
+                                                                         data-no="${tip.no}" data-type="TIP" data-href="/community/tip/detail/${tip.no}">
                                                                         <div class="_close" data-no="${tip.no}"
                                                                              data-type="TIP">
                                                                             <svg width="32"
@@ -219,7 +219,7 @@
                                                         <c:choose>
                                                             <c:when test="${manual.thumbnail.url ne null}">
                                                                 <div class="col p-8 d-flex align-items-stretch">
-                                                                    <div class="card community-card"
+                                                                    <div class="card community-card" data-href="/community/manual/detail/${manual.no}"
                                                                          data-no="${manual.no}"
                                                                          data-type="MANUAL">
                                                                         <div class="_close" data-no="${manual.no}"
@@ -256,7 +256,7 @@
                                                             </c:when>
                                                             <c:otherwise>
                                                                 <div class="col p-8 d-flex align-items-stretch"
-                                                                     data-no="${manual.no}" data-type="MANUAL">
+                                                                     data-no="${manual.no}" data-type="MANUAL" data-href="/community/manual/detail/${manual.no}">
                                                                     <div class="card community-card is-empty">
                                                                         <div class="_close" data-no="${manual.no}"
                                                                              data-type="MANUAL">
@@ -307,7 +307,7 @@
                                                 <div class="_board-list _comment-board-list">
                                                     <c:forEach items="${questions}" var="question" varStatus="status">
                                                         <div class="_comment_board-item">
-                                                            <div class="_board-container" data-no="${question.no}"
+                                                            <div class="_board-container" data-no="${question.no}" data-href="/community/question/detail/${question.no}"
                                                                  data-type="QUESTION">
                                                                 <div class="_content ellipsis-one-line">
                                                                     <span class="medium-h4">[질문과 답변] ${question.title}</span>
@@ -351,7 +351,7 @@
                                                             <c:when test="${magazine.thumbnail.url ne null}">
                                                                 <div class="col p-8 d-flex align-items-stretch">
                                                                     <div class="card community-card"
-                                                                         data-no="${magazine.no}"
+                                                                         data-no="${magazine.no}" data-href="/community/magazine/detail/${magazine.no}"
                                                                          data-type="MAGAZINE">
                                                                         <div class="_close" data-type="MAGAZINE"
                                                                              data-no="${magazine.no}">
@@ -387,7 +387,7 @@
                                                             </c:when>
                                                             <c:otherwise>
                                                                 <div class="col p-8 d-flex align-items-stretch">
-                                                                    <div class="card community-card is-empty"
+                                                                    <div class="card community-card is-empty" data-href="/community/magazine/detail/${magazine.no}"
                                                                          data-no="${magazine.no}" data-type="MAGAZINE">
                                                                         <div class="_close" data-type="MAGAZINE"
                                                                              data-no="${magazine.no}">

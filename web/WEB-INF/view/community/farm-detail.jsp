@@ -151,7 +151,7 @@
                                     <input type="text"
                                            class="form-control input-box medium-h5 dropdown-input"
                                            disabled="disabled"
-                                           value="자유게시판" data-type="board"
+                                           value="자유 게시판" data-type="board"
                                            id="board-filter1">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -200,11 +200,16 @@
                                     </svg>
                                 </div>
                                 <div class="dropdown-menu dropdown-md" data-type="category" data-item="boards">
-                                    <a class="dropdown-item">
+                                    <a class="dropdown-item" data-type="all">
                                         <div data-value="">전체</div>
                                     </a>
                                     <c:forEach var="category" items="${board_categories.categories}">
-                                        <a class="dropdown-item">
+                                        <a class="dropdown-item" data-type="board">
+                                            <div data-value="${category}">${category}</div>
+                                        </a>
+                                    </c:forEach>
+                                    <c:forEach var="category" items="${question_categories.categories}">
+                                        <a class="dropdown-item d-none" data-type="question">
                                             <div data-value="${category}">${category}</div>
                                         </a>
                                     </c:forEach>
@@ -229,8 +234,8 @@
                                 </c:forEach>
                             </c:if>
                             <c:if test="${boards.size() <= 0}">
-                                <div class="regular-h5" style="text-align: center">
-                                    <span>등록된 게시글이 없습니다.</span>
+                                <div class="w-100" style="text-align: center">
+                                    <span class="bold-h4 c-gray-light">등록된 컨텐츠가 없습니다.</span>
                                 </div>
                             </c:if>
                         </div>
@@ -239,7 +244,7 @@
 
                             </div>
                         </div>
-                        <div class="mt-20 _farmload" data-type="board">
+                        <div class="mt-20 _farmload <c:if test="${boards.size() == 0}">d-none</c:if>" data-type="board">
                             <button type="button" class="btn btn-brand-opacity btn-block bold-h5">
                                 더 불러오기
                             </button>
@@ -304,38 +309,45 @@
                                     </svg>
                                 </div>
                                 <div class="dropdown-menu dropdown-sm" data-type="category" data-item="tips">
-                                    <a class="dropdown-item">
+                                    <a class="dropdown-item" data-type="all">
                                         <div data-value="">전체</div>
                                     </a>
                                     <c:forEach var="category" items="${tip_categories.categories}">
-                                        <a class="dropdown-item">
+                                        <a class="dropdown-item" data-type="tip">
+                                            <div data-value="${category}">${category}</div>
+                                        </a>
+                                    </c:forEach>
+                                    <c:forEach var="category" items="${manual_categories.categories}">
+                                        <a class="dropdown-item d-none" data-type="manual">
                                             <div data-value="${category}">${category}</div>
                                         </a>
                                     </c:forEach>
                                 </div>
                             </div>
                         </div>
-                        <div class="row row-cols-2 _manual-deck">
-                            <c:forEach var="item" items="${tips}">
-                                <c:if test="${item.thumbnail.url ne null}">
-                                    <div class="col p-8 d-flex align-items-stretch" data-no="${item.no}"
-                                         data-type="tip">
-                                        <div class="card community-card">
-                                            <div class="background-image _thumbnail"
-                                                 style="background-image:url('${item.thumbnail.url}')">
-                                                <div class="background-image _profile"
-                                                     style="background-image:url('${item.profile_image.url}')"></div>
-                                            </div>
-                                            <div class="card-body _body">
-                                                <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
-                                                <div class="card-text _description medium-h5 c-gray-medium">${item.content}</div>
-                                            </div>
-                                            <div class="_footer">
+                        <div class="row <c:if test="${tips.size() > 0}">row-cols-2</c:if> _manual-deck">
+                            <c:choose>
+                                <c:when test="${tips.size() > 0}">
+                                    <c:forEach var="item" items="${tips}">
+                                        <c:if test="${item.thumbnail.url ne null}">
+                                            <div class="col p-8 d-flex align-items-stretch" data-no="${item.no}"
+                                                 data-type="tip">
+                                                <div class="card community-card">
+                                                    <div class="background-image _thumbnail"
+                                                         style="background-image:url('${item.thumbnail.url}')">
+                                                        <div class="background-image _profile"
+                                                             style="background-image:url('${item.profile_image.url}')"></div>
+                                                    </div>
+                                                    <div class="card-body _body">
+                                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
+                                                        <div class="card-text _description medium-h5 c-gray-medium">${item.content}</div>
+                                                    </div>
+                                                    <div class="_footer">
                                     <span class="_views medium-p1 c-gray-light">
                                       <span class="_count">${item.views}</span> Views
                                     </span>
-                                                <c:choose>
-                                                    <c:when test="${item._bookmark eq true}">
+                                                        <c:choose>
+                                                            <c:when test="${item._bookmark eq true}">
                                             <span class="_bookmark is-active" data-bookmark="TIP"
                                                   data-no="${item.no}">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -352,8 +364,8 @@
                                                           </defs>
                                                       </svg>
                                             </span>
-                                                    </c:when>
-                                                    <c:otherwise>
+                                                            </c:when>
+                                                            <c:otherwise>
                                             <span class="_bookmark" data-bookmark="TIP" data-no="${item.no}">
                                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg"><g
@@ -362,28 +374,28 @@
                                                            id="clip0_204_2957"><rect width="24.0923" height="24"
                                                                                      transform="translate(0.0500488)"/></clipPath></defs></svg>
                                             </span>
-                                                    </c:otherwise>
-                                                </c:choose>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </c:if>
-                                <c:if test="${item.thumbnail.url eq null}">
-                                    <div class="col p-8 d-flex align-items-stretch" data-no="${item.no}"
-                                         data-type="tip">
-                                        <div class="card community-card is-empty">
-                                            <div class="background-image _profile"
-                                                 style="background-image:url('${item.profile_image.url}')"></div>
-                                            <div class="card-body _body">
-                                                <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
-                                                <div class="card-text _description medium-h5 c-gray-medium">${item.content}</div>
-                                            </div>
-                                            <div class="_footer">
+                                        </c:if>
+                                        <c:if test="${item.thumbnail.url eq null}">
+                                            <div class="col p-8 d-flex align-items-stretch" data-no="${item.no}"
+                                                 data-type="tip">
+                                                <div class="card community-card is-empty">
+                                                    <div class="background-image _profile"
+                                                         style="background-image:url('${item.profile_image.url}')"></div>
+                                                    <div class="card-body _body">
+                                                        <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
+                                                        <div class="card-text _description medium-h5 c-gray-medium">${item.content}</div>
+                                                    </div>
+                                                    <div class="_footer">
                                     <span class="_views medium-p1 c-gray-light">
                                       <span class="_count">${item.views}</span> Views
                                     </span>
-                                                <c:choose>
-                                                    <c:when test="${item._bookmark eq true}">
+                                                        <c:choose>
+                                                            <c:when test="${item._bookmark eq true}">
                                             <span class="_bookmark is-active" data-bookmark="TIP"
                                                   data-no="${item.no}">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -400,8 +412,8 @@
                                                           </defs>
                                                       </svg>
                                             </span>
-                                                    </c:when>
-                                                    <c:otherwise>
+                                                            </c:when>
+                                                            <c:otherwise>
                                             <span class="_bookmark" data-bookmark="TIP" data-no="${item.no}">
                                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg"><g
@@ -410,15 +422,22 @@
                                                            id="clip0_204_2957"><rect width="24.0923" height="24"
                                                                                      transform="translate(0.0500488)"/></clipPath></defs></svg>
                                             </span>
-                                                    </c:otherwise>
-                                                </c:choose>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </c:if>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="w-100" style="text-align: center">
+                                        <span class="bold-h4 c-gray-light">등록된 컨텐츠가 없습니다.</span>
                                     </div>
-                                </c:if>
-                            </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
-                        <div class="mt-20 _farmload" data-type="tip">
+                        <div class="mt-20 _farmload <c:if test="${tips.size() == 0}">d-none</c:if>" data-type="tip">
                             <button type="button" class="btn btn-brand-opacity btn-block bold-h5">
                                 더 불러오기
                             </button>
@@ -748,10 +767,10 @@
 
         $('._sns').on('click', function () {
             let href = $(this).data().hrefCustom;
-            if(href.trim().length > 0) {
+            if (href.trim().length > 0) {
                 window.location.href = href;
             } else {
-                viewAlert({content : '농장주가 SNS 주소를 등록하지 않았습니다.'});
+                viewAlert({content: '농장주가 SNS 주소를 등록하지 않았습니다.'});
             }
         })
     });

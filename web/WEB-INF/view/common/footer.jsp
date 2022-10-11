@@ -28,19 +28,12 @@
                     <div class="ml-xl-auto col-2">
                         <span class="menu-title c-basic-white bold-h3">농장</span>
                         <ul class="list-unstyled menu-list">
-                            <li class="medium-h6"><a href="/community/farms">염소</a></li>
-                            <li class="medium-h6"><a href="/community/farms">소</a></li>
-                            <li class="medium-h6"><a href="/community/farms">양</a></li>
-                            <li class="medium-h6"><a href="/community/farms">닭</a></li>
-                            <li class="medium-h6"><a href="/community/farms">오리</a></li>
-                            <li class="medium-h6"><a href="/community/farms">돼지</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-2">
-                        <span class="menu-title c-basic-white bold-h3">축산</span>
-                        <ul class="list-unstyled menu-list">
-                            <li class="medium-h6"><a href="#">개인</a></li>
-                            <li class="medium-h6"><a href="#">기업</a></li>
+                            <li class="medium-h6"><a href="/community/farms?type=CATTLE">염소</a></li>
+                            <li class="medium-h6"><a href="/community/farms?type=PIG">소</a></li>
+                            <li class="medium-h6"><a href="/community/farms?type=FOWL">양</a></li>
+                            <li class="medium-h6"><a href="/community/farms?type=DUCK">닭</a></li>
+                            <li class="medium-h6"><a href="/community/farms?type=RABBIT">오리</a></li>
+                            <li class="medium-h6"><a href="/community/farms?type=HORSE">돼지</a></li>
                         </ul>
                     </div>
                     <div class="col-2">
@@ -54,7 +47,7 @@
                         </ul>
                     </div>
                     <div class="col-2">
-                        <span class="menu-title c-basic-white bold-h3">QR이력제</span>
+                        <span class="menu-title c-basic-white bold-h3">QR 이력제</span>
                         <ul class="list-unstyled menu-list">
                             <li class="medium-h6"><a class="_trace-search" href="javascript:void(0);">이력 안내</a></li>
                             <li class="medium-h6"><a class="_trace-search" href="javascript:void(0);">이력 조회</a></li>

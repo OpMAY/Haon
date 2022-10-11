@@ -33,6 +33,18 @@ $(document).ready(function () {
         let blog = target.closest('.modal').querySelector('[name="blog"]').value;
         let homepage = target.closest('.modal').querySelector('[name="homepage"]').value;
         console.log(instagram, blog, homepage);
+        if(instagram.trim().length > 0 && !isValidUrl(instagram)) {
+            viewAlert({content: '인스타그램 주소를 올바르게 입력해주세요.'});
+            return false;
+        }
+        if(blog.trim().length > 0 && !isValidUrl(blog)) {
+            viewAlert({content: '블로그 주소를 올바르게 입력해주세요.'});
+            return false;
+        }
+        if(homepage.trim().length > 0 && !isValidUrl(homepage)) {
+            viewAlert({content: '홈페이지 주소를 올바르게 입력해주세요.'});
+            return false;
+        }
         updateFarmHouseSNS(instagram, blog, homepage).then((result) => {
             if (result.status === 'OK') {
                 if (result.data.status) {
