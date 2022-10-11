@@ -148,6 +148,7 @@
                 console.log('checked');
                 console.log(this.getAttribute('name').toUpperCase());
                 updateAlarm(type, !value).then((result) => {
+                    setLoading(false);
                     if (result.status === 'OK') {
                         if (result.data.status) {
                             viewAlert({content: '알람을 업데이트 했습니다.'});
@@ -158,6 +159,7 @@
                 console.log('unchecked');
                 console.log(this.getAttribute('name').toUpperCase());
                 updateAlarm(type, value).then((result) => {
+                    setLoading(false);
                     if (result.status === 'OK') {
                         if (result.data.status) {
                             viewAlert({content: '알람을 업데이트 했습니다.'});

@@ -10,9 +10,11 @@ function commentLikeClickEventListener() {
     let no = this.dataset.no;
     let type = this.dataset.commentLike;
     loginCheck().then((result) => {
+            setLoading(false);
         if (result.status === 'OK') {
             if (result.data.status) {
                 updateCommentLike(type, no).then((result) => {
+            setLoading(false);
                     console.log(result);
                     if (result.status === 'OK') {
                         if (result.data.status) {
@@ -45,9 +47,11 @@ function commentDislikeClickEventListener() {
     let no = this.dataset.no;
     let type = this.dataset.commentDislike;
     loginCheck().then((result) => {
+            setLoading(false);
         if (result.status === 'OK') {
             if (result.data.status) {
                 updateCommentDislike(type, no).then((result) => {
+            setLoading(false);
                     console.log(result);
                     if (result.status === 'OK') {
                         if (result.data.status) {
@@ -85,6 +89,7 @@ function deleteClickEventListener(event) {
         onConfirm: () => {
             let comment_element = this.closest('._comment');
             deleteReviewReply(this.dataset.type, this.dataset.no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -157,6 +162,7 @@ function writeComment(element) {
         if (comment_no !== undefined && comment_no !== null) {
             let container = element.closest('.reply-comment-container');
             insertReviewReply(type, no, input.value.trim(), comment_no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -183,6 +189,7 @@ function writeComment(element) {
         } else {
             let container = element.closest('._comments');
             insertReview(type, no, input.value.trim()).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {

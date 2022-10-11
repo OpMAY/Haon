@@ -16,6 +16,7 @@ $(document).ready(function () {
         }
 
         updateFarmHouseDetails(description).then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 if (result.data.status) {
                     viewAlert({content: '농장 소개를 변경하였습니다.'});
@@ -46,6 +47,7 @@ $(document).ready(function () {
             return false;
         }
         updateFarmHouseSNS(instagram, blog, homepage).then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 if (result.data.status) {
                     modal.querySelector('[name="instagram"]').value = instagram;
@@ -63,6 +65,7 @@ $(document).ready(function () {
         let modal = target.closest('.modal');
         let name = modal.querySelector('[name="name"]').value;
         updateFarmHouseName(name).then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 if (result.data.status) {
                     $('.farm-detail ._info-container ._title ._text').html(`${name}`);
@@ -83,6 +86,7 @@ $(document).ready(function () {
         });
 
         updateFarmHouseHashTag(JSON.stringify(hashs)).then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 if (result.data.status) {
                     let hash_container = $('.farm-detail ._info-container ._recommends > div:first-child');
@@ -101,6 +105,7 @@ $(document).ready(function () {
         let modal = target.closest('.modal');
         let file_input = modal.querySelector('[type="file"]');
         updateFarmHouseProfile(file_input.files[0]).then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 if (result.data.status) {
                     viewAlert({content: '농장 프로필 이미지를 변경했습니다.'});
@@ -115,6 +120,7 @@ $(document).ready(function () {
         let modal = target.closest('.modal');
         let file_input = modal.querySelector('[type="file"]');
         updateFarmHouseBanner(file_input.files[0]).then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 if (result.data.status) {
                     viewAlert({content: '농장 이미지를 변경했습니다.'});

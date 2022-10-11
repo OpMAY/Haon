@@ -32,6 +32,7 @@ $(document).ready(function () {
         e.stopPropagation();
         getTraceModalData($(this).parent().data().no).then((result) => {
             console.log(result);
+            setLoading(false);
             if (result.status === 'OK') {
                 let tData = result.data.trace;
                 const modal1_id = tokenGenerator();
@@ -576,6 +577,7 @@ $(document).ready(function () {
 
                                 console.log('result data : ', sendData);
                                 editTrace(sendData).then((result) => {
+                                    setLoading(false);
                                     console.log(result);
                                     if (result.status === 'OK') {
                                         if (result.data.status) {
@@ -864,6 +866,8 @@ $(document).ready(function () {
         let $thisElem = $(this).parent().parent().parent();
         let no = $(this).parent().data().no;
         getTraceInBundle(no).then((result) => {
+            setLoading(false);
+            console.log(result);
             if(result.status) {
                 if(result.data.status) {
                     if(result.data.type) {
@@ -887,6 +891,7 @@ $(document).ready(function () {
                         desc: '해당 이력을 삭제하시겠어요?',
                         onConfirm: () => {
                             deleteTrace(no).then((result) => {
+                                setLoading(false);
                                 if (result.status === 'OK') {
                                     viewAlert({content: '삭제되었습니다.'})
                                     $thisElem.remove();
@@ -946,6 +951,7 @@ $(document).ready(function () {
 
     function bundleEditModalOpen(no) {
         getBundleModalData(no).then((result) => {
+            setLoading(false);
             console.log(result);
             if (result.status === 'OK') {
                 if (result.data.status) {
@@ -1067,6 +1073,7 @@ $(document).ready(function () {
                                         })
                                         console.log(list);
                                         updateManualBundle(list, bData.no).then((result) => {
+                                            setLoading(false);
                                             console.log(result);
                                             if (result.status === 'OK') {
                                                 if (result.data.status) {
@@ -1126,6 +1133,7 @@ $(document).ready(function () {
                             viewAlert({content: '조회할 이력번호를 입력하세요.', zIndex: MODAL_ALERT_ZINDEX});
                         } else {
                             getTraceByCode(code).then((result) => {
+                                setLoading(false);
                                 console.log(result);
                                 if (result.status === 'OK') {
                                     let dataStatus = result.data.status;
@@ -1256,6 +1264,7 @@ $(document).ready(function () {
             desc: '해당 이력을 삭제하시겠어요?<br><br>※ 묶음 이력만 삭제되며, 묶음 이력에 엮여진 이력은 삭제되지 않습니다.',
             onConfirm: () => {
                 deleteBundle(no).then((result) => {
+                    setLoading(false);
                     if (result.status === 'OK') {
                         viewAlert({content: '삭제되었습니다.'})
                         $thisElem.remove();
@@ -1282,6 +1291,7 @@ $(document).ready(function () {
         let $input = $('input#trace-search');
         console.log($input.val());
         findTrace($input.val()).then((result) => {
+            setLoading(false);
             console.log(result);
             if (result.status === 'OK') {
                 if (result.data.status) {
@@ -1296,6 +1306,7 @@ $(document).ready(function () {
                         onConfirm: () => {
                             // TODO result.data.data 로 Format 만들기
                             createTrace(result.data.data).then((result) => {
+                                setLoading(false);
                                 if (result.status === 'OK') {
                                     if (result.data.status) {
                                         viewModal({
@@ -1343,6 +1354,7 @@ $(document).ready(function () {
         } else {
             // TODO Search Registered Trace
             getTraceByCode(code).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     let dataStatus = result.data.status;
@@ -1385,6 +1397,7 @@ $(document).ready(function () {
             viewAlert({content: '조회할 묶음 번호를 입력하세요.', zIndex: MODAL_ALERT_ZINDEX});
         } else {
             getPublicBundle(code).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -1400,6 +1413,7 @@ $(document).ready(function () {
                             onConfirm: () => {
                                 // TODO result.data.data 로 Format 만들기
                                 createPublicBundle(result.data.data).then((result) => {
+                                    setLoading(false);
                                     if (result.status === 'OK') {
                                         if (result.data.status) {
                                             viewModal({
@@ -1459,6 +1473,7 @@ $(document).ready(function () {
                 list.push(no);
             })
             createManualBundle(list).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -2160,6 +2175,7 @@ $(document).ready(function () {
         console.log('result data : ', sendData);
         // MAKE
         createTrace(sendData).then((result) => {
+            setLoading(false);
             console.log(result);
             if (result.status === 'OK') {
                 if (result.data.status) {

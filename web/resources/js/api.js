@@ -29,6 +29,7 @@ async function apiLogin(email, password) {
             headers: myHeaders,
             body: raw,
         };
+        setLoading(true);
         const response = fetch(`${host}/auth/login`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -53,6 +54,7 @@ async function insertBookMark(type, no) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/${type}/bookmark/like/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -76,6 +78,7 @@ async function deleteBookMark(type, no) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/${type}/bookmark/unlike/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -99,6 +102,7 @@ async function insertFarmHouseLike(no) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/farmhouse/like/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -122,6 +126,7 @@ async function deleteFarmHouseLike(no) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/farmhouse/unlike/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -145,6 +150,7 @@ async function selectSearchRecent() {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/search/recent`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -168,6 +174,7 @@ async function selectSearchRecom() {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/search/recom`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -198,6 +205,7 @@ async function insertReview(type, no, content) {
             headers: myHeaders,
             body: raw
         };
+        setLoading(true);
         const response = fetch(`${host}/api/review/create`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -228,6 +236,7 @@ async function insertReview(type, no, content) {
             headers: myHeaders,
             body: raw
         };
+        setLoading(true);
         const response = fetch(`${host}/api/review/create`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -259,6 +268,7 @@ async function insertReviewReply(type, no, content, comment_no) {
             headers: myHeaders,
             body: raw
         };
+        setLoading(true);
         const response = fetch(`${host}/api/review/reply/create`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -289,6 +299,7 @@ async function insertMyReviewReply(type, no, content) {
             headers: myHeaders,
             body: raw
         };
+        setLoading(true);
         const response = fetch(`${host}/api/farmhouse/review/reply/create`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -312,6 +323,7 @@ async function updateMyReviewLike(type, no, status) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/${type}/review/${no}/${status}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -335,6 +347,7 @@ async function deleteMyReview(type, no, parent) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/${type}/review/delete/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -365,6 +378,7 @@ async function deleteReviewReply(type, no) {
             headers: myHeaders,
             body: raw
         };
+        setLoading(true);
         const response = fetch(`${host}/api/review/reply/delete`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -389,6 +403,7 @@ async function insertContentLike(type, no) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/${type}/content/like/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -413,6 +428,7 @@ async function deleteContentLike(type, no) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/${type}/content/unlike/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -437,6 +453,7 @@ async function deleteMyContent(type, no) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/${type}/content/delete/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -460,6 +477,7 @@ async function updateMyReviewLock(no, status) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/content/review/${no}/${status}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -486,6 +504,7 @@ async function updateFarmHouseProfile(file) {
             body: formData,
         };
 
+        setLoading(true);
         const response = fetch(`${host}/api/farmhouse/change/profile`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -512,6 +531,7 @@ async function updateFarmHouseBanner(file) {
             body: formData,
         };
 
+        setLoading(true);
         const response = fetch(`${host}/api/farmhouse/change/banner`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -541,6 +561,7 @@ async function updateFarmHouseName(name) {
             body: raw,
         };
 
+        setLoading(true);
         const response = fetch(`${host}/api/farmhouse/change/name`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -564,6 +585,7 @@ async function updateFarmHouseType(type) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/farmhouse/change/type/${type}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -592,6 +614,7 @@ async function updateFarmHouseDetails(details) {
             headers: myHeaders,
             body: raw,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/farmhouse/change/details`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -620,6 +643,7 @@ async function updateFarmHouseHashTag(json_hashs) {
             headers: myHeaders,
             body: raw,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/farmhouse/change/hashtag`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -649,6 +673,7 @@ async function updateFarmHouseSNS(instagram, blog, homepage) {
             headers: myHeaders,
             body: raw,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/farmhouse/change/sns`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -673,6 +698,7 @@ async function selectTrace(type, value) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/trace/${type}/${value}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -697,6 +723,7 @@ async function updateAlarm(type, value) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/alarm/update/${type}/${value}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -720,6 +747,7 @@ async function getKakaoKey() {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/get/kakao/key`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -743,6 +771,7 @@ async function logout() {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/logout`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -766,6 +795,7 @@ async function farmCheck() {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/farm/check`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -789,6 +819,7 @@ async function loginCheck() {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/login/check`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -812,6 +843,7 @@ async function suspensionCheck() {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/login/suspension`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -835,6 +867,7 @@ async function updateBookmark(type, no) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/bookmark/update/${type}/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -858,6 +891,7 @@ async function updateLike(type, no) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/like/update/${type}/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -883,6 +917,7 @@ async function loadMoreContents(type, last_content_no, order, category) {
         };
         console.log(`${host}/api/get/${type}/content/${last_content_no}/${order}/${category}`);
 
+        setLoading(true);
         const response = fetch(`${host}/api/get/${type}/content/${last_content_no}?order=${order}&category=${category}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -906,6 +941,7 @@ async function loadMoreComments(type, content_no, last_comment_no) {
             method: 'GET',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/get/${type}/comment/${content_no}/${last_comment_no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -933,6 +969,7 @@ async function loadMoreFarmContents(type, farm_no, content_no, category) {
 
         console.log(`${host}/api/get/${type}/farm/${farm_no}/content/${content_no}?category=${category === undefined ? '' : category}`);
 
+        setLoading(true);
         const response = fetch(`${host}/api/get/${type}/farm/${farm_no}/content/${content_no}?category=${category === undefined ? '' : category}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -957,6 +994,7 @@ async function updateCommentLike(type, no) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/like/comment/update/${type}/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -980,6 +1018,7 @@ async function updateCommentDislike(type, no) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/dislike/comment/update/${type}/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -1006,6 +1045,7 @@ async function withdrawal() {
             headers: myHeaders,
             body: raw,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/auth/withdrawal`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -1029,6 +1069,7 @@ async function findTrace(trace_code) {
             method: 'GET',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/get/public/trace/${trace_code}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -1053,6 +1094,7 @@ async function createTrace(trace) {
             headers: myHeaders,
             body: JSON.stringify(trace),
         };
+        setLoading(true);
         const response = fetch(`${host}/api/create/trace`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -1076,6 +1118,7 @@ async function deleteTrace(no) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/delete/trace/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -1099,6 +1142,7 @@ async function getTraceModalData(no) {
             method: 'GET',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/get/trace/modal/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -1122,6 +1166,7 @@ async function getBundleModalData(no) {
             method: 'GET',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/get/bundle/modal/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -1145,6 +1190,7 @@ async function getTraceByCode(code) {
             method: 'GET',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/get/trace/code/${code}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -1171,6 +1217,7 @@ async function createManualBundle(list) {
             headers: myHeaders,
             body: JSON.stringify(raw),
         };
+        setLoading(true);
         const response = fetch(`${host}/api/create/bundle/manual`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -1195,6 +1242,7 @@ async function getPublicBundle(code) {
             headers: myHeaders,
         };
 
+        setLoading(true);
         const response = fetch(`${host}/api/get/public/bundle/${code}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -1220,6 +1268,7 @@ async function createPublicBundle(bundle) {
             body: JSON.stringify(bundle),
         };
 
+        setLoading(true);
         const response = fetch(`${host}/api/create/bundle/public`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -1243,6 +1292,7 @@ async function deleteBundle(no) {
             method: 'POST',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/delete/bundle/${no}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -1266,6 +1316,7 @@ async function searchByCode(code) {
             method: 'GET',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/search/trace/${code}`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -1290,6 +1341,7 @@ async function editTrace(trace) {
             headers: myHeaders,
             body: JSON.stringify(trace),
         };
+        setLoading(true);
         const response = fetch(`${host}/api/update/trace`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -1316,6 +1368,7 @@ async function updateManualBundle(list, no) {
             headers: myHeaders,
             body: JSON.stringify(raw),
         };
+        setLoading(true);
         const response = fetch(`${host}/api/update/bundle`, requestOptions);
         return response.then((res) => res.json());
     }
@@ -1339,6 +1392,7 @@ async function getTraceInBundle(no) {
             method: 'GET',
             headers: myHeaders,
         };
+        setLoading(true);
         const response = fetch(`${host}/api/get/trace/bundle_check/${no}`, requestOptions);
         return response.then((res) => res.json());
     }

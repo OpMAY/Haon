@@ -485,6 +485,7 @@
         $('[data-action="delete"]').click(function (event) {
             let no = this.dataset.no;
             deleteCommunity('BOARD', no).then((result) => {
+                setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         alert('해당 게시글을 삭제하였습니다.');
@@ -567,6 +568,7 @@
         //comment event action
         $('[data-action="_delete"]').click(function (event) {
             deleteReviewReply('BOARD', this.dataset.no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -583,6 +585,7 @@
         $('[data-action="lock"]').click(function (event) {
             blockReview('LOCK', 'BOARD', this.dataset.no).then((result) => {
                 console.log(result);
+                setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         alert('해당 댓글을 비공개 처리 했습니다.');
@@ -598,6 +601,7 @@
         $('[data-action="unlock"]').click(function (event) {
             blockReview('UNLOCK', 'BOARD', this.dataset.no).then((result) => {
                 console.log(result);
+                setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         alert('해당 댓글을 공개 처리 했습니다.');

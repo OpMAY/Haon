@@ -513,9 +513,11 @@
             let no = this.dataset.no;
             let type = this.dataset.detailBookmark;
             loginCheck().then((result) => {
+            setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         updateBookmark(type, no).then((result) => {
+            setLoading(false);
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {
@@ -543,9 +545,11 @@
             let no = this.dataset.no;
             let type = this.dataset.detailLike;
             loginCheck().then((result) => {
+            setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         updateLike(type, no).then((result) => {
+            setLoading(false);
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {
@@ -577,9 +581,11 @@
             let no = this.dataset.no;
             let type = this.dataset.commentLike;
             loginCheck().then((result) => {
+            setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         updateCommentLike(type, no).then((result) => {
+            setLoading(false);
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {
@@ -611,9 +617,11 @@
             let no = this.dataset.no;
             let type = this.dataset.commentDislike;
             loginCheck().then((result) => {
+            setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         updateCommentDislike(type, no).then((result) => {
+            setLoading(false);
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {
@@ -642,6 +650,7 @@
             });
         });
         loginCheck().then((result) => {
+            setLoading(false);
             console.log('Login Check', result);
             if (result.status === 'OK') {
                 if (result.data.status) {
@@ -650,6 +659,7 @@
                         $.getScript('https://developers.kakao.com/sdk/js/kakao.js', function () {
                             // Stuff to do after someScript has loaded
                             getKakaoKey().then((result) => {
+                                setLoading(false);
                                 console.log('Kakao Key', result);
                                 if (result.status === 'OK') {
                                     if (result.data.status) {

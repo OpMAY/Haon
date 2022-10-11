@@ -486,6 +486,7 @@
         $('[data-action="delete"]').click(function (event) {
             let no = this.dataset.no;
             deleteCommunity('QUESTION', no).then((result) => {
+                setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         alert('해당 게시글을 삭제하였습니다.');
@@ -568,6 +569,7 @@
         //comment event action
         $('[data-action="_delete"]').click(function (event) {
             deleteReviewReply('QUESTION', this.dataset.no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -583,6 +585,7 @@
         });
         $('[data-action="lock"]').click(function (event) {
             blockReview('LOCK', 'QUESTION', this.dataset.no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -598,6 +601,7 @@
         });
         $('[data-action="unlock"]').click(function (event) {
             blockReview('UNLOCK', 'QUESTION', this.dataset.no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
