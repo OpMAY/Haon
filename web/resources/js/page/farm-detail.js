@@ -6,6 +6,7 @@ $(document).ready(function () {
     });
 
     $('.dropdown-menu a.dropdown-item').on('click', function () {
+        let $this_type = $(this).find('div').data().type;
         let type = $(this).parent().data().type;
         let item = $(this).parent().data().item;
         let dropdown_item = this;
@@ -14,33 +15,66 @@ $(document).ready(function () {
             // 카테고리에 맞춰 새로 불러오기
             if (type === 'switch') {
                 let category = dropdown_item.closest('.dropdown').nextElementSibling.querySelector('[data-toggle="dropdown"] .dropdown-input');
+                // change category lists
+                let category_dropdowns = dropdown_item.closest('.dropdown').nextElementSibling.querySelector('.dropdown-menu');
+                $(category_dropdowns).data('item', $this_type + 's')
+                let category_dropdowns_items = $(category_dropdowns).find(`a.dropdown-item`);
+                category_dropdowns_items.each((idx, elem) => {
+                    console.log($(elem).data().type, $this_type);
+                    if ($(elem).hasClass('d-none') && $(elem).data().type === $this_type) {
+                        $(elem).removeClass('d-none');
+                    } else {
+                        if ($(elem).data().type !== 'all') {
+                            $(elem).addClass('d-none');
+                        }
+                    }
+                })
                 loadMoreFarmContents(dropdown_item.querySelector('div').dataset.type, farmNo, 0, $(category).data().type).then((result) => {
                     console.log(result);
                     if (result.status === 'OK') {
                         if (item === 'boards') {
                             let data = result.data.list;
                             if (data !== undefined && data !== null && data.length > 0) {
+                                $(document).find(`._farmload[data-type="${$this_type}"]`).removeClass('d-none');
                                 updateDataOnBoards(dropdown_item.querySelector('div').dataset.type, $(category).data().type, data, true);
                             } else {
                                 let contents_elem = $('._board-list');
                                 contents_elem.children().remove();
-                                viewAlert({content: '조건에 일치하는 데이터가 없습니다.'});
+                                contents_elem.append(`<div class="w-100" style="text-align: center">
+                                    <span class="bold-h4 c-gray-light">등록된 컨텐츠가 없습니다.</span>
+                                </div>`);
+                                $(document).find(`._farmload[data-type="${$this_type}"]`).addClass('d-none');
+                                // viewAlert({content: '조건에 일치하는 데이터가 없습니다.'});
                             }
                         } else if (item === 'tips') {
                             let data = result.data.list;
+                            let contents_elem = $('._manual-deck');
                             if (data !== undefined && data !== null && data.length > 0) {
+                                $(document).find(`._farmload[data-type="${$this_type}"]`).removeClass('d-none');
+                                if (!contents_elem.hasClass('row-cols-2')) {
+                                    contents_elem.addClass('row-cols-2');
+                                }
                                 updateDataOnTips(dropdown_item.querySelector('div').dataset.type, $(category).data().type, data, true);
                             } else {
-                                let contents_elem = $('._manual-deck');
                                 contents_elem.children().remove();
-                                viewAlert({content: '조건에 일치하는 데이터가 없습니다.'});
+                                if (contents_elem.hasClass('row-cols-2')) {
+                                    contents_elem.removeClass('row-cols-2');
+                                }
+                                contents_elem.append(`<div class="w-100" style="text-align: center">
+                                    <span class="bold-h4 c-gray-light">등록된 컨텐츠가 없습니다.</span>
+                                </div>`);
+                                $(document).find(`._farmload[data-type="${$this_type}"]`).addClass('d-none');
+                                // viewAlert({content: '조건에 일치하는 데이터가 없습니다.'});
                             }
                         }
+                    } else {
+                        viewAlert({content: '통신 오류입니다. 잠시 후 다시 시도해주세요.'});
                     }
                 })
                 let cType = dropdown_item.querySelector('div').dataset.type;
                 $(input).data('type', cType);
-            } else if (type === 'category') {
+            }
+            else if (type === 'category') {
                 let contentType = dropdown_item.closest('.dropdown').previousElementSibling.querySelector('[data-toggle="dropdown"] .dropdown-input');
                 console.log(dropdown_item.querySelector('div').dataset.value);
                 loadMoreFarmContents($(contentType).data().type, farmNo, 0, dropdown_item.querySelector('div').dataset.value).then((result) => {
@@ -49,20 +83,32 @@ $(document).ready(function () {
                         if (item === 'boards') {
                             let data = result.data.list;
                             if (data !== undefined && data !== null && data.length > 0) {
+                                $(document).find(`._farmload[data-type="${$this_type}"]`).removeClass('d-none');
                                 updateDataOnBoards($(contentType).data().type, dropdown_item.querySelector('div').dataset.value, data, true);
                             } else {
                                 let contents_elem = $('._board-list');
                                 contents_elem.children().remove();
+                                contents_elem.append(`<div class="w-100" style="text-align: center">
+                                    <span class="bold-h4 c-gray-light">등록된 컨텐츠가 없습니다.</span>
+                                </div>`);
+                                $(document).find(`._farmload[data-type="${$this_type}"]`).addClass('d-none');
                                 viewAlert({content: '조건에 일치하는 데이터가 없습니다.'});
                             }
                         } else if (item === 'tips') {
                             let data = result.data.list;
                             if (data !== undefined && data !== null && data.length > 0) {
+                                $(document).find(`._farmload[data-type="${$this_type}"]`).removeClass('d-none');
                                 updateDataOnTips($(contentType).data().type, dropdown_item.querySelector('div').dataset.value, data, true);
                             } else {
                                 let contents_elem = $('._manual-deck');
-                                contents_elem.children().remove();
-                                viewAlert({content: '조건에 일치하는 데이터가 없습니다.'});
+                                if (contents_elem.hasClass('row-cols-2')) {
+                                    contents_elem.removeClass('row-cols-2');
+                                }
+                                contents_elem.append(`<div class="w-100" style="text-align: center">
+                                    <span class="bold-h4 c-gray-light">등록된 컨텐츠가 없습니다.</span>
+                                </div>`);
+                                $(document).find(`._farmload[data-type="${$this_type}"]`).addClass('d-none');
+                                // viewAlert({content: '조건에 일치하는 데이터가 없습니다.'});
                             }
                         }
                     }
@@ -109,6 +155,7 @@ $(document).ready(function () {
     });
 
     $('._farmload').on('click', function () {
+        let $this = $(this);
         let tab = this.closest('.tab-pane');
         // content type
         let contentType = $(tab).find('.dropdown:first-child input').data().type;
@@ -133,6 +180,7 @@ $(document).ready(function () {
                     }
                 } else {
                     viewAlert({content: '더이상 불러올 데이터가 없습니다.'});
+                    $this.addClass('d-none');
                 }
             } else {
                 viewAlert({content: '잘못된 접근입니다.'});
