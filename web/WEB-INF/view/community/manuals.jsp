@@ -240,7 +240,7 @@
                     </c:if>
                 </c:forEach>
             </div>
-            <div class="mt-20 _load" data-type="manual">
+            <div class="mt-20 _load <c:if test="${manuals.size() == 0}">d-none</c:if>" data-type="manual">
                 <button type="button" class="btn btn-brand-opacity btn-block bold-h5">
                     더 불러오기
                 </button>

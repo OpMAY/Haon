@@ -157,7 +157,7 @@
                     </div>
                 </c:forEach>
             </div>
-            <div class="mt-20 _load" data-type="board">
+            <div class="mt-20 _load <c:if test="${boards.size() == 0}">d-none</c:if>" data-type="board">
                 <button type="button" class="btn btn-brand-opacity btn-block bold-h5">
                     더 불러오기
                 </button>
