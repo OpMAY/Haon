@@ -838,9 +838,9 @@
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <div class="mb-2">
-                                                                        <label class="form-label">농장 링크 (선택)</label>
+                                                                        <label class="form-label">사업장 링크 (선택)</label>
                                                                         <input type="text"
-                                                                               placeholder="농장 링크를 입력해주세요."
+                                                                               placeholder="사업장 링크를 입력해주세요."
                                                                                value="" id="process-url"
                                                                                class="form-control">
                                                                     </div>

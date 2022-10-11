@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.model.farm.trace.Trace;
 import com.service.TraceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,9 @@ public class TraceController {
     @RequestMapping(value = "/single/{no}", method = RequestMethod.GET)
     public ModelAndView traceSinglePage(@PathVariable Integer no) {
         ModelAndView VIEW = new ModelAndView("trace/trace");
-        VIEW.addObject("trace", traceService.getTracePage(no));
+        Trace trace = traceService.getTracePage(no);
+        log.info("trace : {}", trace);
+        VIEW.addObject("trace", trace);
         return VIEW;
     }
 }

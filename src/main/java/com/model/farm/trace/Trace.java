@@ -14,4 +14,6 @@ public class Trace extends Time {
     private List<TraceBreed> breed;
     private List<TraceButchery> butchery;
     private List<TraceProcess> process;
+    private TraceVaccine vaccine;
+    private String other_info;
 }

@@ -1,3 +1,4 @@
+<%@ page import="com.model.farm.trace.Trace" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -11,6 +12,10 @@
 <jsp:include page="../common/tab-overlay.jsp"/>
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
+<%
+    Trace trace = (Trace) request.getAttribute("trace");
+    System.out.println("up log : " + trace.getOther_info());
+%>
 <div id="content-wrapper" class="c-bg-gray">
     <div class="container">
         <!--테마별 키워드-->
@@ -68,6 +73,7 @@
                                     <th scope="col">출생 년 월일</th>
                                     <th scope="col">성별</th>
                                     <th scope="col">등급</th>
+                                    <th scope="col">백신 접종 유무</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -76,14 +82,20 @@
                                     <td><custom:numberDateFormat value="${trace.entity.birth eq null ? '-' : trace.entity.birth}"/></td>
                                     <td>${trace.entity.gender eq null ? '-' : trace.entity.gender}</td>
                                     <td>${trace.entity.rate eq null ? '-' : trace.entity.rate}</td>
+                                    <td>${trace.vaccine.vaccine_used ? '접종' : '접종 안함'}</td>
                                 </tr>
+                                <c:if test="${trace.vaccine.vaccine_used}">
+                                    <tr>
+                                        <td colspan="5">백신 정보 : ${trace.vaccine.vaccine_info}</td>
+                                    </tr>
+                                </c:if>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
 
-                <div class="row row pt-16 pl-16 pr-16">
+                <div class="row pt-16 pl-16 pr-16">
                     <div class="col-12 medium-h4 c-gray-dark-low">
                         사육 정보
                     </div>
@@ -144,7 +156,7 @@
                     </div>
                 </div>
 
-                <div class="row row pt-16 pl-16 pr-16">
+                <div class="row pt-16 pl-16 pr-16">
                     <div class="col-12 medium-h4 c-gray-dark-low">
                         도축 정보
                     </div>
@@ -184,7 +196,7 @@
                                             </c:if>
                                         </td>
                                         <td><custom:numberDateFormat value="${butchery.butchery_date}"/></td>
-                                        <td>${butchery.butchery_addr}</td>
+                                        <td>${butchery.butchery_addr} ${butchery.butchery_addr_spec}</td>
                                     </tr>
                                 </c:forEach>
                             </c:if>
@@ -200,7 +212,7 @@
                     </div>
                 </div>
 
-                <div class="row row pt-16 pl-16 pr-16">
+                <div class="row pt-16 pl-16 pr-16">
                     <div class="col-12 medium-h4 c-gray-dark-low">
                         가공 정보
                     </div>
@@ -249,6 +261,20 @@
                             </c:if>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+
+                <div class="row pt-16 pl-16 pr-16">
+                    <div class="col-12 medium-h4 c-gray-dark-low">
+                        기타 정보
+                    </div>
+                </div>
+
+                <div class="row p-16">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <textarea rows="8" readonly placeholder="기타 정보가 입력되지 않았습니다." class="form-control textarea-underline medium-h5 c-dark-gray-low">${trace.other_info}</textarea>
+                        </div>
                     </div>
                 </div>
             </div>

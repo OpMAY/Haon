@@ -57,7 +57,8 @@
                                     </div>
                                 </div>
 
-                                <div class="medium-h5 c-brand-green cursor-pointer _trace-make">
+                                <div class="medium-h5 c-brand-green cursor-pointer _trace-make"
+                                     style="width: fit-content">
                                     이력 만들기
                                     <svg width="20"
                                          height="20"
@@ -94,7 +95,8 @@
                                                                 <span class="bold-h5 my-auto">수정</span>
                                                             </button>
                                                         </c:if>
-                                                        <button type="button" data-no="${trace.no}" data-code="${trace.trace_code}"
+                                                        <button type="button" data-no="${trace.no}"
+                                                                data-code="${trace.trace_code}"
                                                                 class="_qr btn btn-brand-opacity btn-block bold-h5">
                                                             QR
                                                         </button>
@@ -107,7 +109,8 @@
                                                     </c:if>
                                                     <span class="regular-h5 p-2">${trace.entity.gender}</span>
                                                     <span class="regular-h5 p-2"><c:if
-                                                            test="${trace.entity.birth ne null}"><custom:numberDateFormat value="${trace.entity.birth}"/> 출생</c:if></span>
+                                                            test="${trace.entity.birth ne null}"><custom:numberDateFormat
+                                                            value="${trace.entity.birth}"/> 출생</c:if></span>
                                                     <span class="regular-h5 _date ml-auto p-2"><custom:formatDatetime
                                                             value="${trace.reg_datetime}" pattern="yyyy.MM.dd"/></span>
                                                 </div>
@@ -121,7 +124,8 @@
                                     </c:if>
                                 </div>
 
-                                <div class="medium-h5 c-brand-green cursor-pointer _bundle-make d-none">
+                                <div class="medium-h5 c-brand-green cursor-pointer _bundle-make d-none"
+                                     style="width: fit-content">
                                     묶음 이력 만들기
                                     <svg width="20"
                                          height="20"
@@ -159,7 +163,8 @@
                                                                 <span class="bold-h5 my-auto">수정</span>
                                                             </button>
                                                         </c:if>
-                                                        <button type="button" data-no="${bundle.no}" data-code="${bundle.bundle_code}"
+                                                        <button type="button" data-no="${bundle.no}"
+                                                                data-code="${bundle.bundle_code}"
                                                                 class="_qr btn btn-brand-opacity btn-block bold-h5">
                                                             QR
                                                         </button>
@@ -205,7 +210,8 @@
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/bottom.jsp"/>
 <!-- Modal -->
-<div class="modal fade" id="trace-created" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="trace-created" tabindex="-1" aria-hidden="true" data-backdrop="static"
+     data-keyboard="false">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-md-max">
         <div class="modal-content">
             <div class="modal-header">
@@ -213,23 +219,29 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
+                    <div class="col-6">
+                        <div class="form-group mb-16">
                             <label class="medium-h6 c-gray-dark-low">개체 축종</label>
                         </div>
+                        <label data-label="checkbox" class="radio-item">
+                            <input data-type="radio" data-category="${farmType}" type="radio" name="animal" checked>
+                            <span class="design"></span>
+                            <span class="ml-16">${farmType.korName}</span>
+                        </label>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 d-flex _animals">
-                        <div class="_animal">
+                    <c:if test="${farmType.manual_available}">
+                        <div class="col-6">
+                            <div class="form-group mb-16">
+                                <label class="medium-h6 c-gray-dark-low">백신 접종</label>
+                            </div>
                             <label data-label="checkbox" class="radio-item">
-                                <input data-type="radio" data-category="${farmType}" type="radio" name="animal" checked>
-                                <span class="design"></span>
-                                <span class="ml-16">${farmType.korName}</span>
+                                <input data-type="checkbox" data-value="true" type="checkbox"
+                                       name="vaccine-check">
+                                <span class="checkbox"></span>
+                                <span class="text">백신 정보 있음</span>
                             </label>
                         </div>
-                    </div>
+                    </c:if>
                 </div>
 
                 <c:if test="${farmType.manual_available eq false}">
@@ -319,9 +331,17 @@
                                         </defs>
                                     </svg>
                                 </div>
-
                             </div>
-
+                        </div>
+                        <div class="row mt-32 d-none" id="vaccine-info">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="medium-h6 c-gray-dark-low">백신 정보</label>
+                                    <input type="text"
+                                           placeholder="백신 정보 입력" name="vaccine-input"
+                                           class="form-control input-underline input-brand-green medium-h4">
+                                </div>
+                            </div>
                         </div>
                         <div class="row mt-32">
                             <div class="col-12 p-20">
@@ -421,7 +441,8 @@
                                                         <div class="col-12 d-flex flex-row">
                                                             <div class="mt-16">
                                                                 <label data-label="checkbox" class="radio-item">
-                                                                    <input data-type="radio" data-value="true" type="radio"
+                                                                    <input data-type="radio" data-value="true"
+                                                                           type="radio"
                                                                            name="amniotic-success">
                                                                     <span class="design"></span>
                                                                     <span class="ml-16">합격</span>
@@ -430,7 +451,8 @@
 
                                                             <div class="mt-16 ml-24">
                                                                 <label data-label="checkbox" class="radio-item">
-                                                                    <input data-type="radio" data-value="false" type="radio"
+                                                                    <input data-type="radio" data-value="false"
+                                                                           type="radio"
                                                                            name="amniotic-success">
                                                                     <span class="design"></span>
                                                                     <span class="ml-16">불합격</span>
@@ -442,7 +464,8 @@
                                                 <div class="col-6">
                                                     <div class="dropdown input-dropdown">
                                                         <div data-toggle="dropdown" aria-expanded="false"
-                                                             class="form-group form-inner-button form-inner-label" style="max-width: 100%">
+                                                             class="form-group form-inner-button form-inner-label"
+                                                             style="max-width: 100%">
                                                             <label class="medium-h6 c-gray-dark-low">등급</label>
                                                             <input type="text"
                                                                    placeholder="등급을 선택해주세요."
@@ -535,7 +558,8 @@
                                                 <div class="col-6">
                                                     <label class="medium-h6 c-gray-dark-low">소재지</label>
                                                     <div class="form-group form-inner-button">
-                                                        <input type="text" placeholder="주소를 입력해주세요." data-type="postcode"
+                                                        <input type="text" placeholder="주소를 입력해주세요."
+                                                               data-type="postcode"
                                                                class="form-control input-box medium-h5 cursor-pointer postcode-init"
                                                                readonly
                                                                name="amniotic-addr"
@@ -558,8 +582,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
 
 
                                     </div>
@@ -602,6 +624,16 @@
                             </div>
 
                         </div>
+                        <div class="row mt-32">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="medium-h6 c-gray-dark-low">기타 정보</label>
+                                    <textarea type="text" rows="8"
+                                              placeholder="기타 정보 입력" name="other-info-input"
+                                              class="form-control textarea-underline input-brand-green medium-h4"></textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </c:if>
             </div>
@@ -621,7 +653,8 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="package-trace-created" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="package-trace-created" tabindex="-1" aria-hidden="true" data-backdrop="static"
+     data-keyboard="false">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">

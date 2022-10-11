@@ -83,24 +83,30 @@ $(document).ready(function () {
                     title: `이력 수정 - ${tData.trace_code}`,
                     largeModal: true,
                     backDrop: true,
-                    desc: `<div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="medium-h6 c-gray-dark-low">개체 축종</label>
-                        </div>
-                    </div>
-                </div>
+                    desc: `
                     <div class="row">
-                    <div class="col-12 d-flex _animals">
-                        <div class="_animal">
+                        <div class="col-6">
+                            <div class="form-group mb-16">
+                                <label class="medium-h6 c-gray-dark-low">개체 축종</label>
+                            </div>
                             <label data-label="checkbox" class="radio-item">
                                 <input data-type="radio" data-category="${tData.entity.entity_type}" type="radio" name="animal-edit" checked>
                                 <span class="design"></span>
                                 <span class="ml-16">${getEntityType(tData.entity.entity_type)}</span>
                             </label>
                         </div>
+                        <div class="col-6">
+                            <div class="form-group mb-16">
+                                <label class="medium-h6 c-gray-dark-low">백신 접종</label>
+                            </div>
+                            <label data-label="checkbox" class="radio-item">
+                                <input data-type="checkbox" data-value="true" type="checkbox" ${tData.vaccine.vaccine_used ? 'checked' : ''}
+                                       name="vaccine-edit-check">
+                                <span class="checkbox"></span>
+                                <span class="text">백신 정보 있음</span>
+                            </label>
+                        </div>
                     </div>
-                </div>
                     <div class="_self-create-area">
                         <div class="row mt-32">
                             <div class="col-6">
@@ -167,7 +173,16 @@ $(document).ready(function () {
                             </div>
 
                         </div>
-
+                        <div class="row mt-32 ${tData.vaccine.vaccine_used ? '' : 'd-none'}" id="vaccine-edit-info">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="medium-h6 c-gray-dark-low">백신 정보</label>
+                                    <input type="text"
+                                           placeholder="백신 정보 입력" name="vaccine-edit-input" value="${tData.vaccine.vaccine_used ? tData.vaccine.vaccine_info : ''}"
+                                           class="form-control input-underline input-brand-green medium-h4">
+                                </div>
+                            </div>
+                        </div>
                         <div class="row mt-32">
                             <div class="col-12 p-20">
                                 <ul class="nav nav-pills mb-3" role="tablist">
@@ -444,6 +459,16 @@ $(document).ready(function () {
                                 </div>
                             </div>
                         </div>
+                        <div class="row mt-32">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="medium-h6 c-gray-dark-low">기타 정보</label>
+                                    <textarea type="text" rows="8"
+                                              placeholder="기타 정보 입력" name="other-info-edit-input"
+                                              class="form-control textarea-underline input-brand-green medium-h4">${tData.other_info === null ? '' : tData.other_info}</textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>`,
                     confirm_text: '수정하기',
                     btnCount: 2,
@@ -456,6 +481,7 @@ $(document).ready(function () {
                             backDrop: true,
                             btnCount: 2,
                             onConfirm: () => {
+                                const sendData = {};
                                 let no = tData.no;
                                 console.log(no);
                                 /** TODO
@@ -464,6 +490,25 @@ $(document).ready(function () {
                                  * 3. Modal 닫을 때 모든 정보 날리기
                                  * */
                                 let $editModal = $(`#${modal1_id}`);
+                                let vaccine_use = $editModal.find('input[name=vaccine-edit-check]').is(':checked');
+                                let other_info = $editModal.find('textarea[name=other-info-edit-input]').val();
+                                let vaccine = {};
+                                vaccine.vaccine_used = vaccine_use;
+                                if (vaccine_use) {
+                                    let vaccine_info = $editModal.find('input[name=vaccine-edit-input]').val();
+                                    if (vaccine_info.trim().length <= 0) {
+                                        viewAlert({content: '백신 정보를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                                        return false;
+                                    }
+                                    vaccine.vaccine_info = vaccine_info
+                                }
+                                sendData.vaccine = vaccine;
+                                if(other_info.trim().length > 1000) {
+                                    viewAlert({content: '기타 정보는 최대 1000자까지 가능합니다.', zIndex: MODAL_ALERT_ZINDEX});
+                                    return false;
+                                }
+                                sendData.other_info = other_info.trim();
+
                                 let use_butchery = $editModal.find('input[name=use-amniotic]').is(':checked');
                                 // 등급
                                 let rate = $editModal.find('[data-category=rate]').val();
@@ -597,7 +642,6 @@ $(document).ready(function () {
                                     }
                                 }
                                 // TRACE DATA FORMAT
-                                const sendData = {};
                                 sendData.no = tData.no;
                                 sendData.farm_no = tData.farm_no;
                                 sendData.entity = entity;
@@ -898,6 +942,17 @@ $(document).ready(function () {
                                 $(elem).val('');
                             })
                             modal.find('')
+                        }
+                    })
+                    .on('change', 'input[name=vaccine-edit-check]', function () {
+                        let modal = $(this).closest('.modal');
+                        if ($(this).is(':checked')) {
+                            modal.find('#vaccine-edit-info').removeClass('d-none');
+                            modal.find('#vaccine-edit-input').removeAttr('readonly');
+                        } else {
+                            modal.find('#vaccine-edit-info').addClass('d-none');
+                            modal.find('#vaccine-edit-input').attr('readonly', 'readonly');
+                            modal.find('#vaccine-edit-input').val('');
                         }
                     })
                     .find('input[data-provide="datepicker"]').datepicker({
@@ -1411,6 +1466,7 @@ $(document).ready(function () {
             modal.find('input').val('');
         } else {
             console.log('else')
+            modal.find('input[name=vaccine-check]').prop('checked', false);
             modal.find('._self-create-area').children().remove();
             modal.find('._self-create-area').append(`<div class="row mt-32">
                             <div class="col-6">
@@ -1473,7 +1529,16 @@ $(document).ready(function () {
                                 </div>
 
                             </div>
-
+                        </div>
+                        <div class="row mt-32 d-none" id="vaccine-info">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="medium-h6 c-gray-dark-low">백신 정보</label>
+                                    <input type="text"
+                                           placeholder="백신 정보 입력" name="vaccine-input"
+                                           class="form-control input-underline input-brand-green medium-h4">
+                                </div>
+                            </div>
                         </div>
                         <div class="row mt-32">
                             <div class="col-12 p-20">
@@ -1752,7 +1817,16 @@ $(document).ready(function () {
                                     </div>
                                 </div>
                             </div>
-
+                        </div>
+                        <div class="row mt-32">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="medium-h6 c-gray-dark-low">기타 정보</label>
+                                    <textarea type="text" rows="8"
+                                              placeholder="기타 정보 입력" name="other-info-input"
+                                              class="form-control textarea-underline input-brand-green medium-h4"></textarea>
+                                </div>
+                            </div>
                         </div>`);
             modal.find('input[data-provide="datepicker"]').datepicker({
                 format: 'yyyy년 mm월 dd일',
@@ -1764,20 +1838,32 @@ $(document).ready(function () {
             }).datepicker('setDate', 'now');
         }
     })
-    $('#trace-created').on('change', 'input[name=use-amniotic]', function () {
-        console.log('changed');
-        let modal = $(this).closest('.modal');
-        if ($(this).is(':checked')) {
-            modal.find('#amniotic-div').removeClass('d-none');
-        } else {
-            modal.find('#amniotic-div').addClass('d-none');
-            let inputs = modal.find('#amniotic-div').find('input');
-            inputs.each((idx, elem) => {
-                $(elem).val('');
-            })
-            modal.find('')
-        }
-    })
+    $('#trace-created')
+        .on('change', 'input[name=use-amniotic]', function () {
+            console.log('changed');
+            let modal = $(this).closest('.modal');
+            if ($(this).is(':checked')) {
+                modal.find('#amniotic-div').removeClass('d-none');
+            } else {
+                modal.find('#amniotic-div').addClass('d-none');
+                let inputs = modal.find('#amniotic-div').find('input');
+                inputs.each((idx, elem) => {
+                    $(elem).val('');
+                })
+                modal.find('')
+            }
+        })
+        .on('change', 'input[name=vaccine-check]', function () {
+            let modal = $(this).closest('.modal');
+            if ($(this).is(':checked')) {
+                modal.find('#vaccine-info').removeClass('d-none');
+                modal.find('#vaccine-input').removeAttr('readonly');
+            } else {
+                modal.find('#vaccine-info').addClass('d-none');
+                modal.find('#vaccine-input').attr('readonly', 'readonly');
+                modal.find('#vaccine-input').val('');
+            }
+        })
 
     $('#package-trace-created').on('hidden.bs.modal', function () {
         const user_type = $('._animals ._animal input').data().category;
@@ -2372,12 +2458,32 @@ $(document).ready(function () {
             }).open();
         })
         .on('click', '#make-trace', function () {
-            /** TODO
+            /**
              * 1. 사육 -> 출하 정보 없이는 도축 정보 불가
              * 2. 도축 정보 없이는 가공 정보 입력 불가
              * 3. Modal 닫을 때 모든 정보 날리기
              * */
-                // 등급
+            const sendData = {};
+            // + 추가 (백신 정보, 기타 정보)
+            let vaccine_use = $('input[name=vaccine-check]').is(':checked');
+            let other_info = $('textarea[name=other-info-input]').val();
+            let vaccine = {};
+            vaccine.vaccine_used = vaccine_use;
+            if (vaccine_use) {
+                let vaccine_info = $('input[name=vaccine-input]').val();
+                if (vaccine_info.val().trim().length <= 0) {
+                    viewAlert({content: '백신 정보를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                    return false;
+                }
+                vaccine.vaccine_info = vaccine_info
+            }
+            sendData.vaccine = vaccine;
+            if(other_info.trim().length > 1000) {
+                viewAlert({content: '기타 정보는 최대 1000자까지 가능합니다.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            }
+            sendData.other_info = other_info.trim();
+            // 등급
             let butchery_use = $('input[name=use-amniotic]').is(':checked');
             let rate = $('[data-category=rate]').val();
             if (butchery_use && rate.trim().length === 0) {
@@ -2506,7 +2612,6 @@ $(document).ready(function () {
                 }
             }
             // TRACE DATA FORMAT
-            const sendData = {};
             sendData.entity = entity;
             sendData.breed = breeds;
             sendData.butchery = butcheries;
