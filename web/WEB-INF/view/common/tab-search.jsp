@@ -1,11 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.model.global.keyword.SearchKeyword" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    List<SearchKeyword> searchKeywordList = (List<SearchKeyword>) request.getAttribute("RECOMMEND_KEYWORDS");
-    request.setAttribute("RECOMMEND_KEYWORDS", searchKeywordList);
-%>
 <div id="tab-search" style="display: none;">
     <div class="form-group d-flex">
         <input type="text"

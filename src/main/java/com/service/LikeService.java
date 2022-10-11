@@ -239,16 +239,4 @@ public class LikeService {
     public int getDislikesByComment(Comment comment) {
         return likeDao.getDislikesByComment(comment);
     }
-
-    public boolean isTipLikeByUserNo(int tip_no, int user_no) {
-        return likeDao.isTipLikeByUserNo(tip_no, user_no);
-    }
-
-    public void deleteTipLike(int tip_no, int user_no) {
-        likeDao.deleteTipLike(tip_no, user_no);
-    }
-
-    public void insertTipLike(int tip_no, int user_no) {
-        likeDao.insertTipLike(tip_no, user_no);
-    }
 }
