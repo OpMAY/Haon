@@ -2471,8 +2471,7 @@ $(document).ready(function () {
             vaccine.vaccine_used = vaccine_use;
             if (vaccine_use) {
                 let vaccine_info = $('input[name=vaccine-input]').val();
-                console.log(vaccine_info);
-                if (vaccine_info.val().trim().length <= 0) {
+                if (vaccine_info.trim().length <= 0) {
                     viewAlert({content: '백신 정보를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
                     return false;
                 }

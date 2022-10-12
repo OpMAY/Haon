@@ -151,6 +151,16 @@
                                         <p class="text-muted"><custom:formatDatetime value="${trace.reg_datetime}"
                                                                                      pattern="yyyy.MM.dd"/></p>
                                     </div>
+                                    <div class="col-auto">
+                                        <label class="mb-1">백신 접종 여부</label>
+                                        <p class="text-muted">${trace.vaccine ne null ? (trace.vaccine.vaccine_used ? '접종' : '미접종') : '정보 없음'}</p>
+                                    </div>
+                                    <c:if test="${trace.vaccine ne null && trace.vaccine.vaccine_used}">
+                                    <div class="col-auto">
+                                        <label class="mb-1">백신 정보</label>
+                                        <p class="text-muted">${trace.vaccine.vaccine_info}</p>
+                                    </c:if>
+                                    </div>
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-auto">
@@ -318,6 +328,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <c:if test="${farm.type.manual_available}">
+                                        <div class="col-12 mt-3">
+                                            <div class="form-group">
+                                                <label class="form-label">기타 정보</label>
+                                                <textarea class="form-control" rows="8" readonly style="resize: none">${trace.other_info}</textarea>
+                                            </div>
+                                        </div>
+                                    </c:if>
                                 </div>
                             </div> <!-- end card body-->
                         </div> <!-- end card -->
