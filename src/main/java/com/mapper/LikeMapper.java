@@ -120,4 +120,10 @@ public interface LikeMapper {
     int getLikesByComment(Comment comment);
 
     int getDislikesByComment(Comment comment);
+
+    boolean isTipLikeByUserNo(@Param("tip_no") int tip_no, @Param("user_no") int user_no);
+
+    void deleteTipLike(@Param("tip_no") int tip_no, @Param("user_no") int user_no);
+
+    void insertTipLike(@Param("tip_no") int tip_no, @Param("user_no") int user_no);
 }

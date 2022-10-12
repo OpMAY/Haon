@@ -23,7 +23,7 @@
 
                     <div class="col-auto ml-auto">
                         <div class="form-group form-inner-button">
-                            <input type="text" placeholder="이력 번호 또는 묶음 번호 입력"
+                            <input type="text" placeholder="이력 번호 또는 묶음 번호 입력" id="trace-search"
                                    class="form-control input-box medium-h5" style="padding-right: 48px;">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">

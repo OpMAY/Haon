@@ -6,6 +6,7 @@
 <%@ page import="com.model.content.tips.Tips" %>
 <%@ page import="com.model.global.Banner" %>
 <%@ page import="com.model.farm.Farm" %>
+<%@ page import="com.model.global.keyword.SearchKeyword" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -34,6 +35,8 @@
     Magazine magazine = (Magazine) request.getAttribute("randomMagazine");
     request.setAttribute("randomMagazine", magazine);
 
+    List<SearchKeyword> searchKeywordList = (List<SearchKeyword>) request.getAttribute("keywords");
+    request.setAttribute("keywords", searchKeywordList);
 %>
 <html lang="ko">
 <jsp:include page="../common/head.jsp"/>
