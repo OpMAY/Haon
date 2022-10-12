@@ -362,21 +362,12 @@
 
         let thumbnail_file_input = document.querySelector('#file1');
         if (thumbnail_file_input !== null && thumbnail_file_input !== undefined) {
-            if (thumbnail_file_input.files.length !== 0) {
-                origin_thumbnail_input.value = JSON.stringify({
-                    name: origin_thumbnail_input.dataset.name,
-                    size: origin_thumbnail_input.dataset.size * 1,
-                    url: origin_thumbnail_input.dataset.url,
-                    type: origin_thumbnail_input.dataset.type,
-                });
-            } else {
-                origin_thumbnail_input.value = JSON.stringify({
-                    name: null,
-                    size: null,
-                    url: null,
-                    type: null,
-                });
-            }
+            origin_thumbnail_input.value = JSON.stringify({
+                name: origin_thumbnail_input.dataset.name,
+                size: origin_thumbnail_input.dataset.size * 1,
+                url: origin_thumbnail_input.dataset.url,
+                type: origin_thumbnail_input.dataset.type,
+            });
         }
         return return_check;
     }
