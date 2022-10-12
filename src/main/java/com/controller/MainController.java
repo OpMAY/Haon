@@ -1,11 +1,13 @@
 package com.controller;
 
+import com.dao.SearchKeywordDao;
 import com.model.content.board.Board;
 import com.model.content.magazine.Magazine;
 import com.model.content.manual.Manual;
 import com.model.content.question.QuestionSummary;
 import com.model.content.tips.Tips;
 import com.model.farm.Farm;
+import com.model.global.keyword.SearchKeyword;
 import com.service.ContentService;
 import com.service.GlobalService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ import java.util.List;
 public class MainController {
     private final GlobalService globalService;
     private final ContentService contentService;
+    private final SearchKeywordDao searchKeywordDao;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView mainHomePage(HttpServletRequest request) {
@@ -59,6 +62,7 @@ public class MainController {
         List<Magazine> magazines = contentService.getMagazineSearchResult(query, 0);
         List<QuestionSummary> questions = contentService.getQuestionSearchResult(query, 0);
         List<Farm> farms = contentService.getFarmSearchResult(query, 0);
+        List<SearchKeyword> keywords = searchKeywordDao.getAllKeywords();
         VIEW.addObject("boards", boards);
         VIEW.addObject("tips", tips);
         VIEW.addObject("manuals", manuals);
@@ -66,6 +70,7 @@ public class MainController {
         VIEW.addObject("questions", questions);
         VIEW.addObject("farms", farms);
         VIEW.addObject("query", query);
+        VIEW.addObject("keywords", keywords);
         return VIEW;
     }
 }

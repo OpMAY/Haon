@@ -113,9 +113,9 @@
                                 <div class="row align-items-center">
                                     <div class="col-auto">
                                         <div class="avatar-lg">
-                                            <img src="${user.farm.profile_image.url}"
-                                                 class="img-fluid rounded-circle"
-                                                 alt="user-img">
+                                            <div class="background"
+                                                 style="padding-top: 100%; background-image: url('${user.farm.profile_image.url}'); border-radius: 50%;">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col">

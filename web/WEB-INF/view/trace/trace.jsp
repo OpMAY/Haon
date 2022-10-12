@@ -1,4 +1,5 @@
 <%@ page import="com.model.farm.trace.Trace" %>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
@@ -78,7 +79,9 @@
                                 <tbody>
                                 <tr>
                                     <td>${trace.entity.entity_type.typeName}</td>
-                                    <td>${trace.entity.birth eq null ? '-' : trace.entity.birth}</td>
+                                    <td><custom:numberDateFormat
+                                            value="${trace.entity.birth eq null ? '-' : trace.entity.birth}"/
+                                    </td>
                                     <td>${trace.entity.gender eq null ? '-' : trace.entity.gender}</td>
                                     <td>${trace.entity.rate eq null ? '-' : trace.entity.rate}</td>
                                     <td>${trace.vaccine.vaccine_used ? '접종' : '접종 안함'}</td>
@@ -124,7 +127,8 @@
                                                     <svg style="padding-bottom: 2px;" width="20" height="20"
                                                          viewBox="0 0 20 20"
                                                          fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
+                                                         xmlns="http://www.w3.org/2000/svg" class="cursor-pointer"
+                                                         data-href="${breed.breed_farm_url}">
                                                         <g clip-path="url(#clip0_375_14409)">
                                                             <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
                                                                   fill="#222222"/>
@@ -137,7 +141,9 @@
                                                     </svg>
                                                 </c:if>
                                             </td>
-                                            <td>${breed.breed_issue_date eq null ? '-' : breed.breed_issue_date}</td>
+                                            <td><custom:numberDateFormat
+                                                    value="${breed.breed_issue_date eq null ? '-' : breed.breed_issue_date}"/>}
+                                            </td>
                                             <td>${breed.breed_farm_addr eq null ? '-' : breed.breed_farm_addr}</td>
                                         </tr>
                                     </c:forEach>
@@ -239,7 +245,8 @@
                                                 <svg style="padding-bottom: 2px;" width="20" height="20"
                                                      viewBox="0 0 20 20"
                                                      fill="none"
-                                                     xmlns="http://www.w3.org/2000/svg">
+                                                     xmlns="http://www.w3.org/2000/svg" class="cursor-pointer"
+                                                     data-href="${process.process_url}">
                                                     <g clip-path="url(#clip0_375_14409)">
                                                         <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
                                                               fill="#222222"/>
