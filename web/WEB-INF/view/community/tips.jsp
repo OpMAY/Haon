@@ -11,7 +11,7 @@
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
-    <div class="container">
+    <div class="container community-mobile-container">
         <!--테마별 키워드-->
         <section class="section sm-section mt-40 mb-40"
                  <c:if test="${tips.size() eq 0}">style="min-height:calc(100vh - 40px - 40px);"</c:if>>
@@ -138,7 +138,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row row-cols-4 community-container-deck _content-list">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 community-container-deck _content-list">
                 <c:forEach var="item" items="${tips}">
                     <c:if test="${item.thumbnail.url ne null}">
                         <div class="col p-8 d-flex align-items-stretch" data-no="${item.no}">

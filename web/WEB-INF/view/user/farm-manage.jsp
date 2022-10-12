@@ -41,7 +41,7 @@
     </div>
     <div class="container mt-96 mb-auto">
         <div class="row section farm-detail">
-            <div class="col-8 col-lg-6 mx-auto">
+            <div class="col-12 col-md-8 col-lg-8 col-xl-6 offset-md-2 offset-lg-2 offset-xl-3">
                 <div class="_info-container">
                     <div class="_title bold-subtitle c-gray-dark-low">
                         <div class="d-inline-block _text">

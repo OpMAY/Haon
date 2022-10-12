@@ -203,7 +203,7 @@
                 </div>
             </c:if>
             <c:if test="${boards.size() <= 0}">
-                <div class="bold-h4 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light res-empty-text" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
@@ -330,7 +330,7 @@
                 </div>
             </c:if>
             <c:if test="${tips.size() <= 0}">
-                <div class="bold-h4 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light res-empty-text" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
@@ -458,7 +458,7 @@
                 </div>
             </c:if>
             <c:if test="${manuals.size() <= 0}">
-                <div class="bold-h4 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light res-empty-text" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
@@ -586,7 +586,7 @@
                 </div>
             </c:if>
             <c:if test="${magazines.size() <= 0}">
-                <div class="bold-h4 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light res-empty-text" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
@@ -882,7 +882,7 @@
                 </div>
             </c:if>
             <c:if test="${questions.size() <= 0}">
-                <div class="bold-h4 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light res-empty-text" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
@@ -975,7 +975,7 @@
                 </div>
             </c:if>
             <c:if test="${farms.size() <= 0}">
-                <div class="bold-h4 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light res-empty-text" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>

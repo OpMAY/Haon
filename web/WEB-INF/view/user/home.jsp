@@ -25,7 +25,6 @@
 <jsp:include page="../common/head.jsp"/>
 <body>
 <jsp:include page="../common/header.jsp"/>
-<jsp:include page="../common/mobile-header.jsp"/>
 <jsp:include page="../common/header-desc.jsp"/>
 <jsp:include page="../common/left-sidebar.jsp"/>
 <jsp:include page="../common/right-sidebar.jsp"/>
@@ -33,7 +32,7 @@
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
-    <div class="container">
+    <div class="container mypage-container">
         <!--테마별 키워드-->
         <section class="section sm-section mt-40" style="min-height: calc(80vh);">
             <div class="row">
@@ -218,118 +217,255 @@
                                     <div class="tab-pane fade" id="TIP" role="tabpanel" aria-labelledby="TIP">
                                         <c:choose>
                                             <c:when test="${tips.size() ne 0}">
-                                                <div class="_board-list _comment-board-list">
-                                                    <c:forEach items="${tips}" var="tip" varStatus="status">
+                                                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 community-container-deck _content-list">
+                                                    <c:forEach var="tip" items="${tips}" varStatus="status">
                                                         <c:choose>
                                                             <c:when test="${status.count <= 4}">
-                                                                <div class="_comment_board-item">
-                                                                    <div class="_board-container" data-no="${tip.no}"
-                                                                         data-type="TIP">
-                                                                        <div class="_content ellipsis-one-line">
-                                                                            <span class="medium-h4">[팁과 노하우] ${tip.title}</span>
-                                                                        </div>
-                                                                        <div class="_info d-flex">
-                                                                            <div data-href="/user/board/update/TIP/${tip.no}">
-                                                                                <svg width="32"
-                                                                                     height="32"
-                                                                                     viewBox="0 0 32 32"
-                                                                                     fill="none"
-                                                                                     xmlns="http://www.w3.org/2000/svg">
-                                                                                    <circle cx="16" cy="16" r="16"
-                                                                                            fill="#6CBE03"
-                                                                                            fill-opacity="0.1"/>
-                                                                                    <g clip-path="url(#clip0_388_9621)">
-                                                                                        <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
-                                                                                              fill="#A9CC52"/>
-                                                                                    </g>
-                                                                                    <defs>
-                                                                                        <clipPath id="clip0_388_9621">
-                                                                                            <rect width="20" height="20"
-                                                                                                  fill="white"
-                                                                                                  transform="translate(6 6)"/>
-                                                                                        </clipPath>
-                                                                                    </defs>
-                                                                                </svg>
+                                                                <c:choose>
+                                                                    <c:when test="${tip.thumbnail.url ne null}">
+                                                                        <div class="col p-8 d-flex align-items-stretch"
+                                                                             data-no="${tip.no}" data-type="TIP">
+                                                                            <div class="card community-card">
+                                                                                <div class="background-image _thumbnail"
+                                                                                     style="background-image:url('${tip.thumbnail.url}')">
+                                                                                    <div class="background-image _profile"
+                                                                                         style="background-image:url('${tip.profile_image.url}')"></div>
+                                                                                </div>
+                                                                                <div class="card-body _body">
+                                                                                    <h5 class="card-title _title bold-h4 c-gray-dark-low">${tip.title}</h5>
+                                                                                    <div class="card-text _description medium-h5 c-gray-medium">${tip.content}</div>
+                                                                                </div>
+                                                                                <div class="_footer">
+                                                                                    <span class="_views medium-p1 c-gray-light">
+                                                                                        <span class="_count">${tip.views}</span> Views
+                                                                                    </span>
+                                                                                    <div class="ml-auto"
+                                                                                         data-href="/user/board/update/TIP/${tip.no}">
+                                                                                        <svg width="32" height="32"
+                                                                                             viewBox="0 0 32 32"
+                                                                                             fill="none"
+                                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                                            <circle cx="16" cy="16"
+                                                                                                    r="16"
+                                                                                                    fill="#6CBE03"
+                                                                                                    fill-opacity="0.1"></circle>
+                                                                                            <g clip-path="url(#clip0_388_9621)">
+                                                                                                <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
+                                                                                                      fill="#A9CC52"></path>
+                                                                                            </g>
+                                                                                            <defs>
+                                                                                                <clipPath
+                                                                                                        id="clip0_388_9621">
+                                                                                                    <rect width="20"
+                                                                                                          height="20"
+                                                                                                          fill="white"
+                                                                                                          transform="translate(6 6)"></rect>
+                                                                                                </clipPath>
+                                                                                            </defs>
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                    <div class="ml-8 _delete"
+                                                                                         data-type="TIP"
+                                                                                         data-no="${tip.no}">
+                                                                                        <svg width="32" height="32"
+                                                                                             viewBox="0 0 32 32"
+                                                                                             fill="none"
+                                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                                            <path fill-rule="evenodd"
+                                                                                                  clip-rule="evenodd"
+                                                                                                  d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
+                                                                                                  fill="#A9CC52"></path>
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
-                                                                            <div class="ml-8 _delete" data-type="TIP"
-                                                                                 data-no="${tip.no}">
-                                                                                <svg width="32"
-                                                                                     height="32"
-                                                                                     viewBox="0 0 32 32"
-                                                                                     fill="none"
-                                                                                     xmlns="http://www.w3.org/2000/svg">
-                                                                                    <path fill-rule="evenodd"
-                                                                                          clip-rule="evenodd"
-                                                                                          d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
-                                                                                          fill="#A9CC52"/>
-                                                                                </svg>
+                                                                        </div>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <div class="col p-8 d-flex align-items-stretch"
+                                                                             data-no="${tip.no}" data-type="TIP">
+                                                                            <div class="card community-card is-empty">
+                                                                                <div class="background-image _profile"
+                                                                                     style="background-image:url('${tip.profile_image.url}')"></div>
+                                                                                <div class="card-body _body">
+                                                                                    <h5 class="card-title _title bold-h4 c-gray-dark-low">${tip.title}</h5>
+                                                                                    <div class="card-text _description medium-h5 c-gray-medium">${tip.content}</div>
+                                                                                </div>
+                                                                                <div class="_footer">
+                                                                                    <span class="_views medium-p1 c-gray-light">
+                                                                                        <span class="_count">${tip.views}</span> Views
+                                                                                    </span>
+                                                                                    <div class="ml-auto"
+                                                                                         data-href="/user/board/update/TIP/${tip.no}">
+                                                                                        <svg width="32" height="32"
+                                                                                             viewBox="0 0 32 32"
+                                                                                             fill="none"
+                                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                                            <circle cx="16" cy="16"
+                                                                                                    r="16"
+                                                                                                    fill="#6CBE03"
+                                                                                                    fill-opacity="0.1"></circle>
+                                                                                            <g clip-path="url(#clip0_388_9621)">
+                                                                                                <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
+                                                                                                      fill="#A9CC52"></path>
+                                                                                            </g>
+                                                                                            <defs>
+                                                                                                <clipPath
+                                                                                                        id="clip0_388_9621">
+                                                                                                    <rect width="20"
+                                                                                                          height="20"
+                                                                                                          fill="white"
+                                                                                                          transform="translate(6 6)"></rect>
+                                                                                                </clipPath>
+                                                                                            </defs>
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                    <div class="ml-8 _delete"
+                                                                                         data-type="TIP"
+                                                                                         data-no="${tip.no}">
+                                                                                        <svg width="32" height="32"
+                                                                                             viewBox="0 0 32 32"
+                                                                                             fill="none"
+                                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                                            <path fill-rule="evenodd"
+                                                                                                  clip-rule="evenodd"
+                                                                                                  d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
+                                                                                                  fill="#A9CC52"></path>
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <c:if test="${tip._new_comment eq true}">
-                                                                        <div class="_paragraph regular-h5 c-brand-green">
-                                                                            새로운 댓글이 달렸어요!
-                                                                        </div>
-                                                                    </c:if>
-                                                                </div>
+                                                                    </c:otherwise>
+                                                                </c:choose>
                                                             </c:when>
                                                             <c:otherwise>
-                                                                <div class="_comment_board-item" style="display: none;">
-                                                                    <div class="_board-container" data-no="${tip.no}"
-                                                                         data-type="TIP">
-                                                                        <div class="_content ellipsis-one-line">
-                                                                            <span class="medium-h4">[팁과 노하우] ${tip.title}</span>
-                                                                        </div>
-                                                                        <div class="_info d-flex">
-                                                                            <div data-href="/user/board/update/TIP/${tip.no}">
-                                                                                <svg width="32"
-                                                                                     height="32"
-                                                                                     viewBox="0 0 32 32"
-                                                                                     fill="none"
-                                                                                     xmlns="http://www.w3.org/2000/svg">
-                                                                                    <circle cx="16" cy="16" r="16"
-                                                                                            fill="#6CBE03"
-                                                                                            fill-opacity="0.1"/>
-                                                                                    <g clip-path="url(#clip0_388_9621)">
-                                                                                        <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
-                                                                                              fill="#A9CC52"/>
-                                                                                    </g>
-                                                                                    <defs>
-                                                                                        <clipPath id="clip0_388_9621">
-                                                                                            <rect width="20" height="20"
-                                                                                                  fill="white"
-                                                                                                  transform="translate(6 6)"/>
-                                                                                        </clipPath>
-                                                                                    </defs>
-                                                                                </svg>
+                                                                <c:choose>
+                                                                    <c:when test="${tip.thumbnail.url ne null}">
+                                                                        <div class="col p-8 d-flex align-items-stretch"
+                                                                             data-no="${tip.no}" data-type="TIP"
+                                                                             style="display: none !important;">
+                                                                            <div class="card community-card">
+                                                                                <div class="background-image _thumbnail"
+                                                                                     style="background-image:url('${tip.thumbnail.url}')">
+                                                                                    <div class="background-image _profile"
+                                                                                         style="background-image:url('${tip.profile_image.url}')"></div>
+                                                                                </div>
+                                                                                <div class="card-body _body">
+                                                                                    <h5 class="card-title _title bold-h4 c-gray-dark-low">${tip.title}</h5>
+                                                                                    <div class="card-text _description medium-h5 c-gray-medium">${tip.content}</div>
+                                                                                </div>
+                                                                                <div class="_footer">
+                                                                                    <span class="_views medium-p1 c-gray-light">
+                                                                                        <span class="_count">${tip.views}</span> Views
+                                                                                    </span>
+                                                                                    <div class="ml-auto"
+                                                                                         data-href="/user/board/update/TIP/${tip.no}">
+                                                                                        <svg width="32" height="32"
+                                                                                             viewBox="0 0 32 32"
+                                                                                             fill="none"
+                                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                                            <circle cx="16" cy="16"
+                                                                                                    r="16"
+                                                                                                    fill="#6CBE03"
+                                                                                                    fill-opacity="0.1"></circle>
+                                                                                            <g clip-path="url(#clip0_388_9621)">
+                                                                                                <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
+                                                                                                      fill="#A9CC52"></path>
+                                                                                            </g>
+                                                                                            <defs>
+                                                                                                <clipPath
+                                                                                                        id="clip0_388_9621">
+                                                                                                    <rect width="20"
+                                                                                                          height="20"
+                                                                                                          fill="white"
+                                                                                                          transform="translate(6 6)"></rect>
+                                                                                                </clipPath>
+                                                                                            </defs>
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                    <div class="ml-8 _delete"
+                                                                                         data-type="TIP"
+                                                                                         data-no="${tip.no}">
+                                                                                        <svg width="32" height="32"
+                                                                                             viewBox="0 0 32 32"
+                                                                                             fill="none"
+                                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                                            <path fill-rule="evenodd"
+                                                                                                  clip-rule="evenodd"
+                                                                                                  d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
+                                                                                                  fill="#A9CC52"></path>
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
-                                                                            <div class="ml-8 _delete" data-type="TIP"
-                                                                                 data-no="${tip.no}">
-                                                                                <svg width="32"
-                                                                                     height="32"
-                                                                                     viewBox="0 0 32 32"
-                                                                                     fill="none"
-                                                                                     xmlns="http://www.w3.org/2000/svg">
-                                                                                    <path fill-rule="evenodd"
-                                                                                          clip-rule="evenodd"
-                                                                                          d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
-                                                                                          fill="#A9CC52"/>
-                                                                                </svg>
+                                                                        </div>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <div class="col p-8 d-flex align-items-stretch"
+                                                                             data-no="${tip.no}" data-type="TIP"
+                                                                             style="display: none !important;">
+                                                                            <div class="card community-card is-empty">
+                                                                                <div class="background-image _profile"
+                                                                                     style="background-image:url('${tip.profile_image.url}')"></div>
+                                                                                <div class="card-body _body">
+                                                                                    <h5 class="card-title _title bold-h4 c-gray-dark-low">${tip.title}</h5>
+                                                                                    <div class="card-text _description medium-h5 c-gray-medium">${tip.content}</div>
+                                                                                </div>
+                                                                                <div class="_footer">
+                                                                                    <span class="_views medium-p1 c-gray-light">
+                                                                                        <span class="_count">${tip.views}</span> Views
+                                                                                    </span>
+                                                                                    <div class="ml-auto"
+                                                                                         data-href="/user/board/update/TIP/${tip.no}">
+                                                                                        <svg width="32" height="32"
+                                                                                             viewBox="0 0 32 32"
+                                                                                             fill="none"
+                                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                                            <circle cx="16" cy="16"
+                                                                                                    r="16"
+                                                                                                    fill="#6CBE03"
+                                                                                                    fill-opacity="0.1"></circle>
+                                                                                            <g clip-path="url(#clip0_388_9621)">
+                                                                                                <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
+                                                                                                      fill="#A9CC52"></path>
+                                                                                            </g>
+                                                                                            <defs>
+                                                                                                <clipPath
+                                                                                                        id="clip0_388_9621">
+                                                                                                    <rect width="20"
+                                                                                                          height="20"
+                                                                                                          fill="white"
+                                                                                                          transform="translate(6 6)"></rect>
+                                                                                                </clipPath>
+                                                                                            </defs>
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                    <div class="ml-8 _delete"
+                                                                                         data-type="TIP"
+                                                                                         data-no="${tip.no}">
+                                                                                        <svg width="32" height="32"
+                                                                                             viewBox="0 0 32 32"
+                                                                                             fill="none"
+                                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                                            <path fill-rule="evenodd"
+                                                                                                  clip-rule="evenodd"
+                                                                                                  d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
+                                                                                                  fill="#A9CC52"></path>
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <c:if test="${tip._new_comment eq true}">
-                                                                        <div class="_paragraph regular-h5 c-brand-green">
-                                                                            새로운 댓글이 달렸어요!
-                                                                        </div>
-                                                                    </c:if>
-                                                                </div>
+                                                                    </c:otherwise>
+                                                                </c:choose>
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </c:forEach>
                                                 </div>
                                                 <c:if test="${tips.size() > 4}">
-                                                    <div class="_more medium-h4 c-brand-green">
+                                                    <div class="_more medium-h4 c-brand-green"
+                                                         style="margin-top: 16px !important;">
                                                         더보기
                                                     </div>
                                                 </c:if>
@@ -344,125 +480,262 @@
                                     <div class="tab-pane fade" id="MANUAL" role="tabpanel" aria-labelledby="MANUAL">
                                         <c:choose>
                                             <c:when test="${manuals.size() ne 0}">
-                                                <div class="_board-list _comment-board-list">
-                                                    <c:forEach items="${manuals}" var="manual" varStatus="status">
+                                                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 community-container-deck _content-list">
+                                                    <c:forEach var="manual" items="${manuals}" varStatus="status">
                                                         <c:choose>
                                                             <c:when test="${status.count <= 4}">
-                                                                <div class="_comment_board-item">
-                                                                    <div class="_board-container" data-no="${manual.no}"
-                                                                         data-type="MANUAL">
-                                                                        <div class="_content ellipsis-one-line">
-                                                                            <span class="medium-h4">[축산 매뉴얼] ${manual.title}</span>
-                                                                        </div>
-                                                                        <div class="_info d-flex">
-                                                                            <div data-href="/user/board/update/MANUAL/${manual.no}">
-                                                                                <svg width="32"
-                                                                                     height="32"
-                                                                                     viewBox="0 0 32 32"
-                                                                                     fill="none"
-                                                                                     xmlns="http://www.w3.org/2000/svg">
-                                                                                    <circle cx="16" cy="16" r="16"
-                                                                                            fill="#6CBE03"
-                                                                                            fill-opacity="0.1"/>
-                                                                                    <g clip-path="url(#clip0_388_9621)">
-                                                                                        <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
-                                                                                              fill="#A9CC52"/>
-                                                                                    </g>
-                                                                                    <defs>
-                                                                                        <clipPath id="clip0_388_9621">
-                                                                                            <rect width="20" height="20"
-                                                                                                  fill="white"
-                                                                                                  transform="translate(6 6)"/>
-                                                                                        </clipPath>
-                                                                                    </defs>
-                                                                                </svg>
+                                                                <c:choose>
+                                                                    <c:when test="${manual.thumbnail.url ne null}">
+                                                                        <div class="col p-8 d-flex align-items-stretch"
+                                                                             data-no="${manual.no}" data-type="MANUAL">
+                                                                            <div class="card community-card">
+                                                                                <div class="background-image _thumbnail"
+                                                                                     style="background-image:url('${manual.thumbnail.url}')">
+                                                                                    <div class="background-image _profile"
+                                                                                         style="background-image:url('${manual.profile_image.url}')"></div>
+                                                                                </div>
+                                                                                <div class="card-body _body">
+                                                                                    <h5 class="card-title _title bold-h4 c-gray-dark-low">${manual.title}</h5>
+                                                                                    <div class="card-text _description medium-h5 c-gray-medium">${manual.content}</div>
+                                                                                </div>
+                                                                                <div class="_footer">
+                                                                                    <span class="_views medium-p1 c-gray-light">
+                                                                                        <span class="_count">${manual.views}</span> Views
+                                                                                    </span>
+                                                                                    <div class="ml-auto"
+                                                                                         data-href="/user/board/update/MANUAL/${manual.no}">
+                                                                                        <svg width="32" height="32"
+                                                                                             viewBox="0 0 32 32"
+                                                                                             fill="none"
+                                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                                            <circle cx="16" cy="16"
+                                                                                                    r="16"
+                                                                                                    fill="#6CBE03"
+                                                                                                    fill-opacity="0.1"></circle>
+                                                                                            <g clip-path="url(#clip0_388_9621)">
+                                                                                                <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
+                                                                                                      fill="#A9CC52"></path>
+                                                                                            </g>
+                                                                                            <defs>
+                                                                                                <clipPath
+                                                                                                        id="clip0_388_9621">
+                                                                                                    <rect width="20"
+                                                                                                          height="20"
+                                                                                                          fill="white"
+                                                                                                          transform="translate(6 6)"></rect>
+                                                                                                </clipPath>
+                                                                                            </defs>
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                    <div class="ml-8 _delete"
+                                                                                         data-type="MANUAL"
+                                                                                         data-no="${manual.no}">
+                                                                                        <svg width="32" height="32"
+                                                                                             viewBox="0 0 32 32"
+                                                                                             fill="none"
+                                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                                            <path fill-rule="evenodd"
+                                                                                                  clip-rule="evenodd"
+                                                                                                  d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
+                                                                                                  fill="#A9CC52"></path>
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
-                                                                            <div class="ml-8 _delete" data-type="MANUAL"
-                                                                                 data-no="${manual.no}">
-                                                                                <svg width="32"
-                                                                                     height="32"
-                                                                                     viewBox="0 0 32 32"
-                                                                                     fill="none"
-                                                                                     xmlns="http://www.w3.org/2000/svg">
-                                                                                    <path fill-rule="evenodd"
-                                                                                          clip-rule="evenodd"
-                                                                                          d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
-                                                                                          fill="#A9CC52"/>
-                                                                                </svg>
+                                                                        </div>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <div class="col p-8 d-flex align-items-stretch"
+                                                                             data-no="${manual.no}" data-type="MANUAL">
+                                                                            <div class="card community-card is-empty">
+                                                                                <div class="background-image _profile"
+                                                                                     style="background-image:url('${manual.profile_image.url}')"></div>
+                                                                                <div class="card-body _body">
+                                                                                    <h5 class="card-title _title bold-h4 c-gray-dark-low">${manual.title}</h5>
+                                                                                    <div class="card-text _description medium-h5 c-gray-medium">${manual.content}</div>
+                                                                                </div>
+                                                                                <div class="_footer">
+                                                                                    <span class="_views medium-p1 c-gray-light">
+                                                                                        <span class="_count">${manual.views}</span> Views
+                                                                                    </span>
+                                                                                    <div class="ml-auto"
+                                                                                         data-href="/user/board/update/MANUAL/${manual.no}">
+                                                                                        <svg width="32" height="32"
+                                                                                             viewBox="0 0 32 32"
+                                                                                             fill="none"
+                                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                                            <circle cx="16" cy="16"
+                                                                                                    r="16"
+                                                                                                    fill="#6CBE03"
+                                                                                                    fill-opacity="0.1"></circle>
+                                                                                            <g clip-path="url(#clip0_388_9621)">
+                                                                                                <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
+                                                                                                      fill="#A9CC52"></path>
+                                                                                            </g>
+                                                                                            <defs>
+                                                                                                <clipPath
+                                                                                                        id="clip0_388_9621">
+                                                                                                    <rect width="20"
+                                                                                                          height="20"
+                                                                                                          fill="white"
+                                                                                                          transform="translate(6 6)"></rect>
+                                                                                                </clipPath>
+                                                                                            </defs>
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                    <div class="ml-8 _delete"
+                                                                                         data-type="MANUAL"
+                                                                                         data-no="${manual.no}">
+                                                                                        <svg width="32" height="32"
+                                                                                             viewBox="0 0 32 32"
+                                                                                             fill="none"
+                                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                                            <path fill-rule="evenodd"
+                                                                                                  clip-rule="evenodd"
+                                                                                                  d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
+                                                                                                  fill="#A9CC52"></path>
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <c:if test="${manual._new_comment eq true}">
-                                                                        <div class="_paragraph regular-h5 c-brand-green">
-                                                                            새로운 댓글이 달렸어요!
-                                                                        </div>
-                                                                    </c:if>
-                                                                </div>
+                                                                    </c:otherwise>
+                                                                </c:choose>
                                                             </c:when>
                                                             <c:otherwise>
-                                                                <div class="_comment_board-item" style="display: none;">
-                                                                    <div class="_board-container" data-no="${manual.no}"
-                                                                         data-type="MANUAL">
-                                                                        <div class="_content ellipsis-one-line">
-                                                                            <span class="medium-h4">[축산 메뉴얼] ${manual.title}</span>
-                                                                        </div>
-                                                                        <div class="_info d-flex">
-                                                                            <div data-href="/user/board/update/MANUAL/${manual.no}">
-                                                                                <svg width="32"
-                                                                                     height="32"
-                                                                                     viewBox="0 0 32 32"
-                                                                                     fill="none"
-                                                                                     xmlns="http://www.w3.org/2000/svg">
-                                                                                    <circle cx="16" cy="16" r="16"
-                                                                                            fill="#6CBE03"
-                                                                                            fill-opacity="0.1"/>
-                                                                                    <g clip-path="url(#clip0_388_9621)">
-                                                                                        <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
-                                                                                              fill="#A9CC52"/>
-                                                                                    </g>
-                                                                                    <defs>
-                                                                                        <clipPath id="clip0_388_9621">
-                                                                                            <rect width="20" height="20"
-                                                                                                  fill="white"
-                                                                                                  transform="translate(6 6)"/>
-                                                                                        </clipPath>
-                                                                                    </defs>
-                                                                                </svg>
+                                                                <c:choose>
+                                                                    <c:when test="${manual.thumbnail.url ne null}">
+                                                                        <div class="col p-8 d-flex align-items-stretch"
+                                                                             data-no="${manual.no}" data-type="MANUAL"
+                                                                             style="display: none !important;">
+                                                                            <div class="card community-card">
+                                                                                <div class="background-image _thumbnail"
+                                                                                     style="background-image:url('${manual.thumbnail.url}')">
+                                                                                    <div class="background-image _profile"
+                                                                                         style="background-image:url('${manual.profile_image.url}')"></div>
+                                                                                </div>
+                                                                                <div class="card-body _body">
+                                                                                    <h5 class="card-title _title bold-h4 c-gray-dark-low">${manual.title}</h5>
+                                                                                    <div class="card-text _description medium-h5 c-gray-medium">${manual.content}</div>
+                                                                                </div>
+                                                                                <div class="_footer">
+                                                                                    <span class="_views medium-p1 c-gray-light">
+                                                                                        <span class="_count">${manual.views}</span> Views
+                                                                                    </span>
+                                                                                    <div class="ml-auto"
+                                                                                         data-href="/user/board/update/MANUAL/${manual.no}">
+                                                                                        <svg width="32" height="32"
+                                                                                             viewBox="0 0 32 32"
+                                                                                             fill="none"
+                                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                                            <circle cx="16" cy="16"
+                                                                                                    r="16"
+                                                                                                    fill="#6CBE03"
+                                                                                                    fill-opacity="0.1"></circle>
+                                                                                            <g clip-path="url(#clip0_388_9621)">
+                                                                                                <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
+                                                                                                      fill="#A9CC52"></path>
+                                                                                            </g>
+                                                                                            <defs>
+                                                                                                <clipPath
+                                                                                                        id="clip0_388_9621">
+                                                                                                    <rect width="20"
+                                                                                                          height="20"
+                                                                                                          fill="white"
+                                                                                                          transform="translate(6 6)"></rect>
+                                                                                                </clipPath>
+                                                                                            </defs>
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                    <div class="ml-8 _delete"
+                                                                                         data-type="MANUAL"
+                                                                                         data-no="${manual.no}">
+                                                                                        <svg width="32" height="32"
+                                                                                             viewBox="0 0 32 32"
+                                                                                             fill="none"
+                                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                                            <path fill-rule="evenodd"
+                                                                                                  clip-rule="evenodd"
+                                                                                                  d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
+                                                                                                  fill="#A9CC52"></path>
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
-                                                                            <div class="ml-8 _delete" data-type="MANUAL"
-                                                                                 data-no="${manual.no}">
-                                                                                <svg width="32"
-                                                                                     height="32"
-                                                                                     viewBox="0 0 32 32"
-                                                                                     fill="none"
-                                                                                     xmlns="http://www.w3.org/2000/svg">
-                                                                                    <path fill-rule="evenodd"
-                                                                                          clip-rule="evenodd"
-                                                                                          d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
-                                                                                          fill="#A9CC52"/>
-                                                                                </svg>
+                                                                        </div>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <div class="col p-8 d-flex align-items-stretch"
+                                                                             data-no="${manual.no}" data-type="MANUAL"
+                                                                             style="display: none !important;">
+                                                                            <div class="card community-card is-empty">
+                                                                                <div class="background-image _profile"
+                                                                                     style="background-image:url('${manual.profile_image.url}')"></div>
+                                                                                <div class="card-body _body">
+                                                                                    <h5 class="card-title _title bold-h4 c-gray-dark-low">${manual.title}</h5>
+                                                                                    <div class="card-text _description medium-h5 c-gray-medium">${manual.content}</div>
+                                                                                </div>
+                                                                                <div class="_footer">
+                                                                                    <span class="_views medium-p1 c-gray-light">
+                                                                                        <span class="_count">${manual.views}</span> Views
+                                                                                    </span>
+                                                                                    <div class="ml-auto"
+                                                                                         data-href="/user/board/update/MANUAL/${manual.no}">
+                                                                                        <svg width="32" height="32"
+                                                                                             viewBox="0 0 32 32"
+                                                                                             fill="none"
+                                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                                            <circle cx="16" cy="16"
+                                                                                                    r="16"
+                                                                                                    fill="#6CBE03"
+                                                                                                    fill-opacity="0.1"></circle>
+                                                                                            <g clip-path="url(#clip0_388_9621)">
+                                                                                                <path d="M12.0358 20.9999H8.5V17.4641L18.0292 7.93491C18.1854 7.77868 18.3974 7.69092 18.6183 7.69092C18.8393 7.69092 19.0512 7.77868 19.2075 7.93491L21.565 10.2924C21.7212 10.4487 21.809 10.6606 21.809 10.8816C21.809 11.1025 21.7212 11.3145 21.565 11.4707L12.0358 20.9999ZM8.5 22.6666H23.5V24.3332H8.5V22.6666Z"
+                                                                                                      fill="#A9CC52"></path>
+                                                                                            </g>
+                                                                                            <defs>
+                                                                                                <clipPath
+                                                                                                        id="clip0_388_9621">
+                                                                                                    <rect width="20"
+                                                                                                          height="20"
+                                                                                                          fill="white"
+                                                                                                          transform="translate(6 6)"></rect>
+                                                                                                </clipPath>
+                                                                                            </defs>
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                    <div class="ml-8 _delete"
+                                                                                         data-type="MANUAL"
+                                                                                         data-no="${manual.no}">
+                                                                                        <svg width="32" height="32"
+                                                                                             viewBox="0 0 32 32"
+                                                                                             fill="none"
+                                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                                            <path fill-rule="evenodd"
+                                                                                                  clip-rule="evenodd"
+                                                                                                  d="M15.9999 1.33325C7.89992 1.33325 1.33325 7.89992 1.33325 15.9999C1.33325 24.0999 7.89992 30.6666 15.9999 30.6666C24.0999 30.6666 30.6666 24.0999 30.6666 15.9999C30.6666 7.89992 24.0999 1.33325 15.9999 1.33325ZM20.9426 12.9426C21.1855 12.6911 21.3199 12.3543 21.3168 12.0047C21.3138 11.6551 21.1736 11.3207 20.9263 11.0735C20.6791 10.8263 20.3447 10.6861 19.9951 10.683C19.6455 10.68 19.3087 10.8144 19.0573 11.0573L15.9999 14.1146L12.9426 11.0573C12.8196 10.9299 12.6725 10.8283 12.5098 10.7584C12.3471 10.6886 12.1722 10.6518 11.9951 10.6503C11.8181 10.6487 11.6425 10.6824 11.4786 10.7495C11.3148 10.8165 11.1659 10.9155 11.0407 11.0407C10.9155 11.1659 10.8165 11.3148 10.7495 11.4786C10.6824 11.6425 10.6487 11.8181 10.6503 11.9951C10.6518 12.1722 10.6886 12.3471 10.7584 12.5098C10.8283 12.6725 10.9299 12.8196 11.0573 12.9426L14.1146 15.9999L11.0573 19.0573C10.9299 19.1802 10.8283 19.3274 10.7584 19.49C10.6886 19.6527 10.6518 19.8277 10.6503 20.0047C10.6487 20.1818 10.6824 20.3573 10.7495 20.5212C10.8165 20.6851 10.9155 20.8339 11.0407 20.9591C11.1659 21.0843 11.3148 21.1833 11.4786 21.2503C11.6425 21.3174 11.8181 21.3511 11.9951 21.3496C12.1722 21.348 12.3471 21.3113 12.5098 21.2414C12.6725 21.1715 12.8196 21.0699 12.9426 20.9426L15.9999 17.8853L19.0573 20.9426C19.3087 21.1855 19.6455 21.3199 19.9951 21.3168C20.3447 21.3138 20.6791 21.1736 20.9263 20.9263C21.1736 20.6791 21.3138 20.3447 21.3168 19.9951C21.3199 19.6455 21.1855 19.3087 20.9426 19.0573L17.8853 15.9999L20.9426 12.9426Z"
+                                                                                                  fill="#A9CC52"></path>
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <c:if test="${manual._new_comment eq true}">
-                                                                        <div class="_paragraph regular-h5 c-brand-green">
-                                                                            새로운 댓글이 달렸어요!
-                                                                        </div>
-                                                                    </c:if>
-                                                                </div>
+                                                                    </c:otherwise>
+                                                                </c:choose>
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </c:forEach>
                                                 </div>
                                                 <c:if test="${manuals.size() > 4}">
-                                                    <div class="_more medium-h4 c-brand-green">
+                                                    <div class="_more medium-h4 c-brand-green"
+                                                         style="margin-top: 16px !important;">
                                                         더보기
                                                     </div>
                                                 </c:if>
                                             </c:when>
                                             <c:otherwise>
                                                 <div class="regular-h5 mt-48" style="text-align: center">
-                                                    <span>등록된 ${COMMENT_TYPE.MANUAL.korName}이 없습니다.</span>
+                                                    <span>등록된 ${COMMENT_TYPE.MANUAL.korName}가 없습니다.</span>
                                                 </div>
                                             </c:otherwise>
                                         </c:choose>
@@ -651,7 +924,8 @@
                                                                                         <c:when test="${comment.recomments.size() > 0}">
                                                                                             <div class="_comments mr-auto">
                                                                                                 <div class="_main-comment c-gray-medium _comment-content">
-                                                                                                    <svg class="mr-1" width="24"
+                                                                                                    <svg class="mr-1"
+                                                                                                         width="24"
                                                                                                          height="24"
                                                                                                          viewBox="0 0 24 24"
                                                                                                          fill="none"
@@ -662,7 +936,8 @@
                                                                                                     <div class="medium-h5 ellipsis-one-line mr-auto">${comment.content}</div>
                                                                                                 </div>
                                                                                                 <div class="_my-recomment _comment-content ml-16">
-                                                                                                    <svg class="mr-1" width="24"
+                                                                                                    <svg class="mr-1"
+                                                                                                         width="24"
                                                                                                          height="24"
                                                                                                          viewBox="0 0 24 24"
                                                                                                          fill="none"
@@ -837,7 +1112,8 @@
                                                                         <c:choose>
                                                                             <c:when test="${comment._blocked eq true}">
                                                                                 <span class="medium-h5 _content ellipsis-one-line">비공개된 댓글입니다.</span>
-                                                                                <svg width="16" height="16" viewBox="0 0 24 24"
+                                                                                <svg width="16" height="16"
+                                                                                     viewBox="0 0 24 24"
                                                                                      fill="none"
                                                                                      xmlns="http://www.w3.org/2000/svg">
                                                                                     <g clip-path="url(#clip0_249_10580)">
@@ -976,8 +1252,10 @@
                                                                                                       fill="#F2F2F2"></path>
                                                                                             </g>
                                                                                             <defs>
-                                                                                                <clipPath id="clip0_249_10580">
-                                                                                                    <rect width="24" height="24"
+                                                                                                <clipPath
+                                                                                                        id="clip0_249_10580">
+                                                                                                    <rect width="24"
+                                                                                                          height="24"
                                                                                                           fill="white"></rect>
                                                                                                 </clipPath>
                                                                                             </defs>
@@ -1070,7 +1348,8 @@
                                                                         <c:choose>
                                                                             <c:when test="${comment._blocked eq true}">
                                                                                 <span class="medium-h5 _content ellipsis-one-line">비공개된 댓글입니다.</span>
-                                                                                <svg width="16" height="16" viewBox="0 0 24 24"
+                                                                                <svg width="16" height="16"
+                                                                                     viewBox="0 0 24 24"
                                                                                      fill="none"
                                                                                      xmlns="http://www.w3.org/2000/svg">
                                                                                     <g clip-path="url(#clip0_249_10580)">
@@ -1209,8 +1488,10 @@
                                                                                                       fill="#F2F2F2"></path>
                                                                                             </g>
                                                                                             <defs>
-                                                                                                <clipPath id="clip0_249_10580">
-                                                                                                    <rect width="24" height="24"
+                                                                                                <clipPath
+                                                                                                        id="clip0_249_10580">
+                                                                                                    <rect width="24"
+                                                                                                          height="24"
                                                                                                           fill="white"></rect>
                                                                                                 </clipPath>
                                                                                             </defs>
@@ -1443,7 +1724,7 @@
         * */
         $('#myTabContent .tab-pane ._more').click(function () {
             let container = this.closest('.tab-pane');
-            let board_comments = container.querySelectorAll('._comment-board-list ._comment_board-item');
+            let board_comments = container.querySelectorAll('._comment-board-list ._comment_board-item, .community-container-deck > .col');
             let count = 4;
             board_comments.forEach(function (board_comment) {
                 if (count === 0) {
@@ -1534,19 +1815,28 @@
         /*
         * Delete Logic
         * */
-        let delete_items = document.querySelectorAll('#myTabContent .tab-pane ._comment-board-list ._comment_board-item ._delete');
+        let delete_items = document.querySelectorAll('#myTabContent .tab-pane ._comment-board-list ._comment_board-item ._delete, #myTabContent .tab-pane .community-container-deck .col.p-8 ._delete');
         delete_items.forEach(function (delete_item) {
             delete_item.addEventListener('click', function (event) {
                 let container = this.closest('.tab-pane');
                 let button = document.querySelector('._writer-board').querySelector('._title-container .dropdown input[data-type]');
-                let item = this.closest('._comment_board-item');
-                deleteMyContent(item.querySelector('._board-container').dataset.type, item.querySelector('._board-container').dataset.no).then((result) => {
+                let item = this.closest('._comment_board-item, .col.p-8');
+                let type;
+                let no;
+                if (item.dataset.type !== undefined && item.dataset.type !== null) {
+                    type = item.dataset.type;
+                    no = item.dataset.no;
+                } else {
+                    type = item.querySelector('._board-container').dataset.type;
+                    no = item.querySelector('._board-container').dataset.no;
+                }
+                deleteMyContent(type, no).then((result) => {
                     setLoading(false);
                     console.log(result);
                     if (result.status === 'OK') {
                         if (result.data.status) {
                             item.remove();
-                            let board_comments = container.querySelectorAll('._comment-board-list ._comment_board-item');
+                            let board_comments = container.querySelectorAll('._comment-board-list ._comment_board-item, .community-container-deck .col.p-8');
                             let type_text = '';
                             switch (button.dataset.type) {
                                 case'BOARD':
@@ -1583,11 +1873,18 @@
         /*
         * Click Logic
         * */
-        let board_items = document.querySelectorAll('#myTabContent ._comment-board-list ._comment_board-item');
+        let board_items = document.querySelectorAll('#myTabContent ._comment-board-list ._comment_board-item, #myTabContent .community-container-deck .col.p-8');
         board_items.forEach(function (board_item) {
             board_item.addEventListener('click', function (event) {
-                let type = this.querySelector('._board-container').dataset.type;
-                let no = this.querySelector('._board-container').dataset.no;
+                let type;
+                let no;
+                if (board_item.dataset.type !== undefined && board_item.dataset.type !== null) {
+                    type = this.dataset.type;
+                    no = this.dataset.no;
+                } else {
+                    type = this.querySelector('._board-container').dataset.type;
+                    no = this.querySelector('._board-container').dataset.no;
+                }
                 switch (type) {
                     case'BOARD':
                         location.href = '/community/board/detail/' + no;
@@ -1651,11 +1948,11 @@
             let no = this.dataset.no;
             let type = this.dataset.commentLike;
             loginCheck().then((result) => {
-            setLoading(false);
+                setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         updateCommentLike(type, no).then((result) => {
-            setLoading(false);
+                            setLoading(false);
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {
@@ -1687,11 +1984,11 @@
             let no = this.dataset.no;
             let type = this.dataset.commentDislike;
             loginCheck().then((result) => {
-            setLoading(false);
+                setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         updateCommentDislike(type, no).then((result) => {
-            setLoading(false);
+                            setLoading(false);
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {

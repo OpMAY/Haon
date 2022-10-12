@@ -159,6 +159,15 @@
                             <div class="_content">
                                 <div id="summernote"></div>
                                 <input type="text" name="content" class="d-none">
+                                <div class="mobile-button-container">
+                                    <button onclick="boardWriteCancel();" type="button"
+                                            class="btn btn-md btn-gray-high-light medium-h5 ml-auto">
+                                        취소
+                                    </button>
+                                    <button type="submit" class="btn btn-md btn-brand medium-h5">
+                                        게시
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -301,6 +310,7 @@
         })) {
             return_check = false;
         }
+
         let type = $('#board-filter1').data().type;
         let origin_filter_type_value = $('#board-filter1').val();
         $('#board-filter1').attr("disabled", false);

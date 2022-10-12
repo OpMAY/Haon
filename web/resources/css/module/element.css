@@ -424,6 +424,7 @@ input.form-control.input-box {
 
 .trace-register-table thead > tr > th {
     width: auto;
+    white-space: nowrap;
     background-color: var(--brand-green-opacity);
     color: var(--brand-green);
     border: none;
@@ -653,7 +654,7 @@ input.form-control.input-box {
     cursor: pointer;
     align-self: center;
     height: 32px;
-    width: 40px;
+    width: auto;
     padding: 4px 8px 4px 8px;
 }
 
@@ -672,6 +673,10 @@ input.form-control.input-box {
 }
 
 /*option table*/
+._option-table ._option-table-content:not(:last-child) {
+    margin-bottom: 24px;
+}
+
 ._option-table ._option-table-content {
     display: flex;
     flex-direction: column;
@@ -682,6 +687,10 @@ input.form-control.input-box {
 
 ._option-table ._option-toggle {
     position: relative;
+}
+
+._option-table ._option-toggle div.medium-h5 {
+    white-space: nowrap;
 }
 
 ._option-table ._option-toggle ._checkbox-label {
@@ -891,7 +900,7 @@ input.form-control.input-box {
 }
 
 .farm-detail ._desc .summernote-container iframe {
-    width: 640px;
+    width: 100%;
     max-width: 640px;
 }
 
@@ -1130,7 +1139,7 @@ input.form-control.input-box {
 
 .community-container ._detail ._title ._right-option {
     position: absolute;
-    top: 50%;
+    top: 18px;
     right: 0;
     transform: var(--translate-tb-center);
     z-index: 1;
@@ -1385,7 +1394,7 @@ input.form-control.input-box {
     cursor: pointer;
     align-self: center;
     height: 32px;
-    width: 40px;
+    width: auto;
     padding: 4px 8px 4px 8px;
 }
 
@@ -1429,6 +1438,7 @@ input.form-control.input-box {
 
 .trace-register-table tbody > tr > td {
     width: auto;
+    white-space: nowrap;
     color: var(--gray-dark-low);
     border: var(--border-1px) var(--gray-high-light);
     text-align: center;
@@ -1443,6 +1453,7 @@ input.form-control.input-box {
 
 .trace-details-table thead > tr > th {
     width: auto;
+    white-space: nowrap;
     color: var(--basic-white);
     background-color: var(--brand-green);
     border: var(--border-1px) var(--gray-high-light);
@@ -1457,6 +1468,7 @@ input.form-control.input-box {
 
 .trace-details-table tbody > tr > td {
     width: auto;
+    white-space: nowrap;
     color: var(--gray-dark-low);
     border: var(--border-1px) var(--gray-high-light);
     text-align: center;

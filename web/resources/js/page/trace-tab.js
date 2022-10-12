@@ -21,7 +21,7 @@ $('#tab-trace-search').next().on('click', function () {
                                                     <div class="_bundle-button" data-no="${result.data.data.no}">
                                                         <button type="button" data-no="${result.data.data.no}"
                                                                 class="_qr btn btn-brand-opacity btn-block bold-h5">
-                                                            QR
+                                                            QR 다운로드
                                                         </button>
                                                     </div>
                                                 </div>
@@ -41,7 +41,7 @@ $('#tab-trace-search').next().on('click', function () {
                                                     <div class="_bundle-button" data-no="${result.data.data.no}">
                                                         <button type="button" data-no="${result.data.data.no}"
                                                                 class="_qr btn btn-brand-opacity btn-block bold-h5">
-                                                            QR
+                                                            QR 다운로드
                                                         </button>
                                                     </div>
                                                 </div>

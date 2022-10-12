@@ -26,7 +26,7 @@
             </div>
             <div class="col-xl-8 col-12 mt-lg-0 mt-3">
                 <div class="row">
-                    <div class="ml-xl-auto col-2">
+                    <div class="ml-xl-auto col-auto col-lg-2 col-xl-auto">
                         <span class="menu-title c-basic-white bold-h3">농장</span>
                         <ul class="list-unstyled menu-list">
                             <li class="medium-h6"><a href="/community/farms?type=CATTLE">염소</a></li>
@@ -37,7 +37,7 @@
                             <li class="medium-h6"><a href="/community/farms?type=HORSE">돼지</a></li>
                         </ul>
                     </div>
-                    <div class="col-2">
+                    <div class="col-auto col-lg-2 col-xl-auto">
                         <span class="menu-title c-basic-white bold-h3">커뮤니티</span>
                         <ul class="list-unstyled menu-list">
                             <li class="medium-h6"><a href="/community/boards">자유 게시판</a></li>
@@ -47,7 +47,7 @@
                             <li class="medium-h6"><a href="/community/questions">질문과 답변</a></li>
                         </ul>
                     </div>
-                    <div class="col-2">
+                    <div class="col-auto col-lg-2 col-xl-auto">
                         <span class="menu-title c-basic-white bold-h3">QR 이력제</span>
                         <ul class="list-unstyled menu-list">
                             <li class="medium-h6"><a class="_trace-search" href="javascript:void(0);">이력 안내</a></li>

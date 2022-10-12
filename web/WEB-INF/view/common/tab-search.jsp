@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div id="tab-search" style="display: none;">
     <div class="form-group d-flex">
         <input type="text"
@@ -22,17 +23,19 @@
         <ul class="list-group">
         </ul>
     </div>
-    <div class="mt-24">
-        <label class="c-gray-dark-low bold-h5">추천 검색어</label>
-        <div class="mt-16 _buttons">
-            <c:forEach var="keyword" items="${RECOMMEND_KEYWORDS.get(0).keywords}">
-                <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1"
-                        data-href="/search/${keyword}">
-                        ${keyword}
-                </button>
-            </c:forEach>
+    <c:if test="${RECOMMEND_KEYWORDS ne null && RECOMMEND_KEYWORDS.size() ne 0 && RECOMMEND_KEYWORDS.get(0).keywords.size() ne 0}">
+        <div class="mt-24">
+            <label class="c-gray-dark-low bold-h5">추천 검색어</label>
+            <div class="mt-16 _buttons">
+                <c:forEach var="keyword" items="${RECOMMEND_KEYWORDS.get(0).keywords}">
+                    <button type="button" class="btn btn-brand-opacity btn-md btn-hashtag medium-p1"
+                            data-href="/search/${keyword}">
+                            ${keyword}
+                    </button>
+                </c:forEach>
+            </div>
         </div>
-    </div>
+    </c:if>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {

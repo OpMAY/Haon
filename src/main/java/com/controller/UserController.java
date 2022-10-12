@@ -75,6 +75,7 @@ public class UserController {
     @RequestMapping(value = "/board/write", method = RequestMethod.POST)
     public ModelAndView postBoardWrite(HttpServletRequest request, ContentForm contentForm) {
         ModelAndView VIEW = new ModelAndView("user/board-write");
+        log.info(contentForm.toString());
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         Farm farm = farmService.getFarmByUserNo(user_no);
         contentForm.setFarm_no(farm.getNo());

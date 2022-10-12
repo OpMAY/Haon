@@ -25,7 +25,7 @@
     </div>
     <div class="container mt-96 mb-auto">
         <div class="row section farm-detail">
-            <div class="col-12 col-lg-6 mx-auto">
+            <div class="col-12 col-md-8 col-lg-8 col-xl-6 offset-md-2 offset-lg-2 offset-xl-3">
                 <div class="_info-container">
                     <div class="bold-subtitle c-gray-dark-low">
                         ${farm.name}
@@ -105,7 +105,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-7 col-12 mx-auto">
+            <div class="col-12 col-md-8 col-lg-8 col-xl-6 offset-md-2 offset-lg-2 offset-xl-3">
                 <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active medium-h4"
@@ -700,11 +700,11 @@
             let no = this.dataset.no;
             let type = this.dataset.commentLike;
             loginCheck().then((result) => {
-            setLoading(false);
+                setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         updateCommentLike(type, no).then((result) => {
-            setLoading(false);
+                            setLoading(false);
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {
@@ -736,11 +736,11 @@
             let no = this.dataset.no;
             let type = this.dataset.commentDislike;
             loginCheck().then((result) => {
-            setLoading(false);
+                setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         updateCommentDislike(type, no).then((result) => {
-            setLoading(false);
+                            setLoading(false);
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {
