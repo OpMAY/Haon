@@ -40,28 +40,32 @@ public class TraceCodeGenerator {
              * **/
             String rateCode;
             String genderCode;
-            switch (trace.getEntity().getRate()) {
-                case "1++" :
-                    rateCode = "1";
-                    break;
-                case "1+":
-                    rateCode = "2";
-                    break;
-                case "1등급":
-                    rateCode = "3";
-                    break;
-                case "2등급":
-                    rateCode = "4";
-                    break;
-                case "3등급":
-                    rateCode = "5";
-                    break;
-                default:
-                    rateCode = "0";
-                    break;
+            if(trace.getEntity().getRate() != null) {
+                switch (trace.getEntity().getRate()) {
+                    case "1++" :
+                        rateCode = "1";
+                        break;
+                    case "1+":
+                        rateCode = "2";
+                        break;
+                    case "1등급":
+                        rateCode = "3";
+                        break;
+                    case "2등급":
+                        rateCode = "4";
+                        break;
+                    case "3등급":
+                        rateCode = "5";
+                        break;
+                    default:
+                        rateCode = "0";
+                        break;
+                }
+            } else {
+                rateCode = "0";
             }
             switch (trace.getEntity().getGender()) {
-                case "수컷" :
+                case "비거세" :
                     genderCode = "1";
                     break;
                 case "암컷":
