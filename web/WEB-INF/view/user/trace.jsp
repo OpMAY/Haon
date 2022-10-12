@@ -12,7 +12,7 @@
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
-    <div class="container">
+    <div class="container community-detail-container">
         <!--테마별 키워드-->
         <section class="section sm-section mt-40" style="min-height: calc(80vh);">
             <div class="row">
@@ -21,8 +21,8 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="_section pt-0">
-                                <div class="_title-container">
-                                    <span class="bold-h3">내가 작성한 이력</span>
+                                <div class="_title-container d-flex">
+                                    <span class="bold-h3 my-auto">내가 작성한 이력</span>
                                     <div class="dropdown input-dropdown">
                                         <div data-toggle="dropdown" aria-expanded="false"
                                              class="form-group form-inner-button form-sm">
@@ -118,7 +118,7 @@
                                         </c:forEach>
                                     </c:if>
                                     <c:if test="${traces.size() <= 0}">
-                                        <div class="bold-h4 c-gray-light" style="text-align: center">
+                                        <div class="bold-h4 c-gray-light res-empty-text" style="text-align: center">
                                             <span>등록된 이력이 없어요.</span>
                                         </div>
                                     </c:if>
@@ -194,7 +194,7 @@
                                         </c:forEach>
                                     </c:if>
                                     <c:if test="${bundles.size() <= 0}">
-                                        <div class="bold-h4 c-gray-light" style="text-align: center">
+                                        <div class="bold-h4 c-gray-light res-empty-text" style="text-align: center">
                                             <span>등록된 묶음 이력이 없어요.</span>
                                         </div>
                                     </c:if>
@@ -219,7 +219,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                         <div class="form-group mb-16">
                             <label class="medium-h6 c-gray-dark-low">개체 축종</label>
                         </div>
@@ -230,7 +230,7 @@
                         </label>
                     </div>
                     <c:if test="${farmType.manual_available}">
-                        <div class="col-6">
+                        <div class="col-12 col-md-6 col-sm-12 col-xl-6">
                             <div class="form-group mb-16">
                                 <label class="medium-h6 c-gray-dark-low">백신 접종</label>
                             </div>
@@ -273,7 +273,7 @@
                 <c:if test="${farmType.manual_available}">
                     <div class="_self-create-area">
                         <div class="row mt-32">
-                            <div class="col-6">
+                            <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
@@ -281,7 +281,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-12 d-flex flex-row">
                                         <div class="mt-16">
@@ -310,7 +309,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-12 col-md-6 col-sm-6 col-xl-6">
                                 <div class="form-group form-inner-button form-inner-label">
                                     <label class="medium-h6 c-gray-dark-low">출생 일자</label>
                                     <input type="text"
@@ -345,16 +344,16 @@
                         </div>
                         <div class="row mt-32">
                             <div class="col-12 p-20">
-                                <ul class="nav nav-pills mb-3" role="tablist">
+                                <ul class="nav nav-pills mb-3 justify-content-between justify-content-md-start" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link mr-16 active" data-toggle="pill"
+                                        <button class="nav-link active" data-toggle="pill"
                                                 data-target="#pills-breed" type="button" role="tab"
                                                 aria-controls="pills-home"
                                                 aria-selected="true">사육
                                         </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link mr-16" data-toggle="pill"
+                                        <button class="nav-link" data-toggle="pill"
                                                 data-target="#pills-slaughter"
                                                 type="button" role="tab" aria-controls="pills-profile"
                                                 aria-selected="false">도축
@@ -373,7 +372,7 @@
                                     <div class="tab-pane fade show active" id="pills-breed" role="tabpanel"
                                          aria-labelledby="pills-home-tab">
                                         <div class="row _breed-table">
-                                            <div class="col-12">
+                                            <div class="col-12 overflow-auto w-100">
                                                 <table class="table table-bordered trace-register-table">
                                                     <thead>
                                                     <tr>
@@ -429,7 +428,7 @@
 
                                         <div class="d-none" id="amniotic-div">
                                             <div class="row mt-32">
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group">
@@ -461,7 +460,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="dropdown input-dropdown">
                                                         <div data-toggle="dropdown" aria-expanded="false"
                                                              class="form-group form-inner-button form-inner-label"
@@ -507,7 +506,7 @@
                                                 </div>
                                             </div>
                                             <div class="row mt-32">
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">사업장 명</label>
                                                         <input type="text"
@@ -516,7 +515,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group form-inner-button form-inner-label">
                                                         <label class="medium-h6 c-gray-dark-low">도축 일자</label>
                                                         <input type="text"
@@ -555,7 +554,7 @@
                                             </div>
 
                                             <div class="row mt-32">
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <label class="medium-h6 c-gray-dark-low">소재지</label>
                                                     <div class="form-group form-inner-button">
                                                         <input type="text" placeholder="주소를 입력해주세요."
@@ -572,7 +571,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">상세 주소</label>
                                                         <input type="text"
@@ -591,7 +590,7 @@
                                          aria-labelledby="pills-profile-tab">
 
                                         <div class="row _slaughter-table">
-                                            <div class="col-12">
+                                            <div class="col-12 overflow-auto w-100">
                                                 <table class="table table-bordered trace-register-table">
                                                     <thead>
                                                     <tr>
@@ -735,7 +734,7 @@
 
                     </div>
                     <div class="row mt-24">
-                        <div class="col-12">
+                        <div class="col-12 overflow-auto w-100">
                             <table class="table table-bordered trace-register-table">
                                 <thead>
                                 <tr>

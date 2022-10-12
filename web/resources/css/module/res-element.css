@@ -33,7 +33,51 @@
     display: none;
 }
 
+._self-create-area .nav.justify-content-between .nav-item:not(:last-child) {
+    margin-right: 16px;
+}
+
+.button-container button {
+    min-width: 120px;
+}
+
 @media (max-width: 767px) {
+    #result-traces .trace-register-item {
+        width: 100%;
+        display: block;
+    }
+
+    #result-traces .trace-register-item span {
+        display: block;
+    }
+
+    #result-traces .trace-register-item span:first-child {
+        display: block;
+    }
+
+    #result-traces .trace-register-item button {
+        margin-left: 0 !important;
+        margin-right: auto;
+        display: block;
+    }
+
+    #result-traces .trace-register-item span:not(:first-child):not(:last-child) {
+        margin-bottom: 4px;
+        margin-top: 4px;
+        display: inline-block;
+    }
+
+    .right-container ._bundles ._bundle span.bold-h2,
+    .right-container ._traces ._trace span.bold-h2 {
+        font-size: var(--font-24);
+        line-height: var(--line-32);
+    }
+
+    ._self-create-area .nav.justify-content-between .nav-item,
+    ._self-create-area .nav.justify-content-between .nav-item:not(:last-child) {
+        margin-right: 0;
+    }
+
     .left-sidebar-container .user-info ._info,
     .left-sidebar-container .user-info ._name {
         padding-left: 0;

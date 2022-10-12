@@ -424,6 +424,7 @@ input.form-control.input-box {
 
 .trace-register-table thead > tr > th {
     width: auto;
+    white-space: nowrap;
     background-color: var(--brand-green-opacity);
     color: var(--brand-green);
     border: none;
@@ -1436,6 +1437,7 @@ input.form-control.input-box {
 
 .trace-register-table tbody > tr > td {
     width: auto;
+    white-space: nowrap;
     color: var(--gray-dark-low);
     border: var(--border-1px) var(--gray-high-light);
     text-align: center;

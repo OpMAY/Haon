@@ -85,7 +85,7 @@ $(document).ready(function () {
                     backDrop: true,
                     desc: `
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                             <div class="form-group mb-16">
                                 <label class="medium-h6 c-gray-dark-low">개체 축종</label>
                             </div>
@@ -95,7 +95,7 @@ $(document).ready(function () {
                                 <span class="ml-16">${getEntityType(tData.entity.entity_type)}</span>
                             </label>
                         </div>
-                        <div class="col-6">
+                        <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                             <div class="form-group mb-16">
                                 <label class="medium-h6 c-gray-dark-low">백신 접종</label>
                             </div>
@@ -109,7 +109,7 @@ $(document).ready(function () {
                     </div>
                     <div class="_self-create-area">
                         <div class="row mt-32">
-                            <div class="col-6">
+                            <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
@@ -147,7 +147,7 @@ $(document).ready(function () {
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                 <div class="form-group form-inner-button form-inner-label">
                                     <label class="medium-h6 c-gray-dark-low">출생 일자</label>
                                     <input type="text"
@@ -185,16 +185,16 @@ $(document).ready(function () {
                         </div>
                         <div class="row mt-32">
                             <div class="col-12 p-20">
-                                <ul class="nav nav-pills mb-3" role="tablist">
+                                <ul class="nav nav-pills mb-3 justify-content-between justify-content-md-start" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link mr-16 active" data-toggle="pill"
+                                        <button class="nav-link active" data-toggle="pill"
                                                 data-target="#pills-breed-edit" type="button" role="tab"
                                                 aria-controls="pills-home"
                                                 aria-selected="true">사육
                                         </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link mr-16" data-toggle="pill"
+                                        <button class="nav-link" data-toggle="pill"
                                                 data-target="#pills-slaughter-edit"
                                                 type="button" role="tab" aria-controls="pills-profile"
                                                 aria-selected="false">도축
@@ -213,7 +213,7 @@ $(document).ready(function () {
                                     <div class="tab-pane fade show active" id="pills-breed-edit" role="tabpanel"
                                          aria-labelledby="pills-home-tab">
                                         <div class="row _breed-table">
-                                            <div class="col-12">
+                                            <div class="col-12 overflow-auto w-100">
                                                 <table class="table table-bordered trace-register-table">
                                                     <thead>
                                                     <tr>
@@ -270,7 +270,7 @@ $(document).ready(function () {
                                         
                                         <div class="${tData.butchery.length > 0 ? '' : 'd-none'}" id="edit-amniotic-div">
                                             <div class="row mt-32">
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group">
@@ -300,7 +300,7 @@ $(document).ready(function () {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="dropdown input-dropdown">
                                                         <div data-toggle="dropdown" aria-expanded="false"
                                                              class="form-group form-inner-button form-inner-label" style="max-width: 100%">
@@ -345,7 +345,7 @@ $(document).ready(function () {
                                                 </div>
                                             </div>
                                             <div class="row mt-32">
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">사업장 명</label>
                                                         <input type="text"
@@ -354,7 +354,7 @@ $(document).ready(function () {
                                                     </div>
                                                 </div>
     
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group form-inner-button form-inner-label">
                                                         <label class="medium-h6 c-gray-dark-low">도축 일자</label>
                                                         <input type="text"
@@ -393,7 +393,7 @@ $(document).ready(function () {
                                             </div>
     
                                             <div class="row mt-32">
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <label class="medium-h6 c-gray-dark-low">소재지</label>
                                                     <div class="form-group form-inner-button">
                                                         <input type="text" placeholder="주소를 입력해주세요." data-type="postcode"
@@ -426,7 +426,7 @@ $(document).ready(function () {
                                          aria-labelledby="pills-profile-tab">
 
                                         <div class="row _slaughter-table">
-                                            <div class="col-12">
+                                            <div class="col-12 overflow-auto w-100">
                                                 <table class="table table-bordered trace-register-table">
                                                     <thead>
                                                     <tr>
@@ -1132,7 +1132,7 @@ $(document).ready(function () {
             
                                 </div>
                                 <div class="row mt-24">
-                                    <div class="col-12">
+                                    <div class="col-12 overflow-auto w-100">
                                         <table class="table table-bordered trace-register-table">
                                             <thead>
                                             <tr>
@@ -1542,16 +1542,16 @@ $(document).ready(function () {
                         </div>
                         <div class="row mt-32">
                             <div class="col-12 p-20">
-                                <ul class="nav nav-pills mb-3" role="tablist">
+                                <ul class="nav nav-pills mb-3 justify-content-between justify-content-md-start" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link mr-16 active" data-toggle="pill"
+                                        <button class="nav-link active" data-toggle="pill"
                                                 data-target="#pills-breed" type="button" role="tab"
                                                 aria-controls="pills-home"
                                                 aria-selected="true">사육
                                         </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link mr-16" data-toggle="pill"
+                                        <button class="nav-link" data-toggle="pill"
                                                 data-target="#pills-slaughter"
                                                 type="button" role="tab" aria-controls="pills-profile"
                                                 aria-selected="false">도축
@@ -1570,7 +1570,7 @@ $(document).ready(function () {
                                     <div class="tab-pane fade show active" id="pills-breed" role="tabpanel"
                                          aria-labelledby="pills-home-tab">
                                         <div class="row _breed-table">
-                                            <div class="col-12">
+                                            <div class="col-12 overflow-auto w-100">
                                                 <table class="table table-bordered trace-register-table">
                                                     <thead>
                                                     <tr>
@@ -1786,7 +1786,7 @@ $(document).ready(function () {
                                          aria-labelledby="pills-profile-tab">
 
                                         <div class="row _slaughter-table">
-                                            <div class="col-12">
+                                            <div class="col-12 overflow-auto w-100">
                                                 <table class="table table-bordered trace-register-table">
                                                     <thead>
                                                     <tr>
@@ -2157,7 +2157,7 @@ $(document).ready(function () {
                                                 </div>
                                             </div>
                                             <div class="row mt-32">
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">농장
                                                             경영자</label>
@@ -2167,7 +2167,7 @@ $(document).ready(function () {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">농장
                                                             명</label>
@@ -2178,7 +2178,7 @@ $(document).ready(function () {
                                                 </div>
                                             </div>
                                             <div class="row mt-32">
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">농장 링크</label>
                                                         <input type="text"
@@ -2186,7 +2186,7 @@ $(document).ready(function () {
                                                                class="form-control input-underline input-brand-green medium-h4">
                                                     </div>
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group form-inner-button form-inner-label">
                                                         <label class="medium-h6 c-gray-dark-low">소재 일자</label>
                                                         <input type="text"
@@ -2210,7 +2210,7 @@ $(document).ready(function () {
                                                 </div>
                                             </div>
                                             <div class="row mt-32">
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <label class="medium-h6 c-gray-dark-low">소재지</label>
                                                     <div class="form-group form-inner-button">
                                                         <input type="text" placeholder="주소를 입력해주세요." data-type="postcode"
@@ -2224,7 +2224,7 @@ $(document).ready(function () {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">상세 주소</label>
                                                         <input type="text"
@@ -2235,9 +2235,9 @@ $(document).ready(function () {
                                                 </div>
                                             </div>
                                             <div class="row mt-32">
-                                                <div class="col-12 d-flex justify-content-end">
-                                                    <button class="btn btn-gray-high-light medium-h4 mr-8 _cancel">취소</button>
-                                                    <button class="btn btn-brand medium-h4 _confirm">추가하기</button>
+                                                <div class="col-12 d-flex justify-content-end button-container">
+                                                    <button class="btn btn-md btn-gray-high-light medium-h5 mr-8 _cancel">취소</button>
+                                                    <button class="btn btn-md btn-brand medium-h5 _confirm">추가하기</button>
                                                 </div>
                                             </div>
                                         </div>`);
@@ -2471,6 +2471,7 @@ $(document).ready(function () {
             vaccine.vaccine_used = vaccine_use;
             if (vaccine_use) {
                 let vaccine_info = $('input[name=vaccine-input]').val();
+                console.log(vaccine_info);
                 if (vaccine_info.val().trim().length <= 0) {
                     viewAlert({content: '백신 정보를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
                     return false;
@@ -2662,7 +2663,7 @@ $(document).ready(function () {
         if (parent.prev().hasClass('_slaughter-table')) {
             parent.before(`<div class="_slaughter-make">
                                             <div class="row mt-24">
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">사업장 명</label>
                                                         <input type="text"
@@ -2671,7 +2672,7 @@ $(document).ready(function () {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group form-inner-button form-inner-label">
                                                         <label class="medium-h6 c-gray-dark-low">포장/가공 일자</label>
                                                         <input type="text"
@@ -2706,7 +2707,7 @@ $(document).ready(function () {
                                                 </div>
                                             </div>
                                             <div class="row mt-32">
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <label class="medium-h6 c-gray-dark-low">소재지</label>
                                                     <div class="form-group form-inner-button">
                                                         <input type="text" placeholder="주소를 입력해주세요." name="slaughter-addr"
@@ -2720,7 +2721,7 @@ $(document).ready(function () {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">상세 주소</label>
                                                         <input type="text"
@@ -2730,9 +2731,9 @@ $(document).ready(function () {
                                                 </div>
                                             </div>
                                             <div class="row mt-32">
-                                                <div class="col-12 d-flex justify-content-end">
-                                                    <button class="btn btn-gray-high-light medium-h4 mr-8 _cancel">취소</button>
-                                                    <button class="btn btn-brand medium-h4 _confirm">추가하기</button>
+                                                <div class="col-12 d-flex justify-content-end button-container">
+                                                    <button class="btn btn-md btn-gray-high-light medium-h5 mr-8 _cancel">취소</button>
+                                                    <button class="btn btn-md btn-brand medium-h5 _confirm">추가하기</button>
                                                 </div>
                                             </div>
                                         </div>`);
