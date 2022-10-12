@@ -145,6 +145,16 @@
                                         <p class="text-muted"><custom:formatDatetime value="${trace.reg_datetime}"
                                                                                      pattern="yyyy.MM.dd"/></p>
                                     </div>
+                                    <div class="col-auto">
+                                        <div class="form-check">
+                                            <label class="mb-1 form-check-label">백신 접종 여부</label>
+                                            <input type="checkbox" class="form-check-input" id="vaccine_used"  <c:if test="${trace.vaccine ne null && trace.vaccine.vaccine_used}"> checked</c:if>>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <label class="mb-1">백신 정보</label>
+                                        <input type="text" class="form-control" id="vaccine_info" data-origin="${trace.vaccine.vaccine_info}" value="${trace.vaccine.vaccine_info}">
+                                    </div>
                                     <div class="col-12">
                                         <form action="#"
                                               method="get">
@@ -222,6 +232,12 @@
                                                                        for="sex-woman">암컷</label>
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label class="form-label">기타 정보</label>
+                                                        <textarea class="form-control" rows="8" style="resize: none" id="other_info">${trace.other_info}</textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
@@ -364,7 +380,7 @@
                                                                         <input type="text"
                                                                                placeholder="사업장 링크를 입력해주세요."
                                                                                id="slaughter-link"
-                                                                               value="${trace.butchery.get(0).butchery_url}"
+                                                                               value="${trace.butchery.size() > 0 ? trace.butchery.get(0).butchery_url : ''}"
                                                                                <c:if test="${trace.butchery.size() == 0}">disabled</c:if>
                                                                                class="form-control">
                                                                     </div>
@@ -711,10 +727,21 @@
                 process.push(processData);
             })
 
+            const vaccine = {};
+            vaccine.vaccine_used = $('#vaccine_used').is(':checked');
+            let vaccine_info = $('#vaccine_info').val();
+            if(vaccine.vaccine_used && vaccine_info.trim().length <= 0){
+                alert('백신 접종 정보를 입력하세요.');
+                return false;
+            }
+            vaccine.vaccine_info = vaccine_info;
+
+            trace.vaccine = vaccine;
             trace.breed = breeds;
             trace.entity = entity;
             trace.butchery = butchery;
             trace.process = process;
+            trace.other_info = $('#other_info').val();
 
             console.log(trace);
             editTrace(trace).then((result) => {
@@ -1063,6 +1090,17 @@
                     $(elem).addClass('d-none');
                     $(elem).find('input').attr('disabled', 'disabled');
                 })
+            }
+        })
+
+        $('#vaccine_used').on('change', function() {
+            let $input = $('#vaccine_info')
+            if($(this).is(':checked')) {
+                $input.removeAttr('disabled');
+                $input.val($input.data().origin);
+            } else {
+                $input.attr('disabled', 'disabled')
+                $input.val('');
             }
         })
     });
