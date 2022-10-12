@@ -4,7 +4,6 @@
 <jsp:include page="../common/head.jsp"/>
 <body>
 <jsp:include page="../common/header.jsp"/>
-<jsp:include page="../common/mobile-header.jsp"/>
 <jsp:include page="../common/header-desc.jsp"/>
 <jsp:include page="../common/left-sidebar.jsp"/>
 <jsp:include page="../common/right-sidebar.jsp"/>
@@ -12,7 +11,7 @@
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
-    <div class="container">
+    <div class="container community-detail-container">
         <!--테마별 키워드-->
         <section class="section sm-section mt-40" style="min-height: calc(80vh);">
             <div class="row">

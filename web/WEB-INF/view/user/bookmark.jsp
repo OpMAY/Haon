@@ -29,7 +29,7 @@
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
-    <div class="container">
+    <div class="container community-detail-container">
         <!--테마별 키워드-->
         <section class="section sm-section mt-40" style="min-height: calc(80vh);">
             <div class="row">
