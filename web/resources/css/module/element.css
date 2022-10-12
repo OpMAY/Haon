@@ -673,9 +673,10 @@ input.form-control.input-box {
 }
 
 /*option table*/
-._option-table ._option-table-content:not(:last-child){
+._option-table ._option-table-content:not(:last-child) {
     margin-bottom: 24px;
 }
+
 ._option-table ._option-table-content {
     display: flex;
     flex-direction: column;
@@ -1452,6 +1453,7 @@ input.form-control.input-box {
 
 .trace-details-table thead > tr > th {
     width: auto;
+    white-space: nowrap;
     color: var(--basic-white);
     background-color: var(--brand-green);
     border: var(--border-1px) var(--gray-high-light);
@@ -1466,6 +1468,7 @@ input.form-control.input-box {
 
 .trace-details-table tbody > tr > td {
     width: auto;
+    white-space: nowrap;
     color: var(--gray-dark-low);
     border: var(--border-1px) var(--gray-high-light);
     text-align: center;
