@@ -672,6 +672,9 @@ input.form-control.input-box {
 }
 
 /*option table*/
+._option-table ._option-table-content:not(:last-child){
+    margin-bottom: 24px;
+}
 ._option-table ._option-table-content {
     display: flex;
     flex-direction: column;
@@ -682,6 +685,10 @@ input.form-control.input-box {
 
 ._option-table ._option-toggle {
     position: relative;
+}
+
+._option-table ._option-toggle div.medium-h5 {
+    white-space: nowrap;
 }
 
 ._option-table ._option-toggle ._checkbox-label {

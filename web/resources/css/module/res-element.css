@@ -34,6 +34,31 @@
 }
 
 @media (max-width: 767px) {
+    .left-sidebar-container .user-info ._info,
+    .left-sidebar-container .user-info ._name {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .left-sidebar-container .user-info {
+        border: none;
+    }
+
+    .left-sidebar-container .user-info ._name .bold-h4 {
+        font-size: var(--font-24);
+        line-height: var(--line-32);
+    }
+
+    .user-media .media-body .medium-h5 {
+        font-size: var(--font-24);
+        line-height: var(--line-32);
+    }
+
+    .user-media .media-body .regular-h5 {
+        font-size: var(--font-20);
+        line-height: var(--line-28);
+    }
+
     #content-wrapper .community-detail-container .section.sm-section {
         margin-top: 24px;
         margin-bottom: 24px;
