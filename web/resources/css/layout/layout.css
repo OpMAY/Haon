@@ -40,7 +40,7 @@ body {
 
 #header-back-theme .navbar,
 #header .navbar {
-    padding: 8px 28px 8px 36px;
+    padding: 8px 16px 8px 24px;
 }
 
 #header-back-theme .navbar {
@@ -108,7 +108,7 @@ body {
 #header .navbar .navbar-toggler {
     position: absolute;
     top: 50%;
-    left: 36px;
+    left: 12px;
     transform: var(--translate-tb-center);
     border: none;
 }

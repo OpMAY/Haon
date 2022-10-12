@@ -195,6 +195,11 @@
         min-height: fit-content;
     }
 
+    .right-container .card.community-card {
+        height: min-content;
+        min-height: fit-content;
+    }
+
     .owl-carousel .card.farm-card {
         height: min-content;
     }
@@ -207,11 +212,6 @@
     .section-title ._title {
         font-size: var(--font-32);
         line-height: var(--line-40);
-    }
-
-    .container {
-        padding-left: 24px;
-        padding-right: 24px;
     }
 
     #content-wrapper .banner-section ._recommend-container {
@@ -234,7 +234,17 @@
     }
 }
 
+.container {
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
 @media (min-width: 768px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
     #header .navbar ._navbar-left .nav-item:not(:last-child) {
         margin-right: 30px;
     }
