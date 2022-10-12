@@ -301,6 +301,7 @@
         })) {
             return_check = false;
         }
+
         let type = $('#board-filter1').data().type;
         let origin_filter_type_value = $('#board-filter1').val();
         $('#board-filter1').attr("disabled", false);

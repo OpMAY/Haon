@@ -653,7 +653,7 @@ input.form-control.input-box {
     cursor: pointer;
     align-self: center;
     height: 32px;
-    width: 40px;
+    width: auto;
     padding: 4px 8px 4px 8px;
 }
 
@@ -1385,7 +1385,7 @@ input.form-control.input-box {
     cursor: pointer;
     align-self: center;
     height: 32px;
-    width: 40px;
+    width: auto;
     padding: 4px 8px 4px 8px;
 }
 

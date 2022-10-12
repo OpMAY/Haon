@@ -27,10 +27,10 @@ function headerResponseControl() {
 
 function zoomOutMobile() {
     let viewport = document.querySelector('meta[name="viewport"]');
-    if (isResponseSize(521)) {
+    if (isResponseSize(481)) {
         if (viewport) {
             viewport.content = "initial-scale=0.1";
-            viewport.content = "width=520";
+            viewport.content = "width=480";
         }
     } else {
         viewport.content = "initial-scale=0.1";

@@ -6,7 +6,7 @@
 #content-wrapper ._content-banner ._top-text {
     font-size: 1.667vw;
     line-height: 1.1;
-    display: none;
+    display: block;
 }
 
 #content-wrapper ._content-banner ._middle-text {
@@ -17,13 +17,196 @@
 #content-wrapper ._content-banner ._bottom-text {
     font-size: 1.042vw;
     line-height: 1.5;
-    display: none;
+    display: block;
 }
 
 #content-wrapper ._content-banner ._text-container {
     width: 80%;
     left: 50%;
     transform: var(--translate-center);
+}
+
+@media (max-width: 767px) {
+    #tab-trace .bold-h1 {
+        font-size: var(--font-28);
+        line-height: var(--line-36);
+        text-align: left !important;
+    }
+
+    #tab-trace .medium-h4 {
+        font-size: var(--font-16);
+        line-height: var(--line-24);
+        text-align: left !important;
+    }
+
+    #tab-trace br {
+        display: none;
+    }
+
+    #tab-trace ._traces ._trace .bold-h2 {
+        font-size: var(--font-24);
+        line-height: var(--line-32);
+    }
+
+    #bottom-tab ul.list-group li.list-group-item {
+        padding: 8px;
+    }
+
+    #bottom-tab ul.list-group li.list-group-item svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    #bottom-tab ul.list-group li.list-group-item span {
+        font-size: var(--font-12);
+        line-height: var(--line-16);
+    }
+
+    #footer {
+        padding: 24px;
+    }
+
+    #footer .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    #footer [class*="col-"] {
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #footer [class*="row"] {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    #tab-search label {
+        font-size: var(--font-20);
+        line-height: var(--line-28);
+    }
+
+    #tab-search ._buttons button {
+        margin-top: 8px;
+        font-size: var(--font-16);
+        line-height: var(--line-24);
+    }
+
+    #tab-search ._buttons button:not(:last-child) {
+        margin-right: 8px;
+    }
+
+    #tab-search ._buttons {
+        margin-top: 0;
+        white-space: normal;
+    }
+
+    #tab-search .list-group .list-group-item svg {
+        display: block;
+    }
+
+    #header-right-sidebar ul.list-group li.list-group-item {
+        padding: 16px;
+    }
+
+    #tab-search {
+        top: calc(66px + 24px);
+        left: 24px !important;
+        width: calc(100% - 48px);
+        min-width: initial;
+    }
+
+    #header-right-sidebar {
+        width: 50%;
+    }
+
+    #header-left-sidebar {
+        width: 50%;
+    }
+
+    #header-left-sidebar .card-body > div {
+        font-size: var(--font-20);
+        line-height: var(--line-28);
+    }
+
+    .section-title ._title button.btn-brand {
+        display: none;
+    }
+
+    #content-wrapper ._content-banner ._bottom-text {
+        font-size: 16px;
+    }
+
+    #content-wrapper ._content-banner ._top-text {
+        font-size: 16px;
+    }
+
+    #content-wrapper ._content-banner {
+        padding-top: 60%;
+    }
+
+    .owl-carousel .owl-stage-outer {
+        overflow: initial !important;
+    }
+
+    .owl-carousel .owl-stage {
+        transform: none !important;
+        width: 100% !important;
+        display: block !important;
+    }
+
+    .owl-carousel.owl-drag .owl-item:not(:first-child) {
+        margin-top: 24px;
+    }
+
+    .owl-carousel.owl-drag .owl-item {
+        margin-right: 0 !important;
+        width: 100% !important;
+    }
+
+    .owl-carousel .card.community-card {
+        height: min-content;
+    }
+
+    .owl-carousel .card.farm-card {
+        height: min-content;
+    }
+
+    .section-title ._desc {
+        font-size: var(--font-20);
+        line-height: var(--line-28);
+    }
+
+    .section-title ._title {
+        font-size: var(--font-32);
+        line-height: var(--line-40);
+    }
+
+    .container {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    #content-wrapper .banner-section ._recommend-container {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    #content-wrapper .banner-section ._recommend span:nth-of-type(2) {
+        padding-right: 0;
+    }
+
+    #content-wrapper .banner-section ._recommend svg {
+        display: none;
+    }
+
+    #content-wrapper .banner-section ._recommend {
+        padding: 16px;
+        font-size: var(--font-16);
+        line-height: var(--line-24);
+    }
 }
 
 @media (min-width: 768px) {

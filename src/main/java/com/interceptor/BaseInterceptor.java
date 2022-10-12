@@ -1,5 +1,7 @@
 package com.interceptor;
 
+import com.dao.SearchKeywordDao;
+import com.service.AdminService;
 import com.util.TokenGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 @Component
 public class BaseInterceptor extends HandlerInterceptorAdapter {
+    private final AdminService adminService;
+
     /**
      * Interceptor 사용할 경우
      * - 애플리케이션 로깅과 같은 교차 문제 처리
@@ -53,9 +57,10 @@ public class BaseInterceptor extends HandlerInterceptorAdapter {
          * ../../../resources/css/theme/theme.css?vc=${RESOURCES_VERSION}
          *../../../resources/js/theme/theme.js?vc=${RESOURCES_VERSION}
          * */
-        request.setAttribute("HEADER_TITLE","Haon - 농장 커뮤니티");
-        request.setAttribute("MOBILE_HEADER_TITLE","Haon - 농장 커뮤니티");
+        request.setAttribute("HEADER_TITLE", "Haon - 농장 커뮤니티");
+        request.setAttribute("MOBILE_HEADER_TITLE", "Haon - 농장 커뮤니티");
         request.setAttribute("RESOURCES_VERSION", TokenGenerator.RandomIntegerToken(7));
+        request.setAttribute("RECOMMEND_KEYWORDS", adminService.getAllKeywords());
         return super.preHandle(request, response, handler);
     }
 

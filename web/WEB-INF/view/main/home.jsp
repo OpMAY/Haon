@@ -278,7 +278,7 @@
                 </div>
             </c:if>
             <c:if test="${live_boards.size() <= 0}">
-                <div class="regular-h5" style="text-align: center">
+                <div class="regular-h5 res-empty-text" style="text-align: center">
                     <span>등록된 자유 게시판이 없습니다. 지금 바로 등록해보세요.</span>
                 </div>
             </c:if>

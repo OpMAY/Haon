@@ -29,6 +29,24 @@
     display: none;
 }
 
+@media (max-width: 767px) {
+    .res-empty-text {
+        margin-top: 24px;
+    }
+
+    #tab-trace ._traces .mt-32 {
+        margin-top: 24px;
+    }
+
+    #tab-trace ._traces ._trace:first-child {
+        margin-top: 0;
+    }
+
+    #tab-trace ._traces ._trace:not(:last-child) {
+        margin-bottom: 0;
+    }
+}
+
 @media (min-width: 768px) {
     .right-container .row-cols-3 > * {
         -ms-flex: 0 0 50%;

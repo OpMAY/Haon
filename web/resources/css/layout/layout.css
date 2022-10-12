@@ -1,5 +1,5 @@
 body {
-    min-width: 520px;
+    min-width: 480px;
 }
 
 @media (max-width: 991px) {
@@ -108,7 +108,7 @@ body {
 
 #header-left-sidebar {
     background-color: var(--basic-white);
-    max-width: 380px;
+    max-width: 340px;
     width: 100%;
     position: fixed;
     top: 66px;
