@@ -27,6 +27,30 @@
 }
 
 @media (max-width: 767px) {
+    #header-back-theme {
+        height: auto;
+    }
+
+    #header-back-theme .navbar {
+        padding: 22px 24px;
+    }
+
+    #header-back-theme .navbar > * {
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    #header-back-theme .navbar-brand svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    #header-back-theme .nav-link {
+        padding: 0;
+        font-size: var(--font-20);
+        line-height: var(--line-28);
+    }
+
     #tab-trace .bold-h1 {
         font-size: var(--font-28);
         line-height: var(--line-36);

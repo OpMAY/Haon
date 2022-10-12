@@ -25,7 +25,6 @@
 <jsp:include page="../common/head.jsp"/>
 <body>
 <jsp:include page="../common/header.jsp"/>
-<jsp:include page="../common/mobile-header.jsp"/>
 <jsp:include page="../common/header-desc.jsp"/>
 <jsp:include page="../common/left-sidebar.jsp"/>
 <jsp:include page="../common/right-sidebar.jsp"/>

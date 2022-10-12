@@ -30,6 +30,38 @@
 }
 
 @media (max-width: 767px) {
+    .form-group > label {
+        font-size: var(--font-16);
+        line-height: var(--line-24);
+    }
+
+    .mobile-login-container .bold-subtitle {
+        font-size: var(--font-36);
+        line-height: var(--line-52);
+    }
+
+    .mobile-login-container > .regular-h4 {
+        font-size: var(--font-16);
+        line-height: var(--line-24);
+    }
+
+    .register-container ._info {
+        margin-top: 32px;
+    }
+
+    .register-container ._info .bold-title {
+        font-size: var(--font-32);
+        line-height: var(--line-40);
+    }
+
+    .register-container ._info:first-of-type {
+        margin-top: 36px;
+    }
+
+    .register-container ._info {
+        margin-bottom: 24px;
+    }
+
     .res-empty-text {
         margin-top: 24px;
     }

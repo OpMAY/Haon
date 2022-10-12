@@ -29,7 +29,7 @@ body {
 }
 
 #header-back-theme {
-    height: 66px;
+    height: auto;
     background-color: var(--basic-white);
     position: sticky;
     z-index: 2;
@@ -44,9 +44,16 @@ body {
 }
 
 #header-back-theme .navbar {
-    padding-top: 6px;
-    padding-bottom: 6px;
-    padding-right: 40px;
+    padding: 22px 24px;
+}
+
+#header-back-theme .navbar > * {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#header-back-theme .nav-link {
+    padding: 0;
 }
 
 #header-back-theme .navbar .navbar-brand,
