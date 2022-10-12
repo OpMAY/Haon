@@ -38,8 +38,8 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="_section pt-0">
-                                <div class="_title-container">
-                                    <span class="bold-h3">내가 책갈피한 게시글</span>
+                                <div class="_title-container d-flex">
+                                    <span class="bold-h3 my-auto">내가 책갈피한 게시글</span>
                                     <div class="dropdown input-dropdown">
                                         <div data-toggle="dropdown" aria-expanded="false"
                                              class="form-group form-inner-button form-sm">
@@ -126,7 +126,7 @@
                                     <div class="tab-pane fade" id="tips" role="tabpanel" aria-labelledby="tips">
                                         <c:choose>
                                             <c:when test="${tips.size() ne 0}">
-                                                <div class="row row-cols-3 community-container-deck">
+                                                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 community-container-deck">
                                                     <c:forEach items="${tips}" var="tip" varStatus="status">
                                                         <c:choose>
                                                             <c:when test="${tip.thumbnail.url ne null}">
@@ -214,7 +214,7 @@
                                     <div class="tab-pane fade" id="manuals" role="tabpanel" aria-labelledby="manuals">
                                         <c:choose>
                                             <c:when test="${manuals.size() ne 0}">
-                                                <div class="row row-cols-3 community-container-deck">
+                                                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 community-container-deck">
                                                     <c:forEach items="${manuals}" var="manual" varStatus="status">
                                                         <c:choose>
                                                             <c:when test="${manual.thumbnail.url ne null}">
@@ -345,7 +345,7 @@
                                          aria-labelledby="magazines">
                                         <c:choose>
                                             <c:when test="${magazines.size() ne 0}">
-                                                <div class="row row-cols-3 community-container-deck">
+                                                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 community-container-deck">
                                                     <c:forEach items="${magazines}" var="magazine" varStatus="status">
                                                         <c:choose>
                                                             <c:when test="${magazine.thumbnail.url ne null}">

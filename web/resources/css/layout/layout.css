@@ -40,7 +40,7 @@ body {
 
 #header-back-theme .navbar,
 #header .navbar {
-    padding: 8px 16px 8px 24px;
+    padding: 8px 24px 8px 24px;
 }
 
 #header-back-theme .navbar {
@@ -89,7 +89,7 @@ body {
 
 #header .navbar ._navbar-right {
     position: absolute;
-    right: 28px;
+    right: 16px;
     top: 50%;
     transform: var(--translate-tb-center);
     -ms-flex-direction: row;

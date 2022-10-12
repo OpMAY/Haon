@@ -34,6 +34,74 @@
 }
 
 @media (max-width: 767px) {
+    #content-wrapper .community-detail-container .section.sm-section {
+        margin-top: 24px;
+        margin-bottom: 24px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .community-container-deck {
+        margin: -12px;
+    }
+
+    .community-container-deck .col.p-8 {
+        padding: 12px;
+    }
+
+    .community-container ._detail ._desc * {
+        font-size: var(--font-20) !important;
+    }
+
+    ._community-module ._title {
+        font-size: var(--font-20);
+        line-height: var(--line-28);
+    }
+
+    ._comment ._media ._comment-text > * {
+        font-size: var(--font-16);
+        line-height: var(--line-24);
+    }
+
+    ._related-board-list ._related-board-container {
+        padding: 16px;
+    }
+
+    ._related-board-list ._related-board-container span {
+        font-size: var(--font-20);
+        line-height: var(--line-28);
+    }
+
+    .community-container ._detail ._title ._right-option {
+        top: 14px;
+    }
+
+    .community-container ._detail ._title ._right-option > svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .community-container ._detail ._title {
+        font-size: var(--font-28);
+        line-height: var(--line-28);
+    }
+
+    .community-container ._comments {
+        padding: 16px 24px;
+    }
+
+    .community-container ._detail {
+        padding: 24px;
+    }
+
+    .right-container .community-container-deck {
+        margin: -12px;
+    }
+
+    .right-container .community-container-deck .col.p-8 {
+        padding: 12px;
+    }
+
     .board-write-container {
         border: none;
     }

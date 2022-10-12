@@ -36,9 +36,9 @@
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
-    <div class="container">
+    <div class="container community-detail-container">
         <!--테마별 키워드-->
-        <section class="section sm-section mt-40" style="min-height: calc(80vh);">
+        <section class="section sm-section mt-40 mb-40" style="min-height: calc(80vh);">
             <div class="row">
                 <div class="col-xl-9 col-12">
                     <div class="community-container">
@@ -47,7 +47,7 @@
                                  style="padding-top: 32%; background-image: url('${magazine.thumbnail.url}')"></div>
                         </c:if>
                         <div class="_detail">
-                            <div class="_title ellipsis-one-line bold-h2 c-gray-dark-low">
+                            <div class="_title bold-h2 c-gray-dark-low">
                                 <span>${magazine.title}</span>
                                 <div class="_right-option">
                                     <svg id="kakao-share" width="32" height="32" viewBox="0 0 32 32" fill="none"
