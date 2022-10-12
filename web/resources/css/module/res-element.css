@@ -29,7 +29,43 @@
     display: none;
 }
 
+.board-write-container .mobile-button-container {
+    display: none;
+}
+
 @media (max-width: 767px) {
+    .board-write-container {
+        border: none;
+    }
+
+    .board-write-container ._header ._preview {
+        margin-bottom: 0;
+    }
+
+    .board-write-container ._header._input-header {
+        border-top: none;
+    }
+
+    .board-write-container ._content {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .board-write-container ._header {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .board-write-container .mobile-button-container {
+        margin-top: 24px;
+        text-align: right;
+        display: block;
+    }
+
+    .board-write-container .mobile-button-container button {
+        min-width: 100px;
+    }
+
     .board-write-container ._header button {
         display: none;
     }

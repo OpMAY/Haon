@@ -241,8 +241,8 @@
 
 @media (min-width: 768px) {
     .container {
-        padding-left: 15px;
-        padding-right: 15px;
+        padding-left: 24px;
+        padding-right: 24px;
     }
 
     #header .navbar ._navbar-left .nav-item:not(:last-child) {
@@ -288,6 +288,11 @@
 }
 
 @media (min-width: 992px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
     #content-wrapper ._content-banner ._top-text {
         display: block;
     }
