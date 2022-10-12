@@ -30,6 +30,55 @@
 }
 
 @media (max-width: 767px) {
+    .farm-detail ._info-container ._title ._edit {
+        top: calc(50%);
+    }
+
+    #content-wrapper ._detail-banner ._edit {
+        right: 24px;
+        bottom: 24px;
+    }
+
+    .farm-detail ._desc .summernote-inner-container {
+        right: 0;
+    }
+
+    .farm-detail ._info-container .bold-subtitle {
+        font-size: var(--font-32);
+        line-height: var(--line-40);
+    }
+
+    .farm-detail ._info-container .medium-h3 {
+        font-size: var(--font-20);
+        line-height: var(--line-28);
+    }
+
+    #content-wrapper .farm-detail {
+        padding-top: 32px;
+        padding-bottom: 32px;
+    }
+
+    #content-wrapper .farm-detail .tab-content ._manual-deck {
+        margin: -12px;
+    }
+
+    #content-wrapper .farm-detail .tab-content ._manual-deck > .col.p-8 {
+        padding: 12px;
+    }
+
+    .farm-detail ._desc {
+        max-width: 100%;
+    }
+
+    #content-wrapper ._detail-banner {
+        padding-top: 254px;
+    }
+
+    #content-wrapper ._detail-banner ._profile-image {
+        width: 150px;
+        height: 150px;
+    }
+
     .community-mobile-container .filter-dropdown-container {
         margin-left: -24px;
         margin-right: -24px;

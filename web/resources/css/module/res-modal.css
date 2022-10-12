@@ -2,4 +2,8 @@
     .alert {
         bottom: 80px;
     }
+
+    .modal-dialog {
+        margin: 24px;
+    }
 }

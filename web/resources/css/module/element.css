@@ -891,7 +891,7 @@ input.form-control.input-box {
 }
 
 .farm-detail ._desc .summernote-container iframe {
-    width: 640px;
+    width: 100%;
     max-width: 640px;
 }
 
