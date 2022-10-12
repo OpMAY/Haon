@@ -192,6 +192,7 @@
 
     .owl-carousel .card.community-card {
         height: min-content;
+        min-height: fit-content;
     }
 
     .owl-carousel .card.farm-card {
