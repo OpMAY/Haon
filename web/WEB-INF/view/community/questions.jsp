@@ -11,7 +11,7 @@
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
-    <div class="container">
+    <div class="container community-mobile-container">
         <!--테마별 키워드-->
         <section class="section sm-section mt-40 mb-40"
                  <c:if test="${questions.size() eq 0}">style="min-height:calc(100vh - 40px - 40px);"</c:if>>
