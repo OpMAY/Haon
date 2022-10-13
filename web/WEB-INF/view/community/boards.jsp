@@ -98,7 +98,8 @@
                 </div>
                 <div class="right-filter-dropdown-container">
                     <div class="dropdown input-dropdown">
-                        <div data-toggle="dropdown" aria-expanded="false" class="form-group form-inner-button form-sm min-content">
+                        <div data-toggle="dropdown" aria-expanded="false"
+                             class="form-group form-inner-button form-sm min-content">
                             <input type="text"
                                    class="form-control input-box medium-h5 dropdown-input"
                                    disabled="disabled"
@@ -139,7 +140,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row row-cols-2 board-container-deck _content-list">
+            <div class="row row-cols-2 board-container-deck _content-list d-md-block d-none">
                 <c:forEach var="board" items="${boards}">
                     <c:set var="newDiff" scope="application">
                         <custom:localDateTimeDiffer value="${board.reg_datetime}"/>
@@ -156,6 +157,294 @@
                         </div>
                     </div>
                 </c:forEach>
+            </div>
+            <div class="row row-cols-2 board-container-deck mobile-container-deck _content-list d-block d-md-none">
+                <div class="col mobile-card-col" data-no="1">
+                    <div class="card mobile-card">
+                        <div class="media">
+                            <div class="background-image _profile mr-3"
+                                 style="background-image: url('/resources/assets/images/sample/card-profile-image.png')"></div>
+                            <div class="media-body">
+                                <h5 class="mt-0 bold-h4 c-gray-dark-low">오키위</h5>
+                                <p class="regular-h5 c-gray-light">2022.12.23</p>
+                            </div>
+                        </div>
+                        <div class="card-body _description">
+                            <h2 style="margin-top: 0px; padding: 0px; font-family: DauphinPlain; font-size: 24px; line-height: 24px; color: rgb(0, 0, 0);">
+                                What is Lorem Ipsum?</h2>
+                            <p style="margin-right: 0px; margin-bottom: 15px; margin-left: 0px; padding: 0px; text-align: justify; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif;">
+                                <strong style="margin: 0px; padding: 0px;">Lorem Ipsum</strong>&nbsp;is simply dummy
+                                text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                standard dummy text ever since the 1500s, when an unknown printer took a galley of type
+                                and scrambled it to make a type specimen book. It has survived not only five centuries,
+                                but also the leap into electronic typesetting, remaining essentially unchanged. It was
+                                popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
+                                passages, and more recently with desktop publishing software like Aldus PageMaker
+                                including versions of Lorem Ipsum</p>
+                            <h2 style="font-family: DauphinPlain; margin-top: 0px; line-height: 24px; font-size: 24px; color: rgb(0, 0, 0); padding: 0px;">
+                                What is Lorem Ipsum?</h2>
+                            <p style="font-family: &quot;Open Sans&quot;, Arial, sans-serif; margin-right: 0px; margin-bottom: 15px; margin-left: 0px; padding: 0px; text-align: justify; color: rgb(0, 0, 0);">
+                                <span style="font-weight: bolder; margin: 0px; padding: 0px;">Lorem Ipsum</span>&nbsp;is
+                                simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                                industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                                galley of type and scrambled it to make a type specimen book. It has survived not only
+                                five centuries, but also the leap into electronic typesetting, remaining essentially
+                                unchanged. It was popularised in the 1960s with the release of Letraset sheets
+                                containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                                Aldus PageMaker including versions of Lorem Ipsum</p>
+                        </div>
+                        <div class="_more c-brand-green medium-h5">자세히</div>
+                        <div class="card-footer">
+                            <span class="_views regular-h5 c-gray-light">
+                                <span class="_count">3</span> Views
+                            </span>
+                            <span class="_bookmark is-active" data-bookmark="TIPS" data-no="25">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_249_10407)">
+                                        <path d="M21.1792 12.7944L21.1922 12.8084L12.0002 22.0004L2.80821 12.8084L2.82121 12.7944C1.75378 11.5499 1.19605 9.94807 1.2598 8.30977C1.32355 6.67148 2.00406 5.11779 3.16496 3.96005C4.32587 2.8023 5.88141 2.12603 7.51987 2.06675C9.15834 2.00747 10.7587 2.56956 12.0002 3.64039C13.2417 2.56956 14.8421 2.00747 16.4806 2.06675C18.119 2.12603 19.6746 2.8023 20.8355 3.96005C21.9964 5.11779 22.6769 6.67148 22.7406 8.30977C22.8044 9.94807 22.2466 11.5499 21.1792 12.7944Z"
+                                              fill="#A9CC52"></path>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_249_10407">
+                                            <rect width="24" height="24" fill="white"></rect>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mobile-card-col" data-no="1">
+                    <div class="card mobile-card">
+                        <div class="media">
+                            <div class="background-image _profile mr-3"
+                                 style="background-image: url('/resources/assets/images/sample/card-profile-image.png')"></div>
+                            <div class="media-body">
+                                <h5 class="mt-0 bold-h4 c-gray-dark-low">오키위</h5>
+                                <p class="regular-h5 c-gray-light">2022.12.23</p>
+                            </div>
+                        </div>
+                        <div class="card-body _description">
+                            <h2 style="margin-top: 0px; padding: 0px; font-family: DauphinPlain; font-size: 24px; line-height: 24px; color: rgb(0, 0, 0);">
+                                What is Lorem Ipsum?</h2>
+                            <p style="margin-right: 0px; margin-bottom: 15px; margin-left: 0px; padding: 0px; text-align: justify; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif;">
+                                <strong style="margin: 0px; padding: 0px;">Lorem Ipsum</strong>&nbsp;is simply dummy
+                                text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                standard dummy text ever since the 1500s, when an unknown printer took a galley of type
+                                and scrambled it to make a type specimen book. It has survived not only five centuries,
+                                but also the leap into electronic typesetting, remaining essentially unchanged. It was
+                                popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
+                                passages, and more recently with desktop publishing software like Aldus PageMaker
+                                including versions of Lorem Ipsum</p>
+                            <h2 style="font-family: DauphinPlain; margin-top: 0px; line-height: 24px; font-size: 24px; color: rgb(0, 0, 0); padding: 0px;">
+                                What is Lorem Ipsum?</h2>
+                            <p style="font-family: &quot;Open Sans&quot;, Arial, sans-serif; margin-right: 0px; margin-bottom: 15px; margin-left: 0px; padding: 0px; text-align: justify; color: rgb(0, 0, 0);">
+                                <span style="font-weight: bolder; margin: 0px; padding: 0px;">Lorem Ipsum</span>&nbsp;is
+                                simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                                industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                                galley of type and scrambled it to make a type specimen book. It has survived not only
+                                five centuries, but also the leap into electronic typesetting, remaining essentially
+                                unchanged. It was popularised in the 1960s with the release of Letraset sheets
+                                containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                                Aldus PageMaker including versions of Lorem Ipsum</p>
+                        </div>
+                        <div class="card-footer">
+                            <span class="_views regular-h5 c-gray-light">
+                                <span class="_count">3</span> Views
+                            </span>
+                            <span class="_bookmark is-active" data-bookmark="TIPS" data-no="25">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_249_10407)">
+                                        <path d="M21.1792 12.7944L21.1922 12.8084L12.0002 22.0004L2.80821 12.8084L2.82121 12.7944C1.75378 11.5499 1.19605 9.94807 1.2598 8.30977C1.32355 6.67148 2.00406 5.11779 3.16496 3.96005C4.32587 2.8023 5.88141 2.12603 7.51987 2.06675C9.15834 2.00747 10.7587 2.56956 12.0002 3.64039C13.2417 2.56956 14.8421 2.00747 16.4806 2.06675C18.119 2.12603 19.6746 2.8023 20.8355 3.96005C21.9964 5.11779 22.6769 6.67148 22.7406 8.30977C22.8044 9.94807 22.2466 11.5499 21.1792 12.7944Z"
+                                              fill="#A9CC52"></path>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_249_10407">
+                                            <rect width="24" height="24" fill="white"></rect>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mobile-card-col" data-no="1">
+                    <div class="card mobile-card">
+                        <div class="media">
+                            <div class="background-image _profile mr-3"
+                                 style="background-image: url('/resources/assets/images/sample/card-profile-image.png')"></div>
+                            <div class="media-body">
+                                <h5 class="mt-0 bold-h4 c-gray-dark-low">오키위</h5>
+                                <p class="regular-h5 c-gray-light">2022.12.23</p>
+                            </div>
+                        </div>
+                        <div class="background-image _background"
+                             style="background-image: url('/resources/assets/images/sample/background-wallpaper1.png')">
+                        </div>
+                        <div class="card-body _description">
+                            <h2 style="margin-top: 0px; padding: 0px; font-family: DauphinPlain; font-size: 24px; line-height: 24px; color: rgb(0, 0, 0);">
+                                What is Lorem Ipsum?</h2>
+                            <p style="margin-right: 0px; margin-bottom: 15px; margin-left: 0px; padding: 0px; text-align: justify; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif;">
+                                <strong style="margin: 0px; padding: 0px;">Lorem Ipsum</strong>&nbsp;is simply dummy
+                                text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                standard dummy text ever since the 1500s, when an unknown printer took a galley of type
+                                and scrambled it to make a type specimen book. It has survived not only five centuries,
+                                but also the leap into electronic typesetting, remaining essentially unchanged. It was
+                                popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
+                                passages, and more recently with desktop publishing software like Aldus PageMaker
+                                including versions of Lorem Ipsum</p>
+                            <h2 style="font-family: DauphinPlain; margin-top: 0px; line-height: 24px; font-size: 24px; color: rgb(0, 0, 0); padding: 0px;">
+                                What is Lorem Ipsum?</h2>
+                            <p style="font-family: &quot;Open Sans&quot;, Arial, sans-serif; margin-right: 0px; margin-bottom: 15px; margin-left: 0px; padding: 0px; text-align: justify; color: rgb(0, 0, 0);">
+                                <span style="font-weight: bolder; margin: 0px; padding: 0px;">Lorem Ipsum</span>&nbsp;is
+                                simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                                industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                                galley of type and scrambled it to make a type specimen book. It has survived not only
+                                five centuries, but also the leap into electronic typesetting, remaining essentially
+                                unchanged. It was popularised in the 1960s with the release of Letraset sheets
+                                containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                                Aldus PageMaker including versions of Lorem Ipsum</p>
+                        </div>
+                        <div class="_more c-brand-green medium-h5">자세히</div>
+                        <div class="card-footer">
+                            <span class="_views regular-h5 c-gray-light">
+                                <span class="_count">3</span> Views
+                            </span>
+                            <span class="_bookmark is-active" data-bookmark="TIPS" data-no="25">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_249_10407)">
+                                        <path d="M21.1792 12.7944L21.1922 12.8084L12.0002 22.0004L2.80821 12.8084L2.82121 12.7944C1.75378 11.5499 1.19605 9.94807 1.2598 8.30977C1.32355 6.67148 2.00406 5.11779 3.16496 3.96005C4.32587 2.8023 5.88141 2.12603 7.51987 2.06675C9.15834 2.00747 10.7587 2.56956 12.0002 3.64039C13.2417 2.56956 14.8421 2.00747 16.4806 2.06675C18.119 2.12603 19.6746 2.8023 20.8355 3.96005C21.9964 5.11779 22.6769 6.67148 22.7406 8.30977C22.8044 9.94807 22.2466 11.5499 21.1792 12.7944Z"
+                                              fill="#A9CC52"></path>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_249_10407">
+                                            <rect width="24" height="24" fill="white"></rect>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mobile-card-col" data-no="1">
+                    <div class="card mobile-card">
+                        <div class="media">
+                            <div class="background-image _profile mr-3"
+                                 style="background-image: url('/resources/assets/images/sample/card-profile-image.png')"></div>
+                            <div class="media-body">
+                                <h5 class="mt-0 bold-h4 c-gray-dark-low">오키위</h5>
+                                <p class="regular-h5 c-gray-light">2022.12.23</p>
+                            </div>
+                        </div>
+                        <div class="background-image _background"
+                             style="background-image: url('/resources/assets/images/sample/background-wallpaper1.png')">
+                        </div>
+                        <div class="card-body _description">
+                            <h2 style="margin-top: 0px; padding: 0px; font-family: DauphinPlain; font-size: 24px; line-height: 24px; color: rgb(0, 0, 0);">
+                                What is Lorem Ipsum?</h2>
+                            <p style="margin-right: 0px; margin-bottom: 15px; margin-left: 0px; padding: 0px; text-align: justify; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif;">
+                                <strong style="margin: 0px; padding: 0px;">Lorem Ipsum</strong>&nbsp;is simply dummy
+                                text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                standard dummy text ever since the 1500s, when an unknown printer took a galley of type
+                                and scrambled it to make a type specimen book. It has survived not only five centuries,
+                                but also the leap into electronic typesetting, remaining essentially unchanged. It was
+                                popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
+                                passages, and more recently with desktop publishing software like Aldus PageMaker
+                                including versions of Lorem Ipsum</p>
+                            <h2 style="font-family: DauphinPlain; margin-top: 0px; line-height: 24px; font-size: 24px; color: rgb(0, 0, 0); padding: 0px;">
+                                What is Lorem Ipsum?</h2>
+                            <p style="font-family: &quot;Open Sans&quot;, Arial, sans-serif; margin-right: 0px; margin-bottom: 15px; margin-left: 0px; padding: 0px; text-align: justify; color: rgb(0, 0, 0);">
+                                <span style="font-weight: bolder; margin: 0px; padding: 0px;">Lorem Ipsum</span>&nbsp;is
+                                simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                                industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                                galley of type and scrambled it to make a type specimen book. It has survived not only
+                                five centuries, but also the leap into electronic typesetting, remaining essentially
+                                unchanged. It was popularised in the 1960s with the release of Letraset sheets
+                                containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                                Aldus PageMaker including versions of Lorem Ipsum</p>
+                        </div>
+                        <div class="card-footer">
+                            <span class="_views regular-h5 c-gray-light">
+                                <span class="_count">3</span> Views
+                            </span>
+                            <span class="_bookmark is-active" data-bookmark="TIPS" data-no="25">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_249_10407)">
+                                        <path d="M21.1792 12.7944L21.1922 12.8084L12.0002 22.0004L2.80821 12.8084L2.82121 12.7944C1.75378 11.5499 1.19605 9.94807 1.2598 8.30977C1.32355 6.67148 2.00406 5.11779 3.16496 3.96005C4.32587 2.8023 5.88141 2.12603 7.51987 2.06675C9.15834 2.00747 10.7587 2.56956 12.0002 3.64039C13.2417 2.56956 14.8421 2.00747 16.4806 2.06675C18.119 2.12603 19.6746 2.8023 20.8355 3.96005C21.9964 5.11779 22.6769 6.67148 22.7406 8.30977C22.8044 9.94807 22.2466 11.5499 21.1792 12.7944Z"
+                                              fill="#A9CC52"></path>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_249_10407">
+                                            <rect width="24" height="24" fill="white"></rect>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mobile-card-col" data-no="1">
+                    <div class="card mobile-card">
+                        <div class="media">
+                            <div class="background-image _profile mr-3"
+                                 style="background-image: url('/resources/assets/images/sample/card-profile-image.png')"></div>
+                            <div class="media-body">
+                                <h5 class="mt-0 bold-h4 c-gray-dark-low">오키위</h5>
+                                <p class="regular-h5 c-gray-light">2022.12.23</p>
+                            </div>
+                        </div>
+                        <div class="background-image _background"
+                             style="background-image: url('/resources/assets/images/sample/background-wallpaper1.png')">
+                        </div>
+                        <div class="card-body _description">
+                            <h2 style="margin-top: 0px; padding: 0px; font-family: DauphinPlain; font-size: 24px; line-height: 24px; color: rgb(0, 0, 0);">
+                                What is Lorem Ipsum?</h2>
+                            <p style="margin-right: 0px; margin-bottom: 15px; margin-left: 0px; padding: 0px; text-align: justify; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif;">
+                                <strong style="margin: 0px; padding: 0px;">Lorem Ipsum</strong>&nbsp;is simply dummy
+                                text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                standard dummy text ever since the 1500s, when an unknown printer took a galley of type
+                                and scrambled it to make a type specimen book. It has survived not only five centuries,
+                                but also the leap into electronic typesetting, remaining essentially unchanged. It was
+                                popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
+                                passages, and more recently with desktop publishing software like Aldus PageMaker
+                                including versions of Lorem Ipsum</p>
+                            <h2 style="font-family: DauphinPlain; margin-top: 0px; line-height: 24px; font-size: 24px; color: rgb(0, 0, 0); padding: 0px;">
+                                What is Lorem Ipsum?</h2>
+                            <p style="font-family: &quot;Open Sans&quot;, Arial, sans-serif; margin-right: 0px; margin-bottom: 15px; margin-left: 0px; padding: 0px; text-align: justify; color: rgb(0, 0, 0);">
+                                <span style="font-weight: bolder; margin: 0px; padding: 0px;">Lorem Ipsum</span>&nbsp;is
+                                simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                                industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                                galley of type and scrambled it to make a type specimen book. It has survived not only
+                                five centuries, but also the leap into electronic typesetting, remaining essentially
+                                unchanged. It was popularised in the 1960s with the release of Letraset sheets
+                                containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                                Aldus PageMaker including versions of Lorem Ipsum</p>
+                        </div>
+                        <div class="card-footer">
+                            <span class="_views regular-h5 c-gray-light">
+                                <span class="_count">3</span> Views
+                            </span>
+                            <span class="_bookmark is-active" data-bookmark="TIPS" data-no="25">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_249_10407)">
+                                        <path d="M21.1792 12.7944L21.1922 12.8084L12.0002 22.0004L2.80821 12.8084L2.82121 12.7944C1.75378 11.5499 1.19605 9.94807 1.2598 8.30977C1.32355 6.67148 2.00406 5.11779 3.16496 3.96005C4.32587 2.8023 5.88141 2.12603 7.51987 2.06675C9.15834 2.00747 10.7587 2.56956 12.0002 3.64039C13.2417 2.56956 14.8421 2.00747 16.4806 2.06675C18.119 2.12603 19.6746 2.8023 20.8355 3.96005C21.9964 5.11779 22.6769 6.67148 22.7406 8.30977C22.8044 9.94807 22.2466 11.5499 21.1792 12.7944Z"
+                                              fill="#A9CC52"></path>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_249_10407">
+                                            <rect width="24" height="24" fill="white"></rect>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="mt-20 _load <c:if test="${boards.size() == 0}">d-none</c:if>" data-type="board">
                 <button type="button" class="btn btn-brand-opacity btn-block bold-h5">

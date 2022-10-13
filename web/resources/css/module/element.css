@@ -414,6 +414,75 @@ input.form-control.input-box {
     width: calc(100% - 32px);
 }
 
+.card.mobile-card {
+    width: 100%;
+    position: relative;
+    border: none;
+}
+
+.card.mobile-card ._background {
+    padding-top: 50%;
+    border-radius: var(--radius-5);
+    margin-top: 24px;
+}
+
+.card.mobile-card .card-body {
+    padding: 0;
+    margin-top: 24px;
+}
+
+.card.mobile-card ._description {
+    height: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+    max-height: 192px;
+}
+
+.card.mobile-card ._description * {
+    font-size: var(--font-16) !important;
+    line-height: var(--line-24) !important;
+    font-weight: normal !important;
+    color: var(--basic-black) !important;
+    font-family: 'Pretendard', Spoqa Han Sans Neo, 'Spoqa Han Sans Neo', 'Noto Sans KR', 'Roboto', Roboto, 'sans-serif', sans-serif !important;
+}
+
+.card.mobile-card ._more {
+    margin-top: 16px;
+}
+
+.card.mobile-card ._views {
+    margin-top: 16px;
+}
+
+.card.mobile-card ._profile {
+    width: 48px;
+    height: 48px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.card.mobile-card .card-footer {
+    border-radius: 0;
+    border: none;
+    background-color: var(--basic-white);
+    padding: 0;
+    display: flex;
+    margin: 16px 0 0;
+}
+
+.card.mobile-card .card-footer *:nth-child(2) {
+    margin-left: auto;
+}
+
+.card.mobile-card .card-footer * {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 /*List*/
 
 /*Table*/
@@ -969,6 +1038,10 @@ input.form-control.input-box {
 
 .card-container-deck {
     margin: -8px;
+}
+
+.board-container-deck .mobile-card-col:not(:last-child) {
+    border-bottom: var(--border-1px) var(--gray-high-light);
 }
 
 .section-empty-container {
