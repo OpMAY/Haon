@@ -42,6 +42,22 @@
 }
 
 @media (max-width: 767px) {
+    .board-container-deck {
+        margin: -12px;
+    }
+
+    .board-container-deck .col {
+        padding: 12px;
+    }
+
+    .board-container-deck.mobile-container-deck {
+        margin: -24px;
+    }
+
+    .board-container-deck.mobile-container-deck .mobile-card-col {
+        padding: 24px;
+    }
+
     #result-traces .trace-register-item {
         width: 100%;
         display: block;
