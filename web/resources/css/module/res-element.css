@@ -57,7 +57,7 @@
     }
 
     .board-container-deck.mobile-container-deck {
-        margin: -24px;
+        margin: 0 -24px -24px;
     }
 
     .board-container-deck.mobile-container-deck .mobile-card-col {

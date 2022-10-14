@@ -24,4 +24,5 @@ public interface TraceMapper {
 
     List<Trace> getAllTraces();
 
+    List<Trace> getTracesByCode(String code);
 }
