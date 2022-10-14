@@ -161,7 +161,7 @@
     </insert>
     <insert id="insertManualLike">
         insert into manual_like(manual_no, user_no)
-        VALUES (#{question_no}, #{user_no});
+        VALUES (#{manual_no}, #{user_no});
     </insert>
     <insert id="insertTipLike">
         insert into tips_like(tips_no, user_no)
