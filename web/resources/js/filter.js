@@ -85,18 +85,55 @@ function listFormatOnResult(result, item, is_new) {
             $('._load').removeClass('d-none');
             switch (item) {
                 case 'board':
+                    contents_elem = $('._content-list:not(.mobile-container-deck)');
+                    let mobile_contents_elem = $('._content-list.mobile-container-deck');
                     data.forEach((elem, idx) => {
                         contents_elem.append(`<div class="col" data-no="${elem.no}">
-                        <div class="_board-container" data-type="board">
-                            <div class="_content ellipsis-one-line">
-                                <span class="medium-h4">${elem.title}</span>
+                            <div class="_board-container" data-type="board">
+                                <div class="_content ellipsis-one-line">
+                                    <span class="medium-h4">${elem.title}</span>
+                                </div>
+                                <div class="_info">
+                                    <span class="bold-h5 c-brand-green d-none">New!</span>
+                                    <span class="medium-h5 c-gray-light ml-8">${elem.views} Views</span>
+                                </div>
                             </div>
-                            <div class="_info">
-                                <span class="bold-h5 c-brand-green d-none">New!</span>
-                                <span class="medium-h5 c-gray-light ml-8">${elem.views} Views</span>
-                            </div>
-                        </div>
-                    </div>`)
+                        </div>`);
+                        mobile_contents_elem.append(`<div class="col mobile-card-col" data-no="${elem.no}">
+                                    <div class="card mobile-card">
+                                    <div class="media">
+                                        <div class="background-image _profile mr-3"
+                                             style="background-image: url('/resources/assets/images/sample/card-profile-image.png')"></div>
+                                        <div class="media-body">
+                                            <h5 class="mt-0 bold-h4 c-gray-dark-low">오키위</h5>
+                                            <p class="regular-h5 c-gray-light">${Time.formatLocalDatetime(elem.reg_datetime)}</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-body _description">
+                                        ${elem.content}
+                                    </div>
+                                    <div class="_more c-brand-green medium-h5" data-no="${elem.no}">자세히</div>
+                                    <div class="card-footer">
+                                        <span class="_views regular-h5 c-gray-light">
+                                            <span class="_count">${elem.views}</span> Views
+                                        </span>
+                                        <span class="_bookmark is-active" data-bookmark="BOARD" data-no="${elem.no}">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_249_10407)">
+                                                    <path d="M21.1792 12.7944L21.1922 12.8084L12.0002 22.0004L2.80821 12.8084L2.82121 12.7944C1.75378 11.5499 1.19605 9.94807 1.2598 8.30977C1.32355 6.67148 2.00406 5.11779 3.16496 3.96005C4.32587 2.8023 5.88141 2.12603 7.51987 2.06675C9.15834 2.00747 10.7587 2.56956 12.0002 3.64039C13.2417 2.56956 14.8421 2.00747 16.4806 2.06675C18.119 2.12603 19.6746 2.8023 20.8355 3.96005C21.9964 5.11779 22.6769 6.67148 22.7406 8.30977C22.8044 9.94807 22.2466 11.5499 21.1792 12.7944Z"
+                                                          fill="#A9CC52"></path>
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_249_10407">
+                                                        <rect width="24" height="24" fill="white"></rect>
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>`);
                     })
                     break;
                 case 'tip':

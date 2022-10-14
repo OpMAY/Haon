@@ -21,4 +21,6 @@ public interface BundleMapper {
     Bundle getBundleByNo(int bundle_no);
 
     List<Bundle> getAllBundles();
+
+    List<Bundle> getBundlesByCode(String code);
 }

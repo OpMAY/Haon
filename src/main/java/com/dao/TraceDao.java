@@ -52,4 +52,8 @@ public class TraceDao {
         return mapper.getAllTraces();
     }
 
+    public List<Trace> getTracesByCode(String code) {
+        return mapper.getTracesByCode(code);
+    }
+
 }

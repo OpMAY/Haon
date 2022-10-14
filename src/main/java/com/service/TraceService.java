@@ -617,17 +617,19 @@ public class TraceService {
     }
 
     public Message searchByCode(String code) {
+        // TODO Like list 로 변경
         Message message = new Message();
-        if (traceDao.isCodeExists(code)) {
-            message.put("data", traceDao.getTraceByCode(code));
-            message.put("status", true);
-            message.put("type", "trace");
-        } else if (bundleDao.isCodeExists(code)) {
-            message.put("data", bundleDao.getBundleByCode(code));
-            message.put("status", true);
-            message.put("type", "bundle");
-        } else {
+        List<Trace> traces = traceDao.getTracesByCode(code);
+        List<Bundle> bundles = bundleDao.getBundlesByCode(code);
+        for(Bundle bundle : bundles) {
+            bundle.setTraceList(bundleTracesDao.getBundleTraces(bundle.getNo()));
+        }
+        message.put("traces" , traces);
+        message.put("bundles", bundles);
+        if(traces.isEmpty() && bundles.isEmpty()) {
             message.put("status", false);
+        } else {
+            message.put("status", true);
         }
         return message;
     }

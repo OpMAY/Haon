@@ -44,7 +44,7 @@
             </svg>
             <span class="medium-h5 c-gray-light">농장</span>
         </li>
-        <li class="list-group-item" data-href="#">
+        <li class="list-group-item _trace-search">
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M26 30H22V34H26V30Z" fill="#CCCCCC"/>
                 <path d="M38 26H34V30H38V26Z" fill="#CCCCCC"/>

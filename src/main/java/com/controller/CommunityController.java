@@ -32,6 +32,7 @@ import com.model.queue.Token;
 import com.service.*;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
+import com.util.Format;
 import com.util.TokenGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -231,13 +232,22 @@ public class CommunityController {
     }
 
     @RequestMapping(value = "/boards", method = RequestMethod.GET)
-    public ModelAndView communityBoardsPage() {
+    public ModelAndView communityBoardsPage(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("community/boards");
         List<Board> boards = contentService.getCommunityBoardsPage(null, ORDER_TYPE.RECENT);
-        VIEW.addObject("boards", boards);
-        VIEW.addObject("categories", categoryDao.getCommunityCategory(CATEGORY_TYPE.BOARD));
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+
+        for (Board board : boards) {
+            board.setFarm(farmService.getFarmByFarmNo(board.getFarm_no()));
+            if (user_no != null) {
+                board.set_bookmark(bookmarkService.isBoardBookmarkByUserNo(board.getNo(), user_no));
+            }
+            board.setContent(Format.summernoteHTMLToString(board.getContent()));
+        }
+        VIEW.addObject("boards",boards);
+        VIEW.addObject("categories",categoryDao.getCommunityCategory(CATEGORY_TYPE.BOARD));
         return VIEW;
-    }
+}
 
     @RequestMapping(value = "/farm/detail/{farm_no}", method = RequestMethod.GET)
     public ModelAndView getFarmDetail(HttpServletRequest request, @PathVariable("farm_no") int farm_no) {
