@@ -463,6 +463,7 @@ input.form-control.input-box {
     height: 48px;
     margin-top: auto;
     margin-bottom: auto;
+    border-radius: 50%;
 }
 
 .card.mobile-card .card-footer {

@@ -220,7 +220,7 @@ $(document).ready(function () {
         event.stopPropagation();
         event.preventDefault();
     });
-    $('#footer ._trace-search').click(function (event) {
+    $('#footer ._trace-search, #bottom-tab ._trace-search').click(function (event) {
         let search_tab = $('#tab-search');
         search_tab.slideUp(200);
 
