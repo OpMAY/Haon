@@ -1,4 +1,4 @@
-const farmNo = window.location.pathname[23];
+const farmNo = window.location.pathname.substring(23);
 $(document).ready(function () {
     $('._board-list ._board-container').on('click', function (e) {
         let no = $(this).data().no;
