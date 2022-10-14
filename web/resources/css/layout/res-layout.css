@@ -26,7 +26,22 @@
     transform: var(--translate-center);
 }
 
+@media (max-width: 992px) {
+    #footer {
+        padding-bottom: 106px;
+    }
+}
+
 @media (max-width: 767px) {
+    .res-mt-64 {
+        margin-top: 64px;
+    }
+
+    #content-wrapper .section {
+        padding-top: 48px;
+        padding-bottom: 48px;
+    }
+
     #header-back-theme {
         height: auto;
     }
@@ -88,6 +103,10 @@
 
     #footer {
         padding: 24px;
+    }
+
+    #footer {
+        padding-bottom: 66px;
     }
 
     #footer .container {
