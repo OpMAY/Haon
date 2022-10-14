@@ -93,6 +93,9 @@
                             </svg>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link _logout" href="javascript:void(0);">로그아웃</a>
+                    </li>
                 </c:when>
                 <c:otherwise>
                     <li class="nav-item">

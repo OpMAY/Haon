@@ -64,6 +64,9 @@
     <link href="/resources/admin/assets/css/admin.css"
           rel="stylesheet"
           type="text/css"/>
+    <link href="/resources/css/module/summernote.css"
+          rel="stylesheet"
+          type="text/css"/>
     <!-- icons -->
     <link href="/resources/admin/assets/css/icons.min.css"
           rel="stylesheet"

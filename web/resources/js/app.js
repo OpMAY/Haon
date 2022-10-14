@@ -271,11 +271,7 @@ $(document).ready(function () {
         let check = tab_overlay.css('display') === 'block' ? true : false;
 
         if (check) {
-            if ($(event.target.closest('#header-left-sidebar')).length === 0 &&
-                $(event.target.closest('#header-right-sidebar')).length === 0 &&
-                $(event.target.closest('#tab-search')).length === 0 &&
-                $(event.target.closest('#tab-trace')).length === 0 &&
-                $('#search-trace-qr-modal').length === 0) {
+            if ($(event.target.closest('#header-left-sidebar')).length === 0 && $(event.target.closest('#header-right-sidebar')).length === 0 && $(event.target.closest('#tab-search')).length === 0 && $(event.target.closest('#tab-trace')).length === 0 && $('#search-trace-qr-modal').length === 0) {
                 tab_overlay.hide();
             }
             if ($(event.target.closest('#tab-search')).length === 0) {
@@ -480,9 +476,9 @@ $(document).ready(function () {
     $('#tab-search').on('click', '.form-group > svg', function () {
         let input = $('#tab-search-input');
         if (input.val().trim().length > 0) {
-            let searches = getCookie('searches');
+            let searches = Storage.get('searches');
             if (searches !== null) {
-                let search_array = JSON.parse(searches);
+                let search_array = JSON.parse(searches).data;
                 //중복 제거 후 push
                 let is_duplicate = false;
                 for (let index in search_array) {
@@ -495,13 +491,13 @@ $(document).ready(function () {
                 }
                 if (!is_duplicate) {
                     search_array.push(input.val());
-                    deleteCookie('searches');
-                    setCookie({key: 'searches', value: JSON.stringify(search_array)});
+                    Storage.unset('searches');
+                    Storage.set('searches', JSON.stringify({data: search_array, date: new Date().getTime()}));
                 }
             } else {
                 let search_array = new Array();
                 search_array.push(input.val());
-                setCookie({key: 'searches', value: JSON.stringify(search_array)});
+                Storage.set('searches', JSON.stringify({data: search_array, date: new Date().getTime()}));
             }
             window.location.href = `/search/${encodeURI(input.val())}`;
         } else {
@@ -524,9 +520,9 @@ $(document).ready(function () {
     if (tab_search) {
         let list_container = tab_search.querySelector('.list-group');
         deleteChild(list_container);
-        let searches = getCookie('searches');
+        let searches = Storage.get('searches');
         if (searches !== null) {
-            searches = JSON.parse(searches);
+            searches = JSON.parse(searches).data;
             searches = searches.reverse();
             if (searches.length !== 0) {
                 for (let index in searches) {
@@ -556,10 +552,10 @@ $(document).ready(function () {
         latest_buttons.forEach(function (latest_button) {
             latest_button.querySelector('svg').addEventListener('click', function (event) {
                 let list_item = this.closest('.list-group-item');
-                let searches = getCookie('searches');
+                let searches = Storage.get('searches');
                 let text = list_item.querySelector('[data-href]').innerText.trim();
                 if (searches !== null) {
-                    searches = JSON.parse(searches);
+                    searches = JSON.parse(searches).data;
                     searches = searches.filter(function (search) {
                         if (search === text) {
                             return false;
@@ -571,8 +567,8 @@ $(document).ready(function () {
                         list_item.closest('.list-group').parentElement.remove();
                     }
                     list_item.remove();
-                    deleteCookie('searches');
-                    setCookie({key: 'searches', value: JSON.stringify(searches)});
+                    Storage.unset('searches');
+                    Storage.set('searches', JSON.stringify({data: searches, date: new Date().getTime()}));
                 }
                 event.stopPropagation();
                 event.preventDefault();
@@ -590,7 +586,8 @@ $(document).ready(function () {
                         if (result.status === 'OK') {
                             if (result.data.status) {
                                 viewModal({
-                                    vCenter: true, btnCount: 1,
+                                    vCenter: true,
+                                    btnCount: 1,
                                     backDrop: true,
                                     title: '회원 정지 알림',
                                     desc: `<div>회원님께서는 현재 [회원 자격 정지 상태]입니다.</div>
