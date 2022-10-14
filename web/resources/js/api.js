@@ -1306,8 +1306,8 @@ async function deleteBundle(no) {
     }
 }
 
-async function searchByCode(code) {
-    function apiSearchByCode(code) {
+async function searchByCode(code, multi) {
+    function apiSearchByCode(code, multi) {
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
         myHeaders.append('Content-Api', tokenGenerator(8));
@@ -1323,7 +1323,7 @@ async function searchByCode(code) {
 
     let result;
     try {
-        result = await apiSearchByCode(code);
+        result = await apiSearchByCode(code, multi);
         return result;
     } catch (error) {
         console.log(error);

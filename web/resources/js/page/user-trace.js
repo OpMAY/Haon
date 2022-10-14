@@ -1418,6 +1418,7 @@ $(document).ready(function () {
                         onConfirm: () => {
                             // TODO result.data.data 로 Format 만들기
                             createTrace(result.data.data).then((result) => {
+                                console.log(result);
                                 setLoading(false);
                                 if (result.status === 'OK') {
                                     if (result.data.status) {
@@ -1440,7 +1441,14 @@ $(document).ready(function () {
                                     }
                                 }
                             })
-                        }
+                        },
+                        onShow: () => {
+                            $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
+                        },
+                        onShown: () => {
+                            $('body .modal-backdrop._second').removeClass('_second').css('z-index', 1040);
+                            $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
+                        },
                     })
                 } else {
                     if (result.data.type === 0) {

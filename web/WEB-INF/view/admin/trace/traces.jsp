@@ -135,7 +135,7 @@
                       <td>${item.trace.trace_code}</td>
                       <td>${item.trace.entity.rate == null ? '-' : item.trace.entity.rate}</td>
                       <td><span class="badge bg-warning">${item.trace.entity.gender == null ? '-' : item.trace.entity.gender}</span></td>
-                      <td>${item.trace.entity.birth == null ? '-' : item.trace.entity.birth}</td>
+                      <td><custom:numberDateFormat value="${item.trace.entity.birth == null ? '-' : item.trace.entity.birth}"/></td>
                       <td><custom:formatDatetime value="${item.trace.reg_datetime}" pattern="yyyy.MM.dd"/></td>
                       <td>
                         <button type="button" data-type="qr" data-trace-type="single" data-no="${item.trace.no}"

@@ -287,7 +287,6 @@ public class TraceService {
         entity.setBirth(entityData.getBirthYmd());
         entity.setGender(entityData.getSexNm());
         entity.setRate(entityData.getGradeNm());
-        trace.setEntity(entity);
 
         if (target_trace_type.getTarget().equals("PIG")) {
             // 돼지는 사육 농장 정보가 InfoType 1에 들어감 (사육정보 or 등록 정보로 추정)
@@ -302,7 +301,7 @@ public class TraceService {
         if (target_trace_type.getTarget().equals("CATTLE") || target_trace_type.getTarget().equals("PIG")) {
             for (TraceData traceData : traceDataList) {
                 int info_type = traceData.getInfoType();
-                if (info_type > 4) {
+                if (info_type > 7) {
                     break;
                 } else if (info_type != 1) {
                     if (info_type == 2) {
@@ -330,7 +329,9 @@ public class TraceService {
                         butchery.setButchery_corp(traceData.getButcheryPlaceNm());
                         butchery.setButchery_addr(traceData.getButcheryPlaceAddr());
                         butchery.setButchery_date(traceData.getButcheryYmd());
-                        butchery.setButchery_rate(entityData.getGradeNm());
+                        String gradeFormatted = getGradeFormatted(traceData.getGradeNm());
+                        butchery.setButchery_rate(gradeFormatted);
+                        entity.setRate(gradeFormatted);
                         butcheries.add(butchery);
                     } else if (info_type == 4) {
                         // 가공 및 포장 정보
@@ -339,6 +340,23 @@ public class TraceService {
                         process.setProcess_addr(traceData.getProcessPlaceAddr());
                         process.setProcess_corp(traceData.getProcessPlaceNm());
                         processes.add(process);
+                    } else if (info_type > 4) {
+                        if (target_trace_type.getTarget().equals("CATTLE")) {
+                            TraceVaccine vaccine = new TraceVaccine();
+                            if (info_type == 5) {
+                                // 구제역
+                                vaccine.setVaccine_info("구제역 " + traceData.getVaccineOrder());
+                                vaccine.setVaccine_used(true);
+                                vaccine.setVaccine_date(traceData.getInjectionYmd());
+                            } else if (info_type == 6) {
+                                // 질병 유무 - 미사용
+                                vaccine.setVaccine_used(false);
+                            } else if (info_type == 7) {
+                                // 브루셀라, 결핵
+                                vaccine.setVaccine_used(false);
+                            }
+                            trace.setVaccine(vaccine);
+                        }
                     }
                 }
             }
@@ -403,9 +421,13 @@ public class TraceService {
 //                }
 //            }
         }
+        trace.setEntity(entity);
         trace.setBreed(breeds);
         trace.setButchery(butcheries);
         trace.setProcess(processes);
+        if (trace.getVaccine() == null) {
+            trace.setVaccine(new TraceVaccine(false));
+        }
         return trace;
     }
 
@@ -621,12 +643,12 @@ public class TraceService {
         Message message = new Message();
         List<Trace> traces = traceDao.getTracesByCode(code);
         List<Bundle> bundles = bundleDao.getBundlesByCode(code);
-        for(Bundle bundle : bundles) {
+        for (Bundle bundle : bundles) {
             bundle.setTraceList(bundleTracesDao.getBundleTraces(bundle.getNo()));
         }
-        message.put("traces" , traces);
+        message.put("traces", traces);
         message.put("bundles", bundles);
-        if(traces.isEmpty() && bundles.isEmpty()) {
+        if (traces.isEmpty() && bundles.isEmpty()) {
             message.put("status", false);
         } else {
             message.put("status", true);
@@ -729,6 +751,22 @@ public class TraceService {
         return bundleTracesDao.getNewDashboardTraces();
     }
 
+    private String getGradeFormatted(String gradeText) {
+        switch (gradeText) {
+            case "1":
+                gradeText = "1등급";
+                break;
+            case "2":
+                gradeText = "2등급";
+                break;
+            case "3":
+                gradeText = "3등급";
+                break;
+            default:
+                break;
+        }
+        return gradeText;
+    }
 
     /**
      * 1. 이력번호

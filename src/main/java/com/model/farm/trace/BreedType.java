@@ -16,8 +16,10 @@ public enum BreedType {
     }
 
     public static BreedType getBreedType(String text) {
+        String formatted = text.replaceAll(" ", "");
         for(BreedType breedType : BreedType.values()) {
-            if(breedType.getKeyword().equals(text)) {
+            String keywordFormatted = breedType.getKeyword().replaceAll(" ", "");
+            if(keywordFormatted.equals(formatted)) {
                 return breedType;
             }
         }

@@ -186,10 +186,10 @@
                                                             <small class="text-muted">${farm.type.korName}</small>
                                                         </div>
                                                         <p class="mb-1">
-                                                            <span class="badge badge-soft-primary">${trace.entity.rate == null ? '' : trace.entity.rate}</span>
-                                                            <span class="badge badge-soft-dark">${trace.entity.gender == null ? '' : trace.entity.gender}</span>
+                                                            <span class="badge badge-soft-primary">${trace.entity.rate == null ? '등급 정보 없음' : trace.entity.rate}</span>
+                                                            <span class="badge badge-soft-dark">${trace.entity.gender == null ? '성별 정보 없음' : trace.entity.gender}</span>
                                                         </p>
-                                                        <small class="text-muted">${trace.entity.birth == null ? '' : trace.entity.birth}${trace.entity.birth == null ? '' : ' 출생'}</small>
+                                                        <small class="text-muted"><custom:numberDateFormat value="${trace.entity.birth == null ? '' : trace.entity.birth}"/>${trace.entity.birth == null ? '' : ' 출생'}</small>
                                                     </a>
                                                     <div id="traceCollapse1"
                                                          class="collapse show">
@@ -234,11 +234,11 @@
                                                                                             class="badge badge-soft-success cursor-pointer">출하</span></c:when>
                                                                                 </c:choose>
                                                                             </td>
-                                                                            <td>${item.breed_farmer_name}</td>
-                                                                            <td class="text-nowrap">${item.breed_farm_name}</td>
-                                                                            <td class="text-nowrap">${item.breed_issue_date}</td>
+                                                                            <td>${item.breed_farmer_name eq null ? '-' : item.breed_farmer_name}</td>
+                                                                            <td class="text-nowrap">${item.breed_farm_name eq null ? '-' : item.breed_farm_name}</td>
+                                                                            <td class="text-nowrap"><custom:numberDateFormat value="${item.breed_issue_date eq null ? '-' : item.breed_issue_date}"/></td>
                                                                             <td class="text-nowrap">
-                                                                                    ${item.breed_farm_addr}
+                                                                                    ${item.breed_farm_addr eq null ? '-' : item.breed_farm_addr}
                                                                             </td>
                                                                         </tr>
                                                                     </c:forEach>
@@ -281,9 +281,9 @@
                                                                                             class="badge badge-soft-danger cursor-pointer">불합격</span></c:otherwise>
                                                                                 </c:choose>
                                                                             </td>
-                                                                            <td class="text-nowrap">${item.butchery_corp}</td>
-                                                                            <td class="text-nowrap">${item.butchery_date}</td>
-                                                                            <td class="text-nowrap">${item.butchery_addr} ${item.butchery_addr_spec}</td>
+                                                                            <td class="text-nowrap">${item.butchery_corp eq null ? '-' : item.butchery_corp}</td>
+                                                                            <td class="text-nowrap"><custom:numberDateFormat value="${item.butchery_date eq null ? '-' : item.butchery_date}"/></td>
+                                                                            <td class="text-nowrap">${item.butchery_addr eq null ? '-' : item.butchery_addr} ${item.butchery_addr_spec}</td>
                                                                         </tr>
                                                                     </c:forEach>
                                                                     </tbody>
