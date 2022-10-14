@@ -951,7 +951,7 @@
                                         <td class="text-nowrap">` + addr + `, ` + addr_spec + `</td>
                                     </tr>`);
                 } else if (type.data().type === 'AMNIOTIC') {
-                    tableDiv.find('tr[data-type=SLAUGHTER]').before(`<tr data-type="` + type.data().type + `">
+                    let element = `<tr data-type="` + type.data().type + `">
                                         <th scope="row">
                                             <span class="badge badge-soft-danger cursor-pointer">삭제</span>
                                         </th>
@@ -964,7 +964,19 @@
                                             data-url="` + url + `">` + farm + `</td>
                                         <td class="text-nowrap">` + dateStringToKor(date) + `</td>
                                         <td class="text-nowrap">` + addr + `, ` + addr_spec + `</td>
-                                    </tr>`);
+                                    </tr>`;
+                    // 등록 있다면 등록 다음에
+                    // 출하 있다면 출하 이전에
+                    // 없으면 그냥 넣기
+                    if(tableDiv.find('tr[data-type=REGISTER]').length > 0) {
+                        if(tableDiv.find('tr[data-type=SLAUGHTER]').length > 0) {
+                            tableDiv.find('tr[data-type=SLAUGHTER]').before(element);
+                        } else {
+                            tableDiv.append(element);
+                        }
+                    } else {
+                        tableDiv.append(element);
+                    }
                 } else {
                     tableDiv.append(`<tr data-type="` + type.data().type + `">
                                         <th scope="row">

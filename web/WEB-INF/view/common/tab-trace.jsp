@@ -23,7 +23,7 @@
                 </defs>
             </svg>
         </div>
-        <div class="_traces mt-32">
+        <div class="_traces" style="max-height: 200px; overflow-y: auto">
 
         </div>
     </div>

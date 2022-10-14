@@ -735,7 +735,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <div class="regular-h5 mt-48" style="text-align: center">
-                                                    <span>등록된 ${COMMENT_TYPE.MANUAL.korName}가 없습니다.</span>
+                                                    <span>등록된 ${COMMENT_TYPE.MANUAL.korName}이 없습니다.</span>
                                                 </div>
                                             </c:otherwise>
                                         </c:choose>

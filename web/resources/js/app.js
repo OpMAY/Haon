@@ -1,9 +1,12 @@
 'use strict';
 //Response
 let is_resize = true;
-window.onload = function () {
+$(document).ready(function () {
     mobilePlaceHolderChanger('data-mobile-holder');
     zoomOutMobile();
+})
+window.onload = function () {
+
 };
 
 function headerResponseControl() {

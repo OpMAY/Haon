@@ -10,50 +10,59 @@ $('#tab-trace-search').next().on('click', function () {
                 showDiv.children('._trace').remove();
                 if (result.data.status) {
                     console.log(result);
-                    let element;
-                    if (result.data.type === 'trace') {
-                        let date = result.data.data.reg_datetime;
-                        let dFormatted = `${Time.formatLocalDate(date)}`;
-                        element = `<div class="_trace _tab mt-32" data-no="${result.data.data.no}">
+                    const traces = result.data.traces;
+                    const bundles = result.data.bundles;
+                    if(traces.length > 0) {
+                        traces.forEach(element => {
+                            let date = element.reg_datetime;
+                            let dFormatted = `${Time.formatLocalDate(date)}`;
+                            let showElement = `<div class="_trace _tab mt-8" data-no="${element.no}">
                                                 <div class="_bundle-header">
                                                     <span class="bold-h2"
-                                                          data-code="${result.data.data.trace_code}">${result.data.data.trace_code}</span>
-                                                    <div class="_bundle-button" data-no="${result.data.data.no}">
-                                                        <button type="button" data-no="${result.data.data.no}"
+                                                          data-code="${element.trace_code}">${element.trace_code}</span>
+                                                    <div class="_bundle-button" data-no="${element.no}">
+                                                        <button type="button" data-no="${element.no}"
                                                                 class="_qr btn btn-brand-opacity btn-block bold-h5">
                                                             QR 다운로드
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div class="_bundle-body d-flex">
-                                                    <span class="_livestock regular-h5 p-2">${getEntityType(result.data.data.entity.entity_type)}</span>
-                                                    <span class="regular-h5 p-2">${result.data.data.entity.rate === null ? '' : result.data.data.entity.rate}</span>
-                                                    <span class="regular-h5 p-2">${result.data.data.entity.gender === null ? '' : result.data.data.entity.gender}</span>
-                                                    <span class="regular-h5 p-2">${result.data.data.entity.birth === null ? '' : (result.data.data.entity.birth + ' 출생')}</c:if></span>
+                                                    <span class="_livestock regular-h5 p-2">${getEntityType(element.entity.entity_type)}</span>
+                                                    <span class="regular-h5 p-2">${element.entity.rate === null ? '' : element.entity.rate}</span>
+                                                    <span class="regular-h5 p-2">${element.entity.gender === null ? '' : element.entity.gender}</span>
+                                                    <span class="regular-h5 p-2">${element.entity.birth === null ? '' : (element.entity.birth + ' 출생')}</c:if></span>
                                                     <span class="regular-h5 _date ml-auto p-2">${dFormatted}</span>
                                                 </div>
                                             </div>`;
-                    } else if (result.data.type === 'bundle') {
-                        element = `<div class="_bundle _tab mt-32" data-no="${result.data.data.no}">
+                            showDiv.append(showElement);
+                        })
+                    }
+                    if (bundles.length > 0) {
+                        bundles.forEach(element => {
+                            let date = element.reg_datetime;
+                            let dFormatted = `${Time.formatLocalDate(date)}`;
+                            let showElement = `<div class="_bundle _tab mt-16" data-no="${element.no}">
                                                 <div class="_bundle-header">
                                                     <span class="bold-h2"
-                                                          data-code="${result.data.data.bundle_code}">${result.data.data.bundle_code}</span>
-                                                    <div class="_bundle-button" data-no="${result.data.data.no}">
-                                                        <button type="button" data-no="${result.data.data.no}"
+                                                          data-code="${element.bundle_code}">${element.bundle_code}</span>
+                                                    <div class="_bundle-button" data-no="${element.no}">
+                                                        <button type="button" data-no="${element.no}"
                                                                 class="_qr btn btn-brand-opacity btn-block bold-h5">
                                                             QR 다운로드
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div class="_bundle-body">
-                                                    <span class="regular-h5" data-count="${result.data.data.traceList.size()}">${result.data.data.traceList.size()}개의 이력</span>
+                                                    <span class="regular-h5" data-count="${element.traceList.length}">${element.traceList.length}개의 이력</span>
                                                 </div>
                                                 <div class="_bundle-bottom">
-                                                    <span class="regular-h5 _date">${result.data.data.reg_datetime}</span>
+                                                    <span class="regular-h5 _date">${dFormatted}</span>
                                                 </div>
                                             </div>`
+                            showDiv.append(showElement);
+                        })
                     }
-                    showDiv.append(element);
                 } else {
                     viewAlert({content: '일치하는 이력이 없습니다.'});
                 }

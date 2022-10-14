@@ -69,4 +69,10 @@
         from trace
         ORDER BY reg_datetime DESC
     </select>
+    <select id="getTracesByCode" resultType="Trace" resultMap="Trace">
+        select *
+        from trace
+        WHERE trace_code like CONCAT('%', #{code}, '%')
+        ORDER BY reg_datetime DESC
+    </select>
 </mapper>
