@@ -220,6 +220,12 @@
                 let file_element = this.closest('._input-header').querySelector('._input input[type="file"]');
                 file_element.type = 'text';
                 file_element.type = 'file';
+                let origin_file_element = this.closest('._input-header').querySelector('input[name="origin_thumbnail"]');
+                origin_file_element.dataset.name = null;
+                origin_file_element.dataset.url = null;
+                origin_file_element.dataset.size = null;
+                origin_file_element.dataset.type = null;
+                console.log(text_input, file_element, origin_file_element);
                 $(preview).hide();
                 $(preview).css('background-image', 'none');
             });

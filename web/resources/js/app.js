@@ -4,7 +4,17 @@ let is_resize = true;
 window.onload = function () {
     mobilePlaceHolderChanger('data-mobile-holder');
     zoomOutMobile();
+    footerResponseControl();
 };
+
+function footerResponseControl() {
+    let pathname = location.pathname;
+    if (isResponseSize(767) && pathname !== '/') {
+        $('#footer').hide();
+    } else {
+        $('#footer').show();
+    }
+}
 
 function headerResponseControl() {
     let header = document.querySelector('#header');
@@ -50,13 +60,14 @@ function zoomOutMobile() {
                 resizeTimeout = null;
                 actualResizeHandler();
                 // The actualResizeHandler will execute at a rate of 15fps
-            }, 500);
+            }, 1000);
         }
     }
 
     function actualResizeHandler() {
         // handle the resize event
         zoomOutMobile();
+        footerResponseControl();
     }
 }());*/
 
@@ -239,7 +250,7 @@ $(document).ready(function () {
     register_buttons.forEach(function (register_button) {
         register_button.addEventListener('click', function (event) {
             loginCheck().then((result) => {
-            setLoading(false);
+                setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         location.href = '/user/trace';
@@ -388,7 +399,7 @@ $(document).ready(function () {
             if (result.status === 'OK') {
                 if (result.data.status) {
                     updateBookmark(type, no).then((result) => {
-            setLoading(false);
+                        setLoading(false);
                         console.log(result);
                         if (result.status === 'OK') {
                             if (result.data.status) {

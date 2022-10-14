@@ -364,8 +364,8 @@
                 <div class="col-xl-3 col-12">
                     <div class="community-sub-container">
                         <div class="row">
-                            <div class="col-xl-12 col-lg-6 col-sm-6 col-12 mb-32" style="height: fit-content;">
-                                <div class="_community-module">
+                            <div class="col-xl-12 col-lg-6 col-sm-6 col-12" style="height: fit-content;">
+                                <div class="_community-module mb-32">
                                     <div class="card farm-card">
                                         <div class="background-image _thumbnail"
                                              style="background-image: url('${farm.profile_image.url}')">

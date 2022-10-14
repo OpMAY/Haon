@@ -24,7 +24,7 @@
                                     <span class="bold-h3">회원 탈퇴</span>
                                 </div>
 
-                                <div class="text-center mt-100 medium-h4">
+                                <div class="text-center mt-100 res-mt-64 medium-h4">
                                     정말로 계정을 <span class="c-brand-green">탈퇴</span>하시겠어요?<br/>
                                     탈퇴 후에는 저장된 모든 데이터와 포트폴리오,<br/>
                                     판매 기록 등이 모두 <span class="c-brand-green">삭제되어 복구할 수 없습니다.</span>
