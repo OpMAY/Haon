@@ -79,9 +79,7 @@
                                 <tbody>
                                 <tr>
                                     <td>${trace.entity.entity_type.typeName}</td>
-                                    <td><custom:numberDateFormat
-                                            value="${trace.entity.birth eq null ? '-' : trace.entity.birth}"/
-                                    </td>
+                                    <td><custom:numberDateFormat value="${trace.entity.birth eq null ? '-' : trace.entity.birth}"/></td>
                                     <td>${trace.entity.gender eq null ? '-' : trace.entity.gender}</td>
                                     <td>${trace.entity.rate eq null ? '-' : trace.entity.rate}</td>
                                     <td>${trace.vaccine.vaccine_used ? '접종' : '접종 안함'}</td>
@@ -141,9 +139,7 @@
                                                     </svg>
                                                 </c:if>
                                             </td>
-                                            <td><custom:numberDateFormat
-                                                    value="${breed.breed_issue_date eq null ? '-' : breed.breed_issue_date}"/>}
-                                            </td>
+                                            <td><custom:numberDateFormat value="${breed.breed_issue_date eq null ? '-' : breed.breed_issue_date}"/></td>
                                             <td>${breed.breed_farm_addr eq null ? '-' : breed.breed_farm_addr}</td>
                                         </tr>
                                     </c:forEach>

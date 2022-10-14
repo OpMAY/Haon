@@ -158,6 +158,7 @@ public class UserController {
             case TIP:
             case MANUAL:
             case MAGAZINE:
+                log.info(contentForm.toString());
                 if (contentForm.getFile() != null && contentForm.getFile().getSize() != 0) {
                     thumbnail = fileUploadUtility.uploadFile(contentForm.getFile(), CDNUploadPath.COMMUNITY.getPath() + "/" + contentForm.getCommunity_type().name() + "/" + farm.getNo());
                     contentService.updateCommunityThumbnail(contentForm, thumbnail);
@@ -166,6 +167,9 @@ public class UserController {
                 } else {
                     try {
                         thumbnail = new Gson().fromJson(contentForm.getOrigin_thumbnail(), MFile.class);
+                        if (thumbnail.getSize() == null || thumbnail.getName() == null || thumbnail.getType() == null || thumbnail.getUrl() == null) {
+                            thumbnail = null;
+                        }
                     } catch (Exception e) {
                         thumbnail = null;
                     }

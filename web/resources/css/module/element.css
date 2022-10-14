@@ -972,6 +972,7 @@ input.form-control.input-box {
 .farm-detail ._desc .summernote-container iframe {
     width: 100%;
     max-width: 640px;
+    min-width: 480px;
 }
 
 .farm-detail ._desc ._edit {

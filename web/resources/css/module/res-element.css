@@ -42,6 +42,12 @@
 }
 
 @media (max-width: 767px) {
+    .farm-detail ._desc .summernote-container iframe {
+        width: 100%;
+        max-width: 640px;
+        min-width: 430px;
+    }
+
     .board-container-deck {
         margin: -12px;
     }

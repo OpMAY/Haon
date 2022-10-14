@@ -22,7 +22,7 @@ $(document).ready(function () {
                     viewAlert({content: '농장 소개를 변경하였습니다.'});
                     deleteChild($('.summernote-container')[0]);
                     $('.summernote-container').append(description);
-                    modal.data('origin', description);
+                    $(modal).data('origin', description);
                     $(modal).modal('hide');
                 }
             }
