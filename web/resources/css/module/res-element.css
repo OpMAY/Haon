@@ -42,6 +42,30 @@
 }
 
 @media (max-width: 767px) {
+    ._traces ._trace {
+        min-height: initial;
+        max-height: min-content;
+        height: auto;
+    }
+
+    ._traces ._trace ._bundle-body {
+        margin: 0 -8px -8px;
+        display: block !important;
+    }
+
+    ._traces ._trace ._bundle-body span {
+        display: inline-block;
+    }
+
+    ._traces ._trace ._bundle-body span {
+        padding: 8px !important;
+    }
+
+    ._traces ._trace ._bundle-body span:nth-child(4),
+    ._traces ._trace ._bundle-body span:nth-child(5) {
+        display: block;
+    }
+
     .farm-detail ._desc .summernote-container iframe {
         width: 100%;
         max-width: 640px;
