@@ -10,11 +10,11 @@ function commentLikeClickEventListener() {
     let no = this.dataset.no;
     let type = this.dataset.commentLike;
     loginCheck().then((result) => {
-            setLoading(false);
+        setLoading(false);
         if (result.status === 'OK') {
             if (result.data.status) {
                 updateCommentLike(type, no).then((result) => {
-            setLoading(false);
+                    setLoading(false);
                     console.log(result);
                     if (result.status === 'OK') {
                         if (result.data.status) {
@@ -47,11 +47,11 @@ function commentDislikeClickEventListener() {
     let no = this.dataset.no;
     let type = this.dataset.commentDislike;
     loginCheck().then((result) => {
-            setLoading(false);
+        setLoading(false);
         if (result.status === 'OK') {
             if (result.data.status) {
                 updateCommentDislike(type, no).then((result) => {
-            setLoading(false);
+                    setLoading(false);
                     console.log(result);
                     if (result.status === 'OK') {
                         if (result.data.status) {
@@ -159,59 +159,68 @@ function writeComment(element) {
         let comment_no = input.dataset.commentNo;
         let type = input.dataset.type;
         let no = input.dataset.no;
-        if (comment_no !== undefined && comment_no !== null) {
-            let container = element.closest('.reply-comment-container');
-            insertReviewReply(type, no, input.value.trim(), comment_no).then((result) => {
-                setLoading(false);
-                console.log(result);
-                if (result.status === 'OK') {
-                    if (result.data.status) {
-                        if (container.querySelectorAll('._comment').length !== 0) {
-                            let first_comment = container.querySelectorAll('._comment')[0];
-                            $(first_comment).before(createCommentElement(type, result.data.comment));
-                        } else {
-                            $(container).append(createCommentElement(type, result.data.comment));
-                        }
+        loginCheck().then((result) => {
+            setLoading(false);
+            if (result.status === 'OK') {
+                if (result.data.status) {
+                    if (comment_no !== undefined && comment_no !== null) {
+                        let container = element.closest('.reply-comment-container');
+                        insertReviewReply(type, no, input.value.trim(), comment_no).then((result) => {
+                            setLoading(false);
+                            console.log(result);
+                            if (result.status === 'OK') {
+                                if (result.data.status) {
+                                    if (container.querySelectorAll('._comment').length !== 0) {
+                                        let first_comment = container.querySelectorAll('._comment')[0];
+                                        $(first_comment).before(createCommentElement(type, result.data.comment));
+                                    } else {
+                                        $(container).append(createCommentElement(type, result.data.comment));
+                                    }
 
-                        let reply_event = $(`[data-no="${result.data.comment.no}"][data-type="event"]`);
-                        reply_event
-                            .on('click', '._do', doClickEventListener)
-                            .on('click', '._cancel', cancelClickEventListener)
-                            .on('click', '._delete', deleteClickEventListener);
+                                    let reply_event = $(`[data-no="${result.data.comment.no}"][data-type="event"]`);
+                                    reply_event
+                                        .on('click', '._do', doClickEventListener)
+                                        .on('click', '._cancel', cancelClickEventListener)
+                                        .on('click', '._delete', deleteClickEventListener);
 
-                        let reply_container = container.closest('.comment-container').querySelector('._comment ._reply');
-                        $(reply_container).append(`<span class="medium-h5 c-basic-black _do" data-comment-no="${comment_no}" data-type="${type}" data-no="${no}">답글</span>`);
-                        reply_container.querySelector('._cancel').remove();
-                        container.querySelector('.form-group').remove();
+                                    let reply_container = container.closest('.comment-container').querySelector('._comment ._reply');
+                                    $(reply_container).append(`<span class="medium-h5 c-basic-black _do" data-comment-no="${comment_no}" data-type="${type}" data-no="${no}">답글</span>`);
+                                    reply_container.querySelector('._cancel').remove();
+                                    container.querySelector('.form-group').remove();
+                                }
+                            }
+                        });
+                    } else {
+                        let container = element.closest('._comments');
+                        insertReview(type, no, input.value.trim()).then((result) => {
+                            setLoading(false);
+                            console.log(result);
+                            if (result.status === 'OK') {
+                                if (result.data.status) {
+                                    if (container.querySelectorAll('.comment-container').length !== 0) {
+                                        let first_comment = container.querySelectorAll('.comment-container')[0];
+                                        $(first_comment).before(createCommentParentElement(type, result.data.comment));
+                                    } else {
+                                        $(container).append(createCommentParentElement(type, result.data.comment));
+                                    }
+                                    console.log(result.data.comment.no);
+                                    let comment_event = $(`[data-no="${result.data.comment.no}"][data-type="event"]`);
+                                    comment_event
+                                        .on('click', '._do', doClickEventListener)
+                                        .on('click', '._cancel', cancelClickEventListener)
+                                        .on('click', '._delete', deleteClickEventListener);
+
+                                    $(`[data-comment-like="${type}"][data-no="${result.data.comment.no}"]`).on('click', commentLikeClickEventListener);
+                                    $(`[data-comment-dislike="${type}"][data-no="${result.data.comment.no}"]`).on('click', commentDislikeClickEventListener);
+                                }
+                            }
+                        });
                     }
+                } else {
+                    viewAlert({content: '로그인이 필요한 기능입니다.'});
                 }
-            });
-        } else {
-            let container = element.closest('._comments');
-            insertReview(type, no, input.value.trim()).then((result) => {
-                setLoading(false);
-                console.log(result);
-                if (result.status === 'OK') {
-                    if (result.data.status) {
-                        if (container.querySelectorAll('.comment-container').length !== 0) {
-                            let first_comment = container.querySelectorAll('.comment-container')[0];
-                            $(first_comment).before(createCommentParentElement(type, result.data.comment));
-                        } else {
-                            $(container).append(createCommentParentElement(type, result.data.comment));
-                        }
-                        console.log(result.data.comment.no);
-                        let comment_event = $(`[data-no="${result.data.comment.no}"][data-type="event"]`);
-                        comment_event
-                            .on('click', '._do', doClickEventListener)
-                            .on('click', '._cancel', cancelClickEventListener)
-                            .on('click', '._delete', deleteClickEventListener);
-
-                        $(`[data-comment-like="${type}"][data-no="${result.data.comment.no}"]`).on('click', commentLikeClickEventListener);
-                        $(`[data-comment-dislike="${type}"][data-no="${result.data.comment.no}"]`).on('click', commentDislikeClickEventListener);
-                    }
-                }
-            });
-        }
+            }
+        });
         input.value = '';
     } else {
         alert({content: '내용을 입력해주세요.'});
