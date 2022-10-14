@@ -92,6 +92,7 @@ public class AdminRestController {
                 } else {
                     searchKeyword.setKeywords(null);
                 }
+                adminService.updateSearchKeyword(searchKeyword);
                 message.put("status", true);
                 break;
             case "SEARCH":
@@ -104,6 +105,7 @@ public class AdminRestController {
                 } else {
                     searchKeyword.setKeywords(null);
                 }
+                adminService.updateSearchKeyword(searchKeyword);
                 message.put("status", true);
                 break;
             default:

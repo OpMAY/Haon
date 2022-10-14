@@ -146,7 +146,7 @@
                                 <div class="background-image _thumbnail"
                                      style="background-image:url('${item.thumbnail.url}')">
                                     <div class="background-image _profile"
-                                         style="background-image:url('../../resources/assets/images/sample/sample_profile_1.png')"></div>
+                                         style="background-image:url('${item.profile_image.url}')"></div>
                                 </div>
                                 <div class="card-body _body">
                                     <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
@@ -194,7 +194,7 @@
                         <div class="col p-8 d-flex align-items-stretch" data-no="${item.no}">
                             <div class="card community-card is-empty">
                                 <div class="background-image _profile"
-                                     style="background-image:url('../../resources/assets/images/sample/sample_profile_1.png')"></div>
+                                     style="background-image:url('${item.profile_image.url}')"></div>
                                 <div class="card-body _body">
                                     <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
                                     <div class="card-text _description medium-h5 c-gray-medium">${item.content}</div>

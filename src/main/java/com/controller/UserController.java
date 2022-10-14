@@ -243,11 +243,13 @@ public class UserController {
         ArrayList<Tips> tips = contentService.getTips(farm.getNo());
         for (Tips tip : tips) {
             tip.set_new_comment(readService.ownerCheck(COMMENT_TYPE.BOARD, tip.getNo()));
+            tip.setProfile_image(farmService.getFarmByFarmNo(tip.getFarm_no()).getProfile_image());
         }
 
         ArrayList<Manual> manuals = contentService.getManuals(farm.getNo());
         for (Manual manual : manuals) {
             manual.set_new_comment(readService.ownerCheck(COMMENT_TYPE.BOARD, manual.getNo()));
+            manual.setProfile_image(farmService.getFarmByFarmNo(manual.getFarm_no()).getProfile_image());
         }
 
         ArrayList<Question> questions = contentService.getQuestions(farm.getNo());

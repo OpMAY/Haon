@@ -67,14 +67,17 @@ public class ContentService {
     public void updateMagazineViews(int magazine_no) {
         contentDao.updateMagazineViews(magazine_no);
     }
+
     @Transactional
     public void updateManualViews(int manual_no) {
         contentDao.updateManualViews(manual_no);
     }
+
     @Transactional
     public void updateTipViews(int tip_no) {
         contentDao.updateTipViews(tip_no);
     }
+
     @Transactional
     public void updateQuestionViews(int question_no) {
         contentDao.updateQuestionViews(question_no);
@@ -328,6 +331,9 @@ public class ContentService {
                     default:
                         throw new RuntimeException();
                 }
+                for (Board board : boards) {
+                    board.setProfile_image(farmDao.getFarmByNo(board.getFarm_no()).getProfile_image());
+                }
                 message.put("list", boards);
                 break;
             case "tip":
@@ -474,6 +480,7 @@ public class ContentService {
 
                 for (Magazine magazine : magazines) {
                     if (userNo != null) {
+                        magazine.setProfile_image(farmDao.getFarmByNo(0).getProfile_image());
                         magazine.set_bookmark(bookmarkDao.isTipBookmarkByUserNo(magazine.getNo(), userNo));
                     }
                 }
@@ -525,7 +532,7 @@ public class ContentService {
             case "farm":
                 List<Farm> farms;
                 FARM_TYPE farm_type;
-                if(!Objects.equals(category, "")) {
+                if (!Objects.equals(category, "")) {
                     try {
                         farm_type = FARM_TYPE.valueOf(category);
                     } catch (IllegalArgumentException e) {

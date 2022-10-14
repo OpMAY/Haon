@@ -263,6 +263,12 @@ public class CommunityController {
 
         // GET TIPS
         List<Tips> tips = contentService.getFarmTips(farm_no, 0, null);
+        for (Tips tip : tips) {
+            if (user_no != null) {
+                tip.set_bookmark(bookmarkService.isTipBookmarkByUserNo(tip.getNo(), user_no));
+            }
+            tip.setProfile_image(farmService.getFarmByFarmNo(tip.getFarm_no()).getProfile_image());
+        }
 
         //Get Comment
         ArrayList<FarmComment> comments = commentService.getFarmComments(farm_no);
@@ -523,6 +529,9 @@ public class CommunityController {
     public ModelAndView communityMagazinesPage(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("community/magazines");
         List<Magazine> magazines = contentService.getCommunityMagazinesPage(null, ORDER_TYPE.RECENT, request);
+        for (Magazine magazine : magazines) {
+            magazine.setProfile_image(farmService.getFarmByFarmNo(0).getProfile_image());
+        }
         VIEW.addObject("magazines", magazines);
         VIEW.addObject("categories", categoryDao.getCommunityCategory(CATEGORY_TYPE.MAGAZINE));
         return VIEW;

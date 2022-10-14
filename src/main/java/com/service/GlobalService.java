@@ -92,6 +92,10 @@ public class GlobalService {
             manual.setProfile_image(farmDao.getFarmByNo(manual.getFarm_no()).getProfile_image());
         }
 
+        for (Magazine magazine : magazines) {
+            magazine.setProfile_image(farmDao.getFarmByNo(0).getProfile_image());
+        }
+
         view.addObject("banners", banners);
         view.addObject("live_boards", live_boards);
         view.addObject("tips", tips);
@@ -100,7 +104,7 @@ public class GlobalService {
         view.addObject("questions", questions);
         view.addObject("farms", farms);
         view.addObject("keywords", keywords);
-        if(!magazines.isEmpty()) {
+        if (!magazines.isEmpty()) {
             int magazineSize = magazines.size() - 1;
             view.addObject("randomMagazine", magazines.get((new Random().nextInt(magazineSize - 1) + 1)));
         }

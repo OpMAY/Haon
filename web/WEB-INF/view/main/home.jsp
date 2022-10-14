@@ -315,7 +315,7 @@
                             <c:when test="${tip.thumbnail.url eq null}">
                                 <div class="card community-card is-empty" data-no="${tip.no}">
                                     <div class="background-image _profile"
-                                         style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                         style="background-image:url('${tip.profile_image.url}')"></div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${tip.title}</h5>
                                         <div class="card-text _description medium-h5 c-gray-medium">${tip.content}</div>
@@ -362,7 +362,7 @@
                                     <div class="background-image _thumbnail"
                                          style="background-image:url(${tip.thumbnail.url})">
                                         <div class="background-image _profile"
-                                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                             style="background-image:url('${tip.profile_image.url}')"></div>
                                     </div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${tip.title}</h5>
@@ -442,7 +442,7 @@
                             <c:when test="${item.thumbnail.url eq null}">
                                 <div class="card community-card is-empty" data-no="${item.no}">
                                     <div class="background-image _profile"
-                                         style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                         style="background-image:url('${item.profile_image.url}')"></div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
                                         <div class="card-text _description medium-h5 c-gray-medium">${item.content}</div>
@@ -489,7 +489,7 @@
                                     <div class="background-image _thumbnail"
                                          style="background-image:url(${item.thumbnail.url})">
                                         <div class="background-image _profile"
-                                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                             style="background-image:url('${item.profile_image.url}')"></div>
                                     </div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
@@ -570,7 +570,7 @@
                             <c:when test="${item.thumbnail.url eq null}">
                                 <div class="card community-card is-empty" data-no="${item.no}">
                                     <div class="background-image _profile"
-                                         style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                         style="background-image:url('${item.profile_image.url}')"></div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
                                         <div class="card-text _description medium-h5 c-gray-medium">${item.content}</div>
@@ -617,7 +617,7 @@
                                     <div class="background-image _thumbnail"
                                          style="background-image:url(${item.thumbnail.url})">
                                         <div class="background-image _profile"
-                                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                             style="background-image:url('${item.profile_image.url}')"></div>
                                     </div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
