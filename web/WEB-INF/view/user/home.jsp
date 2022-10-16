@@ -1818,56 +1818,64 @@
         let delete_items = document.querySelectorAll('#myTabContent .tab-pane ._comment-board-list ._comment_board-item ._delete, #myTabContent .tab-pane .community-container-deck .col.p-8 ._delete');
         delete_items.forEach(function (delete_item) {
             delete_item.addEventListener('click', function (event) {
-                let container = this.closest('.tab-pane');
-                let button = document.querySelector('._writer-board').querySelector('._title-container .dropdown input[data-type]');
-                let item = this.closest('._comment_board-item, .col.p-8');
-                let type;
-                let no;
-                if (item.dataset.type !== undefined && item.dataset.type !== null) {
-                    type = item.dataset.type;
-                    no = item.dataset.no;
-                } else {
-                    type = item.querySelector('._board-container').dataset.type;
-                    no = item.querySelector('._board-container').dataset.no;
-                }
-                deleteMyContent(type, no).then((result) => {
-                    setLoading(false);
-                    console.log(result);
-                    if (result.status === 'OK') {
-                        if (result.data.status) {
-                            item.remove();
-                            let board_comments = container.querySelectorAll('._comment-board-list ._comment_board-item, .community-container-deck .col.p-8');
-                            let type_text = '';
-                            switch (button.dataset.type) {
-                                case'BOARD':
-                                    type_text = '자유 게시판이';
-                                    break;
-                                case'TIP':
-                                    type_text = '팁과 노하우가';
-                                    break;
-                                case'MANUAL':
-                                    type_text = '축산 메뉴얼이';
-                                    break;
-                                case'QUESTION':
-                                    type_text = '질문과 답변이';
-                                    break;
-                            }
-                            if (board_comments.length === 0) {
-                                deleteChild(container);
-                                $(container).append(`<div class="regular-h5 mt-48" style="text-align: center">
-                                         <span>등록된 \${type_text} 없습니다.</span>
-                                     </div>`);
-                            }
-                            viewAlert({content: '해당 게시글을 삭제하였습니다.'});
-                        } else {
-                            viewAlert({content: '해당 게시글을 삭제할 수 없습니다.'});
-                        }
-                    } else {
-                        viewAlert({content: '해당 게시글을 삭제할 수 없습니다.'});
-                    }
-                });
                 event.stopPropagation();
                 event.preventDefault();
+                viewModal({
+                    title: '컨텐츠 삭제',
+                    desc: '정말 등록한 게시글을 삭제하시겠습니까?',
+                    backDrop: true,
+                    btnCount: 2,
+                    onConfirm: () => {
+                        let container = this.closest('.tab-pane');
+                        let button = document.querySelector('._writer-board').querySelector('._title-container .dropdown input[data-type]');
+                        let item = this.closest('._comment_board-item, .col.p-8');
+                        let type;
+                        let no;
+                        if (item.dataset.type !== undefined && item.dataset.type !== null) {
+                            type = item.dataset.type;
+                            no = item.dataset.no;
+                        } else {
+                            type = item.querySelector('._board-container').dataset.type;
+                            no = item.querySelector('._board-container').dataset.no;
+                        }
+                        deleteMyContent(type, no).then((result) => {
+                            setLoading(false);
+                            console.log(result);
+                            if (result.status === 'OK') {
+                                if (result.data.status) {
+                                    item.remove();
+                                    let board_comments = container.querySelectorAll('._comment-board-list ._comment_board-item, .community-container-deck .col.p-8');
+                                    let type_text = '';
+                                    switch (button.dataset.type) {
+                                        case'BOARD':
+                                            type_text = '자유 게시판이';
+                                            break;
+                                        case'TIP':
+                                            type_text = '팁과 노하우가';
+                                            break;
+                                        case'MANUAL':
+                                            type_text = '축산 메뉴얼이';
+                                            break;
+                                        case'QUESTION':
+                                            type_text = '질문과 답변이';
+                                            break;
+                                    }
+                                    if (board_comments.length === 0) {
+                                        deleteChild(container);
+                                        $(container).append(`<div class="regular-h5 mt-48" style="text-align: center">
+                                         <span>등록된 \${type_text} 없습니다.</span>
+                                     </div>`);
+                                    }
+                                    viewAlert({content: '해당 게시글을 삭제하였습니다.'});
+                                } else {
+                                    viewAlert({content: '해당 게시글을 삭제할 수 없습니다.'});
+                                }
+                            } else {
+                                viewAlert({content: '해당 게시글을 삭제할 수 없습니다.'});
+                            }
+                        });
+                    }
+                });
             });
         });
         /*

@@ -348,14 +348,13 @@ public class TraceService {
                                 vaccine.setVaccine_info("구제역 " + traceData.getVaccineOrder());
                                 vaccine.setVaccine_used(true);
                                 vaccine.setVaccine_date(traceData.getInjectionYmd());
-                            } else if (info_type == 6) {
-                                // 질병 유무 - 미사용
-                                vaccine.setVaccine_used(false);
-                            } else if (info_type == 7) {
-                                // 브루셀라, 결핵
-                                vaccine.setVaccine_used(false);
+                                trace.setVaccine(vaccine);
+                            } else {
+                                if(trace.getVaccine() != null) {
+                                    vaccine.setVaccine_used(false);
+                                    trace.setVaccine(vaccine);
+                                }
                             }
-                            trace.setVaccine(vaccine);
                         }
                     }
                 }

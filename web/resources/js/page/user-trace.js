@@ -1979,7 +1979,14 @@ $(document).ready(function () {
                                         }
                                     }
                                 })
-                            }
+                            },
+                            onShow: () => {
+                                $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
+                            },
+                            onShown: () => {
+                                $('body .modal-backdrop._second').removeClass('_second').css('z-index', 1040);
+                                $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
+                            },
                         })
                     } else {
                         if (result.data.type === 1) {
