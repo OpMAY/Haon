@@ -8,6 +8,7 @@ $('#tab-trace-search').next().on('click', function () {
             if (result.status === 'OK') {
                 let showDiv = $('#tab-trace ._traces');
                 showDiv.children('._trace').remove();
+                showDiv.children('._bundle').remove();
                 if (result.data.status) {
                     console.log(result);
                     const traces = result.data.traces;

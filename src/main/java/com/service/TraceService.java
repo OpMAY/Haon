@@ -285,7 +285,7 @@ public class TraceService {
         }
         trace.setTrace_code(code);
         entity.setBirth(entityData.getBirthYmd());
-        entity.setGender(entityData.getSexNm());
+        entity.setGender(getGenderFormattedName(entityData.getSexNm()));
         entity.setRate(entityData.getGradeNm());
 
         if (target_trace_type.getTarget().equals("PIG")) {
@@ -429,6 +429,21 @@ public class TraceService {
             trace.setVaccine(new TraceVaccine(false));
         }
         return trace;
+    }
+
+    private String getGenderFormattedName(String sexNm) {
+        switch (sexNm) {
+            case "암" :
+                sexNm = "암컷";
+                break;
+            case "수" :
+            case "수컷" :
+                sexNm = "비거세";
+                break;
+            default:
+                break;
+        }
+        return sexNm;
     }
 
     private TraceType getTraceType(TraceData traceData) {

@@ -653,7 +653,7 @@
                                                 profile_image: '${farm.profile_image.url}',
                                                 profile_title: `${farm.name}`,
                                                 btn_text: '자세히 보기',
-                                                type: 'BOARD',
+                                                type: 'BOARD'.toLowerCase(),
                                                 no: '${board.no}',
                                             };
                                             let kakaoLink = new KakaoLink(result.data.key, Kakao, {
