@@ -11,7 +11,7 @@
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
-    <div class="container">
+    <div class="container community-mobile-container">
         <!--테마별 키워드-->
         <section class="section sm-section mt-40 mb-40"
                  <c:if test="${questions.size() eq 0}">style="min-height:calc(100vh - 40px - 40px);"</c:if>>
@@ -195,7 +195,7 @@
                     </c:forEach>
                 </div>
             </div>
-            <div class="mt-20 _load" data-type="question">
+            <div class="mt-20 _load <c:if test="${questions.size() == 0}">d-none</c:if>" data-type="question">
                 <button type="button" class="btn btn-brand-opacity btn-block bold-h5">
                     더 불러오기
                 </button>
@@ -233,6 +233,7 @@
             let last_comment_no = last_comment.dataset.commentNo * 1;
             console.log(last_comment_no);
             loadMoreComments('question', question_no, last_comment_no).then((result) => {
+                setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         result.data.comments.forEach((element, index) => {

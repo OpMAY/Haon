@@ -63,6 +63,8 @@ function findRegex(type) {
             return /^.{1,2000}$/gm;
         case '10~2000':
             return /^.{10,2000}$/gm;
+        case '10~8000':
+            return /^.{10,8000}$/gm;
         case '0~2000':
             return /^.{0,2000}$/gm;
         case 'verify_code':
@@ -159,46 +161,46 @@ function inspection({
 }
 
 function summernoteInspection({
-                        selector,
-                        element = document.querySelector(selector),
-                        value = document.querySelector(selector) ? document.querySelector(selector).value : '', // 검사할 값, default = 해당 input의 value
-                        regex_check = true,
-                        regex_type,
-                        empty_text = '입력값이 없습니다.',
-                        failed_text = '잘못 된 입력입니다.',
-                        isFocus = true,
-                        empty_check = true,
-                        empty = () => {
-                            if (empty_text.length !== 0) {
-                                console.log(empty_text);
-                                viewAlert({
-                                    content: empty_text,
-                                });
-                            }
-                        },
-                        failed = () => {
-                            if (failed_text.length !== 0) {
-                                viewAlert({
-                                    content: failed_text,
-                                });
-                            }
-                        },
-                        success = () => {
-                        },
-                    }) {
+                                  selector,
+                                  element = document.querySelector(selector),
+                                  value = document.querySelector(selector) ? document.querySelector(selector).value : '', // 검사할 값, default = 해당 input의 value
+                                  regex_check = true,
+                                  regex_type,
+                                  empty_text = '입력값이 없습니다.',
+                                  failed_text = '잘못 된 입력입니다.',
+                                  isFocus = true,
+                                  empty_check = true,
+                                  empty = () => {
+                                      if (empty_text.length !== 0) {
+                                          console.log(empty_text);
+                                          viewAlert({
+                                              content: empty_text,
+                                          });
+                                      }
+                                  },
+                                  failed = () => {
+                                      if (failed_text.length !== 0) {
+                                          viewAlert({
+                                              content: failed_text,
+                                          });
+                                      }
+                                  },
+                                  success = () => {
+                                  },
+                              }) {
     try {
         if (element) value = element.value;
         try {
             value = value.trim();
             value = value.replace(/\n/g, '');// 행바꿈제거
             value = value.replace(/\r/g, '');// 엔터제거
-            value = value.replace(/(<([^>]+)>)/ig,'');
+            value = value.replace(/(<([^>]+)>)/ig, '');
         } catch (e) {
             /** TextArea Value Trim Error Fix*/
             value = $.trim(value);
             value = value.replace(/\n/g, '');// 행바꿈제거
             value = value.replace(/\r/g, '');// 엔터제거
-            value = value.replace(/(<([^>]+)>)/ig,'');
+            value = value.replace(/(<([^>]+)>)/ig, '');
         }
         if (empty_check && isEmpty(value)) { // 빈 값
             if (element && isFocus) element.focus();

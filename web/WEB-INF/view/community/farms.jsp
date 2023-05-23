@@ -11,7 +11,7 @@
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
-    <div class="container">
+    <div class="container community-mobile-container">
         <!--테마별 키워드-->
         <section class="section sm-section mt-40 mb-40"
                  <c:if test="${farms.size() eq 0}">style="min-height:calc(100vh - 40px - 40px);"</c:if>>
@@ -150,7 +150,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row row-cols-4 card-container-deck _content-list">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 card-container-deck _content-list">
                 <c:forEach var="item" items="${farms}">
                     <div class="col p-8 d-flex align-items-stretch" data-no="${item.no}">
                         <div class="card farm-card">
@@ -214,7 +214,7 @@
                     </div>
                 </c:forEach>
             </div>
-            <div class="mt-20 _load" data-type="farm">
+            <div class="mt-20 _load <c:if test="${farms.size() == 0}">d-none</c:if>" data-type="farm">
                 <button type="button" class="btn btn-brand-opacity btn-block bold-h5">
                     더 불러오기
                 </button>
@@ -232,18 +232,22 @@
      * Static JS는 특정 페이지 에서만 작동하는 부분으로 Event 및 Element 생성 및 화면에 진입했을 때의
      * 해당 화면만의 특정 로직을 수행하는 Javascript를 Static JS라고 한다.
      * */
-    $(document).ready(function () {
-        console.log('Static JS is ready');
-        $('._content-list').on('click', '._footer button', function () {
-            window.location.href = '/community/farm/detail/' + $(this).data().no;
-        });
-
+    document.addEventListener("DOMContentLoaded", () => {
         //자동 Dropdown 클릭
         let type = getParameter('type');
         $('[name="farm_type"]').closest('.dropdown').find('.dropdown-menu a div[data-value="' + type + '"]').click();
 
         //URL 변경
         history.pushState(null, null, '/community/farms');
+    });
+
+    $(document).ready(function () {
+        console.log('Static JS is ready');
+        $('._content-list').on('click', '._footer button', function () {
+            window.location.href = '/community/farm/detail/' + $(this).data().no;
+        });
+
+
     });
 </script>
 </body>

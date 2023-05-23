@@ -29,7 +29,7 @@
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
-    <div class="container">
+    <div class="container community-detail-container">
         <!--테마별 키워드-->
         <section class="section sm-section mt-40" style="min-height: calc(80vh);">
             <div class="row">
@@ -38,8 +38,8 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="_section pt-0">
-                                <div class="_title-container">
-                                    <span class="bold-h3">내가 책갈피한 게시글</span>
+                                <div class="_title-container d-flex">
+                                    <span class="bold-h3 my-auto">내가 책갈피한 게시글</span>
                                     <div class="dropdown input-dropdown">
                                         <div data-toggle="dropdown" aria-expanded="false"
                                              class="form-group form-inner-button form-sm">
@@ -89,7 +89,7 @@
                                                 <div class="_board-list _comment-board-list">
                                                     <c:forEach items="${boards}" var="board" varStatus="status">
                                                         <div class="_comment_board-item">
-                                                            <div class="_board-container" data-no="${board.no}"
+                                                            <div class="_board-container" data-no="${board.no}" data-href="/community/board/detail/${board.no}"
                                                                  data-type="BOARD">
                                                                 <div class="_content ellipsis-one-line">
                                                                     <span class="medium-h4">[자유게시판] ${board.title}</span>
@@ -126,12 +126,12 @@
                                     <div class="tab-pane fade" id="tips" role="tabpanel" aria-labelledby="tips">
                                         <c:choose>
                                             <c:when test="${tips.size() ne 0}">
-                                                <div class="row row-cols-3 community-container-deck">
+                                                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 community-container-deck">
                                                     <c:forEach items="${tips}" var="tip" varStatus="status">
                                                         <c:choose>
                                                             <c:when test="${tip.thumbnail.url ne null}">
                                                                 <div class="col p-8 d-flex align-items-stretch">
-                                                                    <div class="card community-card" data-no="${tip.no}"
+                                                                    <div class="card community-card" data-no="${tip.no}" data-href="/community/tip/detail/${tip.no}"
                                                                          data-type="TIP">
                                                                         <div class="_close" data-no="${tip.no}"
                                                                              data-type="TIP">
@@ -168,7 +168,7 @@
                                                             <c:otherwise>
                                                                 <div class="col p-8 d-flex align-items-stretch">
                                                                     <div class="card community-card is-empty"
-                                                                         data-no="${tip.no}" data-type="TIP">
+                                                                         data-no="${tip.no}" data-type="TIP" data-href="/community/tip/detail/${tip.no}">
                                                                         <div class="_close" data-no="${tip.no}"
                                                                              data-type="TIP">
                                                                             <svg width="32"
@@ -214,12 +214,12 @@
                                     <div class="tab-pane fade" id="manuals" role="tabpanel" aria-labelledby="manuals">
                                         <c:choose>
                                             <c:when test="${manuals.size() ne 0}">
-                                                <div class="row row-cols-3 community-container-deck">
+                                                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 community-container-deck">
                                                     <c:forEach items="${manuals}" var="manual" varStatus="status">
                                                         <c:choose>
                                                             <c:when test="${manual.thumbnail.url ne null}">
                                                                 <div class="col p-8 d-flex align-items-stretch">
-                                                                    <div class="card community-card"
+                                                                    <div class="card community-card" data-href="/community/manual/detail/${manual.no}"
                                                                          data-no="${manual.no}"
                                                                          data-type="MANUAL">
                                                                         <div class="_close" data-no="${manual.no}"
@@ -256,7 +256,7 @@
                                                             </c:when>
                                                             <c:otherwise>
                                                                 <div class="col p-8 d-flex align-items-stretch"
-                                                                     data-no="${manual.no}" data-type="MANUAL">
+                                                                     data-no="${manual.no}" data-type="MANUAL" data-href="/community/manual/detail/${manual.no}">
                                                                     <div class="card community-card is-empty">
                                                                         <div class="_close" data-no="${manual.no}"
                                                                              data-type="MANUAL">
@@ -307,7 +307,7 @@
                                                 <div class="_board-list _comment-board-list">
                                                     <c:forEach items="${questions}" var="question" varStatus="status">
                                                         <div class="_comment_board-item">
-                                                            <div class="_board-container" data-no="${question.no}"
+                                                            <div class="_board-container" data-no="${question.no}" data-href="/community/question/detail/${question.no}"
                                                                  data-type="QUESTION">
                                                                 <div class="_content ellipsis-one-line">
                                                                     <span class="medium-h4">[질문과 답변] ${question.title}</span>
@@ -345,13 +345,13 @@
                                          aria-labelledby="magazines">
                                         <c:choose>
                                             <c:when test="${magazines.size() ne 0}">
-                                                <div class="row row-cols-3 community-container-deck">
+                                                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 community-container-deck">
                                                     <c:forEach items="${magazines}" var="magazine" varStatus="status">
                                                         <c:choose>
                                                             <c:when test="${magazine.thumbnail.url ne null}">
                                                                 <div class="col p-8 d-flex align-items-stretch">
                                                                     <div class="card community-card"
-                                                                         data-no="${magazine.no}"
+                                                                         data-no="${magazine.no}" data-href="/community/magazine/detail/${magazine.no}"
                                                                          data-type="MAGAZINE">
                                                                         <div class="_close" data-type="MAGAZINE"
                                                                              data-no="${magazine.no}">
@@ -387,7 +387,7 @@
                                                             </c:when>
                                                             <c:otherwise>
                                                                 <div class="col p-8 d-flex align-items-stretch">
-                                                                    <div class="card community-card is-empty"
+                                                                    <div class="card community-card is-empty" data-href="/community/magazine/detail/${magazine.no}"
                                                                          data-no="${magazine.no}" data-type="MAGAZINE">
                                                                         <div class="_close" data-type="MAGAZINE"
                                                                              data-no="${magazine.no}">
@@ -479,6 +479,7 @@
             let type = this.dataset.type;
             let no = this.dataset.no;
             updateBookmark(type, no).then((result) => {
+            setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {

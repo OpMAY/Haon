@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<div hidden id="haon_spinner"></div>
 <footer id="footer" class="container-fluid bg-dark">
     <div class="container">
         <div class="row">
@@ -25,25 +26,19 @@
             </div>
             <div class="col-xl-8 col-12 mt-lg-0 mt-3">
                 <div class="row">
-                    <div class="ml-xl-auto col-2">
+                    <div class="ml-xl-auto col-auto col-lg-2 col-xl-auto">
                         <span class="menu-title c-basic-white bold-h3">농장</span>
                         <ul class="list-unstyled menu-list">
-                            <li class="medium-h6"><a href="/community/farms">염소</a></li>
-                            <li class="medium-h6"><a href="/community/farms">소</a></li>
-                            <li class="medium-h6"><a href="/community/farms">양</a></li>
-                            <li class="medium-h6"><a href="/community/farms">닭</a></li>
-                            <li class="medium-h6"><a href="/community/farms">오리</a></li>
-                            <li class="medium-h6"><a href="/community/farms">돼지</a></li>
+                            <li class="medium-h6"><a href="/community/farms?type=SHEEP_GOAT">양 & 염소</a></li>
+                            <li class="medium-h6"><a href="/community/farms?type=CATTLE">소</a></li>
+                            <li class="medium-h6"><a href="/community/farms?type=FOWL">닭</a></li>
+                            <li class="medium-h6"><a href="/community/farms?type=DUCK">오리</a></li>
+                            <li class="medium-h6"><a href="/community/farms?type=PIG">돼지</a></li>
+                            <li class="medium-h6"><a href="/community/farms?type=RABBIT">토끼</a></li>
+                            <li class="medium-h6"><a href="/community/farms?type=HORSE">말</a></li>
                         </ul>
                     </div>
-                    <div class="col-2">
-                        <span class="menu-title c-basic-white bold-h3">축산</span>
-                        <ul class="list-unstyled menu-list">
-                            <li class="medium-h6"><a href="#">개인</a></li>
-                            <li class="medium-h6"><a href="#">기업</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-2">
+                    <div class="col-auto col-lg-2 col-xl-auto">
                         <span class="menu-title c-basic-white bold-h3">커뮤니티</span>
                         <ul class="list-unstyled menu-list">
                             <li class="medium-h6"><a href="/community/boards">자유 게시판</a></li>
@@ -53,10 +48,10 @@
                             <li class="medium-h6"><a href="/community/questions">질문과 답변</a></li>
                         </ul>
                     </div>
-                    <div class="col-2">
-                        <span class="menu-title c-basic-white bold-h3">QR이력제</span>
+                    <div class="col-auto col-lg-2 col-xl-auto">
+                        <span class="menu-title c-basic-white bold-h3">QR 이력제</span>
                         <ul class="list-unstyled menu-list">
-                            <li class="medium-h6"><a class="_trace-search" href="javascript:void(0);">이력 안내</a></li>
+                            <li class="medium-h6"><a href="javascript:void(0);" onclick="javascript:window.open('https://solid-toaster-a80.notion.site/Haun-c0b2323224924f7ab2f67f6c6b02bf2a')">이력 안내</a></li>
                             <li class="medium-h6"><a class="_trace-search" href="javascript:void(0);">이력 조회</a></li>
                             <li class="medium-h6"><a class="_trace-register" href="javascript:void(0);">이력 등록</a></li>
                         </ul>

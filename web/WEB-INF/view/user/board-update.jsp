@@ -175,6 +175,15 @@
                             <div class="_content">
                                 <div id="summernote"></div>
                                 <input type="text" name="content" class="d-none">
+                                <div class="mobile-button-container">
+                                    <button onclick="boardWriteCancel();" type="button"
+                                            class="btn btn-md btn-gray-high-light medium-h5 ml-auto">
+                                        취소
+                                    </button>
+                                    <button type="submit" class="btn btn-md btn-brand medium-h5">
+                                        게시
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -211,6 +220,12 @@
                 let file_element = this.closest('._input-header').querySelector('._input input[type="file"]');
                 file_element.type = 'text';
                 file_element.type = 'file';
+                let origin_file_element = this.closest('._input-header').querySelector('input[name="origin_thumbnail"]');
+                origin_file_element.dataset.name = null;
+                origin_file_element.dataset.url = null;
+                origin_file_element.dataset.size = null;
+                origin_file_element.dataset.type = null;
+                console.log(text_input, file_element, origin_file_element);
                 $(preview).hide();
                 $(preview).css('background-image', 'none');
             });
@@ -280,11 +295,13 @@
                     confirm_text: '확인',
                     onConfirm: function (e) {
                         console.log('Confirm Button Click Callback', e.currentTarget);
-                        location.href = '/user/board/update/${contentForm.community_type.name()}/${contentForm.no}';
+                        let type = '${contentForm.community_type.name()}'.toLowerCase();
+                        location.href = '/community/' + type + '/detail/${contentForm.no}';
                     },
                     onHidden: function (e) {
                         console.log('Modal Hide After Callback', e.currentTarget);
-                        location.href = '/user/board/update/${contentForm.community_type.name()}/${contentForm.no}';
+                        let type = '${contentForm.community_type.name()}'.toLowerCase();
+                        location.href = '/community/' + type + '/detail/${contentForm.no}';
                     }
                 });
             } else {
@@ -326,9 +343,9 @@
         if (!inspection({
             selector: '[name="content"]',
             isFocus: false,
-            regex_type: '10~2000',
+            regex_type: '10~8000',
             empty_text: '게시글 내용을 입력해주세요.',
-            failed_text: '게시글 내용을 정확히 입력해주세요. 10글자 이상, 2000글자 이내',
+            failed_text: '게시글 내용을 정확히 입력해주세요. 10글자 이상, 8000글자 이내',
         })) {
             return_check = false;
         }
@@ -351,21 +368,12 @@
 
         let thumbnail_file_input = document.querySelector('#file1');
         if (thumbnail_file_input !== null && thumbnail_file_input !== undefined) {
-            if (thumbnail_file_input.files.length !== 0) {
-                origin_thumbnail_input.value = JSON.stringify({
-                    name: origin_thumbnail_input.dataset.name,
-                    size: origin_thumbnail_input.dataset.size * 1,
-                    url: origin_thumbnail_input.dataset.url,
-                    type: origin_thumbnail_input.dataset.type,
-                });
-            } else {
-                origin_thumbnail_input.value = JSON.stringify({
-                    name: null,
-                    size: null,
-                    url: null,
-                    type: null,
-                });
-            }
+            origin_thumbnail_input.value = JSON.stringify({
+                name: origin_thumbnail_input.dataset.name,
+                size: origin_thumbnail_input.dataset.size * 1,
+                url: origin_thumbnail_input.dataset.url,
+                type: origin_thumbnail_input.dataset.type,
+            });
         }
         return return_check;
     }

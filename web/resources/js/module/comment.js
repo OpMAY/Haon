@@ -10,9 +10,11 @@ function commentLikeClickEventListener() {
     let no = this.dataset.no;
     let type = this.dataset.commentLike;
     loginCheck().then((result) => {
+        setLoading(false);
         if (result.status === 'OK') {
             if (result.data.status) {
                 updateCommentLike(type, no).then((result) => {
+                    setLoading(false);
                     console.log(result);
                     if (result.status === 'OK') {
                         if (result.data.status) {
@@ -45,9 +47,11 @@ function commentDislikeClickEventListener() {
     let no = this.dataset.no;
     let type = this.dataset.commentDislike;
     loginCheck().then((result) => {
+        setLoading(false);
         if (result.status === 'OK') {
             if (result.data.status) {
                 updateCommentDislike(type, no).then((result) => {
+                    setLoading(false);
                     console.log(result);
                     if (result.status === 'OK') {
                         if (result.data.status) {
@@ -77,36 +81,46 @@ function commentDislikeClickEventListener() {
 }
 
 function deleteClickEventListener(event) {
-    let comment_element = this.closest('._comment');
-    deleteReviewReply(this.dataset.type, this.dataset.no).then((result) => {
-        console.log(result);
-        if (result.status === 'OK') {
-            if (result.data.status) {
-                let comment = result.data.comment;
-                console.log(comment_element);
-                /*TODO _comment-text 바꾸고, _info 바꾸고, _profile-img 바꾸고, 삭제 버튼 지우기*/
-                let comment_text = comment_element.querySelector('._comment-text');
-                comment_text.querySelector('._content').innerHTML = `${comment.content}`;
+    viewModal({
+        title: '댓글',
+        desc: '정말 댓글을 삭제하시겠습니까?',
+        backDrop: true,
+        btnCount: 2,
+        onConfirm: () => {
+            let comment_element = this.closest('._comment');
+            deleteReviewReply(this.dataset.type, this.dataset.no).then((result) => {
+                setLoading(false);
+                console.log(result);
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        let comment = result.data.comment;
+                        console.log(comment_element);
+                        /*TODO _comment-text 바꾸고, _info 바꾸고, _profile-img 바꾸고, 삭제 버튼 지우기*/
+                        let comment_text = comment_element.querySelector('._comment-text');
+                        comment_text.querySelector('._content').innerHTML = `${comment.content}`;
 
-                let comment_info = comment_element.querySelector('._info');
-                comment_info.querySelector('._name').innerHTML = `${comment.user.name}`;
+                        let comment_info = comment_element.querySelector('._info');
+                        comment_info.querySelector('._name').innerHTML = `${comment.user.name}`;
 
-                let comment_profile = comment_element.querySelector('._profile-img');
-                comment_profile.querySelector('img').src = `${comment.user.profile_img.url}`;
+                        let comment_profile = comment_element.querySelector('._profile-img');
+                        comment_profile.querySelector('img').src = `${comment.user.profile_img.url}`;
 
-                let transactions = comment_element.querySelector('._transactions');
-                let reply_parent = comment_element.closest('.reply-comment-container');
-                let reply_check = reply_parent !== null && reply_parent !== undefined ? true : false;
-                if (reply_check) {
-                    transactions.remove();
-                } else {
-                    transactions.querySelector('._reply ._delete').remove();
+                        let transactions = comment_element.querySelector('._transactions');
+                        let reply_parent = comment_element.closest('.reply-comment-container');
+                        let reply_check = reply_parent !== null && reply_parent !== undefined ? true : false;
+                        if (reply_check) {
+                            transactions.remove();
+                        } else {
+                            transactions.querySelector('._reply ._delete').remove();
+                        }
+
+                        viewAlert({content: '해당 메세지가 삭제되었습니다.'});
+                    }
                 }
-
-                viewAlert({content: '해당 메세지가 삭제되었습니다.'});
-            }
+            });
         }
-    });
+    })
+
 }
 
 function cancelClickEventListener() {
@@ -145,57 +159,68 @@ function writeComment(element) {
         let comment_no = input.dataset.commentNo;
         let type = input.dataset.type;
         let no = input.dataset.no;
-        if (comment_no !== undefined && comment_no !== null) {
-            let container = element.closest('.reply-comment-container');
-            insertReviewReply(type, no, input.value.trim(), comment_no).then((result) => {
-                console.log(result);
-                if (result.status === 'OK') {
-                    if (result.data.status) {
-                        if (container.querySelectorAll('._comment').length !== 0) {
-                            let first_comment = container.querySelectorAll('._comment')[0];
-                            $(first_comment).before(createCommentElement(type, result.data.comment));
-                        } else {
-                            $(container).append(createCommentElement(type, result.data.comment));
-                        }
+        loginCheck().then((result) => {
+            setLoading(false);
+            if (result.status === 'OK') {
+                if (result.data.status) {
+                    if (comment_no !== undefined && comment_no !== null) {
+                        let container = element.closest('.reply-comment-container');
+                        insertReviewReply(type, no, input.value.trim(), comment_no).then((result) => {
+                            setLoading(false);
+                            console.log(result);
+                            if (result.status === 'OK') {
+                                if (result.data.status) {
+                                    if (container.querySelectorAll('._comment').length !== 0) {
+                                        let first_comment = container.querySelectorAll('._comment')[0];
+                                        $(first_comment).before(createCommentElement(type, result.data.comment));
+                                    } else {
+                                        $(container).append(createCommentElement(type, result.data.comment));
+                                    }
 
-                        let reply_event = $(`[data-no="${result.data.comment.no}"][data-type="event"]`);
-                        reply_event
-                            .on('click', '._do', doClickEventListener)
-                            .on('click', '._cancel', cancelClickEventListener)
-                            .on('click', '._delete', deleteClickEventListener);
+                                    let reply_event = $(`[data-no="${result.data.comment.no}"][data-type="event"]`);
+                                    reply_event
+                                        .on('click', '._do', doClickEventListener)
+                                        .on('click', '._cancel', cancelClickEventListener)
+                                        .on('click', '._delete', deleteClickEventListener);
 
-                        let reply_container = container.closest('.comment-container').querySelector('._comment ._reply');
-                        $(reply_container).append(`<span class="medium-h5 c-basic-black _do" data-comment-no="${comment_no}" data-type="${type}" data-no="${no}">답글</span>`);
-                        reply_container.querySelector('._cancel').remove();
-                        container.querySelector('.form-group').remove();
+                                    let reply_container = container.closest('.comment-container').querySelector('._comment ._reply');
+                                    $(reply_container).append(`<span class="medium-h5 c-basic-black _do" data-comment-no="${comment_no}" data-type="${type}" data-no="${no}">답글</span>`);
+                                    reply_container.querySelector('._cancel').remove();
+                                    container.querySelector('.form-group').remove();
+                                }
+                            }
+                        });
+                    } else {
+                        let container = element.closest('._comments');
+                        insertReview(type, no, input.value.trim()).then((result) => {
+                            setLoading(false);
+                            console.log(result);
+                            if (result.status === 'OK') {
+                                if (result.data.status) {
+                                    if (container.querySelectorAll('.comment-container').length !== 0) {
+                                        let first_comment = container.querySelectorAll('.comment-container')[0];
+                                        $(first_comment).before(createCommentParentElement(type, result.data.comment));
+                                    } else {
+                                        $(container).append(createCommentParentElement(type, result.data.comment));
+                                    }
+                                    console.log(result.data.comment.no);
+                                    let comment_event = $(`[data-no="${result.data.comment.no}"][data-type="event"]`);
+                                    comment_event
+                                        .on('click', '._do', doClickEventListener)
+                                        .on('click', '._cancel', cancelClickEventListener)
+                                        .on('click', '._delete', deleteClickEventListener);
+
+                                    $(`[data-comment-like="${type}"][data-no="${result.data.comment.no}"]`).on('click', commentLikeClickEventListener);
+                                    $(`[data-comment-dislike="${type}"][data-no="${result.data.comment.no}"]`).on('click', commentDislikeClickEventListener);
+                                }
+                            }
+                        });
                     }
+                } else {
+                    viewAlert({content: '로그인이 필요한 기능입니다.'});
                 }
-            });
-        } else {
-            let container = element.closest('._comments');
-            insertReview(type, no, input.value.trim()).then((result) => {
-                console.log(result);
-                if (result.status === 'OK') {
-                    if (result.data.status) {
-                        if (container.querySelectorAll('.comment-container').length !== 0) {
-                            let first_comment = container.querySelectorAll('.comment-container')[0];
-                            $(first_comment).before(createCommentParentElement(type, result.data.comment));
-                        } else {
-                            $(container).append(createCommentParentElement(type, result.data.comment));
-                        }
-                        console.log(result.data.comment.no);
-                        let comment_event = $(`[data-no="${result.data.comment.no}"][data-type="event"]`);
-                        comment_event
-                            .on('click', '._do', doClickEventListener)
-                            .on('click', '._cancel', cancelClickEventListener)
-                            .on('click', '._delete', deleteClickEventListener);
-
-                        $(`[data-comment-like="${type}"][data-no="${result.data.comment.no}"]`).on('click', commentLikeClickEventListener);
-                        $(`[data-comment-dislike="${type}"][data-no="${result.data.comment.no}"]`).on('click', commentDislikeClickEventListener);
-                    }
-                }
-            });
-        }
+            }
+        });
         input.value = '';
     } else {
         alert({content: '내용을 입력해주세요.'});

@@ -11,7 +11,7 @@
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
-    <div class="container">
+    <div class="container community-mobile-container">
         <!--테마별 키워드-->
         <section class="section sm-section mt-40 mb-40"
                  <c:if test="${magazines.size() eq 0}">style="min-height:calc(100vh - 40px - 40px);"</c:if>>
@@ -138,7 +138,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row row-cols-4 community-container-deck _content-list">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 community-container-deck _content-list">
                 <c:forEach var="item" items="${magazines}">
                     <c:if test="${item.thumbnail.url ne null}">
                         <div class="col p-8 d-flex align-items-stretch" data-no="${item.no}">
@@ -146,7 +146,7 @@
                                 <div class="background-image _thumbnail"
                                      style="background-image:url('${item.thumbnail.url}')">
                                     <div class="background-image _profile"
-                                         style="background-image:url('../../resources/assets/images/sample/sample_profile_1.png')"></div>
+                                         style="background-image:url('${item.profile_image.url}')"></div>
                                 </div>
                                 <div class="card-body _body">
                                     <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
@@ -194,7 +194,7 @@
                         <div class="col p-8 d-flex align-items-stretch" data-no="${item.no}">
                             <div class="card community-card is-empty">
                                 <div class="background-image _profile"
-                                     style="background-image:url('../../resources/assets/images/sample/sample_profile_1.png')"></div>
+                                     style="background-image:url('${item.profile_image.url}')"></div>
                                 <div class="card-body _body">
                                     <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
                                     <div class="card-text _description medium-h5 c-gray-medium">${item.content}</div>
@@ -239,7 +239,7 @@
                     </c:if>
                 </c:forEach>
             </div>
-            <div class="mt-20 _load" data-type="magazine">
+            <div class="mt-20 _load <c:if test="${magazines.size() == 0}">d-none</c:if>" data-type="magazine">
                 <button type="button" class="btn btn-brand-opacity btn-block bold-h5">
                     더 불러오기
                 </button>

@@ -3,12 +3,26 @@ $(document).ready(function () {
         let target = this;
         let modal = target.closest('.modal');
         let description = $('#summernote').summernote('code');
+        let description_regex = /^.{10,8000}$/gm;
+        if ($(description).text().length === 0) {
+            description = '<p>' + description + '</p>';
+        }
+        if (!description_regex.test($(description).text())) {
+            if (!description_regex.test(description)) {
+                viewAlert({content: '게시글 내용을 정확히 입력해주세요. 10글자 이상, 8000글자 이내'});
+                $(modal).modal('hide');
+                return false;
+            }
+        }
+
         updateFarmHouseDetails(description).then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 if (result.data.status) {
                     viewAlert({content: '농장 소개를 변경하였습니다.'});
                     deleteChild($('.summernote-container')[0]);
                     $('.summernote-container').append(description);
+                    $(modal).data('origin', description);
                     $(modal).modal('hide');
                 }
             }
@@ -21,12 +35,29 @@ $(document).ready(function () {
         let blog = target.closest('.modal').querySelector('[name="blog"]').value;
         let homepage = target.closest('.modal').querySelector('[name="homepage"]').value;
         console.log(instagram, blog, homepage);
+        if(instagram.trim().length > 0 && !isValidUrl(instagram)) {
+            viewAlert({content: '인스타그램 주소를 올바르게 입력해주세요.'});
+            return false;
+        }
+        if(blog.trim().length > 0 && !isValidUrl(blog)) {
+            viewAlert({content: '블로그 주소를 올바르게 입력해주세요.'});
+            return false;
+        }
+        if(homepage.trim().length > 0 && !isValidUrl(homepage)) {
+            viewAlert({content: '홈페이지 주소를 올바르게 입력해주세요.'});
+            return false;
+        }
         updateFarmHouseSNS(instagram, blog, homepage).then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 if (result.data.status) {
                     modal.querySelector('[name="instagram"]').value = instagram;
                     modal.querySelector('[name="blog"]').value = blog;
                     modal.querySelector('[name="homepage"]').value = homepage;
+                    $(modal.querySelector('[name="instagram"]')).data('origin', instagram);
+                    $(modal.querySelector('[name="blog"]')).data('origin', blog);
+                    $(modal.querySelector('[name="homepage"]')).data('origin', homepage);
+
 
                     viewAlert({content: 'SNS를 변경하였습니다.'});
                     $(modal).modal('hide');
@@ -37,12 +68,14 @@ $(document).ready(function () {
     $('[data-action="change-name"]').click(function () {
         let target = this;
         let modal = target.closest('.modal');
-        let name = modal.querySelector('[name="name"]').value;
-        updateFarmHouseName(name).then((result) => {
+        let name = modal.querySelector('[name="name"]');
+        updateFarmHouseName(name.value).then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 if (result.data.status) {
-                    $('.farm-detail ._info-container ._title ._text').html(`${name}`);
+                    $('.farm-detail ._info-container ._title ._text').html(`${name.value}`);
                     viewAlert({content: '농장 이름을 변경하였습니다.'});
+                    $(name).data('origin', name.value);
                     $(modal).modal('hide');
                 }
             }
@@ -59,6 +92,7 @@ $(document).ready(function () {
         });
 
         updateFarmHouseHashTag(JSON.stringify(hashs)).then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 if (result.data.status) {
                     let hash_container = $('.farm-detail ._info-container ._recommends > div:first-child');
@@ -76,11 +110,14 @@ $(document).ready(function () {
         let target = this;
         let modal = target.closest('.modal');
         let file_input = modal.querySelector('[type="file"]');
+        let preview = modal.querySelector('._preview-img');
         updateFarmHouseProfile(file_input.files[0]).then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 if (result.data.status) {
                     viewAlert({content: '농장 프로필 이미지를 변경했습니다.'});
                     $('._profile-image').css('background-image', `url('${result.data.file.url}')`);
+                    $(preview).data('originUrl', result.data.file.url);
                     $(modal).modal('hide');
                 }
             }
@@ -90,11 +127,14 @@ $(document).ready(function () {
         let target = this;
         let modal = target.closest('.modal');
         let file_input = modal.querySelector('[type="file"]');
+        let preview = modal.querySelector('._preview-img');
         updateFarmHouseBanner(file_input.files[0]).then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 if (result.data.status) {
                     viewAlert({content: '농장 이미지를 변경했습니다.'});
                     $('._detail-banner').css('background-image', `url('${result.data.file.url}')`);
+                    $(preview).data('originUrl', result.data.file.url);
                     $(modal).modal('hide');
                 }
             }

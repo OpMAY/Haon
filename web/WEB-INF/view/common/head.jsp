@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="/resources/css/module/element.css?vc=${RESOURCES_VERSION}">
     <link rel="stylesheet" href="/resources/css/module/res-element.css?vc=${RESOURCES_VERSION}">
     <link rel="stylesheet" href="/resources/css/module/modal.css?vc=${RESOURCES_VERSION}">
+    <link rel="stylesheet" href="/resources/css/module/res-modal.css?vc=${RESOURCES_VERSION}">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/resources/css/module/summernote.css">
     <title>${HEADER_TITLE}</title>

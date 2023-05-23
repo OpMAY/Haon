@@ -22,7 +22,7 @@
 <div id="content-wrapper" style="display: flex;">
     <div class="container mt-16 mb-16 mb-auto">
         <div class="row section">
-            <div class="col-xl-5 col-lg-8 col-8 ml-auto mr-auto">
+            <div class="col-xl-5 col-lg-8 col-md-8 col-12 ml-auto mr-auto mobile-login-container">
                 <div class="bold-subtitle c-gray-dark-low">농장에 대해서 소개해주세요.</div>
                 <div class="regular-h4 c-gray-medium mt-40">하은 축산에서는 간단 이미지 및 설명을 통해 다른 농장과 사용자에게 효과적으로 소개할 수 있어요!</div>
                 <form action="/auth/${type}/intro" enctype="multipart/form-data" method="post">

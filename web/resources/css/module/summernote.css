@@ -5,6 +5,8 @@
 .summernote-container * {
     font-family: 'Pretendard', Spoqa Han Sans Neo, 'Spoqa Han Sans Neo', 'Noto Sans KR', 'Roboto', Roboto, 'sans-serif', sans-serif !important;
     color: var(--gray-dark-low) !important;
+    float: none !important;
+    margin-left: 0 !important;
 }
 
 .summernote-container ul {

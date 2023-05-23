@@ -159,6 +159,15 @@
                             <div class="_content">
                                 <div id="summernote"></div>
                                 <input type="text" name="content" class="d-none">
+                                <div class="mobile-button-container">
+                                    <button onclick="boardWriteCancel();" type="button"
+                                            class="btn btn-md btn-gray-high-light medium-h5 ml-auto">
+                                        취소
+                                    </button>
+                                    <button type="submit" class="btn btn-md btn-brand medium-h5">
+                                        게시
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -295,12 +304,13 @@
         if (!inspection({
             selector: '[name="content"]',
             isFocus: false,
-            regex_type: '10~2000',
+            regex_type: '10~8000',
             empty_text: '게시글 내용을 입력해주세요.',
-            failed_text: '게시글 내용을 정확히 입력해주세요. 10글자 이상, 2000글자 이내',
+            failed_text: '게시글 내용을 정확히 입력해주세요. 10글자 이상, 8000글자 이내',
         })) {
             return_check = false;
         }
+
         let type = $('#board-filter1').data().type;
         let origin_filter_type_value = $('#board-filter1').val();
         $('#board-filter1').attr("disabled", false);

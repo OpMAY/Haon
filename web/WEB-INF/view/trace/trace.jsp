@@ -1,3 +1,5 @@
+<%@ page import="com.model.farm.trace.Trace" %>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
@@ -10,6 +12,10 @@
 <jsp:include page="../common/tab-overlay.jsp"/>
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
+<%
+    Trace trace = (Trace) request.getAttribute("trace");
+    System.out.println("up log : " + trace.getOther_info());
+%>
 <div id="content-wrapper" class="c-bg-gray">
     <div class="container">
         <!--테마별 키워드-->
@@ -17,14 +23,14 @@
                  style="min-height: calc(80vh);">
             <div class="trace-card">
                 <div class="row p-16">
-                    <div class="col-6 pt-8">
+                    <div class="col-auto pt-8">
                         <img src="../../resources/assets/images/icon/logo-white-theme.png" alt="">
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-auto ml-auto">
                         <div class="form-group form-inner-button">
                             <input type="text" placeholder="이력 번호 또는 묶음 번호 입력" id="trace-search"
-                                   class="form-control input-box medium-h5">
+                                   class="form-control input-box medium-h5" style="padding-right: 48px;">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <g clip-path="url(#clip0_225_6124)">
@@ -67,22 +73,29 @@
                                     <th scope="col">출생 년 월일</th>
                                     <th scope="col">성별</th>
                                     <th scope="col">등급</th>
+                                    <th scope="col">백신 접종 유무</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <td>${trace.entity.entity_type.typeName}</td>
-                                    <td>${trace.entity.birth eq null ? '-' : trace.entity.birth}</td>
+                                    <td><custom:numberDateFormat value="${trace.entity.birth eq null ? '-' : trace.entity.birth}"/></td>
                                     <td>${trace.entity.gender eq null ? '-' : trace.entity.gender}</td>
                                     <td>${trace.entity.rate eq null ? '-' : trace.entity.rate}</td>
+                                    <td>${trace.vaccine.vaccine_used ? '접종' : '접종 안함'}</td>
                                 </tr>
+                                <c:if test="${trace.vaccine.vaccine_used}">
+                                    <tr>
+                                        <td colspan="5">백신 정보 : ${trace.vaccine.vaccine_info}</td>
+                                    </tr>
+                                </c:if>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
 
-                <div class="row row pt-16 pl-16 pr-16">
+                <div class="row pt-16 pl-16 pr-16">
                     <div class="col-12 medium-h4 c-gray-dark-low">
                         사육 정보
                     </div>
@@ -112,7 +125,8 @@
                                                     <svg style="padding-bottom: 2px;" width="20" height="20"
                                                          viewBox="0 0 20 20"
                                                          fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
+                                                         xmlns="http://www.w3.org/2000/svg" class="cursor-pointer"
+                                                         data-href="${breed.breed_farm_url}">
                                                         <g clip-path="url(#clip0_375_14409)">
                                                             <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
                                                                   fill="#222222"/>
@@ -125,7 +139,7 @@
                                                     </svg>
                                                 </c:if>
                                             </td>
-                                            <td>${breed.breed_issue_date eq null ? '-' : breed.breed_issue_date}</td>
+                                            <td><custom:numberDateFormat value="${breed.breed_issue_date eq null ? '-' : breed.breed_issue_date}"/></td>
                                             <td>${breed.breed_farm_addr eq null ? '-' : breed.breed_farm_addr}</td>
                                         </tr>
                                     </c:forEach>
@@ -143,7 +157,7 @@
                     </div>
                 </div>
 
-                <div class="row row pt-16 pl-16 pr-16">
+                <div class="row pt-16 pl-16 pr-16">
                     <div class="col-12 medium-h4 c-gray-dark-low">
                         도축 정보
                     </div>
@@ -151,53 +165,59 @@
 
                 <div class="row p-16">
                     <div class="col-12">
-                        <table class="table table-bordered trace-register-table">
-                            <thead>
-                            <tr>
-                                <th scope="col">도축 결과</th>
-                                <th scope="col">도축장</th>
-                                <th scope="col">년 월일</th>
-                                <th scope="col">소재지</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:if test="${trace.butchery.size() > 0}">
-                                <c:forEach var="butchery" items="${trace.butchery}">
-                                    <tr>
-                                        <td>${butchery.butchery_result == 'true' || butchery.butchery_result == 'Y' ? '합격' : '불합격'}</td>
-                                        <td>${butchery.butchery_corp}
-                                            <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
-                                                 fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <g clip-path="url(#clip0_375_14409)">
-                                                    <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                          fill="#222222"/>
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_375_14409">
-                                                        <rect width="20" height="20" fill="white"/>
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </td>
-                                        <td>${butchery.butchery_date}</td>
-                                        <td>${butchery.butchery_addr}</td>
-                                    </tr>
-                                </c:forEach>
-                            </c:if>
-                            <c:if test="${trace.butchery.size() <= 0}">
-                                <tr data-type="empty">
-                                    <td colspan="4">
-                                        <span class="c-gray-light">도축 정보가 등록되지 않았습니다.</span>
-                                    </td>
+                        <div class="table-responsive">
+                            <table class="table table-bordered trace-register-table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">도축 결과</th>
+                                    <th scope="col">도축장</th>
+                                    <th scope="col">년 월일</th>
+                                    <th scope="col">소재지</th>
                                 </tr>
-                            </c:if>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                <c:if test="${trace.butchery.size() > 0}">
+                                    <c:forEach var="butchery" items="${trace.butchery}">
+                                        <tr>
+                                            <td>${butchery.butchery_result == 'true' || butchery.butchery_result == 'Y' || butchery.butchery_result == '합격' ? '합격' : '불합격'}</td>
+                                            <td>${butchery.butchery_corp}
+                                                <c:if test="${butchery.butchery_url ne null}">
+                                                    <svg style="padding-bottom: 2px;" width="20" height="20"
+                                                         viewBox="0 0 20 20"
+                                                         fill="none" class="cursor-pointer"
+                                                         data-href="${butchery.butchery_url}"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <g clip-path="url(#clip0_375_14409)">
+                                                            <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
+                                                                  fill="#222222"/>
+                                                        </g>
+                                                        <defs>
+                                                            <clipPath id="clip0_375_14409">
+                                                                <rect width="20" height="20" fill="white"/>
+                                                            </clipPath>
+                                                        </defs>
+                                                    </svg>
+                                                </c:if>
+                                            </td>
+                                            <td><custom:numberDateFormat value="${butchery.butchery_date}"/></td>
+                                            <td>${butchery.butchery_addr} ${butchery.butchery_addr_spec}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </c:if>
+                                <c:if test="${trace.butchery.size() <= 0}">
+                                    <tr data-type="empty">
+                                        <td colspan="4">
+                                            <span class="c-gray-light">도축 정보가 등록되지 않았습니다.</span>
+                                        </td>
+                                    </tr>
+                                </c:if>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
-                <div class="row row pt-16 pl-16 pr-16">
+                <div class="row pt-16 pl-16 pr-16">
                     <div class="col-12 medium-h4 c-gray-dark-low">
                         가공 정보
                     </div>
@@ -205,50 +225,69 @@
 
                 <div class="row p-16">
                     <div class="col-12">
-                        <table class="table table-bordered trace-register-table">
-                            <thead>
-                            <tr>
-                                <th scope="col">업소명</th>
-                                <th scope="col">소재지</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:if test="${trace.process.size() > 0}">
-                                <c:forEach var="process" items="${trace.process}">
-                                    <tr>
-                                        <td>${process.process_corp}
-                                            <svg style="padding-bottom: 2px;" width="20" height="20" viewBox="0 0 20 20"
-                                                 fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <g clip-path="url(#clip0_375_14409)">
-                                                    <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
-                                                          fill="#222222"/>
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_375_14409">
-                                                        <rect width="20" height="20" fill="white"/>
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </td>
-                                        <td>${process.process_addr}</td>
-                                    </tr>
-                                </c:forEach>
-                            </c:if>
-                            <c:if test="${trace.process.size() <= 0}">
-                                <tr data-type="empty">
-                                    <td colspan="2">
-                                        <span class="c-gray-light">가공 정보가 등록되지 않았습니다.</span>
-                                    </td>
+                        <div class="table-responsive">
+                            <table class="table table-bordered trace-register-table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">업소명</th>
+                                    <th scope="col">소재지</th>
                                 </tr>
-                            </c:if>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                <c:if test="${trace.process.size() > 0}">
+                                    <c:forEach var="process" items="${trace.process}">
+                                        <tr>
+                                            <td>${process.process_corp}
+                                                <c:if test="${process.process_url ne null}">
+                                                    <svg style="padding-bottom: 2px;" width="20" height="20"
+                                                         viewBox="0 0 20 20"
+                                                         fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg" class="cursor-pointer"
+                                                         data-href="${process.process_url}">
+                                                        <g clip-path="url(#clip0_375_14409)">
+                                                            <path d="M10.9766 9.99865L6.85156 5.87365L8.0299 4.69531L13.3332 9.99865L8.0299 15.302L6.85156 14.1236L10.9766 9.99865Z"
+                                                                  fill="#222222"/>
+                                                        </g>
+                                                        <defs>
+                                                            <clipPath id="clip0_375_14409">
+                                                                <rect width="20" height="20" fill="white"/>
+                                                            </clipPath>
+                                                        </defs>
+                                                    </svg>
+                                                </c:if>
+                                            </td>
+                                            <td>${process.process_addr}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </c:if>
+                                <c:if test="${trace.process.size() <= 0}">
+                                    <tr data-type="empty">
+                                        <td colspan="2">
+                                            <span class="c-gray-light">가공 정보가 등록되지 않았습니다.</span>
+                                        </td>
+                                    </tr>
+                                </c:if>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row pt-16 pl-16 pr-16">
+                    <div class="col-12 medium-h4 c-gray-dark-low">
+                        기타 정보
+                    </div>
+                </div>
+
+                <div class="row p-16">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <textarea rows="8" readonly placeholder="기타 정보가 입력되지 않았습니다."
+                                      class="form-control textarea-underline medium-h5 c-dark-gray-low">${trace.other_info}</textarea>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
         </section>
     </div>
 </div>
@@ -269,12 +308,13 @@
                 viewAlert({content: '검색할 이력 번호를 입력하세요.'});
             } else {
                 searchByCode(value).then((result) => {
-                    if(result.status === 'OK') {
-                        if(result.data.status) {
+                    setLoading(false);
+                    if (result.status === 'OK') {
+                        if (result.data.status) {
                             let no = result.data.data.no;
-                            if(result.data.type === 'trace') {
+                            if (result.data.type === 'trace') {
                                 window.location.href = '/trace/single/' + no;
-                            } else if (result.data.type === 'bundle'){
+                            } else if (result.data.type === 'bundle') {
                                 window.location.href = '/trace/package/' + no;
                             }
                         } else {

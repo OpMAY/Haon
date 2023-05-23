@@ -9,4 +9,6 @@ public class TraceButchery {
     private String butchery_date;
     private String butchery_addr;
     private String butchery_addr_spec;
+    private String butchery_rate;
+    private String butchery_url;
 }

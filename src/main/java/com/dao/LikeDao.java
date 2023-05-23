@@ -243,4 +243,17 @@ public class LikeDao {
     public int getDislikesByComment(Comment comment) {
         return mapper.getDislikesByComment(comment);
     }
+
+
+    public boolean isTipLikeByUserNo(int tip_no, int user_no) {
+        return mapper.isTipLikeByUserNo(tip_no, user_no);
+    }
+
+    public void deleteTipLike(int tip_no, int user_no) {
+        mapper.deleteTipLike(tip_no, user_no);
+    }
+
+    public void insertTipLike(int tip_no, int user_no) {
+        mapper.insertTipLike(tip_no, user_no);
+    }
 }

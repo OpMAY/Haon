@@ -14,7 +14,7 @@
 <div id="content-wrapper" style="display: flex;">
     <div class="container mt-16 mb-16 mb-auto">
         <div class="row section">
-            <div class="col-xl-5 col-lg-8 col-8 ml-auto mr-auto">
+            <div class="col-xl-5 col-lg-8 col-md-8 col-12 ml-auto mr-auto mobile-login-container">
                 <div class="bold-subtitle c-gray-dark-low">어떤 농장를 운영하시나요?</div>
                 <div class="regular-h4 c-gray-medium mt-40">하은 축산에서는 다양한 농장들 간 교류를 우선시 합니다. 운영하고 계신 농가 종류를 입력해주세요.</div>
                 <form method="post" action="/auth/type">

@@ -40,28 +40,32 @@ public class TraceCodeGenerator {
              * **/
             String rateCode;
             String genderCode;
-            switch (trace.getEntity().getRate()) {
-                case "1++" :
-                    rateCode = "1";
-                    break;
-                case "1+":
-                    rateCode = "2";
-                    break;
-                case "1등급":
-                    rateCode = "3";
-                    break;
-                case "2등급":
-                    rateCode = "4";
-                    break;
-                case "3등급":
-                    rateCode = "5";
-                    break;
-                default:
-                    rateCode = "0";
-                    break;
+            if(trace.getEntity().getRate() != null) {
+                switch (trace.getEntity().getRate()) {
+                    case "1++" :
+                        rateCode = "1";
+                        break;
+                    case "1+":
+                        rateCode = "2";
+                        break;
+                    case "1등급":
+                        rateCode = "3";
+                        break;
+                    case "2등급":
+                        rateCode = "4";
+                        break;
+                    case "3등급":
+                        rateCode = "5";
+                        break;
+                    default:
+                        rateCode = "0";
+                        break;
+                }
+            } else {
+                rateCode = "0";
             }
-            switch (trace.getEntity().getRate()) {
-                case "수컷" :
+            switch (trace.getEntity().getGender()) {
+                case "비거세" :
                     genderCode = "1";
                     break;
                 case "암컷":
@@ -85,7 +89,7 @@ public class TraceCodeGenerator {
             } else {
                 workCode = workCode.substring(0, 3);
             }
-            return workCode + rateCode + trace.getEntity().getEntity_type().getSpeciesCode() + genderCode + TokenGenerator.RandomIntegerToken(5);
+            return trace.getEntity().getEntity_type().getSpeciesCode() + rateCode + genderCode + workCode + TokenGenerator.RandomIntegerToken(5);
         }
     }
 

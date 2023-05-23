@@ -40,4 +40,10 @@
         from bundle
         ORDER BY reg_datetime DESC
     </select>
+    <select id="getBundlesByCode" resultType="Bundle">
+        select *
+        from bundle
+        WHERE bundle_code like CONCAT('%', #{code}, '%')
+        ORDER BY reg_datetime DESC
+    </select>
 </mapper>

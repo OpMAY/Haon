@@ -94,7 +94,7 @@
                         <div class="page-title-box">
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="../dashboard.html">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
                                     <li class="breadcrumb-item active">검색 키워드 관리</li>
                                 </ol>
                             </div>
@@ -203,9 +203,9 @@
             },
             onItemAdd: function (value, $item) {
                 console.log(value, $item);
-                let category_regex = /^[가-힣a-zA-Z\d\s]{2,10}$/;
+                let category_regex = /^[가-힣a-zA-Z\d\s]{1,10}$/;
                 if (!category_regex.test(value.trim())) {
-                    alert('추천 검색은 2글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
+                    alert('추천 검색은 1글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
                     $item.remove();
                     return false;
                 }
@@ -225,8 +225,7 @@
                 });
             },
             onDelete: function (e) {
-                if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
-                    'Are you sure you want to remove "' + e[0] + '"?')) {
+                if (confirm('"' + e[0] + '"' + '를 삭제하시겠습니까?')) {
                     removeKeyword('RECOMMEND', e[0]).then((result) => {
                         console.log(result);
                         if (result.status === 'OK') {
@@ -259,9 +258,9 @@
             },
             onItemAdd: function (value, $item) {
                 console.log(value, $item);
-                let category_regex = /^[가-힣a-zA-Z\d\s]{2,10}$/;
+                let category_regex = /^[가-힣a-zA-Z\d\s]{1,10}$/;
                 if (!category_regex.test(value.trim())) {
-                    alert('검색 키워드는 2글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
+                    alert('검색 키워드는 1글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
                     $item.remove();
                     return false;
                 }
@@ -281,8 +280,7 @@
                 });
             },
             onDelete: function (e) {
-                if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
-                    'Are you sure you want to remove "' + e[0] + '"?')) {
+                if (confirm('"' + e[0] + '"' + '를 삭제하시겠습니까?')) {
                     removeKeyword('SEARCH', e[0]).then((result) => {
                         console.log(result);
                         if (result.status === 'OK') {

@@ -253,4 +253,28 @@ public class Format {
     public static String removeBrackets(String arrayString) {
         return arrayString.substring(arrayString.indexOf("[") + 1, arrayString.lastIndexOf("]"));
     }
+
+    public static String formatTextareaContent(String str) {
+        if (str == null) return null;
+
+        byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
+        String text = new String(bytes, StandardCharsets.UTF_8);
+        str = text;
+        str = str.replaceAll("<", "&#60;");
+        str = str.replaceAll(">", "&#62;");
+        str = str.replaceAll("\r\n", "<br>");
+        str = str.replaceAll("\\n", "<br>");
+        return str;
+    }
+
+    public static String deformatTexareaContent(String str) {
+        if (str == null) return null;
+
+        byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
+        str = new String(bytes, StandardCharsets.UTF_8);
+        str = str.replaceAll("<br>", "\n");
+        str = str.replaceAll("&#60;", "<");
+        str = str.replaceAll("&#62;", ">");
+        return str;
+    }
 }

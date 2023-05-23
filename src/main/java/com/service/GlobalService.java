@@ -9,6 +9,7 @@ import com.model.content.question.QuestionSummary;
 import com.model.content.tips.Tips;
 import com.model.farm.Farm;
 import com.model.global.Banner;
+import com.model.global.keyword.SearchKeyword;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class GlobalService {
     private final ContentDao contentDao;
     private final LikeDao likeDao;
     private final BookmarkDao bookmarkDao;
+    private final SearchKeywordDao searchKeywordDao;
 
     private final EncryptionService encryptionService;
 
@@ -55,6 +57,7 @@ public class GlobalService {
         List<Manual> manuals = contentDao.getMainManuals();
         List<Magazine> magazines = contentDao.getMainMagazines();
         List<QuestionSummary> questions = contentDao.getMainQuestions();
+        List<SearchKeyword> keywords = searchKeywordDao.getAllKeywords();
         List<Farm> farms = farmDao.getMainFarms();
         Integer userNo = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
 
@@ -89,6 +92,10 @@ public class GlobalService {
             manual.setProfile_image(farmDao.getFarmByNo(manual.getFarm_no()).getProfile_image());
         }
 
+        for (Magazine magazine : magazines) {
+            magazine.setProfile_image(farmDao.getFarmByNo(0).getProfile_image());
+        }
+
         view.addObject("banners", banners);
         view.addObject("live_boards", live_boards);
         view.addObject("tips", tips);
@@ -96,7 +103,8 @@ public class GlobalService {
         view.addObject("magazines", magazines);
         view.addObject("questions", questions);
         view.addObject("farms", farms);
-        if(!magazines.isEmpty()) {
+        view.addObject("keywords", keywords);
+        if (!magazines.isEmpty()) {
             int magazineSize = magazines.size() - 1;
             view.addObject("randomMagazine", magazines.get((new Random().nextInt(magazineSize - 1) + 1)));
         }

@@ -19,7 +19,7 @@
 <div id="content-wrapper" style="display: flex;">
     <div class="container mt-16 mb-16">
         <div class="row section">
-            <div class="col-xl-5 col-lg-8 col-8 ml-auto mr-auto">
+            <div class="col-xl-5 col-lg-8 col-md-8 col-12 ml-auto mr-auto mobile-login-container">
                 <div class="bold-subtitle c-gray-dark-low">5초 만에 축산 커뮤니티 가입</div>
                 <div class="regular-h4 c-gray-medium mt-40">현재 하은 축산에서 166 곳의 농가와 축산에 관심있는 1523명의 사용자 간 소통이 이루어지고
                     있습니다.

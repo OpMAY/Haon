@@ -75,6 +75,7 @@ public class UserController {
     @RequestMapping(value = "/board/write", method = RequestMethod.POST)
     public ModelAndView postBoardWrite(HttpServletRequest request, ContentForm contentForm) {
         ModelAndView VIEW = new ModelAndView("user/board-write");
+        log.info(contentForm.toString());
         Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
         Farm farm = farmService.getFarmByUserNo(user_no);
         contentForm.setFarm_no(farm.getNo());
@@ -157,6 +158,7 @@ public class UserController {
             case TIP:
             case MANUAL:
             case MAGAZINE:
+                log.info(contentForm.toString());
                 if (contentForm.getFile() != null && contentForm.getFile().getSize() != 0) {
                     thumbnail = fileUploadUtility.uploadFile(contentForm.getFile(), CDNUploadPath.COMMUNITY.getPath() + "/" + contentForm.getCommunity_type().name() + "/" + farm.getNo());
                     contentService.updateCommunityThumbnail(contentForm, thumbnail);
@@ -165,6 +167,9 @@ public class UserController {
                 } else {
                     try {
                         thumbnail = new Gson().fromJson(contentForm.getOrigin_thumbnail(), MFile.class);
+                        if (thumbnail.getSize() == null || thumbnail.getName() == null || thumbnail.getType() == null || thumbnail.getUrl() == null) {
+                            thumbnail = null;
+                        }
                     } catch (Exception e) {
                         thumbnail = null;
                     }
@@ -238,11 +243,13 @@ public class UserController {
         ArrayList<Tips> tips = contentService.getTips(farm.getNo());
         for (Tips tip : tips) {
             tip.set_new_comment(readService.ownerCheck(COMMENT_TYPE.BOARD, tip.getNo()));
+            tip.setProfile_image(farmService.getFarmByFarmNo(tip.getFarm_no()).getProfile_image());
         }
 
         ArrayList<Manual> manuals = contentService.getManuals(farm.getNo());
         for (Manual manual : manuals) {
             manual.set_new_comment(readService.ownerCheck(COMMENT_TYPE.BOARD, manual.getNo()));
+            manual.setProfile_image(farmService.getFarmByFarmNo(manual.getFarm_no()).getProfile_image());
         }
 
         ArrayList<Question> questions = contentService.getQuestions(farm.getNo());
@@ -310,7 +317,7 @@ public class UserController {
                         mainComment = commentService.getFarmCommentByNo(comment.getRecomment());
                         break;
                 }
-                if (mainComment != null) {
+                if (mainComment != null && !mainComment.is_blocked()) {
                     ArrayList<Comment> myComment = new ArrayList<>();
                     myComment.add(comment);
                     mainComment.setRecomments(myComment);

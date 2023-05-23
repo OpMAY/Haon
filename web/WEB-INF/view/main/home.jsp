@@ -6,6 +6,7 @@
 <%@ page import="com.model.content.tips.Tips" %>
 <%@ page import="com.model.global.Banner" %>
 <%@ page import="com.model.farm.Farm" %>
+<%@ page import="com.model.global.keyword.SearchKeyword" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -34,6 +35,8 @@
     Magazine magazine = (Magazine) request.getAttribute("randomMagazine");
     request.setAttribute("randomMagazine", magazine);
 
+    List<SearchKeyword> searchKeywordList = (List<SearchKeyword>) request.getAttribute("keywords");
+    request.setAttribute("keywords", searchKeywordList);
 %>
 <html lang="ko">
 <jsp:include page="../common/head.jsp"/>
@@ -131,39 +134,11 @@
                 </div>
             </div>
             <div class="theme-keyword">
-                <button type="button" class="btn btn-md btn-brand bold-h4">
-                    전체
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    기타
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    퀘스트
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    아이템
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    사료
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    도축&가공
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    기타
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    퀘스트
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    아이템
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    사료
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    도축&가공
-                </button>
+                <c:forEach var="keyword" items="${keywords.get(1).keywords}">
+                    <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
+                        ${keyword}
+                    </button>
+                </c:forEach>
             </div>
         </section>
         <!--실시간 자유 게시판-->
@@ -306,7 +281,7 @@
                 </div>
             </c:if>
             <c:if test="${live_boards.size() <= 0}">
-                <div class="regular-h5" style="text-align: center">
+                <div class="regular-h5 res-empty-text" style="text-align: center">
                     <span>등록된 자유 게시판이 없습니다. 지금 바로 등록해보세요.</span>
                 </div>
             </c:if>
@@ -340,7 +315,7 @@
                             <c:when test="${tip.thumbnail.url eq null}">
                                 <div class="card community-card is-empty" data-no="${tip.no}">
                                     <div class="background-image _profile"
-                                         style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                         style="background-image:url('${tip.profile_image.url}')"></div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${tip.title}</h5>
                                         <div class="card-text _description medium-h5 c-gray-medium">${tip.content}</div>
@@ -387,7 +362,7 @@
                                     <div class="background-image _thumbnail"
                                          style="background-image:url(${tip.thumbnail.url})">
                                         <div class="background-image _profile"
-                                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                             style="background-image:url('${tip.profile_image.url}')"></div>
                                     </div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${tip.title}</h5>
@@ -467,7 +442,7 @@
                             <c:when test="${item.thumbnail.url eq null}">
                                 <div class="card community-card is-empty" data-no="${item.no}">
                                     <div class="background-image _profile"
-                                         style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                         style="background-image:url('${item.profile_image.url}')"></div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
                                         <div class="card-text _description medium-h5 c-gray-medium">${item.content}</div>
@@ -514,7 +489,7 @@
                                     <div class="background-image _thumbnail"
                                          style="background-image:url(${item.thumbnail.url})">
                                         <div class="background-image _profile"
-                                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                             style="background-image:url('${item.profile_image.url}')"></div>
                                     </div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
@@ -595,7 +570,7 @@
                             <c:when test="${item.thumbnail.url eq null}">
                                 <div class="card community-card is-empty" data-no="${item.no}">
                                     <div class="background-image _profile"
-                                         style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                         style="background-image:url('${item.profile_image.url}')"></div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
                                         <div class="card-text _description medium-h5 c-gray-medium">${item.content}</div>
@@ -642,7 +617,7 @@
                                     <div class="background-image _thumbnail"
                                          style="background-image:url(${item.thumbnail.url})">
                                         <div class="background-image _profile"
-                                             style="background-image:url('../resources/assets/images/sample/card-profile-image.png')"></div>
+                                             style="background-image:url('${item.profile_image.url}')"></div>
                                     </div>
                                     <div class="card-body _body">
                                         <h5 class="card-title _title bold-h4 c-gray-dark-low">${item.title}</h5>
@@ -1207,6 +1182,7 @@
             let last_comment = display_comment_list[last_idx];
             let last_comment_no = last_comment.dataset.commentNo * 1;
             loadMoreComments('question', question_no, last_comment_no).then((result) => {
+                setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         result.data.comments.forEach((element, index) => {
@@ -1258,6 +1234,7 @@
 
         $('#question-section .section-title ._title button').on('click', function () {
             loginCheck().then((result) => {
+            setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         viewAlert({content: '질문하기 화면으로 넘어가기'});

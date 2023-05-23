@@ -41,7 +41,7 @@
     </div>
     <div class="container mt-96 mb-auto">
         <div class="row section farm-detail">
-            <div class="col-8 col-lg-6 mx-auto">
+            <div class="col-12 col-md-8 col-lg-8 col-xl-6 offset-md-2 offset-lg-2 offset-xl-3">
                 <div class="_info-container">
                     <div class="_title bold-subtitle c-gray-dark-low">
                         <div class="d-inline-block _text">
@@ -114,9 +114,20 @@
                         </span>
                     </div>
                     <div class="_desc">
-                        <div class="summernote-container">
-                            ${farm.description}
-                        </div>
+                        <c:choose>
+                            <c:when test="${farm.description ne null}">
+                                <div class="summernote-container">
+                                        ${farm.description}
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="summernote-container">
+                                    <div class="regular-h4 c-gray-light" style="text-align: center">
+                                        <span>농장 소개가 없습니다.</span>
+                                    </div>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
                         <div class="summernote-inner-container">
                             <div class="_edit" data-modal-id="mypage-intro-changed">
                                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
@@ -168,7 +179,7 @@
                         </div>
                     </div>
                     <div class="col-12 ">
-                        <div class="modal-name-change _preview-img background-image"
+                        <div class="modal-name-change _preview-img background-image" data-origin-url="${farm.farm_image.url}"
                              style="background-image: url('${farm.farm_image.url}')">
                         </div>
                     </div>
@@ -222,7 +233,7 @@
                     </div>
 
                     <div class="col-12 ">
-                        <div class="modal-name-change _preview-img background-image"
+                        <div class="modal-name-change _preview-img background-image" data-origin-url="${farm.profile_image.url}"
                              style="background-image: url('${farm.profile_image.url}')">
                         </div>
                     </div>
@@ -308,6 +319,7 @@
                                    name="name"
                                    placeholder="농장 이름 입력"
                                    value="${farm.name}"
+                                   data-origin="${farm.name}"
                                    class="form-control input-underline input-brand-green medium-h4">
                         </div>
                     </div>
@@ -340,6 +352,7 @@
                             <input type="text"
                                    name="instagram"
                                    placeholder="인스타그램 링크 입력"
+                                   data-origin="${farm.sns.instagram}"
                                    value="${farm.sns.instagram}"
                                    class="form-control input-underline input-brand-green medium-h4">
                         </div>
@@ -351,6 +364,7 @@
                             <input type="text"
                                    name="blog"
                                    placeholder="블로그 링크 입력"
+                                   data-origin="${farm.sns.blog}"
                                    value="${farm.sns.blog}"
                                    class="form-control input-underline input-brand-green medium-h4">
                         </div>
@@ -361,6 +375,7 @@
                             <input type="text"
                                    name="homepage"
                                    placeholder="홈페이지 링크 입력"
+                                   data-origin="${farm.sns.homepage}"
                                    value="${farm.sns.homepage}"
                                    class="form-control input-underline input-brand-green medium-h4">
                         </div>
@@ -459,7 +474,7 @@
 </div>
 <!-- Modal -->
 <div class="modal fade" modal-title="농장 소개 변경" id="mypage-intro-changed" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-lg">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-lg modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title bold-h3">농장 소개 변경</div>
@@ -506,8 +521,21 @@
         let hashtag_input = document.querySelector('#input-hashtag');
         hashtag_input.addEventListener('keypress', function (event) {
             let hash_container = document.querySelector('#mypage-hashtag-changed .btn-hashtag-container');
+            let checked_value = this.value;
             if (event.keyCode === 13) {
-                $(hash_container).append(createHashtagElement(this.value));
+                let hashtags = hash_container.querySelectorAll('.btn-hashtag');
+                let duplicate_check = false;
+                hashtags.forEach(function (tag) {
+                    console.log(tag.textContent.trim() === checked_value);
+                    if (tag.textContent.trim() === checked_value) {
+                        duplicate_check = true;
+                    }
+                });
+                if (!duplicate_check) {
+                    $(hash_container).append(createHashtagElement(checked_value));
+                } else {
+                    viewAlert({content: '해시태그는 중복이 불가능 합니다.', zIndex: 9999});
+                }
                 this.value = '';
             }
         });
@@ -550,6 +578,44 @@
         $('[name="banner_upload"]').click(function () {
             $('#banner-upload').click();
         });
+
+        // On modal dismiss
+        $('#mypage-banner-changed').on('hidden.bs.modal', function () {
+            $(this).find('input').val('');
+            let preview = $(this).find('._preview-img');
+            preview.css('background-image', `url("` + preview.data('originUrl') + `")`);
+        })
+        $('#mypage-image-changed').on('hidden.bs.modal', function () {
+            $(this).find('input').val('');
+            let preview = $(this).find('._preview-img');
+            preview.css('background-image', `url("` + preview.data('originUrl') + `")`);
+        })
+        $('#mypage-hashtag-changed').on('hidden.bs.modal', function () {
+            let input = $(this).find('input');
+            input.val('');
+        })
+        $('#mypage-name-changed').on('hidden.bs.modal', function () {
+            let input = $(this).find('input')
+            input.val(input.data().origin);
+        })
+        $('#mypage-sns-changed').on('hidden.bs.modal', function () {
+            let input = $(this).find('input');
+            input.each((idx, elem) => {
+                $(elem).val($(elem).data().origin);
+            })
+        })
+
+        $('#mypage-intro-changed').on('show.bs.modal', function () {
+            let note = $(this).find('.note-editable.card-block');
+            let origin_data = note.html();
+            let modal = $(this);
+            modal.data('origin', origin_data);
+        })
+
+        $('#mypage-intro-changed').on('hidden.bs.modal', function () {
+            let modal = $(this);
+            $('#summernote').summernote('code', modal.data('origin'));
+        })
     });
 </script>
 </body>

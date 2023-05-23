@@ -16,7 +16,7 @@ body .general-modal {
     transform: var(--translate-lr-center);
 
     margin-bottom: 0;
-
+    word-break: keep-all;
     border: none;
     border-radius: var(--radius-5);
 }

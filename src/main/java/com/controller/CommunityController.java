@@ -26,11 +26,13 @@ import com.model.content.question.QuestionSummary;
 import com.model.content.tips.Tips;
 import com.model.farm.Farm;
 import com.model.global.category.CATEGORY_TYPE;
+import com.model.global.category.CommunityCategory;
 import com.model.queue.ServerTokenType;
 import com.model.queue.Token;
 import com.service.*;
 import com.util.Encryption.EncryptionService;
 import com.util.Encryption.JWTEnum;
+import com.util.Format;
 import com.util.TokenGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -230,13 +232,22 @@ public class CommunityController {
     }
 
     @RequestMapping(value = "/boards", method = RequestMethod.GET)
-    public ModelAndView communityBoardsPage() {
+    public ModelAndView communityBoardsPage(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("community/boards");
         List<Board> boards = contentService.getCommunityBoardsPage(null, ORDER_TYPE.RECENT);
-        VIEW.addObject("boards", boards);
-        VIEW.addObject("categories", categoryDao.getCommunityCategory(CATEGORY_TYPE.BOARD));
+        Integer user_no = encryptionService.getSessionParameter((String) request.getSession().getAttribute(JWTEnum.JWTToken.name()), JWTEnum.NO.name());
+
+        for (Board board : boards) {
+            board.setFarm(farmService.getFarmByFarmNo(board.getFarm_no()));
+            if (user_no != null) {
+                board.set_bookmark(bookmarkService.isBoardBookmarkByUserNo(board.getNo(), user_no));
+            }
+            board.setContent(Format.summernoteHTMLToString(board.getContent()));
+        }
+        VIEW.addObject("boards",boards);
+        VIEW.addObject("categories",categoryDao.getCommunityCategory(CATEGORY_TYPE.BOARD));
         return VIEW;
-    }
+}
 
     @RequestMapping(value = "/farm/detail/{farm_no}", method = RequestMethod.GET)
     public ModelAndView getFarmDetail(HttpServletRequest request, @PathVariable("farm_no") int farm_no) {
@@ -247,11 +258,27 @@ public class CommunityController {
             farm.set_bookmark(farmService.isFarmBookmark(farm.getNo(), user_no));
         }
 
+        CommunityCategory board_categories = categoryDao.getCommunityCategory(CATEGORY_TYPE.BOARD);
+        CommunityCategory tip_categories = categoryDao.getCommunityCategory(CATEGORY_TYPE.TIP);
+        CommunityCategory manual_categories = categoryDao.getCommunityCategory(CATEGORY_TYPE.MANUAL);
+        CommunityCategory question_categories = categoryDao.getCommunityCategory(CATEGORY_TYPE.QUESTION);
+
+        VIEW.addObject("board_categories", board_categories);
+        VIEW.addObject("tip_categories", tip_categories);
+        VIEW.addObject("manual_categories", manual_categories);
+        VIEW.addObject("question_categories", question_categories);
+
         // GET BOARDS
         List<Board> boards = contentService.getFarmBoards(farm_no, 0, null);
 
         // GET TIPS
         List<Tips> tips = contentService.getFarmTips(farm_no, 0, null);
+        for (Tips tip : tips) {
+            if (user_no != null) {
+                tip.set_bookmark(bookmarkService.isTipBookmarkByUserNo(tip.getNo(), user_no));
+            }
+            tip.setProfile_image(farmService.getFarmByFarmNo(tip.getFarm_no()).getProfile_image());
+        }
 
         //Get Comment
         ArrayList<FarmComment> comments = commentService.getFarmComments(farm_no);
@@ -512,6 +539,9 @@ public class CommunityController {
     public ModelAndView communityMagazinesPage(HttpServletRequest request) {
         ModelAndView VIEW = new ModelAndView("community/magazines");
         List<Magazine> magazines = contentService.getCommunityMagazinesPage(null, ORDER_TYPE.RECENT, request);
+        for (Magazine magazine : magazines) {
+            magazine.setProfile_image(farmService.getFarmByFarmNo(0).getProfile_image());
+        }
         VIEW.addObject("magazines", magazines);
         VIEW.addObject("categories", categoryDao.getCommunityCategory(CATEGORY_TYPE.MAGAZINE));
         return VIEW;

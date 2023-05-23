@@ -4,7 +4,17 @@ let is_resize = true;
 window.onload = function () {
     mobilePlaceHolderChanger('data-mobile-holder');
     zoomOutMobile();
+    footerResponseControl();
 };
+
+function footerResponseControl() {
+    let pathname = location.pathname;
+    if (isResponseSize(767) && pathname !== '/') {
+        $('#footer').hide();
+    } else {
+        $('#footer').show();
+    }
+}
 
 function headerResponseControl() {
     let header = document.querySelector('#header');
@@ -27,10 +37,10 @@ function headerResponseControl() {
 
 function zoomOutMobile() {
     let viewport = document.querySelector('meta[name="viewport"]');
-    if (isResponseSize(521)) {
+    if (isResponseSize(481)) {
         if (viewport) {
             viewport.content = "initial-scale=0.1";
-            viewport.content = "width=520";
+            viewport.content = "width=480";
         }
     } else {
         viewport.content = "initial-scale=0.1";
@@ -50,13 +60,14 @@ function zoomOutMobile() {
                 resizeTimeout = null;
                 actualResizeHandler();
                 // The actualResizeHandler will execute at a rate of 15fps
-            }, 500);
+            }, 1000);
         }
     }
 
     function actualResizeHandler() {
         // handle the resize event
         zoomOutMobile();
+        footerResponseControl();
     }
 }());*/
 
@@ -217,7 +228,7 @@ $(document).ready(function () {
         event.stopPropagation();
         event.preventDefault();
     });
-    $('#footer ._trace-search').click(function (event) {
+    $('#footer ._trace-search, #bottom-tab ._trace-search').click(function (event) {
         let search_tab = $('#tab-search');
         search_tab.slideUp(200);
 
@@ -239,6 +250,7 @@ $(document).ready(function () {
     register_buttons.forEach(function (register_button) {
         register_button.addEventListener('click', function (event) {
             loginCheck().then((result) => {
+                setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         location.href = '/user/trace';
@@ -259,13 +271,13 @@ $(document).ready(function () {
         let check = tab_overlay.css('display') === 'block' ? true : false;
 
         if (check) {
-            if ($(event.target.closest('#header-left-sidebar')).length === 0 && $(event.target.closest('#header-right-sidebar')).length === 0 && $(event.target.closest('#tab-search')).length === 0 && $(event.target.closest('#tab-trace')).length === 0) {
+            if ($(event.target.closest('#header-left-sidebar')).length === 0 && $(event.target.closest('#header-right-sidebar')).length === 0 && $(event.target.closest('#tab-search')).length === 0 && $(event.target.closest('#tab-trace')).length === 0 && $('#search-trace-qr-modal').length === 0) {
                 tab_overlay.hide();
             }
             if ($(event.target.closest('#tab-search')).length === 0) {
                 search_tab.slideUp(200);
             }
-            if ($(event.target.closest('#tab-trace')).length === 0) {
+            if ($(event.target.closest('#tab-trace')).length === 0 && $('#search-trace-qr-modal').length === 0) {
                 trace_tab.slideUp(200);
             }
             if ($(event.target.closest('#header-left-sidebar')).length === 0) {
@@ -279,11 +291,14 @@ $(document).ready(function () {
 
     $('[data-href]').on('click', function (event) {
         let target = this.getAttribute('target');
+        let url = this.dataset.href;
+
         if (target !== null && target !== undefined) {
-            window.open(this.dataset.href);
+            window.open(url);
         } else {
-            location.href = this.dataset.href;
+            window.location.href = url;
         }
+
         event.preventDefault();
         event.stopPropagation();
     });
@@ -297,14 +312,20 @@ $(document).ready(function () {
         let order = $('[data-type="order"]').closest('.dropdown').find('[data-toggle="dropdown"] .dropdown-input').data().type;
         if ($contents.length > 0) {
             let last_elem = $contents[$contents.length - 1];
-            loadMoreContents(type, last_elem.dataset.no, order, category).then((result) => listFormatOnResult(result, type, false))
+            loadMoreContents(type, last_elem.dataset.no, order, category).then((result) => {
+                setLoading(false);
+                listFormatOnResult(result, type, false)
+            })
         } else {
-            loadMoreContents(type, 0, order, category).then((result) => listFormatOnResult(result, type, false))
+            loadMoreContents(type, 0, order, category).then((result) => {
+                setLoading(false);
+                listFormatOnResult(result, type, false)
+            })
         }
     })
 
     /** Dropdown */
-    $('.dropdown-menu').on('click', 'a.dropdown-item', function (event) {
+    $(document).on('click', '.dropdown-menu a.dropdown-item', function (event) {
         let dropdown_item = this;
         let input = dropdown_item.closest('.dropdown').querySelector('[data-toggle="dropdown"] .dropdown-input');
         let text = dropdown_item.textContent.trim();
@@ -332,6 +353,7 @@ $(document).ready(function () {
 
     $('._logout').click(function (event) {
         logout().then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 viewModal({
                     vCenter: true,
@@ -369,9 +391,11 @@ $(document).ready(function () {
         let type = this.dataset.bookmark;
         let size = this.dataset.size;
         loginCheck().then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 if (result.data.status) {
                     updateBookmark(type, no).then((result) => {
+                        setLoading(false);
                         console.log(result);
                         if (result.status === 'OK') {
                             if (result.data.status) {
@@ -452,9 +476,9 @@ $(document).ready(function () {
     $('#tab-search').on('click', '.form-group > svg', function () {
         let input = $('#tab-search-input');
         if (input.val().trim().length > 0) {
-            let searches = getCookie('searches');
+            let searches = Storage.get('searches');
             if (searches !== null) {
-                let search_array = JSON.parse(searches);
+                let search_array = JSON.parse(searches).data;
                 //중복 제거 후 push
                 let is_duplicate = false;
                 for (let index in search_array) {
@@ -467,13 +491,13 @@ $(document).ready(function () {
                 }
                 if (!is_duplicate) {
                     search_array.push(input.val());
-                    deleteCookie('searches');
-                    setCookie({key: 'searches', value: JSON.stringify(search_array)});
+                    Storage.unset('searches');
+                    Storage.set('searches', JSON.stringify({data: search_array, date: new Date().getTime()}));
                 }
             } else {
                 let search_array = new Array();
                 search_array.push(input.val());
-                setCookie({key: 'searches', value: JSON.stringify(search_array)});
+                Storage.set('searches', JSON.stringify({data: search_array, date: new Date().getTime()}));
             }
             window.location.href = `/search/${encodeURI(input.val())}`;
         } else {
@@ -496,20 +520,26 @@ $(document).ready(function () {
     if (tab_search) {
         let list_container = tab_search.querySelector('.list-group');
         deleteChild(list_container);
-        let searches = getCookie('searches');
+        let searches = Storage.get('searches');
         if (searches !== null) {
-            searches = JSON.parse(searches);
+            searches = JSON.parse(searches).data;
             searches = searches.reverse();
             if (searches.length !== 0) {
                 for (let index in searches) {
                     if (searches.hasOwnProperty(index) && index < 5) {
                         // your code
                         $(list_container).append(`<li class="list-group-item">
-                                                  <div data-href="/search/${encodeURI(searches[index])}">${searches[index]}</div>
+                                                  <div data-id="${index}" data-href="/search/${encodeURI(searches[index])}">${searches[index]}</div>
                                                   <svg class="my-auto" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                       <path d="M6 18L18 6M6 6L18 18" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                                                   </svg>
                                               </li>`);
+                        let items = list_container.querySelectorAll('.list-group-item [data-id]');
+                        items.forEach(function (item) {
+                            item.addEventListener('click', function (event) {
+                                location.href = this.dataset.href;
+                            });
+                        });
                     }
                 }
             } else {
@@ -522,10 +552,10 @@ $(document).ready(function () {
         latest_buttons.forEach(function (latest_button) {
             latest_button.querySelector('svg').addEventListener('click', function (event) {
                 let list_item = this.closest('.list-group-item');
-                let searches = getCookie('searches');
+                let searches = Storage.get('searches');
                 let text = list_item.querySelector('[data-href]').innerText.trim();
                 if (searches !== null) {
-                    searches = JSON.parse(searches);
+                    searches = JSON.parse(searches).data;
                     searches = searches.filter(function (search) {
                         if (search === text) {
                             return false;
@@ -537,8 +567,8 @@ $(document).ready(function () {
                         list_item.closest('.list-group').parentElement.remove();
                     }
                     list_item.remove();
-                    deleteCookie('searches');
-                    setCookie({key: 'searches', value: JSON.stringify(searches)});
+                    Storage.unset('searches');
+                    Storage.set('searches', JSON.stringify({data: searches, date: new Date().getTime()}));
                 }
                 event.stopPropagation();
                 event.preventDefault();
@@ -547,20 +577,23 @@ $(document).ready(function () {
     }
     if (!location.pathname.includes('/auth/register') && !location.pathname.includes('/auth/oauth')) {
         loginCheck().then((result) => {
+            setLoading(false);
             if (result.status === 'OK') {
                 if (result.data.status) {
                     suspensionCheck().then((result) => {
+                        setLoading(false);
                         console.log(result);
                         if (result.status === 'OK') {
                             if (result.data.status) {
                                 viewModal({
-                                    vCenter: true, btnCount: 1,
+                                    vCenter: true,
+                                    btnCount: 1,
                                     backDrop: true,
                                     title: '회원 정지 알림',
                                     desc: `<div>회원님께서는 현재 [회원 자격 정지 상태]입니다.</div>
                                             <div>회원 자격 정지 사유 : ${result.data.user_ban.reason}</div>
                                             <div>회원 자격 정지 처리일: ${Time.formatLocalDatetime(result.data.user_ban.reg_datetime)}</div>
-                                            <div>회원 자격 정지 기간 : ${result.data.user_ban.days}일</div>
+                                            <div>회원 자격 정지 기간 : ${result.data.user_ban.days !== -1 ? result.data.user_ban.days + '일' : '영구정지'}</div>
                                             <div>보다 구체적인 회원 자격 정지 사유가 궁금하시면 관리자에게 문의해주세요.</div>`,
                                     confirm_text: '확인',
                                     onConfirm: function (e) {

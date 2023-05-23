@@ -39,9 +39,9 @@
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
-    <div class="container">
+    <div class="container community-detail-container">
         <!--테마별 키워드-->
-        <section class="section sm-section mt-40" style="min-height: calc(80vh);">
+        <section class="section sm-section mt-40 mb-40" style="min-height: calc(80vh);">
             <div class="row">
                 <div class="col-xl-9 col-12">
                     <div class="community-container thumbnail">
@@ -50,7 +50,7 @@
                                  style="padding-top: 32%; background-image: url('${tips.thumbnail.url}')"></div>
                         </c:if>
                         <div class="_detail">
-                            <div class="_title ellipsis-one-line bold-h2 c-gray-dark-low">
+                            <div class="_title bold-h2 c-gray-dark-low">
                                 <span>${tips.title}</span>
                                 <div class="_right-option">
                                     <svg id="kakao-share" width="32" height="32" viewBox="0 0 32 32" fill="none"
@@ -367,8 +367,8 @@
                 <div class="col-xl-3 col-12">
                     <div class="community-sub-container">
                         <div class="row">
-                            <div class="col-xl-12 col-lg-6 col-sm-6 col-12 mb-32" style="height: fit-content;">
-                                <div class="_community-module">
+                            <div class="col-xl-12 col-lg-6 col-sm-6 col-12" style="height: fit-content;">
+                                <div class="_community-module mb-32">
                                     <div class="card farm-card">
                                         <div class="background-image _thumbnail"
                                              style="background-image: url('${farm.profile_image.url}')">
@@ -514,9 +514,11 @@
             let no = this.dataset.no;
             let type = this.dataset.detailBookmark;
             loginCheck().then((result) => {
+            setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         updateBookmark(type, no).then((result) => {
+            setLoading(false);
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {
@@ -544,9 +546,11 @@
             let no = this.dataset.no;
             let type = this.dataset.detailLike;
             loginCheck().then((result) => {
+            setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         updateLike(type, no).then((result) => {
+            setLoading(false);
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {
@@ -578,9 +582,11 @@
             let no = this.dataset.no;
             let type = this.dataset.commentLike;
             loginCheck().then((result) => {
+            setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         updateCommentLike(type, no).then((result) => {
+            setLoading(false);
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {
@@ -612,9 +618,11 @@
             let no = this.dataset.no;
             let type = this.dataset.commentDislike;
             loginCheck().then((result) => {
+            setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         updateCommentDislike(type, no).then((result) => {
+            setLoading(false);
                             console.log(result);
                             if (result.status === 'OK') {
                                 if (result.data.status) {
@@ -643,6 +651,7 @@
             });
         });
         loginCheck().then((result) => {
+            setLoading(false);
             console.log('Login Check', result);
             if (result.status === 'OK') {
                 if (result.data.status) {
@@ -651,6 +660,7 @@
                         $.getScript('https://developers.kakao.com/sdk/js/kakao.js', function () {
                             // Stuff to do after someScript has loaded
                             getKakaoKey().then((result) => {
+                                setLoading(false);
                                 console.log('Kakao Key', result);
                                 if (result.status === 'OK') {
                                     if (result.data.status) {
@@ -666,12 +676,12 @@
                                                 profile_image: '${farm.profile_image.url}',
                                                 profile_title: `${farm.name}`,
                                                 btn_text: '자세히 보기',
-                                                type: 'TIP',
+                                                type: 'TIP'.toLowerCase(),
                                                 no: '${tips.no}',
                                             };
                                             let kakaoLink = new KakaoLink(result.data.key, Kakao, {
                                                 container: '#kakao-share', // 카카오 공유하기 btn element ID
-                                                templateId: 83468,// TEMPLATE ID 기본 세팅 값
+                                                templateId: 84087,// TEMPLATE ID 기본 세팅 값
                                                 // 디자인 페이지에서 해당 값들에 맞게 가지고오면 됩니다 (제목, 사진 등)
                                                 templateArgs,
                                                 callback: () => {

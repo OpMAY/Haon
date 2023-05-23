@@ -12,7 +12,7 @@ $(document).ready(function () {
             title: '이력 QR',
             desc: `<div class="d-flex flex-column align-items-center">
                         <div class="_qrArea mb-24">아래 이미지를 저장하여 QR 코드를 공유하세요.</div>
-                        <div id="trace-qr" class="mb-24"><a download="qrCode.png"></a></div>
+                        <div id="trace-qr" class="mb-24"><a download="qrCode.png" data-code="${$(this).data().code}"></a></div>
                         <button class="btn btn-brand-opacity btn-block" id="download-qr">QR 다운로드</button>
                     </div>`,
             confirm_text: '닫기',
@@ -32,6 +32,7 @@ $(document).ready(function () {
         e.stopPropagation();
         getTraceModalData($(this).parent().data().no).then((result) => {
             console.log(result);
+            setLoading(false);
             if (result.status === 'OK') {
                 let tData = result.data.trace;
                 const modal1_id = tokenGenerator();
@@ -82,70 +83,71 @@ $(document).ready(function () {
                     title: `이력 수정 - ${tData.trace_code}`,
                     largeModal: true,
                     backDrop: true,
-                    desc: `<div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="medium-h6 c-gray-dark-low">개체 축종</label>
-                        </div>
-                    </div>
-                </div>
+                    desc: `
                     <div class="row">
-                    <div class="col-12 d-flex _animals">
-                        <div class="_animal">
+                        <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
+                            <div class="form-group mb-16">
+                                <label class="medium-h6 c-gray-dark-low">개체 축종</label>
+                            </div>
                             <label data-label="checkbox" class="radio-item">
                                 <input data-type="radio" data-category="${tData.entity.entity_type}" type="radio" name="animal-edit" checked>
                                 <span class="design"></span>
                                 <span class="ml-16">${getEntityType(tData.entity.entity_type)}</span>
                             </label>
                         </div>
+                        <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
+                            <div class="form-group mb-16">
+                                <label class="medium-h6 c-gray-dark-low">백신 접종</label>
+                            </div>
+                            <label data-label="checkbox" class="radio-item">
+                                <input data-type="checkbox" data-value="true" type="checkbox" ${tData.vaccine.vaccine_used ? 'checked' : ''}
+                                       name="vaccine-edit-check">
+                                <span class="checkbox"></span>
+                                <span class="text">백신 정보 있음</span>
+                            </label>
+                        </div>
                     </div>
-                </div>
                     <div class="_self-create-area">
                         <div class="row mt-32">
-                            <div class="col-6">
-                                <div class="dropdown input-dropdown">
-                                    <div data-toggle="dropdown" aria-expanded="false"
-                                         class="form-group form-inner-button form-inner-label">
-                                        <label class="medium-h6 c-gray-dark-low">등급</label>
-                                        <input type="text"
-                                               placeholder="등급을 선택해주세요."
-                                               data-category="rate" value="${tData.entity.rate}"
-                                               class="form-control input-box medium-h5 dropdown-input"
-                                               disabled>
-                                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_224_6214)">
-                                                <path d="M15.3673 13.9999L9.59235 8.22489L11.242 6.57523L18.6667 13.9999L11.242 21.4246L9.59235 19.7749L15.3673 13.9999Z"
-                                                      fill="#A9CC52"/>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_224_6214">
-                                                    <rect width="28" height="28" fill="white"
-                                                          transform="translate(0 28) rotate(-90)"/>
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
+                            <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="medium-h6 c-gray-dark-low">성별</label>
+                                        </div>
                                     </div>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item">
-                                            <div>1++</div>
-                                        </a>
-                                        <a class="dropdown-item">
-                                            <div>1+</div>
-                                        </a>
-                                        <a class="dropdown-item">
-                                            <div>1등급</div>
-                                        </a>
-                                        <a class="dropdown-item">
-                                            <div>2등급</div>
-                                        </a>
-                                        <a class="dropdown-item">
-                                            <div>3등급</div>
-                                        </a>
+                                </div>
+    
+                                <div class="row">
+                                    <div class="col-12 d-flex flex-row">
+                                        <div class="mt-16">
+                                            <label data-label="checkbox" class="radio-item">
+                                                <input data-type="radio" data-value="거세" type="radio" name="gender" ${tData.entity.gender === '거세' ? 'checked' : void (0)}>
+                                                <span class="design"></span>
+                                                <span class="ml-16">거세</span>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="mt-16 ml-24">
+                                            <label data-label="checkbox" class="radio-item">
+                                                <input data-type="radio" data-value="비거세" type="radio" name="gender" ${tData.entity.gender === '비거세' ? 'checked' : void (0)}>
+                                                <span class="design"></span>
+                                                <span class="ml-16">비거세</span>
+                                            </label>
+                                        </div>
+        
+        
+                                        <div class="mt-16 ml-24">
+                                            <label data-label="checkbox" class="radio-item">
+                                                <input data-type="radio" data-value="암컷" type="radio" name="gender" ${tData.entity.gender === '암컷' ? 'checked' : void (0)}>
+                                                <span class="design"></span>
+                                                <span class="ml-16">암컷</span>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                 <div class="form-group form-inner-button form-inner-label">
                                     <label class="medium-h6 c-gray-dark-low">출생 일자</label>
                                     <input type="text"
@@ -171,47 +173,28 @@ $(document).ready(function () {
                             </div>
 
                         </div>
-
-                        <div class="row mt-32">
+                        <div class="row mt-32 ${tData.vaccine.vaccine_used ? '' : 'd-none'}" id="vaccine-edit-info">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="medium-h6 c-gray-dark-low">성별</label>
+                                    <label class="medium-h6 c-gray-dark-low">백신 정보</label>
+                                    <input type="text"
+                                           placeholder="백신 정보 입력" name="vaccine-edit-input" value="${tData.vaccine.vaccine_used ? tData.vaccine.vaccine_info : ''}"
+                                           class="form-control input-underline input-brand-green medium-h4">
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="col-12 d-flex flex-row">
-                                <div class="mt-16">
-                                    <label data-label="checkbox" class="radio-item">
-                                        <input data-type="radio" data-value="수컷" type="radio" name="gender" ${tData.entity.gender === '수컷' ? 'checked' : void (0)}>
-                                        <span class="design"></span>
-                                        <span class="ml-16">수컷</span>
-                                    </label>
-                                </div>
-
-                                <div class="mt-16 ml-24">
-                                    <label data-label="checkbox" class="radio-item">
-                                        <input data-type="radio" data-value="암컷" type="radio" name="gender" ${tData.entity.gender === '암컷' ? 'checked' : void (0)}>
-                                        <span class="design"></span>
-                                        <span class="ml-16">암컷</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="row mt-32">
                             <div class="col-12 p-20">
-                                <ul class="nav nav-pills mb-3" role="tablist">
+                                <ul class="nav nav-pills mb-3 justify-content-between justify-content-md-start" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link mr-16 active" data-toggle="pill"
+                                        <button class="nav-link active" data-toggle="pill"
                                                 data-target="#pills-breed-edit" type="button" role="tab"
                                                 aria-controls="pills-home"
                                                 aria-selected="true">사육
                                         </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link mr-16" data-toggle="pill"
+                                        <button class="nav-link" data-toggle="pill"
                                                 data-target="#pills-slaughter-edit"
                                                 type="button" role="tab" aria-controls="pills-profile"
                                                 aria-selected="false">도축
@@ -230,7 +213,7 @@ $(document).ready(function () {
                                     <div class="tab-pane fade show active" id="pills-breed-edit" role="tabpanel"
                                          aria-labelledby="pills-home-tab">
                                         <div class="row _breed-table">
-                                            <div class="col-12">
+                                            <div class="col-12 overflow-auto w-100">
                                                 <table class="table table-bordered trace-register-table">
                                                     <thead>
                                                     <tr>
@@ -273,104 +256,169 @@ $(document).ready(function () {
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="row">
-                                            <div class="col-12 d-flex flex-row">
-                                                <div class="mt-16">
-                                                    <label data-label="checkbox" class="radio-item">
-                                                        <input data-type="radio" data-value="true" type="radio" ${tData.butchery.length > 0 ? (tData.butchery[0].butchery_result === 'true' ? 'checked' : '') : ''}
-                                                               name="amniotic-edit-success">
-                                                        <span class="design"></span>
-                                                        <span class="ml-16">합격</span>
-                                                    </label>
-                                                </div>
-
-                                                <div class="mt-16 ml-24">
-                                                    <label data-label="checkbox" class="radio-item">
-                                                        <input data-type="radio" data-value="false" type="radio" ${tData.butchery.length > 0 ? (tData.butchery[0].butchery_result === 'false' ? 'checked' : '') : ''}
-                                                               name="amniotic-edit-success">
-                                                        <span class="design"></span>
-                                                        <span class="ml-16">불합격</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-32">
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label class="medium-h6 c-gray-dark-low">농장 명</label>
-                                                    <input type="text"
-                                                           placeholder="농장 명 입력" name="amniotic-edit-farm" value="${tData.butchery.length > 0 ? (tData.butchery[0].butchery_corp) : ''}"
-                                                           class="form-control input-underline input-brand-green medium-h4">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-6">
-                                                <div class="form-group form-inner-button form-inner-label">
-                                                    <label class="medium-h6 c-gray-dark-low">도축 일자</label>
-                                                    <input type="text"
-                                                           data-provide="datepicker"
-                                                           readonly
-                                                           placeholder="날짜를 입력하세요."
-                                                           name="amniotic-edit-date" value="${tData.butchery.length > 0 ? (tData.butchery[0].butchery_date) : ''}"
-                                                           class="form-control input-box medium-h5 dropdown-input">
-                                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_224_6221)">
-                                                            <path d="M14.1667 2.49992H17.5C17.721 2.49992 17.933 2.58772 18.0893 2.744C18.2455 2.90028 18.3333 3.11224 18.3333 3.33325V16.6666C18.3333 16.8876 18.2455 17.0996 18.0893 17.2558C17.933 17.4121 17.721 17.4999 17.5 17.4999H2.5C2.27899 17.4999 2.06703 17.4121 1.91075 17.2558C1.75447 17.0996 1.66667 16.8876 1.66667 16.6666V3.33325C1.66667 3.11224 1.75447 2.90028 1.91075 2.744C2.06703 2.58772 2.27899 2.49992 2.5 2.49992H5.83333V0.833252H7.5V2.49992H12.5V0.833252H14.1667V2.49992ZM16.6667 7.49992V4.16659H14.1667V5.83325H12.5V4.16659H7.5V5.83325H5.83333V4.16659H3.33333V7.49992H16.6667ZM16.6667 9.16658H3.33333V15.8333H16.6667V9.16658ZM5 10.8333H9.16667V14.1666H5V10.8333Z"
-                                                                  fill="#A9CC52"/>
-                                                        </g>
-                                                        <defs>
-                                                            <clipPath id="clip0_224_6221">
-                                                                <rect width="20" height="20" fill="white"/>
-                                                            </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                        <div class="row mt-32">
+                                        
+                                        <div class="row mt-16">
                                             <div class="col-12">
-                                                <div class="form-group">
-                                                    <label class="medium-h6 c-gray-dark-low">농장 링크</label>
-                                                    <input type="text"
-                                                           placeholder="농장 링크 입력"
-                                                           class="form-control input-underline input-brand-green medium-h4">
+                                                <label data-label="checkbox" class="radio-item">
+                                                    <input data-type="checkbox" data-value="true" type="checkbox" ${tData.butchery.length > 0 ? 'checked' : ''}
+                                                           name="use-amniotic">
+                                                    <span class="checkbox"></span>
+                                                    <span class="text">도축 정보 사용</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="${tData.butchery.length > 0 ? '' : 'd-none'}" id="edit-amniotic-div">
+                                            <div class="row mt-32">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label class="medium-h6 c-gray-dark-low">합격 여부</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex flex-row">
+                                                            <div class="mt-16">
+                                                                <label data-label="checkbox" class="radio-item">
+                                                                    <input data-type="radio" data-value="true" type="radio" ${tData.butchery.length > 0 ? (tData.butchery[0].butchery_result === 'true' ? 'checked' : '') : ''}
+                                                                           name="amniotic-edit-success">
+                                                                    <span class="design"></span>
+                                                                    <span class="ml-16">합격</span>
+                                                                </label>
+                                                            </div>
+
+                                                            <div class="mt-16 ml-24">
+                                                                <label data-label="checkbox" class="radio-item">
+                                                                    <input data-type="radio" data-value="false" type="radio" ${tData.butchery.length > 0 ? (tData.butchery[0].butchery_result === 'false' ? 'checked' : '') : ''}
+                                                                           name="amniotic-edit-success">
+                                                                    <span class="design"></span>
+                                                                    <span class="ml-16">불합격</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
+                                                    <div class="dropdown input-dropdown">
+                                                        <div data-toggle="dropdown" aria-expanded="false"
+                                                             class="form-group form-inner-button form-inner-label" style="max-width: 100%">
+                                                            <label class="medium-h6 c-gray-dark-low">등급</label>
+                                                            <input type="text"
+                                                                   placeholder="등급을 선택해주세요." value="${tData.entity.rate != null ? tData.entity.rate : ''}"
+                                                                   data-category="rate"
+                                                                   class="form-control input-box medium-h5 dropdown-input"
+                                                                   disabled>
+                                                            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                <g clip-path="url(#clip0_224_6214)">
+                                                                    <path d="M15.3673 13.9999L9.59235 8.22489L11.242 6.57523L18.6667 13.9999L11.242 21.4246L9.59235 19.7749L15.3673 13.9999Z"
+                                                                          fill="#A9CC52"/>
+                                                                </g>
+                                                                <defs>
+                                                                    <clipPath id="clip0_224_6214">
+                                                                        <rect width="28" height="28" fill="white"
+                                                                              transform="translate(0 28) rotate(-90)"/>
+                                                                    </clipPath>
+                                                                </defs>
+                                                            </svg>
+                                                        </div>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item">
+                                                                <div>1++</div>
+                                                            </a>
+                                                            <a class="dropdown-item">
+                                                                <div>1+</div>
+                                                            </a>
+                                                            <a class="dropdown-item">
+                                                                <div>1등급</div>
+                                                            </a>
+                                                            <a class="dropdown-item">
+                                                                <div>2등급</div>
+                                                            </a>
+                                                            <a class="dropdown-item">
+                                                                <div>3등급</div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-32">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
+                                                    <div class="form-group">
+                                                        <label class="medium-h6 c-gray-dark-low">사업장 명</label>
+                                                        <input type="text"
+                                                               placeholder="사업장 명 입력" name="amniotic-edit-farm" value="${tData.butchery.length > 0 ? (tData.butchery[0].butchery_corp) : ''}"
+                                                               class="form-control input-underline input-brand-green medium-h4">
+                                                    </div>
+                                                </div>
+    
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
+                                                    <div class="form-group form-inner-button form-inner-label">
+                                                        <label class="medium-h6 c-gray-dark-low">도축 일자</label>
+                                                        <input type="text"
+                                                               data-provide="datepicker"
+                                                               readonly
+                                                               placeholder="날짜를 입력하세요."
+                                                               name="amniotic-edit-date" value="${tData.butchery.length > 0 ? (tData.butchery[0].butchery_date) : ''}"
+                                                               class="form-control input-box medium-h5 dropdown-input">
+                                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_224_6221)">
+                                                                <path d="M14.1667 2.49992H17.5C17.721 2.49992 17.933 2.58772 18.0893 2.744C18.2455 2.90028 18.3333 3.11224 18.3333 3.33325V16.6666C18.3333 16.8876 18.2455 17.0996 18.0893 17.2558C17.933 17.4121 17.721 17.4999 17.5 17.4999H2.5C2.27899 17.4999 2.06703 17.4121 1.91075 17.2558C1.75447 17.0996 1.66667 16.8876 1.66667 16.6666V3.33325C1.66667 3.11224 1.75447 2.90028 1.91075 2.744C2.06703 2.58772 2.27899 2.49992 2.5 2.49992H5.83333V0.833252H7.5V2.49992H12.5V0.833252H14.1667V2.49992ZM16.6667 7.49992V4.16659H14.1667V5.83325H12.5V4.16659H7.5V5.83325H5.83333V4.16659H3.33333V7.49992H16.6667ZM16.6667 9.16658H3.33333V15.8333H16.6667V9.16658ZM5 10.8333H9.16667V14.1666H5V10.8333Z"
+                                                                      fill="#A9CC52"/>
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_224_6221">
+                                                                    <rect width="20" height="20" fill="white"/>
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </div>
+    
+                                                </div>
+    
+                                            </div>
+    
+                                            <div class="row mt-32">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label class="medium-h6 c-gray-dark-low">사업장 링크</label>
+                                                        <input type="text" name="amniotic-edit-url"
+                                                               placeholder="사업장 링크 입력" value="${tData.butchery.length > 0 ? (tData.butchery[0].butchery_url) : ''}"
+                                                               class="form-control input-underline input-brand-green medium-h4">
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="row mt-32">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
+                                                    <label class="medium-h6 c-gray-dark-low">소재지</label>
+                                                    <div class="form-group form-inner-button">
+                                                        <input type="text" placeholder="주소를 입력해주세요." data-type="postcode"
+                                                               class="form-control input-box medium-h5 cursor-pointer"
+                                                               readonly
+                                                               name="amniotic-edit-addr" value="${tData.butchery.length > 0 ? (tData.butchery[0].butchery_addr) : ''}"
+                                                               id="input21">
+                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M12 23.7279L5.636 17.3639C4.37734 16.1052 3.52019 14.5016 3.17293 12.7558C2.82567 11.0099 3.00391 9.20035 3.6851 7.55582C4.36629 5.91129 5.51984 4.50569 6.99988 3.51677C8.47992 2.52784 10.22 2 12 2C13.78 2 15.5201 2.52784 17.0001 3.51677C18.4802 4.50569 19.6337 5.91129 20.3149 7.55582C20.9961 9.20035 21.1743 11.0099 20.8271 12.7558C20.4798 14.5016 19.6227 16.1052 18.364 17.3639L12 23.7279ZM16.95 15.9499C17.9289 14.9709 18.5955 13.7236 18.8656 12.3658C19.1356 11.0079 18.9969 9.60052 18.4671 8.32148C17.9373 7.04244 17.04 5.94923 15.8889 5.18009C14.7378 4.41095 13.3844 4.00043 12 4.00043C10.6156 4.00043 9.26222 4.41095 8.11109 5.18009C6.95996 5.94923 6.06275 7.04244 5.53292 8.32148C5.00308 9.60052 4.86442 11.0079 5.13445 12.3658C5.40449 13.7236 6.07111 14.9709 7.05 15.9499L12 20.8999L16.95 15.9499ZM12 12.9999C11.4696 12.9999 10.9609 12.7892 10.5858 12.4141C10.2107 12.0391 10 11.5304 10 10.9999C10 10.4695 10.2107 9.96078 10.5858 9.58571C10.9609 9.21064 11.4696 8.99992 12 8.99992C12.5304 8.99992 13.0391 9.21064 13.4142 9.58571C13.7893 9.96078 14 10.4695 14 10.9999C14 11.5304 13.7893 12.0391 13.4142 12.4141C13.0391 12.7892 12.5304 12.9999 12 12.9999Z"
+                                                                  fill="#A9CC52"/>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+    
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label class="medium-h6 c-gray-dark-low">상세 주소</label>
+                                                        <input type="text"
+                                                               placeholder="상세주소 입력" name="amniotic-edit-addr-spec" value="${tData.butchery.length > 0 ? (tData.butchery[0].butchery_addr_spec) : ''}"
+                                                               class="form-control input-underline input-brand-green medium-h4">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="row mt-32">
-                                            <div class="col-6">
-                                                <label class="medium-h6 c-gray-dark-low">소재지</label>
-                                                <div class="form-group form-inner-button">
-                                                    <input type="text" placeholder="주소를 입력해주세요." data-type="postcode"
-                                                           class="form-control input-box medium-h5 cursor-pointer"
-                                                           readonly
-                                                           name="amniotic-edit-addr" value="${tData.butchery.length > 0 ? (tData.butchery[0].butchery_addr) : ''}"
-                                                           id="input21">
-                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M12 23.7279L5.636 17.3639C4.37734 16.1052 3.52019 14.5016 3.17293 12.7558C2.82567 11.0099 3.00391 9.20035 3.6851 7.55582C4.36629 5.91129 5.51984 4.50569 6.99988 3.51677C8.47992 2.52784 10.22 2 12 2C13.78 2 15.5201 2.52784 17.0001 3.51677C18.4802 4.50569 19.6337 5.91129 20.3149 7.55582C20.9961 9.20035 21.1743 11.0099 20.8271 12.7558C20.4798 14.5016 19.6227 16.1052 18.364 17.3639L12 23.7279ZM16.95 15.9499C17.9289 14.9709 18.5955 13.7236 18.8656 12.3658C19.1356 11.0079 18.9969 9.60052 18.4671 8.32148C17.9373 7.04244 17.04 5.94923 15.8889 5.18009C14.7378 4.41095 13.3844 4.00043 12 4.00043C10.6156 4.00043 9.26222 4.41095 8.11109 5.18009C6.95996 5.94923 6.06275 7.04244 5.53292 8.32148C5.00308 9.60052 4.86442 11.0079 5.13445 12.3658C5.40449 13.7236 6.07111 14.9709 7.05 15.9499L12 20.8999L16.95 15.9499ZM12 12.9999C11.4696 12.9999 10.9609 12.7892 10.5858 12.4141C10.2107 12.0391 10 11.5304 10 10.9999C10 10.4695 10.2107 9.96078 10.5858 9.58571C10.9609 9.21064 11.4696 8.99992 12 8.99992C12.5304 8.99992 13.0391 9.21064 13.4142 9.58571C13.7893 9.96078 14 10.4695 14 10.9999C14 11.5304 13.7893 12.0391 13.4142 12.4141C13.0391 12.7892 12.5304 12.9999 12 12.9999Z"
-                                                              fill="#A9CC52"/>
-                                                    </svg>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label class="medium-h6 c-gray-dark-low">상세 주소</label>
-                                                    <input type="text"
-                                                           placeholder="상세주소 입력" name="amniotic-edit-addr-spec" value="${tData.butchery.length > 0 ? (tData.butchery[0].butchery_addr_spec) : ''}"
-                                                           class="form-control input-underline input-brand-green medium-h4">
-                                                </div>
-                                            </div>
-                                        </div>
-
-
                                     </div>
 
                                     <!--가공 Tab-->
@@ -378,11 +426,11 @@ $(document).ready(function () {
                                          aria-labelledby="pills-profile-tab">
 
                                         <div class="row _slaughter-table">
-                                            <div class="col-12">
+                                            <div class="col-12 overflow-auto w-100">
                                                 <table class="table table-bordered trace-register-table">
                                                     <thead>
                                                     <tr>
-                                                        <th scope="col">업소 명</th>
+                                                        <th scope="col">사업장 명</th>
                                                         <th scope="col">소재지</th>
                                                         <th scope="col">가공 일자</th>
                                                         <th scope="col">삭제</th>
@@ -410,7 +458,16 @@ $(document).ready(function () {
                                     </div>
                                 </div>
                             </div>
-
+                        </div>
+                        <div class="row mt-32">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="medium-h6 c-gray-dark-low">기타 정보</label>
+                                    <textarea type="text" rows="8"
+                                              placeholder="기타 정보 입력" name="other-info-edit-input"
+                                              class="form-control textarea-underline input-brand-green medium-h4">${tData.other_info === null ? '' : tData.other_info}</textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>`,
                     confirm_text: '수정하기',
@@ -424,6 +481,7 @@ $(document).ready(function () {
                             backDrop: true,
                             btnCount: 2,
                             onConfirm: () => {
+                                const sendData = {};
                                 let no = tData.no;
                                 console.log(no);
                                 /** TODO
@@ -432,9 +490,29 @@ $(document).ready(function () {
                                  * 3. Modal 닫을 때 모든 정보 날리기
                                  * */
                                 let $editModal = $(`#${modal1_id}`);
+                                let vaccine_use = $editModal.find('input[name=vaccine-edit-check]').is(':checked');
+                                let other_info = $editModal.find('textarea[name=other-info-edit-input]').val();
+                                let vaccine = {};
+                                vaccine.vaccine_used = vaccine_use;
+                                if (vaccine_use) {
+                                    let vaccine_info = $editModal.find('input[name=vaccine-edit-input]').val();
+                                    if (vaccine_info.trim().length <= 0) {
+                                        viewAlert({content: '백신 정보를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                                        return false;
+                                    }
+                                    vaccine.vaccine_info = vaccine_info
+                                }
+                                sendData.vaccine = vaccine;
+                                if(other_info.trim().length > 1000) {
+                                    viewAlert({content: '기타 정보는 최대 1000자까지 가능합니다.', zIndex: MODAL_ALERT_ZINDEX});
+                                    return false;
+                                }
+                                sendData.other_info = other_info.trim();
+
+                                let use_butchery = $editModal.find('input[name=use-amniotic]').is(':checked');
                                 // 등급
                                 let rate = $editModal.find('[data-category=rate]').val();
-                                if (rate.trim().length === 0) {
+                                if (use_butchery && rate.trim().length === 0) {
                                     viewAlert({content: '등급을 선택해주세요.', zIndex: MODAL_ALERT_ZINDEX});
                                     return false;
                                 }
@@ -449,6 +527,9 @@ $(document).ready(function () {
                                 if (gender.length === 0) {
                                     viewAlert({content: '성별을 선택해주세요.', zIndex: MODAL_ALERT_ZINDEX});
                                     return false;
+                                }
+                                if (rate === '') {
+                                    rate = null;
                                 }
                                 const entity = {};
                                 entity.entity_type = $editModal.find('input[name=animal-edit]').data().category;
@@ -489,26 +570,19 @@ $(document).ready(function () {
                                  * 사육 정보에 출하 정보 없을 시
                                  * */
                                 let slaughter_tab = $editModal.find('#pills-slaughter-edit');
-                                let result = slaughter_tab.find('input[name=amniotic-edit-success]:checked');
                                 const butcheries = [];
-                                if (result.length > 0) {
+                                if (use_butchery) {
                                     // 도축 정보가 입력 되었을 때
                                     console.log(result);
-                                    if (breeds.length <= 0) {
+                                    if (breeds.length <= 0 || !has_slaughter) {
                                         viewAlert({
-                                            content: '도축 정보를 등록하기 위해선 사육 정보는 필수입니다.',
-                                            zIndex: MODAL_ALERT_ZINDEX
-                                        });
-                                        return false;
-                                    } else if (!has_slaughter) {
-                                        viewAlert({
-                                            content: '도축 정보를 등록하기 위해선 출하 정보는 필수입니다.',
+                                            content: '도축 정보를 등록하기 위해선 사육 - 출하 정보는 필수입니다.',
                                             zIndex: MODAL_ALERT_ZINDEX
                                         });
                                         return false;
                                     } else {
                                         let butchery = {};
-                                        let result = slaughter_tab.find('input[name=amniotic-edit-success]');
+                                        let result = slaughter_tab.find('input[name=amniotic-edit-success]:checked');
                                         let farm = slaughter_tab.find('input[name=amniotic-edit-farm]').val();
                                         let date = slaughter_tab.find('input[name=amniotic-edit-date]').val();
                                         let addr = slaughter_tab.find('input[name=amniotic-edit-addr]').val();
@@ -538,6 +612,8 @@ $(document).ready(function () {
                                         butchery.butchery_date = date.trim();
                                         butchery.butchery_addr = `${addr.trim()}`;
                                         butchery.butchery_addr_spec = `${addr_spec.trim()}`;
+                                        butchery.butchery_rate = rate;
+                                        butchery.butchery_url = slaughter_tab.find('input[name=amniotic-edit-url]').val();
                                         butcheries.push(butchery);
                                     }
                                 }
@@ -550,7 +626,7 @@ $(document).ready(function () {
                                 let process_table = $editModal.find('#pills-processing-edit').find('tbody');
                                 let process_datas = process_table.find('tr:not([data-type=empty])')
                                 if (process_datas.length > 0) {
-                                    if (butcheries.length <= 0) {
+                                    if (!use_butchery) {
                                         viewAlert({content: '가공 정보를 위해서 도축 정보를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
                                         return false;
                                     } else {
@@ -566,7 +642,6 @@ $(document).ready(function () {
                                     }
                                 }
                                 // TRACE DATA FORMAT
-                                const sendData = {};
                                 sendData.no = tData.no;
                                 sendData.farm_no = tData.farm_no;
                                 sendData.entity = entity;
@@ -576,6 +651,7 @@ $(document).ready(function () {
 
                                 console.log('result data : ', sendData);
                                 editTrace(sendData).then((result) => {
+                                    setLoading(false);
                                     console.log(result);
                                     if (result.status === 'OK') {
                                         if (result.data.status) {
@@ -855,6 +931,38 @@ $(document).ready(function () {
                             input.addClass('postcode-init');
                         }
                     })
+                    .on('change', 'input[name=use-amniotic]', function () {
+                        let modal = $(this).closest('.modal');
+                        if ($(this).is(':checked')) {
+                            modal.find('#edit-amniotic-div').removeClass('d-none');
+                        } else {
+                            modal.find('#edit-amniotic-div').addClass('d-none');
+                            let inputs = modal.find('#edit-amniotic-div').find('input');
+                            inputs.each((idx, elem) => {
+                                $(elem).val('');
+                            })
+                            modal.find('')
+                        }
+                    })
+                    .on('change', 'input[name=vaccine-edit-check]', function () {
+                        let modal = $(this).closest('.modal');
+                        if ($(this).is(':checked')) {
+                            modal.find('#vaccine-edit-info').removeClass('d-none');
+                            modal.find('#vaccine-edit-input').removeAttr('readonly');
+                        } else {
+                            modal.find('#vaccine-edit-info').addClass('d-none');
+                            modal.find('#vaccine-edit-input').attr('readonly', 'readonly');
+                            modal.find('#vaccine-edit-input').val('');
+                        }
+                    })
+                    .find('input[data-provide="datepicker"]').datepicker({
+                    format: 'yyyy년 mm월 dd일',
+                    endDate: 'today',
+                    language: 'ko',
+                    todayHighlight: true,
+                    defaultViewDate: 'today',
+                    autoclose: true
+                })
             }
         })
     })
@@ -864,10 +972,12 @@ $(document).ready(function () {
         let $thisElem = $(this).parent().parent().parent();
         let no = $(this).parent().data().no;
         getTraceInBundle(no).then((result) => {
-            if(result.status) {
-                if(result.data.status) {
-                    if(result.data.type) {
-                        viewAlert({content: '해당 이력이 묶음 이력에 연결되어 있습니다.<br>묶음 이력을 먼저 해제해주세요.' });
+            setLoading(false);
+            console.log(result);
+            if (result.status) {
+                if (result.data.status) {
+                    if (result.data.type) {
+                        viewAlert({content: '해당 이력이 묶음 이력에 연결되어 있습니다.<br>묶음 이력을 먼저 해제해주세요.'});
                         return false;
                     } else {
                         viewModal({
@@ -887,6 +997,7 @@ $(document).ready(function () {
                         desc: '해당 이력을 삭제하시겠어요?',
                         onConfirm: () => {
                             deleteTrace(no).then((result) => {
+                                setLoading(false);
                                 if (result.status === 'OK') {
                                     viewAlert({content: '삭제되었습니다.'})
                                     $thisElem.remove();
@@ -918,7 +1029,7 @@ $(document).ready(function () {
             backDrop: true,
             desc: `<div class="d-flex flex-column align-items-center">
                         <div class="_qrArea mb-24">아래 이미지를 저장하여 QR 코드를 공유하세요.</div>
-                        <div id="trace-qr" class="mb-24"><a download="qrCode.png"></a></div>
+                        <div id="trace-qr" class="mb-24"><a download="qrCode.png" data-code="${$(this).data().code}"></a></div>
                         <button class="btn btn-brand-opacity btn-block" id="download-qr">QR 다운로드</button>
                     </div>`,
             confirm_text: '닫기'
@@ -946,6 +1057,7 @@ $(document).ready(function () {
 
     function bundleEditModalOpen(no) {
         getBundleModalData(no).then((result) => {
+            setLoading(false);
             console.log(result);
             if (result.status === 'OK') {
                 if (result.data.status) {
@@ -1020,7 +1132,7 @@ $(document).ready(function () {
             
                                 </div>
                                 <div class="row mt-24">
-                                    <div class="col-12">
+                                    <div class="col-12 overflow-auto w-100">
                                         <table class="table table-bordered trace-register-table">
                                             <thead>
                                             <tr>
@@ -1056,7 +1168,10 @@ $(document).ready(function () {
                                 onConfirm: () => {
                                     let table = $(`#${modalId}`).find('#result-traces').next().find('.trace-register-table tbody');
                                     if (table.find('tr').length <= 2) {
-                                        viewAlert({content: '묶음 이력을 제작하기 위해선 최소 2개 이상의 이력을 등록해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                                        viewAlert({
+                                            content: '묶음 이력을 제작하기 위해선 최소 2개 이상의 이력을 등록해주세요.',
+                                            zIndex: MODAL_ALERT_ZINDEX
+                                        });
                                         return false;
                                     } else {
                                         let list = [];
@@ -1067,6 +1182,7 @@ $(document).ready(function () {
                                         })
                                         console.log(list);
                                         updateManualBundle(list, bData.no).then((result) => {
+                                            setLoading(false);
                                             console.log(result);
                                             if (result.status === 'OK') {
                                                 if (result.data.status) {
@@ -1126,11 +1242,15 @@ $(document).ready(function () {
                             viewAlert({content: '조회할 이력번호를 입력하세요.', zIndex: MODAL_ALERT_ZINDEX});
                         } else {
                             getTraceByCode(code).then((result) => {
+                                setLoading(false);
                                 console.log(result);
                                 if (result.status === 'OK') {
                                     let dataStatus = result.data.status;
                                     if (dataStatus === -1) {
-                                        viewAlert({content: '본인 농장의 이력만 묶음 이력으로 등록할 수 있습니다.', zIndex: MODAL_ALERT_ZINDEX});
+                                        viewAlert({
+                                            content: '본인 농장의 이력만 묶음 이력으로 등록할 수 있습니다.',
+                                            zIndex: MODAL_ALERT_ZINDEX
+                                        });
                                         return false;
                                     } else if (dataStatus === -3) {
                                         viewAlert({content: '존재하지 않는 이력입니다.', zIndex: MODAL_ALERT_ZINDEX});
@@ -1256,6 +1376,7 @@ $(document).ready(function () {
             desc: '해당 이력을 삭제하시겠어요?<br><br>※ 묶음 이력만 삭제되며, 묶음 이력에 엮여진 이력은 삭제되지 않습니다.',
             onConfirm: () => {
                 deleteBundle(no).then((result) => {
+                    setLoading(false);
                     if (result.status === 'OK') {
                         viewAlert({content: '삭제되었습니다.'})
                         $thisElem.remove();
@@ -1282,6 +1403,7 @@ $(document).ready(function () {
         let $input = $('input#trace-search');
         console.log($input.val());
         findTrace($input.val()).then((result) => {
+            setLoading(false);
             console.log(result);
             if (result.status === 'OK') {
                 if (result.data.status) {
@@ -1296,6 +1418,8 @@ $(document).ready(function () {
                         onConfirm: () => {
                             // TODO result.data.data 로 Format 만들기
                             createTrace(result.data.data).then((result) => {
+                                console.log(result);
+                                setLoading(false);
                                 if (result.status === 'OK') {
                                     if (result.data.status) {
                                         viewModal({
@@ -1317,7 +1441,14 @@ $(document).ready(function () {
                                     }
                                 }
                             })
-                        }
+                        },
+                        onShow: () => {
+                            $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
+                        },
+                        onShown: () => {
+                            $('body .modal-backdrop._second').removeClass('_second').css('z-index', 1040);
+                            $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
+                        },
                     })
                 } else {
                     if (result.data.type === 0) {
@@ -1334,6 +1465,427 @@ $(document).ready(function () {
             }
         })
     })
+    $('#trace-created').on('hidden.bs.modal', function () {
+        const user_type = $('._animals ._animal input').data().category;
+        let modal = $(this);
+        if (!availableFarmTypes.includes(user_type)) {
+            // 직접 입력 X
+            console.log('if')
+            modal.find('input').val('');
+        } else {
+            console.log('else')
+            modal.find('input[name=vaccine-check]').prop('checked', false);
+            modal.find('._self-create-area').children().remove();
+            modal.find('._self-create-area').append(`<div class="row mt-32">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="medium-h6 c-gray-dark-low">성별</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 d-flex flex-row">
+                                        <div class="mt-16">
+                                            <label data-label="checkbox" class="radio-item">
+                                                <input data-type="radio" data-value="거세" type="radio" name="gender">
+                                                <span class="design"></span>
+                                                <span class="ml-16">거세</span>
+                                            </label>
+                                        </div>
+
+                                        <div class="mt-16 ml-24">
+                                            <label data-label="checkbox" class="radio-item">
+                                                <input data-type="radio" data-value="비거세" type="radio" name="gender">
+                                                <span class="design"></span>
+                                                <span class="ml-16">비거세</span>
+                                            </label>
+                                        </div>
+
+                                        <div class="mt-16 ml-24">
+                                            <label data-label="checkbox" class="radio-item">
+                                                <input data-type="radio" data-value="암컷" type="radio" name="gender">
+                                                <span class="design"></span>
+                                                <span class="ml-16">암컷</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group form-inner-button form-inner-label">
+                                    <label class="medium-h6 c-gray-dark-low">출생 일자</label>
+                                    <input type="text"
+                                           data-provide="datepicker"
+                                           readonly name="trace-birth"
+                                           placeholder="날짜를 선택해주세요."
+                                           class="form-control input-box medium-h5 dropdown-input">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_224_6221)">
+                                            <path d="M14.1667 2.49992H17.5C17.721 2.49992 17.933 2.58772 18.0893 2.744C18.2455 2.90028 18.3333 3.11224 18.3333 3.33325V16.6666C18.3333 16.8876 18.2455 17.0996 18.0893 17.2558C17.933 17.4121 17.721 17.4999 17.5 17.4999H2.5C2.27899 17.4999 2.06703 17.4121 1.91075 17.2558C1.75447 17.0996 1.66667 16.8876 1.66667 16.6666V3.33325C1.66667 3.11224 1.75447 2.90028 1.91075 2.744C2.06703 2.58772 2.27899 2.49992 2.5 2.49992H5.83333V0.833252H7.5V2.49992H12.5V0.833252H14.1667V2.49992ZM16.6667 7.49992V4.16659H14.1667V5.83325H12.5V4.16659H7.5V5.83325H5.83333V4.16659H3.33333V7.49992H16.6667ZM16.6667 9.16658H3.33333V15.8333H16.6667V9.16658ZM5 10.8333H9.16667V14.1666H5V10.8333Z"
+                                                  fill="#A9CC52"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_224_6221">
+                                                <rect width="20" height="20" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row mt-32 d-none" id="vaccine-info">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="medium-h6 c-gray-dark-low">백신 정보</label>
+                                    <input type="text"
+                                           placeholder="백신 정보 입력" name="vaccine-input"
+                                           class="form-control input-underline input-brand-green medium-h4">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-32">
+                            <div class="col-12 p-20">
+                                <ul class="nav nav-pills mb-3 justify-content-between justify-content-md-start" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" data-toggle="pill"
+                                                data-target="#pills-breed" type="button" role="tab"
+                                                aria-controls="pills-home"
+                                                aria-selected="true">사육
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" data-toggle="pill"
+                                                data-target="#pills-slaughter"
+                                                type="button" role="tab" aria-controls="pills-profile"
+                                                aria-selected="false">도축
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" data-toggle="pill"
+                                                data-target="#pills-processing"
+                                                type="button" role="tab" aria-controls="pills-profile"
+                                                aria-selected="false">포장/가공
+                                        </button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="pills-tabContent2">
+                                    <!--사육 Tab-->
+                                    <div class="tab-pane fade show active" id="pills-breed" role="tabpanel"
+                                         aria-labelledby="pills-home-tab">
+                                        <div class="row _breed-table">
+                                            <div class="col-12 overflow-auto w-100">
+                                                <table class="table table-bordered trace-register-table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">신고 구분</th>
+                                                        <th scope="col">농장 경영자</th>
+                                                        <th scope="col">농장 명</th>
+                                                        <th scope="col">년 월일</th>
+                                                        <th scope="col">소재지</th>
+                                                        <th scope="col">삭제</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr data-type="empty">
+                                                        <td colspan="6">
+                                                            <span class="c-gray-light">사육 정보를 추가하세요.</span>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-32">
+                                            <div class="col-12">
+                                                <span class="card-text _farm-type bold-h5 c-brand-green _add-new cursor-pointer">
+                                                    사육 정보 추가 +
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--도축 Tab-->
+                                    <div class="tab-pane fade" id="pills-slaughter" role="tabpanel"
+                                         aria-labelledby="pills-profile-tab">
+
+                                        <div class="row mt-32">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="medium-h6 c-gray-dark-low">도축 결과</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-16">
+                                            <div class="col-12">
+                                                <label data-label="checkbox" class="radio-item">
+                                                    <input data-type="checkbox" data-value="true" type="checkbox"
+                                                           name="use-amniotic">
+                                                    <span class="checkbox"></span>
+                                                    <span class="text">도축 정보 사용</span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-none" id="amniotic-div">
+                                            <div class="row mt-32">
+                                                <div class="col-6">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label class="medium-h6 c-gray-dark-low">합격 여부</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex flex-row">
+                                                            <div class="mt-16">
+                                                                <label data-label="checkbox" class="radio-item">
+                                                                    <input data-type="radio" data-value="true" type="radio"
+                                                                           name="amniotic-success">
+                                                                    <span class="design"></span>
+                                                                    <span class="ml-16">합격</span>
+                                                                </label>
+                                                            </div>
+
+                                                            <div class="mt-16 ml-24">
+                                                                <label data-label="checkbox" class="radio-item">
+                                                                    <input data-type="radio" data-value="false" type="radio"
+                                                                           name="amniotic-success">
+                                                                    <span class="design"></span>
+                                                                    <span class="ml-16">불합격</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="dropdown input-dropdown">
+                                                        <div data-toggle="dropdown" aria-expanded="false"
+                                                             class="form-group form-inner-button form-inner-label" style="max-width: 100%">
+                                                            <label class="medium-h6 c-gray-dark-low">등급</label>
+                                                            <input type="text"
+                                                                   placeholder="등급을 선택해주세요."
+                                                                   data-category="rate"
+                                                                   class="form-control input-box medium-h5 dropdown-input"
+                                                                   disabled>
+                                                            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                <g clip-path="url(#clip0_224_6214)">
+                                                                    <path d="M15.3673 13.9999L9.59235 8.22489L11.242 6.57523L18.6667 13.9999L11.242 21.4246L9.59235 19.7749L15.3673 13.9999Z"
+                                                                          fill="#A9CC52"/>
+                                                                </g>
+                                                                <defs>
+                                                                    <clipPath id="clip0_224_6214">
+                                                                        <rect width="28" height="28" fill="white"
+                                                                              transform="translate(0 28) rotate(-90)"/>
+                                                                    </clipPath>
+                                                                </defs>
+                                                            </svg>
+                                                        </div>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item">
+                                                                <div>1++</div>
+                                                            </a>
+                                                            <a class="dropdown-item">
+                                                                <div>1+</div>
+                                                            </a>
+                                                            <a class="dropdown-item">
+                                                                <div>1등급</div>
+                                                            </a>
+                                                            <a class="dropdown-item">
+                                                                <div>2등급</div>
+                                                            </a>
+                                                            <a class="dropdown-item">
+                                                                <div>3등급</div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-32">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label class="medium-h6 c-gray-dark-low">사업장 명</label>
+                                                        <input type="text"
+                                                               placeholder="사업장 명 입력" name="amniotic-farm"
+                                                               class="form-control input-underline input-brand-green medium-h4">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-6">
+                                                    <div class="form-group form-inner-button form-inner-label">
+                                                        <label class="medium-h6 c-gray-dark-low">도축 일자</label>
+                                                        <input type="text"
+                                                               data-provide="datepicker"
+                                                               readonly
+                                                               placeholder="날짜를 입력하세요."
+                                                               name="amniotic-date"
+                                                               class="form-control input-box medium-h5 dropdown-input">
+                                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_224_6221)">
+                                                                <path d="M14.1667 2.49992H17.5C17.721 2.49992 17.933 2.58772 18.0893 2.744C18.2455 2.90028 18.3333 3.11224 18.3333 3.33325V16.6666C18.3333 16.8876 18.2455 17.0996 18.0893 17.2558C17.933 17.4121 17.721 17.4999 17.5 17.4999H2.5C2.27899 17.4999 2.06703 17.4121 1.91075 17.2558C1.75447 17.0996 1.66667 16.8876 1.66667 16.6666V3.33325C1.66667 3.11224 1.75447 2.90028 1.91075 2.744C2.06703 2.58772 2.27899 2.49992 2.5 2.49992H5.83333V0.833252H7.5V2.49992H12.5V0.833252H14.1667V2.49992ZM16.6667 7.49992V4.16659H14.1667V5.83325H12.5V4.16659H7.5V5.83325H5.83333V4.16659H3.33333V7.49992H16.6667ZM16.6667 9.16658H3.33333V15.8333H16.6667V9.16658ZM5 10.8333H9.16667V14.1666H5V10.8333Z"
+                                                                      fill="#A9CC52"/>
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_224_6221">
+                                                                    <rect width="20" height="20" fill="white"/>
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row mt-32">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label class="medium-h6 c-gray-dark-low">사업장 링크</label>
+                                                        <input type="text" name="amniotic-url"
+                                                               placeholder="사업장 링크 입력"
+                                                               class="form-control input-underline input-brand-green medium-h4">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-32">
+                                                <div class="col-6">
+                                                    <label class="medium-h6 c-gray-dark-low">소재지</label>
+                                                    <div class="form-group form-inner-button">
+                                                        <input type="text" placeholder="주소를 입력해주세요." data-type="postcode"
+                                                               class="form-control input-box medium-h5 cursor-pointer postcode-init"
+                                                               readonly
+                                                               name="amniotic-addr"
+                                                               id="input21">
+                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M12 23.7279L5.636 17.3639C4.37734 16.1052 3.52019 14.5016 3.17293 12.7558C2.82567 11.0099 3.00391 9.20035 3.6851 7.55582C4.36629 5.91129 5.51984 4.50569 6.99988 3.51677C8.47992 2.52784 10.22 2 12 2C13.78 2 15.5201 2.52784 17.0001 3.51677C18.4802 4.50569 19.6337 5.91129 20.3149 7.55582C20.9961 9.20035 21.1743 11.0099 20.8271 12.7558C20.4798 14.5016 19.6227 16.1052 18.364 17.3639L12 23.7279ZM16.95 15.9499C17.9289 14.9709 18.5955 13.7236 18.8656 12.3658C19.1356 11.0079 18.9969 9.60052 18.4671 8.32148C17.9373 7.04244 17.04 5.94923 15.8889 5.18009C14.7378 4.41095 13.3844 4.00043 12 4.00043C10.6156 4.00043 9.26222 4.41095 8.11109 5.18009C6.95996 5.94923 6.06275 7.04244 5.53292 8.32148C5.00308 9.60052 4.86442 11.0079 5.13445 12.3658C5.40449 13.7236 6.07111 14.9709 7.05 15.9499L12 20.8999L16.95 15.9499ZM12 12.9999C11.4696 12.9999 10.9609 12.7892 10.5858 12.4141C10.2107 12.0391 10 11.5304 10 10.9999C10 10.4695 10.2107 9.96078 10.5858 9.58571C10.9609 9.21064 11.4696 8.99992 12 8.99992C12.5304 8.99992 13.0391 9.21064 13.4142 9.58571C13.7893 9.96078 14 10.4695 14 10.9999C14 11.5304 13.7893 12.0391 13.4142 12.4141C13.0391 12.7892 12.5304 12.9999 12 12.9999Z"
+                                                                  fill="#A9CC52"/>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label class="medium-h6 c-gray-dark-low">상세 주소</label>
+                                                        <input type="text"
+                                                               placeholder="상세주소 입력" name="amniotic-addr-spec"
+                                                               class="form-control input-underline input-brand-green medium-h4">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+
+                                    <!--가공 Tab-->
+                                    <div class="tab-pane fade" id="pills-processing" role="tabpanel"
+                                         aria-labelledby="pills-profile-tab">
+
+                                        <div class="row _slaughter-table">
+                                            <div class="col-12 overflow-auto w-100">
+                                                <table class="table table-bordered trace-register-table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">사업장 명</th>
+                                                        <th scope="col">소재지</th>
+                                                        <th scope="col">포장/가공 일자</th>
+                                                        <th scope="col">삭제</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr data-type="empty">
+                                                        <td colspan="6">
+                                                            <span class="c-gray-light">포장/가공 정보를 추가하세요.</span>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-32">
+                                            <div class="col-12">
+                                                <span class="card-text _farm-type bold-h5 c-brand-green _add-new cursor-pointer">
+                                                    포장/가공 정보 추가 +
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-32">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="medium-h6 c-gray-dark-low">기타 정보</label>
+                                    <textarea type="text" rows="8"
+                                              placeholder="기타 정보 입력" name="other-info-input"
+                                              class="form-control textarea-underline input-brand-green medium-h4"></textarea>
+                                </div>
+                            </div>
+                        </div>`);
+            modal.find('input[data-provide="datepicker"]').datepicker({
+                format: 'yyyy년 mm월 dd일',
+                endDate: 'today',
+                language: 'ko',
+                todayHighlight: true,
+                defaultViewDate: 'today',
+                autoclose: true
+            }).datepicker('setDate', 'now');
+        }
+    })
+    $('#trace-created')
+        .on('change', 'input[name=use-amniotic]', function () {
+            console.log('changed');
+            let modal = $(this).closest('.modal');
+            if ($(this).is(':checked')) {
+                modal.find('#amniotic-div').removeClass('d-none');
+            } else {
+                modal.find('#amniotic-div').addClass('d-none');
+                let inputs = modal.find('#amniotic-div').find('input');
+                inputs.each((idx, elem) => {
+                    $(elem).val('');
+                })
+                modal.find('')
+            }
+        })
+        .on('change', 'input[name=vaccine-check]', function () {
+            let modal = $(this).closest('.modal');
+            if ($(this).is(':checked')) {
+                modal.find('#vaccine-info').removeClass('d-none');
+                modal.find('#vaccine-input').removeAttr('readonly');
+            } else {
+                modal.find('#vaccine-info').addClass('d-none');
+                modal.find('#vaccine-input').attr('readonly', 'readonly');
+                modal.find('#vaccine-input').val('');
+            }
+        })
+
+    $('#package-trace-created').on('hidden.bs.modal', function () {
+        const user_type = $('._animals ._animal input').data().category;
+        let modal = $(this);
+        if (!availableFarmTypes.includes(user_type)) {
+            // 직접 입력 X
+            modal.find('input').val('');
+        } else {
+            modal.find('input').val('');
+            let tbody = modal.find('table tbody');
+            tbody.find('tr:not([data-type="empty"]').remove();
+            tbody.find('tr[data-type="empty"]').removeClass('d-none');
+        }
+    })
 
     $('#package-trace-created').find('input#bundle-trace-search').next().on('click', function () {
         let input = $('#bundle-trace-search');
@@ -1343,6 +1895,7 @@ $(document).ready(function () {
         } else {
             // TODO Search Registered Trace
             getTraceByCode(code).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     let dataStatus = result.data.status;
@@ -1385,6 +1938,7 @@ $(document).ready(function () {
             viewAlert({content: '조회할 묶음 번호를 입력하세요.', zIndex: MODAL_ALERT_ZINDEX});
         } else {
             getPublicBundle(code).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -1400,6 +1954,7 @@ $(document).ready(function () {
                             onConfirm: () => {
                                 // TODO result.data.data 로 Format 만들기
                                 createPublicBundle(result.data.data).then((result) => {
+                                    setLoading(false);
                                     if (result.status === 'OK') {
                                         if (result.data.status) {
                                             viewModal({
@@ -1424,7 +1979,14 @@ $(document).ready(function () {
                                         }
                                     }
                                 })
-                            }
+                            },
+                            onShow: () => {
+                                $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
+                            },
+                            onShown: () => {
+                                $('body .modal-backdrop._second').removeClass('_second').css('z-index', 1040);
+                                $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
+                            },
                         })
                     } else {
                         if (result.data.type === 1) {
@@ -1459,6 +2021,7 @@ $(document).ready(function () {
                 list.push(no);
             })
             createManualBundle(list).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -1609,7 +2172,7 @@ $(document).ready(function () {
                                                 </div>
                                             </div>
                                             <div class="row mt-32">
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">농장
                                                             경영자</label>
@@ -1619,7 +2182,7 @@ $(document).ready(function () {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">농장
                                                             명</label>
@@ -1630,7 +2193,7 @@ $(document).ready(function () {
                                                 </div>
                                             </div>
                                             <div class="row mt-32">
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">농장 링크</label>
                                                         <input type="text"
@@ -1638,7 +2201,7 @@ $(document).ready(function () {
                                                                class="form-control input-underline input-brand-green medium-h4">
                                                     </div>
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group form-inner-button form-inner-label">
                                                         <label class="medium-h6 c-gray-dark-low">소재 일자</label>
                                                         <input type="text"
@@ -1662,7 +2225,7 @@ $(document).ready(function () {
                                                 </div>
                                             </div>
                                             <div class="row mt-32">
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <label class="medium-h6 c-gray-dark-low">소재지</label>
                                                     <div class="form-group form-inner-button">
                                                         <input type="text" placeholder="주소를 입력해주세요." data-type="postcode"
@@ -1676,7 +2239,7 @@ $(document).ready(function () {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-6">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
                                                     <div class="form-group">
                                                         <label class="medium-h6 c-gray-dark-low">상세 주소</label>
                                                         <input type="text"
@@ -1687,9 +2250,9 @@ $(document).ready(function () {
                                                 </div>
                                             </div>
                                             <div class="row mt-32">
-                                                <div class="col-12 d-flex justify-content-end">
-                                                    <button class="btn btn-gray-high-light medium-h4 mr-8 _cancel">취소</button>
-                                                    <button class="btn btn-brand medium-h4 _confirm">추가하기</button>
+                                                <div class="col-12 d-flex justify-content-end button-container">
+                                                    <button class="btn btn-md btn-gray-high-light medium-h5 mr-8 _cancel">취소</button>
+                                                    <button class="btn btn-md btn-brand medium-h5 _confirm">추가하기</button>
                                                 </div>
                                             </div>
                                         </div>`);
@@ -1721,11 +2284,12 @@ $(document).ready(function () {
     }
 
     // 사육 make Part
-    $('#pills-breed')
-        .on('click', '._add-new', function () {
+    $('#trace-created')
+        .on('click', '#pills-breed ._add-new', function () {
+            console.log('add-new clicked');
             createBreedMakeTab($(this));
         })
-        .on('click', '._breed-make ._confirm', function () {
+        .on('click', '#pills-breed ._breed-make ._confirm', function () {
             let makeField = $(this).parent().parent().parent();
             let type = makeField.find('input[name="breed-type"]:checked');
             let farmer = makeField.find('input[name="breed-farmer"]');
@@ -1839,121 +2403,13 @@ $(document).ready(function () {
                 makeField.remove();
             }
         })
-        .on('click', '._breed-make ._cancel', function () {
+        .on('click', '#pills-breed ._breed-make ._cancel', function () {
             $('._breed-make').remove();
         })
-
-    function createProcessMakeTab($button) {
-        let parent = $button.parent().parent();
-        if (parent.prev().hasClass('_slaughter-table')) {
-            parent.before(`<div class="_slaughter-make">
-                                            <div class="row mt-24">
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label class="medium-h6 c-gray-dark-low">농장 명</label>
-                                                        <input type="text"
-                                                               placeholder="농장 명 입력" name="slaughter-farm"
-                                                               class="form-control input-underline input-brand-green medium-h4">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-6">
-                                                    <div class="form-group form-inner-button form-inner-label">
-                                                        <label class="medium-h6 c-gray-dark-low">가공 일자</label>
-                                                        <input type="text"
-                                                               data-provide="datepicker"
-                                                               readonly
-                                                               placeholder="날짜를 입력해주세요." name="slaughter-date"
-                                                               class="form-control input-box medium-h5 dropdown-input">
-                                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <g clip-path="url(#clip0_224_6221)">
-                                                                <path d="M14.1667 2.49992H17.5C17.721 2.49992 17.933 2.58772 18.0893 2.744C18.2455 2.90028 18.3333 3.11224 18.3333 3.33325V16.6666C18.3333 16.8876 18.2455 17.0996 18.0893 17.2558C17.933 17.4121 17.721 17.4999 17.5 17.4999H2.5C2.27899 17.4999 2.06703 17.4121 1.91075 17.2558C1.75447 17.0996 1.66667 16.8876 1.66667 16.6666V3.33325C1.66667 3.11224 1.75447 2.90028 1.91075 2.744C2.06703 2.58772 2.27899 2.49992 2.5 2.49992H5.83333V0.833252H7.5V2.49992H12.5V0.833252H14.1667V2.49992ZM16.6667 7.49992V4.16659H14.1667V5.83325H12.5V4.16659H7.5V5.83325H5.83333V4.16659H3.33333V7.49992H16.6667ZM16.6667 9.16658H3.33333V15.8333H16.6667V9.16658ZM5 10.8333H9.16667V14.1666H5V10.8333Z"
-                                                                      fill="#A9CC52"/>
-                                                            </g>
-                                                            <defs>
-                                                                <clipPath id="clip0_224_6221">
-                                                                    <rect width="20" height="20" fill="white"/>
-                                                                </clipPath>
-                                                            </defs>
-                                                        </svg>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="row mt-32">
-                                                <div class="col-12">
-                                                    <div class="form-group">
-                                                        <label class="medium-h6 c-gray-dark-low">농장 링크</label>
-                                                        <input type="text"
-                                                               placeholder="농장 링크 입력" name="slaughter-url"
-                                                               class="form-control input-underline input-brand-green medium-h4">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-32">
-                                                <div class="col-6">
-                                                    <label class="medium-h6 c-gray-dark-low">소재지</label>
-                                                    <div class="form-group form-inner-button">
-                                                        <input type="text" placeholder="주소를 입력해주세요." name="slaughter-addr"
-                                                               class="form-control input-box medium-h5 cursor-pointer" data-type="postcode" readonly
-                                                               id="input22">
-                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M12 23.7279L5.636 17.3639C4.37734 16.1052 3.52019 14.5016 3.17293 12.7558C2.82567 11.0099 3.00391 9.20035 3.6851 7.55582C4.36629 5.91129 5.51984 4.50569 6.99988 3.51677C8.47992 2.52784 10.22 2 12 2C13.78 2 15.5201 2.52784 17.0001 3.51677C18.4802 4.50569 19.6337 5.91129 20.3149 7.55582C20.9961 9.20035 21.1743 11.0099 20.8271 12.7558C20.4798 14.5016 19.6227 16.1052 18.364 17.3639L12 23.7279ZM16.95 15.9499C17.9289 14.9709 18.5955 13.7236 18.8656 12.3658C19.1356 11.0079 18.9969 9.60052 18.4671 8.32148C17.9373 7.04244 17.04 5.94923 15.8889 5.18009C14.7378 4.41095 13.3844 4.00043 12 4.00043C10.6156 4.00043 9.26222 4.41095 8.11109 5.18009C6.95996 5.94923 6.06275 7.04244 5.53292 8.32148C5.00308 9.60052 4.86442 11.0079 5.13445 12.3658C5.40449 13.7236 6.07111 14.9709 7.05 15.9499L12 20.8999L16.95 15.9499ZM12 12.9999C11.4696 12.9999 10.9609 12.7892 10.5858 12.4141C10.2107 12.0391 10 11.5304 10 10.9999C10 10.4695 10.2107 9.96078 10.5858 9.58571C10.9609 9.21064 11.4696 8.99992 12 8.99992C12.5304 8.99992 13.0391 9.21064 13.4142 9.58571C13.7893 9.96078 14 10.4695 14 10.9999C14 11.5304 13.7893 12.0391 13.4142 12.4141C13.0391 12.7892 12.5304 12.9999 12 12.9999Z"
-                                                                  fill="#A9CC52"/>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label class="medium-h6 c-gray-dark-low">상세 주소</label>
-                                                        <input type="text"
-                                                               placeholder="상세주소 입력" name="slaughter-addr-spec"
-                                                               class="form-control input-underline input-brand-green medium-h4">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-32">
-                                                <div class="col-12 d-flex justify-content-end">
-                                                    <button class="btn btn-gray-high-light medium-h4 mr-8 _cancel">취소</button>
-                                                    <button class="btn btn-brand medium-h4 _confirm">추가하기</button>
-                                                </div>
-                                            </div>
-                                        </div>`);
-            $('input[name="slaughter-date"]').datepicker({
-                format: 'yyyy년 mm월 dd일',
-                endDate: 'today',
-                language: 'ko',
-                todayHighlight: true,
-                defaultViewDate: 'today',
-                autoclose: true
-            }).datepicker('setDate', 'now');
-            $button.closest('.tab-pane').find('input[data-type=postcode]').on('click', function () {
-                let input = $(this);
-                if (!input.hasClass('postcode-init')) {
-                    new daum.Postcode({
-                        oncomplete: function (data) {
-                            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-                            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-                            input.val(data.address);
-                            input.parent().parent().next().find('input').focus();
-                        }
-                    }).open();
-                    input.addClass('postcode-init');
-                }
-            })
-        } else {
-            viewAlert({content: '작성하시던 가공 정보를 먼저 등록해주세요.', zIndex: MODAL_ALERT_ZINDEX})
-        }
-    }
-
-    $('#pills-processing')
-        .on('click', '._add-new', function () {
+        .on('click', '#pills-processing ._add-new', function () {
             createProcessMakeTab($(this));
         })
-        .on('click', '._slaughter-make ._confirm', function () {
+        .on('click', '#pills-processing ._slaughter-make ._confirm', function () {
             let makeField = $(this).parent().parent().parent();
             let tableBody = $('._slaughter-table').find('tbody');
             let farm = makeField.find('input[name="slaughter-farm"');
@@ -2002,199 +2458,326 @@ $(document).ready(function () {
             makeField.remove();
 
         })
-        .on('click', '._slaughter-make ._cancel', function () {
+        .on('click', '#pills-processing ._slaughter-make ._cancel', function () {
             $('._slaughter-make').remove();
         })
-
-    $('#pills-slaughter').on('click', 'input[data-type=postcode]', function () {
-        let input = $(this);
-        new daum.Postcode({
-            oncomplete: function (data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-                // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-                input.val(data.address);
-                input.parent().parent().next().find('input').focus();
+        .on('click', '#pills-slaughter input[data-type=postcode]', function () {
+            let input = $(this);
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+                    // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+                    input.val(data.address);
+                    input.parent().parent().next().find('input').focus();
+                }
+            }).open();
+        })
+        .on('click', '#make-trace', function () {
+            /**
+             * 1. 사육 -> 출하 정보 없이는 도축 정보 불가
+             * 2. 도축 정보 없이는 가공 정보 입력 불가
+             * 3. Modal 닫을 때 모든 정보 날리기
+             * */
+            const sendData = {};
+            // + 추가 (백신 정보, 기타 정보)
+            let vaccine_use = $('input[name=vaccine-check]').is(':checked');
+            let other_info = $('textarea[name=other-info-input]').val();
+            let vaccine = {};
+            vaccine.vaccine_used = vaccine_use;
+            if (vaccine_use) {
+                let vaccine_info = $('input[name=vaccine-input]').val();
+                if (vaccine_info.trim().length <= 0) {
+                    viewAlert({content: '백신 정보를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                    return false;
+                }
+                vaccine.vaccine_info = vaccine_info
             }
-        }).open();
-    })
-
-    $('#make-trace').on('click', function () {
-        /** TODO
-         * 1. 사육 -> 출하 정보 없이는 도축 정보 불가
-         * 2. 도축 정보 없이는 가공 정보 입력 불가
-         * 3. Modal 닫을 때 모든 정보 날리기
-         * */
+            sendData.vaccine = vaccine;
+            if(other_info.trim().length > 1000) {
+                viewAlert({content: '기타 정보는 최대 1000자까지 가능합니다.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            }
+            sendData.other_info = other_info.trim();
             // 등급
-        let rate = $('[data-category=rate]').val();
-        if (rate.trim().length === 0) {
-            viewAlert({content: '등급을 선택해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-            return false;
-        }
-        // 출생 일자
-        let birth = $('input[name=trace-birth]').val();
-        if (birth.trim().length === 0) {
-            viewAlert({content: '출생 일자를 선택해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-            return false;
-        }
-        // 성별
-        let gender = $('input[name=gender]:checked');
-        if (gender.length === 0) {
-            viewAlert({content: '성별을 선택해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-            return false;
-        }
-        const entity = {};
-        entity.entity_type = $('input[name=animal]').data().category;
-        entity.birth = birth;
-        entity.gender = gender.data().value;
-        entity.rate = rate;
-        // 사육정보
-        /**
-         * 사육 정보에 최소 breed-register 하나 이상 존재 필수
-         * 사육 정보에 앞 단계 정보 없이 그 뒷 단계 정보가 존재할 시
-         * */
-        const breeds = [];
-        let has_slaughter = false;
-        let breed_table = $('#pills-breed').find('tbody');
-        if (breed_table.find('tr').length === 1) {
-            // Empty Type만 있을 경우
-            viewAlert({content: '사육 정보는 필수입니다.', zIndex: MODAL_ALERT_ZINDEX});
-            return false;
-        } else {
-            let datas = breed_table.find('tr:not([data-type=empty])');
-            datas.each((index, element) => {
-                const breed = {};
-                breed.type = $(element).data().type.split('breed-')[1].toUpperCase();
-                breed.breed_farmer_name = $(element).find('td:nth-child(2)').html();
-                breed.breed_farm_name = $(element).find('td:nth-child(3)').html();
-                breed.breed_farm_url = $(element).find('td:nth-child(3)').data().link;
-                breed.breed_issue_date = $(element).find('td:nth-child(4)').data().date;
-                breed.breed_farm_addr = $(element).find('td:nth-child(5)').html();
-                breeds.push(breed);
-                if (breed.type === 'SLAUGHTER') {
-                    has_slaughter = true;
+            let butchery_use = $('input[name=use-amniotic]').is(':checked');
+            let rate = $('[data-category=rate]').val();
+            if (butchery_use && rate.trim().length === 0) {
+                viewAlert({content: '등급을 선택해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            }
+            // 출생 일자
+            let birth = $('input[name=trace-birth]').val();
+            if (birth.trim().length === 0) {
+                viewAlert({content: '출생 일자를 선택해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            }
+            // 성별
+            let gender = $('input[name=gender]:checked');
+            if (gender.length === 0) {
+                viewAlert({content: '성별을 선택해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            }
+            if (rate === '') {
+                rate = null;
+            }
+            const entity = {};
+            entity.entity_type = $('input[name=animal]').data().category;
+            entity.birth = birth;
+            entity.gender = gender.data().value;
+            entity.rate = rate;
+            // 사육정보
+            /**
+             * 사육 정보에 최소 breed-register 하나 이상 존재 필수
+             * 사육 정보에 앞 단계 정보 없이 그 뒷 단계 정보가 존재할 시
+             * */
+            const breeds = [];
+            let has_slaughter = false;
+            let breed_table = $('#pills-breed').find('tbody');
+            if (breed_table.find('tr').length === 1) {
+                // Empty Type만 있을 경우
+                viewAlert({content: '사육 정보는 필수입니다.', zIndex: MODAL_ALERT_ZINDEX});
+                return false;
+            } else {
+                let datas = breed_table.find('tr:not([data-type=empty])');
+                datas.each((index, element) => {
+                    const breed = {};
+                    breed.type = $(element).data().type.split('breed-')[1].toUpperCase();
+                    breed.breed_farmer_name = $(element).find('td:nth-child(2)').html();
+                    breed.breed_farm_name = $(element).find('td:nth-child(3)').html();
+                    breed.breed_farm_url = $(element).find('td:nth-child(3)').data().link;
+                    breed.breed_issue_date = $(element).find('td:nth-child(4)').data().date;
+                    breed.breed_farm_addr = $(element).find('td:nth-child(5)').html();
+                    breeds.push(breed);
+                    if (breed.type === 'SLAUGHTER') {
+                        has_slaughter = true;
+                    }
+                })
+                console.log(breeds);
+            }
+            // 도축 정보
+            /**
+             * 사육 정보에 출하 정보 없을 시
+             * */
+            let slaughter_tab = $('#pills-slaughter');
+            let result = slaughter_tab.find('input[name=amniotic-success]:checked');
+            const butcheries = [];
+            if (butchery_use) {
+                // 도축 정보가 입력 되었을 때
+                if (breeds.length <= 0 || !has_slaughter) {
+                    viewAlert({content: '도축 정보를 등록하기 위해선 사육 - 출하 정보는 필수입니다.', zIndex: MODAL_ALERT_ZINDEX});
+                    return false;
+                } else {
+                    let butchery = {};
+                    let farm = slaughter_tab.find('input[name=amniotic-farm]').val();
+                    let date = slaughter_tab.find('input[name=amniotic-date]').val();
+                    let addr = slaughter_tab.find('input[name=amniotic-addr]').val();
+                    let addr_spec = slaughter_tab.find('input[name=amniotic-addr-spec]').val();
+                    if (result.length <= 0) {
+                        viewAlert({content: '도축 합격 여부를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                        return false;
+                    }
+                    if (farm.trim().length <= 0) {
+                        viewAlert({content: '도축장 명을 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                        return false;
+                    }
+                    if (date.trim().length <= 0) {
+                        viewAlert({content: '도축 일자를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                        return false;
+                    }
+                    if (addr.trim().length <= 0) {
+                        viewAlert({content: '도축 소재지를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                        return false;
+                    }
+                    if (addr_spec.trim().length <= 0) {
+                        viewAlert({content: '도축 소재지 상세 주소를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                        return false;
+                    }
+                    butchery.butchery_result = result.data().value;
+                    butchery.butchery_corp = farm.trim();
+                    butchery.butchery_date = date.trim();
+                    butchery.butchery_addr = `${addr.trim()}`;
+                    butchery.butchery_addr_spec = `${addr_spec.trim()}`;
+                    butchery.butchery_url = slaughter_tab.find('input[name=amniotic-url]').val();
+                    butchery.butchery_rate = rate;
+                    butcheries.push(butchery);
+                }
+            }
+            console.log(butcheries);
+            // 가공 정보
+            /**
+             * 도축 정보 없을 시
+             * */
+            const processes = [];
+            let process_table = $('#pills-processing').find('tbody');
+            let process_datas = process_table.find('tr:not([data-type=empty])')
+            if (process_datas.length > 0) {
+                if (!butchery_use) {
+                    viewAlert({content: '가공 정보를 위해서 도축 정보를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
+                    return false;
+                } else {
+                    process_datas.each((i, e) => {
+                        console.log(e);
+                        let process = {};
+                        process.process_corp = $(e).find('td:first-child').html();
+                        process.process_url = $(e).find('td:first-child').data().link;
+                        process.process_date = $(e).find('td:nth-child(2)').data().date;
+                        process.process_addr = $(e).find('td:nth-child(3)').html();
+                        processes.push(process);
+                    })
+                }
+            }
+            // TRACE DATA FORMAT
+            sendData.entity = entity;
+            sendData.breed = breeds;
+            sendData.butchery = butcheries;
+            sendData.process = processes;
+
+            console.log('result data : ', sendData);
+            // MAKE
+            createTrace(sendData).then((result) => {
+                setLoading(false);
+                console.log(result);
+                if (result.status === 'OK') {
+                    if (result.data.status) {
+                        viewModal({
+                            btnCount: 1,
+                            title: '이력 제작 성공',
+                            desc: '이력이 성공적으로 제작되었습니다.',
+                            zIndex: 2500,
+                            onConfirm: function () {
+                                window.location.reload();
+                            },
+                            onShow: () => {
+                                $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
+                            },
+                            onShown: () => {
+                                $('body .modal-backdrop._second').removeClass('_second').css('z-index', 1040);
+                                $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
+                            },
+                            onHide: () => {
+                                if (!$(document.body).hasClass('modal-open')) {
+                                    $(document.body).addClass('modal-open');
+                                }
+                            },
+                            onHidden: () => {
+                                if (!$(document.body).hasClass('modal-open')) {
+                                    $(document.body).addClass('modal-open');
+                                }
+                            }
+                        })
+                    } else {
+
+                    }
                 }
             })
-            console.log(breeds);
-        }
-        // 도축 정보
-        /**
-         * 사육 정보에 출하 정보 없을 시
-         * */
-        let slaughter_tab = $('#pills-slaughter');
-        let result = slaughter_tab.find('input[name=amniotic-success]:checked');
-        const butcheries = [];
-        if (result.length > 0) {
-            // 도축 정보가 입력 되었을 때
-            if (breeds.length <= 0) {
-                viewAlert({content: '도축 정보를 등록하기 위해선 사육 정보는 필수입니다.', zIndex: MODAL_ALERT_ZINDEX});
-                return false;
-            } else if (!has_slaughter) {
-                viewAlert({content: '도축 정보를 등록하기 위해선 출하 정보는 필수입니다.', zIndex: MODAL_ALERT_ZINDEX});
-                return false;
-            } else {
-                let butchery = {};
-                let result = slaughter_tab.find('input[name=amniotic-success]');
-                let farm = slaughter_tab.find('input[name=amniotic-farm]').val();
-                let date = slaughter_tab.find('input[name=amniotic-date]').val();
-                let addr = slaughter_tab.find('input[name=amniotic-addr]').val();
-                let addr_spec = slaughter_tab.find('input[name=amniotic-addr-spec]').val();
-                if (result.length <= 0) {
-                    viewAlert({content: '도축 합격 여부를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-                    return false;
-                }
-                if (farm.trim().length <= 0) {
-                    viewAlert({content: '도축장 명을 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-                    return false;
-                }
-                if (date.trim().length <= 0) {
-                    viewAlert({content: '도축 일자를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-                    return false;
-                }
-                if (addr.trim().length <= 0) {
-                    viewAlert({content: '도축 소재지를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-                    return false;
-                }
-                if (addr_spec.trim().length <= 0) {
-                    viewAlert({content: '도축 소재지 상세 주소를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-                    return false;
-                }
-                butchery.butchery_result = result.data().value;
-                butchery.butchery_corp = farm.trim();
-                butchery.butchery_date = date.trim();
-                butchery.butchery_addr = `${addr.trim()}`;
-                butchery.butchery_addr_spec = `${addr_spec.trim()}`;
-                butcheries.push(butchery);
-            }
-        }
-        console.log(butcheries);
-        // 가공 정보
-        /**
-         * 도축 정보 없을 시
-         * */
-        const processes = [];
-        let process_table = $('#pills-processing').find('tbody');
-        let process_datas = process_table.find('tr:not([data-type=empty])')
-        if (process_datas.length > 0) {
-            if (butcheries.length <= 0) {
-                viewAlert({content: '가공 정보를 위해서 도축 정보를 입력해주세요.', zIndex: MODAL_ALERT_ZINDEX});
-                return false;
-            } else {
-                process_datas.each((i, e) => {
-                    console.log(e);
-                    let process = {};
-                    process.process_corp = $(e).find('td:first-child').html();
-                    process.process_url = $(e).find('td:first-child').data().link;
-                    process.process_date = $(e).find('td:nth-child(2)').data().date;
-                    process.process_addr = $(e).find('td:nth-child(3)').html();
-                    processes.push(process);
-                })
-            }
-        }
-        // TRACE DATA FORMAT
-        const sendData = {};
-        sendData.entity = entity;
-        sendData.breed = breeds;
-        sendData.butchery = butcheries;
-        sendData.process = processes;
-
-        console.log('result data : ', sendData);
-        // MAKE
-        createTrace(sendData).then((result) => {
-            console.log(result);
-            if (result.status === 'OK') {
-                if (result.data.status) {
-                    viewModal({
-                        btnCount: 1,
-                        title: '이력 제작 성공',
-                        desc: '이력이 성공적으로 제작되었습니다.',
-                        zIndex: 2500,
-                        onConfirm: function () {
-                            window.location.reload();
-                        },
-                        onShow: () => {
-                            $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
-                        },
-                        onShown: () => {
-                            $('body .modal-backdrop._second').removeClass('_second').css('z-index', 1040);
-                            $('body .modal-backdrop:last-child').addClass('_second').css('z-index', 1080);
-                        },
-                        onHide: () => {
-                            if (!$(document.body).hasClass('modal-open')) {
-                                $(document.body).addClass('modal-open');
-                            }
-                        },
-                        onHidden: () => {
-                            if (!$(document.body).hasClass('modal-open')) {
-                                $(document.body).addClass('modal-open');
-                            }
-                        }
-                    })
-                } else {
-
-                }
-            }
         })
-    })
+
+    function createProcessMakeTab($button) {
+        let parent = $button.parent().parent();
+        if (parent.prev().hasClass('_slaughter-table')) {
+            parent.before(`<div class="_slaughter-make">
+                                            <div class="row mt-24">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
+                                                    <div class="form-group">
+                                                        <label class="medium-h6 c-gray-dark-low">사업장 명</label>
+                                                        <input type="text"
+                                                               placeholder="사업장 명 입력" name="slaughter-farm"
+                                                               class="form-control input-underline input-brand-green medium-h4">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
+                                                    <div class="form-group form-inner-button form-inner-label">
+                                                        <label class="medium-h6 c-gray-dark-low">포장/가공 일자</label>
+                                                        <input type="text"
+                                                               data-provide="datepicker"
+                                                               readonly
+                                                               placeholder="날짜를 입력해주세요." name="slaughter-date"
+                                                               class="form-control input-box medium-h5 dropdown-input">
+                                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_224_6221)">
+                                                                <path d="M14.1667 2.49992H17.5C17.721 2.49992 17.933 2.58772 18.0893 2.744C18.2455 2.90028 18.3333 3.11224 18.3333 3.33325V16.6666C18.3333 16.8876 18.2455 17.0996 18.0893 17.2558C17.933 17.4121 17.721 17.4999 17.5 17.4999H2.5C2.27899 17.4999 2.06703 17.4121 1.91075 17.2558C1.75447 17.0996 1.66667 16.8876 1.66667 16.6666V3.33325C1.66667 3.11224 1.75447 2.90028 1.91075 2.744C2.06703 2.58772 2.27899 2.49992 2.5 2.49992H5.83333V0.833252H7.5V2.49992H12.5V0.833252H14.1667V2.49992ZM16.6667 7.49992V4.16659H14.1667V5.83325H12.5V4.16659H7.5V5.83325H5.83333V4.16659H3.33333V7.49992H16.6667ZM16.6667 9.16658H3.33333V15.8333H16.6667V9.16658ZM5 10.8333H9.16667V14.1666H5V10.8333Z"
+                                                                      fill="#A9CC52"/>
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_224_6221">
+                                                                    <rect width="20" height="20" fill="white"/>
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row mt-32">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label class="medium-h6 c-gray-dark-low">사업장 링크</label>
+                                                        <input type="text"
+                                                               placeholder="사업장 링크 입력" name="slaughter-url"
+                                                               class="form-control input-underline input-brand-green medium-h4">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-32">
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
+                                                    <label class="medium-h6 c-gray-dark-low">소재지</label>
+                                                    <div class="form-group form-inner-button">
+                                                        <input type="text" placeholder="주소를 입력해주세요." name="slaughter-addr"
+                                                               class="form-control input-box medium-h5 cursor-pointer" data-type="postcode" readonly
+                                                               id="input22">
+                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M12 23.7279L5.636 17.3639C4.37734 16.1052 3.52019 14.5016 3.17293 12.7558C2.82567 11.0099 3.00391 9.20035 3.6851 7.55582C4.36629 5.91129 5.51984 4.50569 6.99988 3.51677C8.47992 2.52784 10.22 2 12 2C13.78 2 15.5201 2.52784 17.0001 3.51677C18.4802 4.50569 19.6337 5.91129 20.3149 7.55582C20.9961 9.20035 21.1743 11.0099 20.8271 12.7558C20.4798 14.5016 19.6227 16.1052 18.364 17.3639L12 23.7279ZM16.95 15.9499C17.9289 14.9709 18.5955 13.7236 18.8656 12.3658C19.1356 11.0079 18.9969 9.60052 18.4671 8.32148C17.9373 7.04244 17.04 5.94923 15.8889 5.18009C14.7378 4.41095 13.3844 4.00043 12 4.00043C10.6156 4.00043 9.26222 4.41095 8.11109 5.18009C6.95996 5.94923 6.06275 7.04244 5.53292 8.32148C5.00308 9.60052 4.86442 11.0079 5.13445 12.3658C5.40449 13.7236 6.07111 14.9709 7.05 15.9499L12 20.8999L16.95 15.9499ZM12 12.9999C11.4696 12.9999 10.9609 12.7892 10.5858 12.4141C10.2107 12.0391 10 11.5304 10 10.9999C10 10.4695 10.2107 9.96078 10.5858 9.58571C10.9609 9.21064 11.4696 8.99992 12 8.99992C12.5304 8.99992 13.0391 9.21064 13.4142 9.58571C13.7893 9.96078 14 10.4695 14 10.9999C14 11.5304 13.7893 12.0391 13.4142 12.4141C13.0391 12.7892 12.5304 12.9999 12 12.9999Z"
+                                                                  fill="#A9CC52"/>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 mb-32 mb-md-0 col-md-6 col-sm-12 col-xl-6">
+                                                    <div class="form-group">
+                                                        <label class="medium-h6 c-gray-dark-low">상세 주소</label>
+                                                        <input type="text"
+                                                               placeholder="상세주소 입력" name="slaughter-addr-spec"
+                                                               class="form-control input-underline input-brand-green medium-h4">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-32">
+                                                <div class="col-12 d-flex justify-content-end button-container">
+                                                    <button class="btn btn-md btn-gray-high-light medium-h5 mr-8 _cancel">취소</button>
+                                                    <button class="btn btn-md btn-brand medium-h5 _confirm">추가하기</button>
+                                                </div>
+                                            </div>
+                                        </div>`);
+            $('input[name="slaughter-date"]').datepicker({
+                format: 'yyyy년 mm월 dd일',
+                endDate: 'today',
+                language: 'ko',
+                todayHighlight: true,
+                defaultViewDate: 'today',
+                autoclose: true
+            }).datepicker('setDate', 'now');
+            $button.closest('.tab-pane').find('input[data-type=postcode]').on('click', function () {
+                let input = $(this);
+                if (!input.hasClass('postcode-init')) {
+                    new daum.Postcode({
+                        oncomplete: function (data) {
+                            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+                            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+                            input.val(data.address);
+                            input.parent().parent().next().find('input').focus();
+                        }
+                    }).open();
+                    input.addClass('postcode-init');
+                }
+            })
+        } else {
+            viewAlert({content: '작성하시던 가공 정보를 먼저 등록해주세요.', zIndex: MODAL_ALERT_ZINDEX})
+        }
+    }
+
 });
 
 
@@ -2235,7 +2818,7 @@ function getBreedTypeKor(type) {
             str = '등록';
             break;
         case 'AMNIOTIC' :
-            str = '도축';
+            str = '양도';
             break;
         case 'SLAUGHTER':
             str = '출하';

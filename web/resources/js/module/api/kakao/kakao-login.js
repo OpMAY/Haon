@@ -9,6 +9,7 @@
 
 $(document).ready(function () {
     getKakaoKey().then((result) => {
+        setLoading(false);
         console.log(result);
         if (typeof Kakao === 'undefined') {
             // CALL naver login script

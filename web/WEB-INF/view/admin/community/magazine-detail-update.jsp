@@ -504,13 +504,11 @@
             <div class="modal-body p-4">
                 <div class="text-center">
                     <i class="dripicons-to-do h1 text-white"></i>
-                    <h4 class="mt-2 text-white">Oh snap!</h4>
-                    <p class="mt-3 text-white">Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                        dapibus ac
-                        facilisis in, egestas eget quam.</p>
+                    <h4 class="mt-2 text-white">게시물 수정</h4>
+                    <p class="mt-3 text-white">게시물을 수정하시겠습니까?</p>
                     <button type="button"
                             class="btn btn-light my-2"
-                            data-action="update">Continue
+                            data-action="update">수정
                     </button>
                 </div>
             </div>
@@ -527,13 +525,11 @@
             <div class="modal-body p-4">
                 <div class="text-center">
                     <i class="dripicons-wrong h1 text-white"></i>
-                    <h4 class="mt-2 text-white">Oh snap!</h4>
-                    <p class="mt-3 text-white">Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                        dapibus ac
-                        facilisis in, egestas eget quam.</p>
+                    <h4 class="mt-2 text-white">게시물 삭제</h4>
+                    <p class="mt-3 text-white">해당 게시물을 삭제하면 좋아요 및 댓글수, 조회수는 같이 삭제됩니다.</p>
                     <button type="button"
                             class="btn btn-light my-2"
-                            data-action="delete">Continue
+                            data-action="delete">삭제하기
                     </button>
                 </div>
             </div>
@@ -557,17 +553,18 @@
     document.addEventListener('DOMContentLoaded', function () {
         $('[data-plugins="dropify"]').dropify({
             messages: {
-                default: "Drag and drop a file here or click",
-                replace: "Drag and drop or click to replace",
-                remove: "Remove",
-                error: "Ooops, something wrong appended."
-            }, error: {fileSize: "The file size is too big (1M max)."}
+                default: "파일을 넣거나 클릭해주세요.",
+                replace: "파일을 넣거나 클릭해주세요.",
+                remove: "삭제",
+                error: "에러입니다. 관리자에게 문의해주세요."
+            }, error: {fileSize: "파일 사이즈가 너무 큽니다. (10MB 미만)"}
         });
 
         //event
         $('[data-action="delete"]').click(function (event) {
             let no = this.dataset.no;
             deleteCommunity('MAGAZINE', no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -651,6 +648,7 @@
         //comment event action
         $('[data-action="_delete"]').click(function (event) {
             deleteReviewReply('MAGAZINE', this.dataset.no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -666,6 +664,7 @@
         });
         $('[data-action="lock"]').click(function (event) {
             blockReview('LOCK', 'MAGAZINE', this.dataset.no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -681,6 +680,7 @@
         });
         $('[data-action="unlock"]').click(function (event) {
             blockReview('UNLOCK', 'MAGAZINE', this.dataset.no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -700,6 +700,7 @@
             let no = this.dataset.no;
             let type = this.dataset.type;
             magazineStatusUpdate(type, no).then((result) => {
+                setLoading(false);
                 console.log(result);
                 if (result.status === 'OK') {
                     if (result.data.status) {
@@ -748,15 +749,15 @@
     const communitySubmit = () => {
         let return_check = true;
         let title = $('[name="title"]').val();
-        let title_regex = /^.{2,100}$/gm;
+        let title_regex = /^.{2,50}$/gm;
         if (!title_regex.test(title)) {
             alert('제목을 정확히 입력해주세요. 2글자 이상, 50글자 이내');
             return_check = false;
         }
         let content = $('#summernote').summernote('code');
-        let content_regex = /^.{10,4000}$/gm;
+        let content_regex = /^.{10,8000}$/gm;
         if (!content_regex.test($(content).text())) {
-            alert('게시글 내용을 정확히 입력해주세요. 10글자 이상, 2000글자 이내');
+            alert('게시글 내용을 정확히 입력해주세요. 10글자 이상, 8000글자 이내');
             return_check = false;
         }
         $('[name="content"]').val(content);

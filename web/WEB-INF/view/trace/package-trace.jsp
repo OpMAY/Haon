@@ -17,14 +17,14 @@
                  style="min-height: calc(80vh);">
             <div class="trace-card">
                 <div class="row p-16">
-                    <div class="col-6 pt-8">
+                    <div class="col-auto pt-8">
                         <img src="../../resources/assets/images/icon/logo-white-theme.png" alt="">
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-auto ml-auto">
                         <div class="form-group form-inner-button">
-                            <input type="text" placeholder="이력 번호 또는 묶음 번호 입력"
-                                   class="form-control input-box medium-h5">
+                            <input type="text" placeholder="이력 번호 또는 묶음 번호 입력" id="trace-search"
+                                   class="form-control input-box medium-h5" style="padding-right: 48px;">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <g clip-path="url(#clip0_225_6124)">
@@ -133,6 +133,28 @@
         console.log('Static JS is ready');
         $('._trace-detail').on('click', function () {
             window.open('/trace/single/' + $(this).data().no, '_blank');
+        })
+        $('#trace-search').next().on('click', function () {
+            let value = $('#trace-search').val();
+            if (value.trim().length <= 0) {
+                viewAlert({content: '검색할 이력 번호를 입력하세요.'});
+            } else {
+                searchByCode(value).then((result) => {
+                    setLoading(false);
+                    if (result.status === 'OK') {
+                        if (result.data.status) {
+                            let no = result.data.data.no;
+                            if (result.data.type === 'trace') {
+                                window.location.href = '/trace/single/' + no;
+                            } else if (result.data.type === 'bundle') {
+                                window.location.href = '/trace/package/' + no;
+                            }
+                        } else {
+                            viewAlert({content: '일치하는 이력이 없습니다.'});
+                        }
+                    }
+                })
+            }
         })
     });
 </script>

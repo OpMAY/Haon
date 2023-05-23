@@ -1,0 +1,9 @@
+@media (max-width: 767px) {
+    .alert {
+        bottom: 80px;
+    }
+
+    .modal-dialog {
+        margin: 24px;
+    }
+}

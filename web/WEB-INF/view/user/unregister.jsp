@@ -4,7 +4,6 @@
 <jsp:include page="../common/head.jsp"/>
 <body>
 <jsp:include page="../common/header.jsp"/>
-<jsp:include page="../common/mobile-header.jsp"/>
 <jsp:include page="../common/header-desc.jsp"/>
 <jsp:include page="../common/left-sidebar.jsp"/>
 <jsp:include page="../common/right-sidebar.jsp"/>
@@ -12,7 +11,7 @@
 <jsp:include page="../common/tab-trace.jsp"/>
 <jsp:include page="../common/tab-search.jsp"/>
 <div id="content-wrapper">
-    <div class="container">
+    <div class="container community-detail-container">
         <!--테마별 키워드-->
         <section class="section sm-section mt-40" style="min-height: calc(80vh);">
             <div class="row">
@@ -25,7 +24,7 @@
                                     <span class="bold-h3">회원 탈퇴</span>
                                 </div>
 
-                                <div class="text-center mt-100 medium-h4">
+                                <div class="text-center mt-100 res-mt-64 medium-h4">
                                     정말로 계정을 <span class="c-brand-green">탈퇴</span>하시겠어요?<br/>
                                     탈퇴 후에는 저장된 모든 데이터와 포트폴리오,<br/>
                                     판매 기록 등이 모두 <span class="c-brand-green">삭제되어 복구할 수 없습니다.</span>
@@ -69,6 +68,7 @@
         $('[data-action="unregister"]').on('click', function () {
             if ($('#agree').is(':checked')) {
                 withdrawal().then((result) => {
+                    setLoading(false);
                     console.log(result);
                     if (result.status === 'OK') {
                         if (result.data.status) {

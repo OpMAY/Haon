@@ -24,6 +24,7 @@ Selector (선택자)의 Length 및 Empty 여부를 예외처리로 해줘야한�
 (선택자가 없으면 또는 선택자의 Length가 0이면 에러가 터질 수 있기 때문에) -->
 <script src="/resources/js/module/sample.js?vc=${RESOURCES_VERSION}"></script>
 <script src="/resources/js/module/cookie.js?vc=${RESOURCES_VERSION}"></script>
+<script src="/resources/js/module/storage.js?vc=${RESOURCES_VERSION}"></script>
 <script src="/resources/js/module/modal.js?vc=${RESOURCES_VERSION}"></script>
 <script src="/resources/js/plugin/datepicker/bootstrap-datepicker.js?vc=${RESOURCES_VERSION}"></script>
 <script src="/resources/js/plugin/datepicker/bootstrap-datepicker.ko.min.js?vc=${RESOURCES_VERSION}"></script>

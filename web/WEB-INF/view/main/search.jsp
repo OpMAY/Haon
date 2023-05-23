@@ -56,39 +56,11 @@
                 </div>
             </div>
             <div class="theme-keyword">
-                <button type="button" class="btn btn-md btn-brand bold-h4">
-                    전체
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    기타
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    퀘스트
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    아이템
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    사료
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    도축&가공
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    기타
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    퀘스트
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    아이템
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    사료
-                </button>
-                <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
-                    도축&가공
-                </button>
+                <c:forEach var="keyword" items="${keywords.get(1).keywords}">
+                    <button type="button" class="btn btn-md btn-gray-high-light medium-h4">
+                        ${keyword}
+                    </button>
+                </c:forEach>
             </div>
         </section>
         <!--실시간 자유 게시판-->
@@ -231,7 +203,7 @@
                 </div>
             </c:if>
             <c:if test="${boards.size() <= 0}">
-                <div class="bold-h4 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light res-empty-text" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
@@ -358,7 +330,7 @@
                 </div>
             </c:if>
             <c:if test="${tips.size() <= 0}">
-                <div class="bold-h4 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light res-empty-text" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
@@ -486,7 +458,7 @@
                 </div>
             </c:if>
             <c:if test="${manuals.size() <= 0}">
-                <div class="bold-h4 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light res-empty-text" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
@@ -614,7 +586,7 @@
                 </div>
             </c:if>
             <c:if test="${magazines.size() <= 0}">
-                <div class="bold-h4 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light res-empty-text" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
@@ -910,7 +882,7 @@
                 </div>
             </c:if>
             <c:if test="${questions.size() <= 0}">
-                <div class="bold-h4 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light res-empty-text" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
@@ -1003,7 +975,7 @@
                 </div>
             </c:if>
             <c:if test="${farms.size() <= 0}">
-                <div class="bold-h4 c-gray-light" style="text-align: center">
+                <div class="bold-h4 c-gray-light res-empty-text" style="text-align: center">
                     <span>'${query}'에 맞는 검색 결과가 없어요.</span>
                 </div>
             </c:if>
@@ -1137,6 +1109,7 @@
             let last_comment = display_comment_list[last_idx];
             let last_comment_no = last_comment.dataset.commentNo * 1;
             loadMoreComments('question', question_no, last_comment_no).then((result) => {
+                setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         result.data.comments.forEach((element, index) => {
@@ -1193,6 +1166,7 @@
 
         $('#question-section .section-title ._title button').on('click', function () {
             loginCheck().then((result) => {
+            setLoading(false);
                 if (result.status === 'OK') {
                     if (result.data.status) {
                         location.href='/user/board/write?type=QUESTION';

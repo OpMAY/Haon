@@ -309,9 +309,9 @@
             },
             onItemAdd: function (value, $item) {
                 console.log(value, $item);
-                let category_regex = /^[가-힣a-zA-Z\d\s]{2,10}$/;
+                let category_regex = /^[가-힣a-zA-Z\d\s]{1,10}$/;
                 if (!category_regex.test(value.trim())) {
-                    alert('카테고리는 2글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
+                    alert('카테고리는 1글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
                     $item.remove();
                     return false;
                 }
@@ -331,8 +331,7 @@
                 });
             },
             onDelete: function (e) {
-                if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
-                    'Are you sure you want to remove "' + e[0] + '"?')) {
+                if (confirm('\'' + e[0] + '\'' + '를 삭제하시겠습니까?')) {
                     console.log(e[0]);
                     removeCategory('BOARD', e[0]).then((result) => {
                         console.log(result);
@@ -366,9 +365,9 @@
             },
             onItemAdd: function (value, $item) {
                 console.log(value, $item);
-                let category_regex = /^[가-힣a-zA-Z\d\s]{2,10}$/;
+                let category_regex = /^[가-힣a-zA-Z\d\s]{1,10}$/;
                 if (!category_regex.test(value.trim())) {
-                    alert('카테고리는 2글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
+                    alert('카테고리는 1글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
                     $item.remove();
                     return false;
                 }
@@ -388,8 +387,7 @@
                 });
             },
             onDelete: function (e) {
-                if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
-                    'Are you sure you want to remove "' + e[0] + '"?')) {
+                if (confirm('\'' + e[0] + '\'' + '를 삭제하시겠습니까?')) {
                     console.log(e[0]);
                     removeCategory('TIP', e[0]).then((result) => {
                         console.log(result);
@@ -423,9 +421,9 @@
             },
             onItemAdd: function (value, $item) {
                 console.log(value, $item);
-                let category_regex = /^[가-힣a-zA-Z\d\s]{2,10}$/;
+                let category_regex = /^[가-힣a-zA-Z\d\s]{1,10}$/;
                 if (!category_regex.test(value.trim())) {
-                    alert('카테고리는 2글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
+                    alert('카테고리는 1글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
                     $item.remove();
                     return false;
                 }
@@ -445,8 +443,7 @@
                 });
             },
             onDelete: function (e) {
-                if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
-                    'Are you sure you want to remove "' + e[0] + '"?')) {
+                if (confirm('\'' + e[0] + '\'' + '를 삭제하시겠습니까?')) {
                     console.log(e[0]);
                     removeCategory('MANUAL', e[0]).then((result) => {
                         console.log(result);
@@ -480,9 +477,9 @@
             },
             onItemAdd: function (value, $item) {
                 console.log(value, $item);
-                let category_regex = /^[가-힣a-zA-Z\d\s]{2,10}$/;
+                let category_regex = /^[가-힣a-zA-Z\d\s]{1,10}$/;
                 if (!category_regex.test(value.trim())) {
-                    alert('카테고리는 2글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
+                    alert('카테고리는 1글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
                     $item.remove();
                     return false;
                 }
@@ -502,8 +499,7 @@
                 });
             },
             onDelete: function (e) {
-                if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
-                    'Are you sure you want to remove "' + e[0] + '"?')) {
+                if (confirm('\'' + e[0] + '\'' + '를 삭제하시겠습니까?')) {
                     console.log(e[0]);
                     removeCategory('QUESTION', e[0]).then((result) => {
                         console.log(result);
@@ -537,9 +533,9 @@
             },
             onItemAdd: function (value, $item) {
                 console.log(value, $item);
-                let category_regex = /^[가-힣a-zA-Z\d\s]{2,10}$/;
+                let category_regex = /^[가-힣a-zA-Z\d\s]{1,10}$/;
                 if (!category_regex.test(value.trim())) {
-                    alert('카테고리는 2글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
+                    alert('카테고리는 1글자 이상 10글자 이하로 입력해주세요. (특수문자 제외)');
                     $item.remove();
                     return false;
                 }
@@ -559,8 +555,7 @@
                 });
             },
             onDelete: function (e) {
-                if (confirm(1 < e.length ? "Are you sure you want to remove these " + e.length + " items?" :
-                    'Are you sure you want to remove "' + e[0] + '"?')) {
+                if (confirm('\'' + e[0] + '\'' + '를 삭제하시겠습니까?')) {
                     console.log(e[0]);
                     removeCategory('MAGAZINE', e[0]).then((result) => {
                         console.log(result);
